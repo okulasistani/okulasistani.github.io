@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#14213d">
+<title>Okul Asistanı — İdare ve Öğretmen Araçları</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2314213d'/%3E%3Cpath d='M32 13 9 25l23 12 23-12z' fill='%23f2b544'/%3E%3Cpath d='M18 31v10c0 4 7 8 14 8s14-4 14-8V31l-14 7z' fill='%23fff'/%3E%3C/svg%3E">
+<style>
+:root{
+  --zemin:#f4f2ec; --panel:#ffffff; --metin:#1c2230; --soluk:#5d6473; --cizgi:#e3dfd4; --cizgi2:#d4cfc2;
+  --lacivert:#14213d; --lacivert2:#22335c; --altin:#f2b544;
+  --idare:#2b4acb; --idare-acik:#e8ecfb; --idare-koyu:#1d3291;
+  --ogr:#1e5b4a; --ogr-acik:#e4f0ea; --ogr-koyu:#143f33; --hardal:#b0722a;
+  --golge:0 1px 2px rgba(20,33,61,.06),0 4px 14px rgba(20,33,61,.06);
+  --ust:56px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--zemin);color:var(--metin);font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+
+/* ===== ÜST ÇUBUK ===== */
+.ust{position:sticky;top:0;z-index:50;height:var(--ust);background:var(--lacivert);color:#fff;display:flex;align-items:center;gap:12px;padding:0 16px;box-shadow:0 2px 10px rgba(0,0,0,.18)}
+.marka{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;background:none;border:0;padding:0}
+.marka-ico{width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.08);display:grid;place-items:center}
+.marka-ad{font-weight:800;font-size:16px;letter-spacing:.2px;line-height:1.1;text-align:left}
+.marka-ad small{display:block;font-weight:500;font-size:10.5px;opacity:.6;letter-spacing:.3px}
+.ust-nav{display:flex;gap:4px;margin-left:12px}
+.ust-nav button{background:none;border:0;color:rgba(255,255,255,.72);padding:8px 12px;border-radius:8px;font-size:14px;font-weight:600;white-space:nowrap}
+.ust-nav button:hover{background:rgba(255,255,255,.08);color:#fff}
+.ust-nav button.aktif{background:rgba(255,255,255,.14);color:#fff}
+.ust-nav button .nokta{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;vertical-align:1px}
+.ust-sag{margin-left:auto;display:flex;gap:6px;align-items:center}
+.ikon-btn{width:38px;height:38px;border-radius:9px;border:0;background:rgba(255,255,255,.08);color:#fff;display:grid;place-items:center}
+.ikon-btn:hover{background:rgba(255,255,255,.16)}
+.geri-btn{display:none}
+body.uygulama-modu .geri-btn{display:grid}
+
+/* ===== GÖRÜNÜMLER ===== */
+.gorunum{display:none}
+.gorunum.aktif{display:block}
+.sayfa{max-width:1120px;margin:0 auto;padding:28px 16px 96px}
+
+/* Ana sayfa karşılama */
+.karsilama{background:var(--lacivert);color:#fff;border-radius:20px;padding:30px 28px 26px;position:relative;overflow:hidden}
+.karsilama::after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(242,181,68,.28),transparent 70%)}
+.karsilama h1{margin:0;font-size:clamp(22px,4vw,30px);font-weight:800;letter-spacing:-.3px}
+.karsilama p{margin:6px 0 18px;opacity:.75;font-size:14.5px}
+.arama-kutu{position:relative;z-index:1}
+.arama-kutu input{width:100%;height:52px;border-radius:14px;border:0;padding:0 18px 0 48px;font-size:16px;background:#fff;color:var(--metin);outline:none;box-shadow:0 6px 20px rgba(0,0,0,.18)}
+.arama-kutu input:focus{box-shadow:0 0 0 3px var(--altin),0 6px 20px rgba(0,0,0,.18)}
+.arama-kutu svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:#8a8f9c}
+.arama-ipucu{margin-top:10px;font-size:12.5px;opacity:.7;position:relative;z-index:1}
+.arama-ipucu button{background:rgba(255,255,255,.1);border:0;color:#fff;border-radius:999px;padding:4px 10px;margin:4px 4px 0 0;font-size:12px}
+.arama-ipucu button:hover{background:rgba(255,255,255,.2)}
+
+/* Uygulama giriş kartları */
+.giris-izgara{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+.giris{background:var(--panel);border:1px solid var(--cizgi);border-radius:18px;padding:22px;box-shadow:var(--golge);text-align:left;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden;transition:transform .15s,box-shadow .15s}
+.giris:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(20,33,61,.12)}
+.giris::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--renk)}
+.giris.idare{--renk:var(--idare);--acik:var(--idare-acik)}
+.giris.ogretmen{--renk:var(--ogr);--acik:var(--ogr-acik)}
+.giris-ust{display:flex;align-items:center;gap:14px}
+.giris-ico{width:52px;height:52px;border-radius:14px;background:var(--acik);display:grid;place-items:center;font-size:26px;flex-shrink:0}
+.giris h2{margin:0;font-size:19px;font-weight:800}
+.giris .alt{font-size:13px;color:var(--soluk);margin-top:2px}
+.giris .kat-cipler{display:flex;flex-wrap:wrap;gap:6px}
+.giris .kat-cipler span{font-size:11.5px;background:var(--acik);color:var(--renk);padding:4px 9px;border-radius:999px;font-weight:600}
+.giris-alt{display:flex;gap:8px;margin-top:auto;padding-top:4px}
+.btn{border:0;border-radius:10px;padding:10px 14px;font-weight:700;font-size:13.5px;display:inline-flex;align-items:center;gap:7px}
+.btn-dolu{background:var(--renk);color:#fff}
+.btn-dolu:hover{filter:brightness(1.1)}
+.btn-hayalet{background:var(--acik);color:var(--renk)}
+.btn-hayalet:hover{filter:brightness(.97)}
+
+/* Bölüm başlıkları */
+.bolum{margin-top:30px}
+.bolum-bas{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}
+.bolum-bas h3{margin:0;font-size:16px;font-weight:800}
+.bolum-bas .not{font-size:12.5px;color:var(--soluk)}
+.bos{border:1.5px dashed var(--cizgi2);border-radius:14px;padding:18px;text-align:center;color:var(--soluk);font-size:13.5px}
+
+/* Modül kartları */
+.izgara{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.kart{background:var(--panel);border:1px solid var(--cizgi);border-radius:14px;padding:14px 14px 13px;text-align:left;display:flex;gap:12px;align-items:flex-start;position:relative;transition:border-color .12s,box-shadow .12s,transform .12s;min-height:84px}
+.kart:hover{border-color:var(--renk);box-shadow:var(--golge);transform:translateY(-1px)}
+.kart.idare{--renk:var(--idare);--acik:var(--idare-acik)}
+.kart.ogretmen{--renk:var(--ogr);--acik:var(--ogr-acik)}
+.kart-ico{width:40px;height:40px;border-radius:11px;background:var(--acik);display:grid;place-items:center;font-size:20px;flex-shrink:0}
+.kart-govde{min-width:0;flex:1;padding-right:22px}
+.kart-ad{font-weight:700;font-size:14px;line-height:1.3}
+.kart-acik{font-size:12px;color:var(--soluk);margin-top:4px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.kart-etiket{display:inline-block;font-size:10.5px;font-weight:700;color:var(--renk);background:var(--acik);border-radius:6px;padding:2px 7px;margin-bottom:5px}
+.yildiz{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:8px;border:0;background:none;color:#b9b5aa;display:grid;place-items:center;font-size:17px;line-height:1}
+.yildiz:hover{background:var(--zemin);color:var(--hardal)}
+.yildiz.dolu{color:#e3a21a}
+
+/* Bölüm (katalog) sayfası */
+.katalog-bas{border-radius:18px;padding:24px;color:#fff;background:var(--renk);position:relative;overflow:hidden}
+.katalog-bas.idare{--renk:var(--idare-koyu)}
+.katalog-bas.ogretmen{--renk:var(--ogr-koyu)}
+.katalog-bas h1{margin:0;font-size:clamp(21px,3.6vw,27px);font-weight:800}
+.katalog-bas p{margin:4px 0 16px;opacity:.78;font-size:14px}
+.katalog-bas .satir{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.katalog-bas .arama-kutu{flex:1;min-width:220px}
+.katalog-bas .arama-kutu input{height:46px;font-size:15px;box-shadow:none}
+.btn-beyaz{background:#fff;color:var(--renk);height:46px;padding:0 18px}
+.cip-serit{display:flex;gap:8px;overflow-x:auto;padding:16px 0 4px;scrollbar-width:none}
+.cip-serit::-webkit-scrollbar{display:none}
+.cip{flex-shrink:0;border:1px solid var(--cizgi2);background:var(--panel);border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600;color:var(--soluk);white-space:nowrap}
+.cip:hover{border-color:var(--renk);color:var(--metin)}
+.cip.aktif{background:var(--renk);border-color:var(--renk);color:#fff}
+.cip .say{opacity:.65;font-weight:500;margin-left:4px}
+.kategori-bas{display:flex;align-items:center;gap:10px;margin:26px 0 12px;font-weight:800;font-size:15.5px}
+.kategori-bas .ico{font-size:19px}
+.kategori-bas .say{font-weight:600;font-size:12px;color:var(--soluk);background:var(--panel);border:1px solid var(--cizgi);border-radius:999px;padding:2px 8px}
+
+/* Arama sonuçları */
+.sonuc-grup{margin-top:22px}
+.sonuc-grup h4{margin:0 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:var(--soluk);display:flex;align-items:center;gap:8px}
+.sonuc-grup h4 .nokta{width:9px;height:9px;border-radius:50%}
+mark{background:#fde9b0;color:inherit;border-radius:3px;padding:0 1px}
+.eslesme{font-size:11.5px;color:var(--soluk);margin-top:4px}
+
+/* Uygulama çerçeveleri */
+#uygulama-alani{position:fixed;left:0;right:0;top:var(--ust);bottom:0;background:#fff;display:none}
+body.uygulama-modu #uygulama-alani{display:block}
+body.uygulama-modu{overflow:hidden}
+#uygulama-alani iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:none;background:#fff}
+#uygulama-alani iframe.gorunur{display:block}
+.yukleniyor{position:absolute;inset:0;display:none;place-items:center;background:var(--zemin);z-index:2}
+.yukleniyor.acik{display:grid}
+.yukleniyor .kutu{text-align:center;color:var(--soluk);font-size:14px}
+.donen{width:38px;height:38px;border-radius:50%;border:4px solid var(--cizgi);border-top-color:var(--lacivert);margin:0 auto 12px;animation:don 0.9s linear infinite}
+@keyframes don{to{transform:rotate(360deg)}}
+
+/* Alt çubuk (telefon) */
+.alt-cubuk{display:none}
+.bildirim{position:fixed;left:50%;bottom:84px;transform:translateX(-50%) translateY(20px);background:var(--lacivert);color:#fff;padding:11px 16px;border-radius:12px;font-size:13.5px;box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:all .25s;z-index:90;max-width:calc(100% - 32px)}
+.bildirim.acik{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.alt-bilgi{margin-top:40px;padding-top:18px;border-top:1px solid var(--cizgi);font-size:12.5px;color:var(--soluk);display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between}
+.alt-bilgi a{color:var(--idare);text-decoration:none}
+.alt-bilgi a:hover{text-decoration:underline}
+
+@media (max-width:760px){
+  :root{--ust:52px}
+  .ust{padding:0 12px;gap:8px}
+  .ust-nav{display:none}
+  .marka-ad small{display:none}
+  .sayfa{padding:16px 16px 100px}
+  .karsilama{padding:22px 18px 18px;border-radius:16px}
+  .giris-izgara{grid-template-columns:1fr}
+  .izgara{grid-template-columns:1fr}
+  .kart{min-height:0}
+  .katalog-bas{padding:18px;border-radius:16px}
+  .btn-beyaz{width:100%;justify-content:center}
+  .alt-cubuk{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fff;border-top:1px solid var(--cizgi);padding:6px 6px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -4px 16px rgba(20,33,61,.06)}
+  .alt-cubuk button{flex:1;background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;border-radius:10px;font-size:11px;font-weight:600;color:var(--soluk)}
+  .alt-cubuk button .ai{font-size:19px;line-height:1}
+  .alt-cubuk button.aktif{color:var(--lacivert);background:#eef0f5}
+  body.uygulama-modu .alt-cubuk{display:none}
+  body.uygulama-modu .marka-ad{font-size:14px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ ÜST ÇUBUK ============ -->
+<header class="ust">
+  <button class="ikon-btn geri-btn" id="geri-btn" onclick="geri()" title="Kataloğa dön" aria-label="Kataloğa dön">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button class="marka" onclick="git('#/')" title="Ana Sayfa">
+    <span class="marka-ico"><svg width="22" height="22" viewBox="0 0 64 64"><path d="M32 13 9 25l23 12 23-12z" fill="#f2b544"/><path d="M18 31v10c0 4 7 8 14 8s14-4 14-8V31l-14 7z" fill="#fff"/></svg></span>
+    <span class="marka-ad" id="marka-ad">Okul Asistanı<small>İdare ve öğretmen araçları tek yerde</small></span>
+  </button>
+  <nav class="ust-nav" aria-label="Ana menü">
+    <button data-nav="ana" onclick="git('#/')">Ana Sayfa</button>
+    <button data-nav="idare" onclick="git('#/idare')"><span class="nokta" style="background:#7d93ff"></span>İdare Asistanı</button>
+    <button data-nav="ogretmen" onclick="git('#/ogretmen')"><span class="nokta" style="background:#5fbf9c"></span>Öğretmen Asistanı</button>
+  </nav>
+  <div class="ust-sag">
+    <button class="ikon-btn" onclick="aramaOdakla()" title="Ara" aria-label="Ara">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ============ ANA SAYFA ============ -->
+<section class="gorunum" id="g-ana">
+  <div class="sayfa">
+    <div class="karsilama">
+      <h1 id="selam">İyi çalışmalar</h1>
+      <p>Aradığınız evrakı, planı ya da aracı yazın — iki uygulamada birden aranır.</p>
+      <div class="arama-kutu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input id="ana-arama" type="search" placeholder="Örn. nöbet, tutanak, BEP, zümre, yolluk…" autocomplete="off" oninput="anaAra(this.value)">
+      </div>
+      <div class="arama-ipucu">Sık arananlar:
+        <button onclick="hizliAra('nöbet')">nöbet</button><button onclick="hizliAra('tutanak')">tutanak</button><button onclick="hizliAra('dilekçe')">dilekçe</button><button onclick="hizliAra('plan')">plan</button><button onclick="hizliAra('veli')">veli</button>
+      </div>
+    </div>
+
+    <div id="ana-sonuclar"></div>
+
+    <div id="ana-icerik">
+      <div class="giris-izgara">
+        <div class="giris idare">
+          <div class="giris-ust">
+            <div class="giris-ico">🏫</div>
+            <div><h2>İdare Asistanı</h2><div class="alt" id="idare-ozet"></div></div>
+          </div>
+          <div class="kat-cipler" id="idare-cipler"></div>
+          <div class="giris-alt">
+            <button class="btn btn-dolu" onclick="git('#/idare')">Modüllere göz at</button>
+            <button class="btn btn-hayalet" onclick="git('#/idare/ac')">Uygulamayı aç</button>
+          </div>
+        </div>
+        <div class="giris ogretmen">
+          <div class="giris-ust">
+            <div class="giris-ico">📚</div>
+            <div><h2>Öğretmen Asistanı</h2><div class="alt" id="ogretmen-ozet"></div></div>
+          </div>
+          <div class="kat-cipler" id="ogretmen-cipler"></div>
+          <div class="giris-alt">
+            <button class="btn btn-dolu" onclick="git('#/ogretmen')">Modüllere göz at</button>
+            <button class="btn btn-hayalet" onclick="git('#/ogretmen/ac')">Uygulamayı aç</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bolum" id="bolum-favori">
+        <div class="bolum-bas"><h3>⭐ Favorilerim</h3><span class="not">Kartlardaki yıldıza dokunarak ekleyin</span></div>
+        <div id="favori-listesi"></div>
+      </div>
+
+      <div class="bolum" id="bolum-son">
+        <div class="bolum-bas"><h3>🕘 Son kullanılanlar</h3><button class="cip" onclick="sonTemizle()" id="son-temizle-btn">Temizle</button></div>
+        <div id="son-listesi"></div>
+      </div>
+
+      <div class="alt-bilgi">
+        <span>🔒 Tüm veriler yalnızca bu cihazda, tarayıcınızda saklanır. Düzenli olarak uygulamaların içindeki <b>Yedekle</b> düğmesini kullanın.</span>
+        <span>Mehmet Can Öztürk · Cuma Çetinkaya · <a href="https://t.me/okulprogram" target="_blank" rel="noopener">Telegram</a></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KATALOG (İDARE / ÖĞRETMEN) ============ -->
+<section class="gorunum" id="g-katalog">
+  <div class="sayfa">
+    <div class="katalog-bas" id="katalog-bas">
+      <h1 id="katalog-baslik"></h1>
+      <p id="katalog-alt"></p>
+      <div class="satir">
+        <div class="arama-kutu">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input id="katalog-arama" type="search" placeholder="Bu bölümde ara…" autocomplete="off" oninput="katalogCiz()">
+        </div>
+        <button class="btn btn-beyaz" id="katalog-ac-btn">Uygulamayı aç →</button>
+      </div>
+    </div>
+    <div class="cip-serit" id="kategori-cipler"></div>
+    <div id="katalog-liste"></div>
+  </div>
+</section>
+
+<!-- ============ UYGULAMA ÇERÇEVELERİ ============ -->
+<div id="uygulama-alani">
+  <div class="yukleniyor" id="yukleniyor"><div class="kutu"><div class="donen"></div><div id="yukleniyor-metin">Yükleniyor…</div></div></div>
+</div>
+
+<!-- ============ ALT ÇUBUK (TELEFON) ============ -->
+<nav class="alt-cubuk" aria-label="Alt menü">
+  <button data-nav="ana" onclick="git('#/')"><span class="ai">🏠</span>Ana Sayfa</button>
+  <button data-nav="idare" onclick="git('#/idare')"><span class="ai">🏫</span>İdare</button>
+  <button data-nav="ogretmen" onclick="git('#/ogretmen')"><span class="ai">📚</span>Öğretmen</button>
+  <button onclick="aramaOdakla()"><span class="ai">🔍</span>Ara</button>
+</nav>
+
+<div class="bildirim" id="bildirim"></div>
+
+<script>
+/* =====================================================================
+   OKUL ASİSTANI — SİTE KABUĞU
+   İki uygulama (idare.html, ogretmen.html) DEĞİŞTİRİLMEDEN, aynı sitede
+   çerçeve (iframe) içinde açılır. Kabuk yalnızca gezinme, arama,
+   favoriler ve son kullanılanları yönetir.
+   ===================================================================== */
+const KATALOG = {"idare": {"ad": "İdare Asistanı", "kategoriler": [{"ad": "Personel & Görev Yönetimi", "ico": "👥", "moduller": [{"id": "havuz", "ico": "👥", "ad": "Personel Havuzu", "alt": ["Öğretmenler", "Diğer Personel", "Toplu Excel"], "acik": "Tüm personeli (öğretmen / diğer) kaydeder; diğer modüller isimleri buradan çeker."}, {"id": "gorevDagilimi", "ico": "📋", "ad": "Görev Dağılımı", "alt": ["Okul Müdürü", "Müdür Yardımcısı", "Pansiyon MY", "Rehber", "Hemşire", "Sayman", "Memur"], "acik": "Müdür, MY ve diğer kadroların görev/tebliğ dağılımı."}, {"id": "komisyonlar", "ico": "🏛️", "ad": "Kurul ve Komisyonlar (Atamalı)", "alt": [], "acik": "Kurul ve komisyon üye atamaları."}, {"id": "imzaCizelgesi", "ico": "📝", "ad": "İşçi İşlemleri", "alt": ["İmza Çizelgesi", "İşçi Puantaj Takvimi", "Sürekli İşçi Görev Tebliği", "TYP Görev Tebliği", "İUP Görev Tebliği", "Bahçe Görevlisi Tebliği", "TYP/İUP İmza Çizelgesi"], "acik": "İşçi imza, puantaj ve görev tebliğleri (TYP, İUP, bahçe görevlisi vb.)."}, {"id": "dogumIzni", "ico": "👶", "ad": "Doğum İzni Üst Yazısı", "alt": [], "acik": "Doğum izni üst yazısı ve ekleri."}, {"id": "personelNakil", "ico": "📇", "ad": "Personel Nakil Bildirimi", "alt": [], "acik": "Personel nakil bildirim formu."}, {"id": "nobet", "ico": "🔄", "ad": "Nöbet Çizelgesi", "alt": [], "acik": "Öğretmen nöbet çizelgesi."}, {"id": "pansiyonBellet", "ico": "🛏️", "ad": "Pansiyon Belletici Nöbeti", "alt": ["İstekli listesi", "Dış okul personeli", "Aylık çizelge", "Görev tebliği", "Talep dilekçesi"], "acik": "Pansiyon belletici / nöbetçi belletici aylık çizelgesi, dış okul personeli, görev tebliği ve talep dilekçesi."}, {"id": "tebligTebellugTab", "ico": "📨", "ad": "Tebliğ–Tebellüğ Belgesi", "alt": ["Yazı/belge tebliği", "Tebellüğ eden personel", "Tebliğ edilen yer"], "acik": "Herhangi bir yazı, genelge, görevlendirme veya resmî belgeyi personele tebliğ etmek için tebliğ–tebellüğ belgesi."}]}, {"ad": "Öğrenci İşleri & Kulüpler", "ico": "🎓", "moduller": [{"id": "ogrenciIsleri", "ico": "🎓", "ad": "Öğrenci İşleri", "alt": ["Öğrenciler", "Kayıt İşlemleri", "Şube Açma/Kapama", "Sınıf Yükseltme", "Devamsızlık", "Disiplin / Davranış"], "acik": "Kayıt, şube, devamsızlık, dilekçe ve öğrenci işlemleri."}, {"id": "cocukKulubu", "ico": "🧒", "ad": "Çocuk Kulübü", "alt": ["EK-1 Onay", "EK-2 Sözleşme", "EK-4 Başvuru", "EK-5 Acil", "EK-6 Denetim", "Yönetim Kurulu", "Gruplar/Kayıt", "Yıllık Program", "Yoklama", "Ücret/Plan", "Görevlendirme"], "acik": "MEB Çocuk Kulübü yönergesi evrakları (kuruluş, YK, kayıt, program, yoklama, ücret)."}, {"id": "destekEgitim", "ico": "🧩", "ad": "Destek Eğitim / Evde Eğitim", "alt": ["Destek Eğitim: Planlama, BEP, Program, Ücret, Çizelge, RPD, Dilekçeler", "Evde Eğitim: Üst yazı, Ev ortamı, Aylık/Haftalık çizelge, Tutanaklar, Sözleşme"], "acik": "Destek eğitim odası ve evde eğitim evrakları."}, {"id": "sorumlulukSinavi", "ico": "📝", "ad": "Sorumluluk Sınavları", "alt": ["Öğrenci listesi", "Sınav programı", "Komisyon", "Tutanak", "Dilekçe"], "acik": "Ortaöğretim sorumluluk sınavı listesi, program, komisyon ve tutanaklar."}, {"id": "disiplinIslemleri", "ico": "⚖️", "ad": "Disiplin İşlemleri", "alt": ["İlkokul", "Ortaokul", "Ortaöğretim — Ödül ve Disiplin Kurulu"], "acik": "Kademeye göre disiplin / ödül evrakları."}, {"id": "tasimaliEgitim", "ico": "🚐", "ad": "Taşımalı Eğitim", "alt": ["Araç/şoför planlama", "Teslim tutanağı", "Taşıt denetim", "Puantajlar", "Değişiklik formları"], "acik": "Taşımalı eğitim planlama, denetim ve puantaj evrakları."}, {"id": "gezi", "ico": "🚌", "ad": "Gezi Planı Oluşturma", "alt": [], "acik": "Okul gezisi planı, izin ve güvenlik kontrolü."}, {"id": "egzersiz", "ico": "🏅", "ad": "Ders Dışı Egzersiz Çalışma Planı", "alt": [], "acik": "Ders dışı spor/egzersiz çalışma planı."}]}, {"ad": "Etkinlik & Eğitim Planlama", "ico": "📅", "moduller": [{"id": "yillikPlan", "ico": "📅", "ad": "Yıllık Çalışma Planı", "alt": [], "acik": "Okulun yıllık idari ve pedagojik iş takvimini planlar."}, {"id": "rehberlikCerceve", "ico": "🧭", "ad": "Rehberlik Yıllık Çerçeve Planı", "alt": ["RÖ olan okul", "RÖ olmayan okul", "Kademe planları", "Görevlendirme"], "acik": "Rehber öğretmeni olan/olmayan okullar için yıllık çerçeve plan, görevlendirme ve aylık faaliyetler."}, {"id": "belirliGunler", "ico": "🇹🇷", "ad": "Belirli Gün ve Haftalar (Atamalı)", "alt": [], "acik": "MEB belirli gün ve haftalar için sorumlu öğretmen ataması."}, {"id": "sosyalEtkinlik", "ico": "🎨", "ad": "Sosyal Etkinlikler", "alt": ["Etkinlikler Kütüphanesi", "Yıllık Çalışma Planı", "Toplum Hizmeti", "Okul Temelli Eylem Planı", "SE Kurulu Tutanağı", "Öğrenci Kulüpleri (48 kulüp)", "Maarifin Kalbinde Oyun"], "acik": "Kütüphane, yıllık plan, toplum hizmeti, okul temelli eylem planı ve SE kurul tutanağı."}, {"id": "degerlerEgitimi", "ico": "💛", "ad": "Değerler Eğitimi", "alt": [], "acik": "Değerler eğitimi planı ve kayıtları."}, {"id": "kurulToplanti", "ico": "👨‍🏫", "ad": "Öğretmenler Kurulu Toplantısı", "alt": ["Kademe/tür seçimi", "Gündem maddeleri", "Hazır karar önerileri", "Şube–rehber tablosu", "Tutanak"], "acik": "Öğretmenler Kurulu gündemi, karar önerileri ve tutanak."}]}, {"ad": "Güvenlik & Sağlık", "ico": "🛡️", "moduller": [{"id": "okulGuvenligi", "ico": "🔐", "ad": "Okul Güvenliği Dosyası", "alt": ["Genel Bilgiler", "Denetim Formu (75 soru)", "Güvenlik Eylem Planı", "Yönetim Ekibi ve Tutanak", "Ziyaretçi Kayıt Defteri", "Erken Çıkış Formu", "Kamera Envanteri ve Teslim Tutanağı", "Olay Kayıt ve Analiz", "Siber Olay Prosedürü ve Kayıt Defteri", "Görev Talimatları", "Tatbikat ve Seminer", "Veli Bilgilendirme", "Servis Güvenliği"], "acik": "2026 okul ve çevresi güvenlik tedbirleri genelgesi ile iş birliği protokolüne göre okul güvenliği dosyası."}, {"id": "sivilSavunma", "ico": "🛡️", "ad": "Sivil Savunma & Sabotaj Koruma Planı", "alt": ["Genel Bilgiler", "Komisyon & Amirler", "Ekip / Servisler", "Haber Verilecek Makamlar", "Tedbirler & Malzeme", "Anahtar Teslim Tutanağı", "Görev Talimatları", "Tatbikatlar", "Sivil Savunma Planı", "Sabotaj Koruma Planı"], "acik": "Sivil savunma ve sabotaj koruma planı."}, {"id": "isg", "ico": "🦺", "ad": "İş Sağlığı ve Güvenliği (İSG)", "alt": ["Organizasyon", "Özlük", "Risk", "Saha", "Kurul", "Kaza ve Sağlık", "Referans (7 kategori altında 29 belge)"], "acik": "İSG atama, form, risk ve eğitim evrakları (50 altı/üstü)."}]}, {"ad": "Mali & İdari İşlemler", "ico": "💰", "moduller": [{"id": "kantinKira", "ico": "🏪", "ad": "Kantin Kira Hesaplama ve Sözleşmesi", "alt": [], "acik": "Kantin kira hesabı ve sözleşme taslağı."}, {"id": "yolluk", "ico": "🧳", "ad": "Yolluk Hesaplama (Sürekli Görev)", "alt": [], "acik": "Sürekli görev yolluk / harcırah hesabı."}, {"id": "proforma", "ico": "🧾", "ad": "Proforma Fatura", "alt": [], "acik": "Proforma fatura ve teklif yazışması."}, {"id": "bankaAktarma", "ico": "🏦", "ad": "Maaş Banka Formatı Dönüştürücü", "alt": [], "acik": "Maaş banka aktarım dosyası dönüştürücü."}, {"id": "ekEvraklar", "ico": "📁", "ad": "Ek Evraklar", "alt": ["Tutanak Hazırlama", "Müdür Devir–Teslim Tutanağı", "KBS–MYS–KYS Yetki Talep Formu", "Yönetici Hizmet Süresi ve Puan (EK-1)", "Kurumsal Sosyal Medya Hesabı Olur Yazısı"], "acik": "Devir teslim, yetki, yönetici puan, sosyal medya olur vb. ek belgeler."}]}, {"ad": "Veli & Toplum İlişkileri", "ico": "👨‍👩‍👧‍👦", "moduller": [{"id": "aileBirligi", "ico": "👨‍👩‍👧‍👦", "ad": "Okul Aile Birliği", "alt": [], "acik": "Okul-Aile Birliği organları, seçim ve kararlar."}]}, {"ad": "Denetim & Yayın", "ico": "📋", "moduller": [{"id": "denetimRehberi", "ico": "📋", "ad": "İlkokul/Ortaokul Denetim Rehberi", "alt": [], "acik": "İlkokul/ortaokul denetim rehberi ve referans belgeler."}, {"id": "dergi", "ico": "📰", "ad": "Brifing / Dergi Oluştur", "alt": ["Brifing", "Dergi", "Kat Planı / Yerleşim Levhası"], "acik": "Brifing dosyası, okul dergisi ve kat planı / yerleşim levhası."}, {"id": "ogretmenTakip", "ico": "✅", "ad": "Öğretmen Evrak/Görev Takibi", "alt": [], "acik": "Öğretmenlerin hazırlaması/teslim etmesi gereken evrak ve görevlerin takibi."}, {"id": "dosyaSirtlik", "ico": "🏷️", "ad": "Dosya Sırtlığı Oluşturucu", "alt": [], "acik": "Klasör sırtına yapıştırılacak dosya sırtlığı (etiket) üretir."}, {"id": "ebysDonustur", "ico": "📤", "ad": "Word → EBYS Dönüştür", "alt": [], "acik": "Word dosyasını tarayıcıda EBYS uyumlu HTML’e çevirir."}]}]}, "ogretmen": {"ad": "Öğretmen Asistanı", "kategoriler": [{"ad": "Sistem", "gid": "sistem", "moduller": [{"id": "ayarlar", "fa": "fa-id-badge", "ad": "Kurum / Öğretmen Bilgileri", "alt": [], "acik": "Kurum, öğretmen, müdür ve eğitim yılı bilgilerini girersiniz. Yazdırılan çoğu evrakta üst bilgi buradan gelir. Önce bu paneli doldurun."}, {"id": "ogrenciHavuzu", "fa": "fa-users", "ad": "Öğrenci Havuzu", "alt": [], "acik": "Sınıfınızdaki öğrencileri kaydedersiniz (ad, no, veli, iletişim). Diğer modüller isimleri buradan çeker. Toplu ekleme ve sıralama yapılabilir."}, {"id": "dosyaKapaklari", "fa": "fa-folder-open", "ad": "Dosya Kapakları", "alt": [], "acik": "Öğretmen dosyası için 3 farklı formatta ayraç/kapak sayfaları — başlıkları seç, yazdır veya PDF al."}, {"id": "takvim", "fa": "fa-calendar-days", "ad": "Takvim", "alt": [], "acik": "Okul ve kişisel önemli tarihleri işlersiniz. MEB takvimiyle uyumlu hatırlatmalar için kullanın."}, {"id": "kendimiTakip", "fa": "fa-list-check", "ad": "Kendimi Takip Ediyorum", "alt": [], "acik": "Yıl içinde hazırlamanız gereken işleri ay ay listeler; tamamladıklarınızı işaretlersiniz. Kişisel kontrol listesidir."}]}, {"ad": "Planlama", "gid": "planlama", "moduller": [{"id": "haftalikProgram", "fa": "fa-table-cells", "ad": "Haftalık Ders Programı", "alt": [], "acik": "Haftalık ders programını oluşturur ve yazdırırsınız. İlkokul için hazır dağıt örnekleri kullanılabilir."}, {"id": "dersPlani", "fa": "fa-file-lines", "ad": "Ders Planı/Günlük plan", "alt": [], "acik": "Sınıf düzeyine ve derse göre günlük ders planı hazırlar: TYMM verisinden çıktı ve süreç bileşenleri, zamanlanmış öğretmen/öğrenci etkinlikleri; yazdırır veya PDF/ZIP alırsınız."}, {"id": "egzersizPlani", "fa": "fa-dumbbell", "ad": "Ders Dışı Egzersiz Planı", "alt": [], "acik": "Ders dışı egzersiz çalışma planı hazırlar. Tarih ve kazanım saatlerine göre çizelge oluşturur."}, {"id": "iyepPlani", "fa": "fa-seedling", "ad": "İYEP Plan Hazırlama", "alt": [], "acik": "İYEP Türkçe ve Matematik modül planı, atlatma ve devamsızlık tutanakları hazırlar."}, {"id": "kilavuzKagit", "fa": "fa-pencil", "ad": "İlk Defterim (Okuma Yazma)", "alt": [], "acik": "1. sınıf okuma yazma defteri: TYMM ses gruplarına göre kılavuzlu harf, hece, kelime, cümle ve rakam çalışmaları, hece tabloları, harf izleme ve takip tablosu; sınıf listesi Öğrenci Havuzu’ndan gelir."}, {"id": "izlemeTymm", "fa": "fa-chart-line", "ad": "Okuma Düzeyi İzleme", "alt": [], "acik": "Öğrencilerin okuma hızı/düzeyi ve kitap okuma takibini tablolar ve grafiklerle izlersiniz; ders adlı, hafta içi tarih sütunlu ve tek A4 sayfalık ödev takip formu hazırlarsınız."}, {"id": "degerlerDil", "fa": "fa-heart", "ad": "Değerler Eğitimi-Dilimizin Zenginlikleri", "alt": [], "acik": "Değerler eğitimi ve Dilimizin Zenginlikleri için plan ve aylık rapor hazırlar."}, {"id": "tymmRaporlari", "fa": "fa-file-invoice", "ad": "TYMM Raporları", "alt": [], "acik": "Ders ve sınıf bazında Maarif Modeli aylık, dönem ve yıl sonu uygulama-değerlendirme raporları; tek tek veya toplu yazdırılır."}]}, {"ad": "Sınıf Yönetimi", "gid": "sinifYonetimi", "moduller": [{"id": "oturmaPlani", "fa": "fa-chair", "ad": "Sınıf Oturma Planı", "alt": [], "acik": "Sınıf oturma düzeni oluşturur; kız-erkek dağılımı ve yazdırma seçenekleri vardır."}, {"id": "nobetCizelgesi", "fa": "fa-broom", "ad": "Öğrenci Nöbet Çizelgesi", "alt": [], "acik": "Öğrenci nöbet yerlerini dengeli dağıtır ve çizelge yazdırır."}, {"id": "ihtiyacListesi", "fa": "fa-basket-shopping", "ad": "İhtiyaç Listesi", "alt": [], "acik": "Okul öncesi ve 1–4. sınıf ihtiyaç listesi oluşturur; seçilen maddeleri yazdırırsınız."}, {"id": "beslenmeListesi", "fa": "fa-apple-whole", "ad": "Haftalık Beslenme Listesi", "alt": [], "acik": "Okul öncesi haftalık beslenme listesini tablo halinde hazırlar ve yazdırır."}, {"id": "fotoCerceve", "fa": "fa-image", "ad": "Fotoğraf Çerçeve Baskısı", "alt": [], "acik": "Öğrenci fotoğraflarını ölçülü çerçevelere yerleştirip toplu baskı alır."}, {"id": "panoHazirlama", "fa": "fa-font", "ad": "Pano Hazırlama", "alt": [], "acik": "Pano için büyük harf/sayfa çıktıları üretir; tema ve stil seçebilirsiniz."}, {"id": "sinifGazetesi", "fa": "fa-newspaper", "ad": "Sınıf Gazetesi", "alt": [], "acik": "Bir ya da iki sayfalık sınıf gazetesi hazırlar: manşet, kategorili haberler, fotoğraflar, köşeler ve kelime avı bulmacası; canlı önizleme ile yazdırır."}, {"id": "okumaAnlama", "fa": "fa-book-open-reader", "ad": "Okuma Anlama Metinleri", "alt": [], "acik": "1–8. sınıf için 150’yi aşkın okuma anlama metni (hikâye, bilgilendirici, şiir, mektup, haber…); 5N1K, kelime çalışması, olay sıralama ve okuma süresi kaydıyla çalışma kâğıdı; toplu yazdırma."}, {"id": "posterHazirlama", "fa": "fa-table-cells-large", "ad": "Poster Hazırlama", "alt": [], "acik": "Görseli, PDF’i ya da Kelime Sanatı çalışmasını istenen pano ölçüsünde A4 sayfalara böler; önizleyip yazdırırsınız."}, {"id": "kelimeSanati", "fa": "fa-cloud-moon", "ad": "Kelime Sanatı", "alt": [], "acik": "Kelimeleri kalp, yıldız, ağaç, harf/sayı ya da kendi silüetinizin içine yerleştirerek pano görseli hazırlar; PNG indirir veya yazdırır."}, {"id": "etiketOlusturucu", "fa": "fa-tags", "ad": "Etiket Oluşturucu", "alt": [], "acik": "Öğrenci havuzundan etiket basar; A3–A6 boyut ve hücre stili ayarlanır."}, {"id": "geometrikAcinim", "fa": "fa-cube", "ad": "Geometrik Cisim Açınımı", "alt": [], "acik": "Prizma, piramit, silindir ve koni açınımlarını gerçek boyutta çizer; yüzlere yazı/renk verir, 3B modeli döndürür, kes-katla-yapıştır işaretleriyle yazdırır."}]}, {"ad": "Toplantı / Tutanak", "gid": "toplanti", "moduller": [{"id": "zumreToplantisi", "fa": "fa-people-group", "ad": "Zümre Toplantısı", "alt": [], "acik": "Zümre tutanağı, gündem, karar ve onay sayfası hazırlar. Branş ve dönemi seçip yazdırın."}, {"id": "veliToplantisi", "fa": "fa-people-roof", "ad": "Veli Toplantısı", "alt": [], "acik": "Veli toplantı tutanağı, gündem onayı ve imza listesi oluşturur."}, {"id": "bepGelistirmeBirimi", "fa": "fa-puzzle-piece", "ad": "BEP Geliştirme Birimi Toplantısı", "alt": [], "acik": "BEP geliştirme birimi 1–2–3. toplantı tutanaklarını resmi formatta hazırlar."}, {"id": "psikososyalEkip", "fa": "fa-hand-holding-heart", "ad": "Psikososyal Koruma / Krize Müdahale", "alt": [], "acik": "Psikososyal koruma ve krize müdahale ekibi toplantı tutanakları üretir."}, {"id": "rpdKomisyonu", "fa": "fa-comments", "ad": "RPD Hizmetleri Yürütme Komisyonu", "alt": [], "acik": "RPD hizmetleri yürütme komisyonu toplantı tutanakları hazırlar."}]}, {"ad": "Özel Eğitim", "gid": "ozelEgitim", "moduller": [{"id": "bepPlani", "fa": "fa-puzzle-piece", "ad": "BEP Planı Hazırlama", "alt": [], "acik": "BEP v1.7 · öğrenci bilgileri havuzdan · Öğrenciye özel BEP planı oluşturur; örnek plan ve UDA/KDA seçimi yapılabilir."}, {"id": "bepDegerlendirme", "fa": "fa-clipboard-check", "ad": "BEP Değerlendirme Raporu", "alt": [], "acik": "BEP değerlendirme raporu için derse ve tanıya uygun metin önerileri sunar."}]}, {"ad": "Rehberlik", "gid": "rehberlik", "moduller": [{"id": "sinifRehberlikRaporu", "fa": "fa-chalkboard-user", "ad": "Sınıf Rehberlik Faaliyet Raporu", "alt": [], "acik": "Sınıf rehberlik faaliyet raporu ve yıl sonu değerlendirme metinleri hazırlar."}, {"id": "ogrenciGozlem", "fa": "fa-eye", "ad": "Öğrenci Gözlem Notları", "alt": [], "acik": "Öğrenci gözlem notlarını kaydeder ve yazdırır."}, {"id": "veliGorusme", "fa": "fa-handshake", "ad": "Veli Görüşme / Ziyaret Formu", "alt": [], "acik": "Veli görüşme/ziyaret formu doldurur; öğrenci seçilince veli bilgisi gelebilir."}]}, {"ad": "İletişim", "gid": "iletisim", "moduller": [{"id": "veliIletisimListesi", "fa": "fa-address-book", "ad": "Veli İletişim Listesi", "alt": [], "acik": "Veli iletişim ve teslim alacak kişi listesini havuzdan tablo olarak yazdırır."}, {"id": "ogrenciKarti", "fa": "fa-id-badge", "ad": "Öğrenci Kartı", "alt": [], "acik": "A4 sayfaya 8 kart: öğle arası, servis, öğrenci tanıtım/iletişim ve sınıf kütüphanesi kartları; logo, fotoğraf ve kesim çizgisiyle."}, {"id": "eOkulBilgiFormu", "fa": "fa-id-card", "ad": "E-Okul Bilgi Formu", "alt": [], "acik": "E-Okul öğrenci bilgi formunu havuzdaki öğrenciler için toplu üretir."}, {"id": "dilekceler", "fa": "fa-file-signature", "ad": "Dilekçe Örnekleri", "alt": [], "acik": "İzin, nöbet muafiyeti, emeklilik vb. öğretmen dilekçeleri, ders kesim raporu, gezi talebi, veli izin/KVKK belgeleri ve aile durumu bildirimi; metin seçimlere göre kendiliğinden kurulur."}, {"id": "matAlistirma", "fa": "fa-calculator", "ad": "Matematik Alıştırma Üretici", "alt": [], "acik": "1–8. sınıf matematik çalışma kâğıdı üretir: işlemler, problemler, örüntü, çözümleme, kesir, saat vb.; farklı soru setli kopyalar, isimli baskı ve cevap anahtarı."}, {"id": "calismaProgrami", "fa": "fa-clock", "ad": "Çalışma Programı Hazırla", "alt": [], "acik": "Öğrenciye özel ya da şablondan çalışma programı; günlere göre farklı konu, haftalık süre hesabı, hedefler, takip çizelgesi ve şubeye toplu isimli baskı."}]}, {"ad": "Kulüp / Etkinlik", "gid": "kulup", "moduller": [{"id": "kulupPlani", "fa": "fa-star", "ad": "Kulüp Planı ve Faaliyet Raporları", "alt": [], "acik": "Kulüp yıllık planı, aylık ve yıl sonu faaliyet raporları ile kulüp öğrenci listesi hazırlar."}, {"id": "anmaKutlama", "fa": "fa-flag", "ad": "Belirli Gün ve Hafta Programları", "alt": [], "acik": "Belirli gün ve haftalar için anma/kutlama programı ve rapor taslağı sunar."}, {"id": "etkinlikRaporu", "fa": "fa-clipboard-list", "ad": "Etkinlik / Faaliyet Raporu", "alt": [], "acik": "Yapılan etkinlik için faaliyet raporu yazmanıza yardımcı olur."}]}, {"ad": "Değerlendirme", "gid": "degerlendirme", "moduller": [{"id": "notCizelgesi", "fa": "fa-calculator", "ad": "Not Çizelgesi / Ortalama Hesaplayıcı", "alt": [], "acik": "Not çizelgesi ve ortalama hesaplama tablosu oluşturur."}, {"id": "ilkokulIzleme", "fa": "fa-table-list", "ad": "İlkokul İzleme-Değerlendirme", "alt": [], "acik": "İlkokul izleme-değerlendirme formlarını öğrenci listesiyle yazdırır."}, {"id": "donemYilSonu", "fa": "fa-square-poll-vertical", "ad": "Dönem / Yıl Sonu Değerlendirme", "alt": [], "acik": "Dönem ve yıl sonu değerlendirme metinleri hazırlar."}, {"id": "karneGorusleri", "fa": "fa-pen-fancy", "ad": "Karne Görüşleri", "alt": [], "acik": "Akrostiş veya nesir karne görüşü metinleri üretir."}]}]}};
+
+const UYGULAMALAR = {
+  idare: {
+    ad: 'İdare Asistanı', dosya: 'idare.html', ico: '🏫', nokta: '#2b4acb',
+    alt: 'Okul yönetimi: personel, kurullar, güvenlik, mali işler ve resmî evrak',
+    /* uygulama içinde modül açma */
+    ac: (w, id) => { if (typeof w.switchTab !== 'function') return false; w.switchTab(id); return true; }
+  },
+  ogretmen: {
+    ad: 'Öğretmen Asistanı', dosya: 'ogretmen.html', ico: '📚', nokta: '#1e5b4a',
+    alt: 'Sınıf öğretmeni araçları: planlar, toplantılar, rehberlik ve değerlendirme',
+    ac: (w, id) => { if (typeof w.gitModule !== 'function') return false; w.gitModule(id); return true; }
+  }
+};
+
+/* Öğretmen Asistanı modülleri Font Awesome simgesi kullanıyor; kabukta
+   dış kaynak yüklememek için emoji karşılıkları. */
+const OGR_KAT_ICO = { sistem:'⚙️', planlama:'🗓️', sinifYonetimi:'🏫', toplanti:'🤝', ozelEgitim:'🧩', rehberlik:'🧭', iletisim:'📇', kulup:'⭐', degerlendirme:'📊' };
+const OGR_MOD_ICO = {
+  ayarlar:'🪪', ogrenciHavuzu:'👧', dosyaKapaklari:'📂', takvim:'📆', kendimiTakip:'✅',
+  haftalikProgram:'🗓️', dersPlani:'📄', egzersizPlani:'🏃', iyepPlani:'🌱', kilavuzKagit:'✏️', izlemeTymm:'📈', degerlerDil:'💛', tymmRaporlari:'🧾',
+  oturmaPlani:'🪑', nobetCizelgesi:'🧹', ihtiyacListesi:'🧺', beslenmeListesi:'🍎', fotoCerceve:'🖼️', panoHazirlama:'📌', sinifGazetesi:'📰', okumaAnlama:'📖', posterHazirlama:'🪧', kelimeSanati:'☁️', etiketOlusturucu:'🏷️', geometrikAcinim:'🧊',
+  zumreToplantisi:'👥', veliToplantisi:'👨‍👩‍👧', bepGelistirmeBirimi:'🧩', psikososyalEkip:'🤲', rpdKomisyonu:'💬',
+  bepPlani:'🧩', bepDegerlendirme:'📋',
+  sinifRehberlikRaporu:'🧑‍🏫', ogrenciGozlem:'👁️', veliGorusme:'🤝',
+  veliIletisimListesi:'📒', ogrenciKarti:'🪪', eOkulBilgiFormu:'🗂️', dilekceler:'✍️', matAlistirma:'🧮', calismaProgrami:'⏰',
+  kulupPlani:'⭐', anmaKutlama:'🇹🇷', etkinlikRaporu:'📋',
+  notCizelgesi:'🧮', ilkokulIzleme:'📑', donemYilSonu:'📊', karneGorusleri:'🖋️'
+};
+KATALOG.ogretmen.kategoriler.forEach(k => {
+  k.ico = OGR_KAT_ICO[k.gid] || '📁';
+  k.moduller.forEach(m => { m.ico = OGR_MOD_ICO[m.id] || k.ico; });
+});
+
+/* Düz modül dizini (arama ve favoriler için) */
+const DIZIN = [];
+Object.keys(KATALOG).forEach(app => {
+  KATALOG[app].kategoriler.forEach(k => k.moduller.forEach(m => {
+    DIZIN.push(Object.assign({}, m, { app, kategori: k.ad, anahtar: app + ':' + m.id }));
+  }));
+});
+const DIZIN_MAP = Object.fromEntries(DIZIN.map(m => [m.anahtar, m]));
+
+/* ---------- güvenli yerel depolama (kabuğa ait anahtarlar) ---------- */
+const DEPO = {
+  oku(k, v) { try { const s = localStorage.getItem(k); return s ? JSON.parse(s) : v; } catch (e) { return v; } },
+  yaz(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+};
+let favoriler = DEPO.oku('okulAsistani_favoriler', []).filter(a => DIZIN_MAP[a]);
+let sonlar = DEPO.oku('okulAsistani_sonlar', []).filter(a => DIZIN_MAP[a]);
+
+/* ---------- yardımcılar ---------- */
+const $ = id => document.getElementById(id);
+const kacis = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+/* Türkçe duyarsız arama: İ/ı/ş/ç/ğ/ö/ü eşdeğer */
+const norm = s => String(s == null ? '' : s).toLocaleLowerCase('tr').replace(/ı/g, 'i').normalize('NFD').replace(/[̀-ͯ]/g, '');
+function vurgula(metin, sorgu) {
+  const t = String(metin);
+  if (!sorgu) return kacis(t);
+  const nt = [...t].map(c => norm(c).charAt(0) || c).join('');
+  const parcalar = norm(sorgu).split(/\s+/).filter(Boolean);
+  const isaret = new Array(t.length).fill(false);
+  parcalar.forEach(p => { let i = 0; while ((i = nt.indexOf(p, i)) !== -1) { for (let j = i; j < i + p.length; j++) isaret[j] = true; i += p.length; } });
+  let o = '', acik = false;
+  for (let i = 0; i < t.length; i++) {
+    if (isaret[i] && !acik) { o += '<mark>'; acik = true; }
+    if (!isaret[i] && acik) { o += '</mark>'; acik = false; }
+    o += kacis(t[i]);
+  }
+  return o + (acik ? '</mark>' : '');
+}
+let bildirimZaman = null;
+function bildir(m) { const b = $('bildirim'); b.textContent = m; b.classList.add('acik'); clearTimeout(bildirimZaman); bildirimZaman = setTimeout(() => b.classList.remove('acik'), 3200); }
+
+/* ---------- arama ---------- */
+function ara(sorgu, sadeceApp) {
+  const parcalar = norm(sorgu).split(/\s+/).filter(Boolean);
+  if (!parcalar.length) return [];
+  const sonuc = [];
+  DIZIN.forEach(m => {
+    if (sadeceApp && m.app !== sadeceApp) return;
+    const ad = norm(m.ad), kat = norm(m.kategori), acik = norm(m.acik), alt = m.alt.map(norm);
+    let puan = 0, altEslesme = [];
+    for (const p of parcalar) {
+      let p1 = 0;
+      if (ad.startsWith(p)) p1 = 100; else if (ad.includes(p)) p1 = 60;
+      const ae = m.alt.filter((a, i) => alt[i].includes(p));
+      if (ae.length) { p1 = Math.max(p1, 35); altEslesme.push(...ae); }
+      if (kat.includes(p)) p1 = Math.max(p1, 20);
+      if (acik.includes(p)) p1 = Math.max(p1, 15);
+      if (!p1) return; /* her kelime bir yerde geçmeli */
+      puan += p1;
+    }
+    sonuc.push({ m, puan, altEslesme: [...new Set(altEslesme)] });
+  });
+  return sonuc.sort((a, b) => b.puan - a.puan || a.m.ad.localeCompare(b.m.ad, 'tr'));
+}
+
+/* ---------- kart çizimi ---------- */
+function kartHtml(m, opt) {
+  opt = opt || {};
+  const fav = favoriler.includes(m.anahtar);
+  const etiket = opt.etiket ? `<span class="kart-etiket">${UYGULAMALAR[m.app].ad}</span><br>` : '';
+  const eslesme = opt.altEslesme && opt.altEslesme.length ? `<div class="eslesme">↳ ${opt.altEslesme.slice(0, 3).map(a => vurgula(a, opt.sorgu)).join(' · ')}</div>` : '';
+  return `<div class="kart ${m.app}" role="button" tabindex="0" onclick="modulAc('${m.app}','${m.id}')" onkeydown="if(event.key==='Enter')modulAc('${m.app}','${m.id}')">
+    <div class="kart-ico">${m.ico}</div>
+    <div class="kart-govde">${etiket}<div class="kart-ad">${vurgula(m.ad, opt.sorgu)}</div>
+      ${m.acik ? `<div class="kart-acik">${vurgula(m.acik, opt.sorgu)}</div>` : ''}${eslesme}</div>
+    <button class="yildiz ${fav ? 'dolu' : ''}" title="${fav ? 'Favorilerden çıkar' : 'Favorilere ekle'}" aria-label="Favori" onclick="event.stopPropagation();favoriDegis('${m.anahtar}')">${fav ? '★' : '☆'}</button>
+  </div>`;
+}
+function sonucHtml(sonuclar, sorgu, grupla) {
+  if (!sonuclar.length) return `<div class="bos" style="margin-top:20px">“${kacis(sorgu)}” için sonuç bulunamadı. Farklı bir kelime deneyin.</div>`;
+  if (!grupla) return `<div class="izgara" style="margin-top:16px">${sonuclar.map(s => kartHtml(s.m, { sorgu, altEslesme: s.altEslesme })).join('')}</div>`;
+  return Object.keys(UYGULAMALAR).map(app => {
+    const g = sonuclar.filter(s => s.m.app === app);
+    if (!g.length) return '';
+    return `<div class="sonuc-grup"><h4><span class="nokta" style="background:${UYGULAMALAR[app].nokta}"></span>${UYGULAMALAR[app].ad} · ${g.length} sonuç</h4>
+      <div class="izgara">${g.map(s => kartHtml(s.m, { sorgu, altEslesme: s.altEslesme })).join('')}</div></div>`;
+  }).join('');
+}
+
+/* ---------- ana sayfa ---------- */
+function anaCiz() {
+  const h = new Date().getHours();
+  $('selam').textContent = h < 6 ? 'İyi geceler' : h < 12 ? 'Günaydın' : h < 18 ? 'İyi çalışmalar' : 'İyi akşamlar';
+  ['idare', 'ogretmen'].forEach(app => {
+    const k = KATALOG[app].kategoriler, top = k.reduce((s, x) => s + x.moduller.length, 0);
+    $(app + '-ozet').textContent = `${top} modül · ${k.length} kategori`;
+    $(app + '-cipler').innerHTML = k.map(x => `<span>${x.ico} ${kacis(x.ad)}</span>`).join('');
+  });
+  const fl = favoriler.map(a => DIZIN_MAP[a]).filter(Boolean);
+  $('favori-listesi').innerHTML = fl.length ? `<div class="izgara">${fl.map(m => kartHtml(m, { etiket: true })).join('')}</div>`
+    : `<div class="bos">Henüz favori yok. Sık kullandığınız modüllerin kartındaki ☆ işaretine dokunun.</div>`;
+  const sl = sonlar.map(a => DIZIN_MAP[a]).filter(Boolean);
+  $('son-temizle-btn').style.display = sl.length ? '' : 'none';
+  $('son-listesi').innerHTML = sl.length ? `<div class="izgara">${sl.map(m => kartHtml(m, { etiket: true })).join('')}</div>`
+    : `<div class="bos">Açtığınız modüller burada listelenir.</div>`;
+  anaAra($('ana-arama').value);
+}
+function anaAra(v) {
+  const q = v.trim();
+  $('ana-icerik').style.display = q ? 'none' : '';
+  $('ana-sonuclar').innerHTML = q ? sonucHtml(ara(q), q, true) : '';
+}
+function hizliAra(k) { const i = $('ana-arama'); i.value = k; anaAra(k); i.focus(); }
+
+/* ---------- katalog sayfası ---------- */
+let katalogApp = 'idare', katalogKategori = 'hepsi';
+function katalogCiz() {
+  const app = katalogApp, K = KATALOG[app], U = UYGULAMALAR[app];
+  const bas = $('katalog-bas'); bas.className = 'katalog-bas ' + app;
+  $('katalog-baslik').textContent = U.ico + ' ' + U.ad;
+  $('katalog-alt').textContent = U.alt;
+  $('katalog-ac-btn').onclick = () => git('#/' + app + '/ac');
+  document.documentElement.style.setProperty('--renk', app === 'idare' ? 'var(--idare)' : 'var(--ogr)');
+  const top = K.kategoriler.reduce((s, x) => s + x.moduller.length, 0);
+  $('kategori-cipler').innerHTML = `<button class="cip ${katalogKategori === 'hepsi' ? 'aktif' : ''}" onclick="kategoriSec('hepsi')">Tümü<span class="say">${top}</span></button>` +
+    K.kategoriler.map((k, i) => `<button class="cip ${katalogKategori === i ? 'aktif' : ''}" onclick="kategoriSec(${i})">${k.ico} ${kacis(k.ad)}<span class="say">${k.moduller.length}</span></button>`).join('');
+  const q = $('katalog-arama').value.trim();
+  if (q) { $('katalog-liste').innerHTML = sonucHtml(ara(q, app), q, false); return; }
+  $('katalog-liste').innerHTML = K.kategoriler.map((k, i) => {
+    if (katalogKategori !== 'hepsi' && katalogKategori !== i) return '';
+    return `<div class="kategori-bas"><span class="ico">${k.ico}</span>${kacis(k.ad)}<span class="say">${k.moduller.length}</span></div>
+      <div class="izgara">${k.moduller.map(m => kartHtml(DIZIN_MAP[app + ':' + m.id])).join('')}</div>`;
+  }).join('');
+}
+function kategoriSec(i) { katalogKategori = i; katalogCiz(); }
+
+/* ---------- favori / son kullanılan ---------- */
+function favoriDegis(a) {
+  const i = favoriler.indexOf(a);
+  if (i >= 0) { favoriler.splice(i, 1); bildir('Favorilerden çıkarıldı'); }
+  else { favoriler.push(a); bildir('⭐ Favorilere eklendi'); }
+  DEPO.yaz('okulAsistani_favoriler', favoriler);
+  yenidenCiz();
+}
+function sonEkle(a) {
+  sonlar = [a].concat(sonlar.filter(x => x !== a)).slice(0, 8);
+  DEPO.yaz('okulAsistani_sonlar', sonlar);
+}
+function sonTemizle() { sonlar = []; DEPO.yaz('okulAsistani_sonlar', sonlar); anaCiz(); }
+function yenidenCiz() { if (aktifGorunum === 'ana') anaCiz(); else if (aktifGorunum === 'katalog') katalogCiz(); }
+
+/* ---------- uygulama çerçeveleri ---------- */
+const cerceveler = {};      /* app -> {iframe, hazir, bekleyen} */
+function cerceveAl(app) {
+  if (cerceveler[app]) return cerceveler[app];
+  const f = document.createElement('iframe');
+  f.title = UYGULAMALAR[app].ad;
+  f.setAttribute('allow', 'clipboard-read; clipboard-write; fullscreen');
+  const c = { iframe: f, hazir: false, bekleyen: null };
+  f.addEventListener('load', () => {
+    c.hazir = true;
+    /* uygulamanın açılış işlemleri bitsin diye kısa bir bekleme */
+    setTimeout(() => { yukleniyorGizle(app); if (c.bekleyen) { const id = c.bekleyen; c.bekleyen = null; modulCalistir(app, id); } }, 350);
+  });
+  f.src = UYGULAMALAR[app].dosya;
+  $('uygulama-alani').appendChild(f);
+  cerceveler[app] = c;
+  return c;
+}
+function yukleniyorGoster(app) { $('yukleniyor-metin').textContent = UYGULAMALAR[app].ad + ' yükleniyor…'; $('yukleniyor').classList.add('acik'); }
+function yukleniyorGizle(app) { if (aktifApp === app) $('yukleniyor').classList.remove('acik'); }
+function modulCalistir(app, id) {
+  const c = cerceveler[app];
+  try {
+    const w = c.iframe.contentWindow;
+    if (!UYGULAMALAR[app].ac(w, id)) throw new Error('hazır değil');
+    try { w.scrollTo(0, 0); } catch (e) {}
+  } catch (e) {
+    bildir('Modül otomatik açılamadı. Uygulama içindeki menüden seçebilirsiniz.');
+  }
+}
+
+/* ---------- yönlendirme (#/…) — telefonun geri tuşu da çalışır ---------- */
+let aktifGorunum = 'ana', aktifApp = null;
+function git(h) { if (location.hash === h) yonlendir(); else location.hash = h; }
+function modulAc(app, id) { git('#/' + app + '/ac/' + id); }
+function geri() { if (aktifApp) git('#/' + aktifApp); else git('#/'); }
+
+function yonlendir() {
+  const p = (location.hash || '#/').replace(/^#\/?/, '').split('/').filter(Boolean);
+  const app = UYGULAMALAR[p[0]] ? p[0] : null;
+
+  if (app && p[1] === 'ac') {
+    /* uygulama görünümü */
+    aktifGorunum = 'uygulama'; aktifApp = app;
+    document.body.classList.add('uygulama-modu');
+    document.querySelectorAll('.gorunum').forEach(g => g.classList.remove('aktif'));
+    $('marka-ad').firstChild.textContent = UYGULAMALAR[app].ad;
+    const c = cerceveAl(app);
+    Object.keys(cerceveler).forEach(k => cerceveler[k].iframe.classList.toggle('gorunur', k === app));
+    const id = p[2] ? decodeURIComponent(p[2]) : null;
+    if (id && DIZIN_MAP[app + ':' + id]) sonEkle(app + ':' + id);
+    if (!c.hazir) { yukleniyorGoster(app); if (id) c.bekleyen = id; }
+    else { $('yukleniyor').classList.remove('acik'); if (id) modulCalistir(app, id); }
+    document.title = UYGULAMALAR[app].ad + ' — Okul Asistanı';
+  } else {
+    document.body.classList.remove('uygulama-modu');
+    $('marka-ad').firstChild.textContent = 'Okul Asistanı';
+    Object.keys(cerceveler).forEach(k => cerceveler[k].iframe.classList.remove('gorunur'));
+    document.querySelectorAll('.gorunum').forEach(g => g.classList.remove('aktif'));
+    if (app) {
+      if (katalogApp !== app) { katalogKategori = 'hepsi'; $('katalog-arama').value = ''; }
+      aktifGorunum = 'katalog'; aktifApp = app; katalogApp = app;
+      $('g-katalog').classList.add('aktif'); katalogCiz();
+      document.title = UYGULAMALAR[app].ad + ' modülleri — Okul Asistanı';
+    } else {
+      aktifGorunum = 'ana'; aktifApp = null;
+      $('g-ana').classList.add('aktif'); anaCiz();
+      document.title = 'Okul Asistanı — İdare ve Öğretmen Araçları';
+    }
+    window.scrollTo(0, 0);
+  }
+  const navAnahtar = aktifGorunum === 'ana' ? 'ana' : aktifApp;
+  document.querySelectorAll('[data-nav]').forEach(b => b.classList.toggle('aktif', b.dataset.nav === navAnahtar));
+}
+function aramaOdakla() {
+  if (aktifGorunum === 'katalog') { $('katalog-arama').focus(); return; }
+  if (aktifGorunum !== 'ana') git('#/');
+  setTimeout(() => { const i = $('ana-arama'); i.focus(); i.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 60);
+}
+window.addEventListener('hashchange', yonlendir);
+yonlendir();
+</script>
+</body>
+</html>
