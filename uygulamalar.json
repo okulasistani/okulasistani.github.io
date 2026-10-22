@@ -1,0 +1,22 @@
+[
+  {
+    "id": "idare",
+    "ad": "İdare Asistanı",
+    "kisaAd": "İdare",
+    "dosya": "idare.html",
+    "ico": "🏫",
+    "renk": "#2b4acb",
+    "tur": "idare",
+    "aciklama": "Okul yönetimi: personel, kurullar, güvenlik, mali işler ve resmî evrak"
+  },
+  {
+    "id": "ogretmen",
+    "ad": "Öğretmen Asistanı",
+    "kisaAd": "Öğretmen",
+    "dosya": "ogretmen.html",
+    "ico": "📚",
+    "renk": "#1e5b4a",
+    "tur": "ogretmen",
+    "aciklama": "Sınıf öğretmeni araçları: planlar, toplantılar, rehberlik ve değerlendirme"
+  }
+]
