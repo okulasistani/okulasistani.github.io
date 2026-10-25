@@ -18,5 +18,25 @@
     "renk": "#1e5b4a",
     "tur": "ogretmen",
     "aciklama": "Sınıf öğretmeni araçları: planlar, toplantılar, rehberlik ve değerlendirme"
+  },
+  {
+    "id": "mebprojeleri",
+    "ad": "MEB Projeleri Asistanı",
+    "kisaAd": "Projeler",
+    "dosya": "mebprojeleri.html",
+    "ico": "🏆",
+    "renk": "#b0722a",
+    "tur": "standart",
+    "aciklama": "MEB okul projeleri: kılavuzlar, başvuru adımları ve resmî evrak şablonları"
+  },
+  {
+    "id": "gelisimraporu",
+    "ad": "Gelişim Raporu Düzenleyici",
+    "kisaAd": "Gelişim",
+    "dosya": "gelisimraporuduzenleyici.html",
+    "ico": "📑",
+    "renk": "#0e7490",
+    "tur": "standart",
+    "aciklama": "e-Okul gelişim raporu PDF'ini öğrencilere ayırır, arkalı önlü baskıya hazırlar"
   }
 ]
