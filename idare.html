@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İdare Asistanı 7.0.4 — MEB Yönetim Portalı & Resmi Evrak</title>
+    <title>İdare Asistanı 7.0.8 — MEB Yönetim Portalı & Resmi Evrak</title>
     <!-- Tailwind CSS -->
     
 <style id="critical-offline-css">
@@ -783,7 +783,7 @@ tailwind.config = {
             <p id="son-yedek-bilgi" class="text-[9px] text-center text-slate-500"></p>
         </div>
         <div class="px-2.5 py-2 border-t border-slate-800 text-center flex-shrink-0">
-            <p class="text-[9px] text-slate-500 truncate">Mehmet Can Öztürk-Cuma Çetinkaya <span class="text-slate-400 font-normal" style="cursor:pointer;text-decoration:underline dotted" title="Yenilikleri göster" onclick="portalSurumPopupGoster(true)">· v<span id="portal-surum-etiket">7.0.4</span></span></p>
+            <p class="text-[9px] text-slate-500 truncate">Mehmet Can Öztürk-Cuma Çetinkaya <span class="text-slate-400 font-normal" style="cursor:pointer;text-decoration:underline dotted" title="Yenilikleri göster" onclick="portalSurumPopupGoster(true)">· v<span id="portal-surum-etiket">7.0.8</span></span></p>
             <p class="text-[9px] text-slate-400 font-semibold mt-1 uppercase tracking-wide">İletişim</p>
             <div class="flex items-center justify-center gap-2 flex-wrap text-[9px] text-slate-500 mt-0.5">
                 <a href="mailto:cann201921@gmail.com" class="text-sky-400 hover:text-sky-300 underline" title="E-posta gönder"><i class="fa-solid fa-envelope mr-0.5"></i>cann201921@gmail.com</a>
@@ -885,6 +885,7 @@ tailwind.config = {
                         </div>
                         <div class="flex flex-wrap gap-2 items-center">
                             <select id="ogr-rapor-secici" onchange="ogrRaporSec(this.value)" class="flex-1 min-w-[220px] border border-slate-200 rounded-lg px-3 py-2 text-sm"></select>
+                            <div id="ogr-rapor-bicim" class="flex rounded-lg border border-slate-200 overflow-hidden text-xs font-bold"></div>
                             <button onclick="ogrRaporYazdir()" class="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-xs font-bold"><i class="fa-solid fa-print mr-1.5"></i> Yazdır</button>
                         </div>
                         <p class="text-[10px] text-slate-500 mt-1.5">Seçilen personele programın tüm modüllerinde (kurul/komisyon, nöbet, sosyal etkinlik, destek eğitim, kulüp, görev dağılımı vb.) verilmiş görevler tek raporda toplanır.</p>
@@ -9208,11 +9209,65 @@ window.boardSetKademe = function(kademe) {
         };
 
         window.ogrRaporSec = function(id) {
-            state.ogrRaporStaffId = id ? parseInt(id, 10) : null;
+            state.ogrRaporStaffId = id === '__tum__' ? '__tum__' : (id ? parseInt(id, 10) : null);
             const alan = document.getElementById('ogr-rapor-icerik');
             if (alan) alan.innerHTML = ogrRaporIcerikHtml();
         };
+        /* ---- Görevlendirme Tebliğ-Tebellüğ Belgesi (görev raporundan) ---- */
+        window.ogrRaporBicimSec = function(b) {
+            state.ogrRaporBicim = b;
+            if (b !== 'teblig' && state.ogrRaporStaffId === '__tum__') state.ogrRaporStaffId = null;
+            try { saveAllData(); } catch (e) {}
+            ogrRaporKontrolleri();
+            const alan = document.getElementById('ogr-rapor-icerik'); if (alan) alan.innerHTML = ogrRaporIcerikHtml();
+        };
+        function ogrRaporKontrolleri() {
+            const teblig = state.ogrRaporBicim === 'teblig';
+            const bc = document.getElementById('ogr-rapor-bicim');
+            if (bc) bc.innerHTML = [['rapor', '📊 Görev Raporu'], ['teblig', '✍️ Tebliğ-Tebellüğ']].map(x => `<button type="button" onclick="ogrRaporBicimSec('${x[0]}')" class="px-3 py-2 ${((state.ogrRaporBicim || 'rapor') === x[0]) ? 'bg-indigo-600 text-white' : 'bg-white text-slate-600'}">${x[1]}</button>`).join('');
+            const sec = document.getElementById('ogr-rapor-secici');
+            if (sec) {
+                const tum = state.staff || [];
+                sec.innerHTML = '<option value="">— Personel seçin —</option>' + (teblig ? `<option value="__tum__" ${state.ogrRaporStaffId === '__tum__' ? 'selected' : ''}>📑 Tüm öğretmenler (görevi olanlar, her biri ayrı sayfa)</option>` : '') +
+                    tum.map(s => `<option value="${s.id}" ${state.ogrRaporStaffId === s.id ? 'selected' : ''}>${escHtml2(s.name)}${s.title ? ' (' + escHtml2(s.title) + ')' : ''}</option>`).join('');
+            }
+        }
+        function ogrTebligSayfa(kisi, ilk) {
+            const gorevler = ogrGorevleriTopla(kisi.id).filter(g => g.modul !== 'Evrak/Görev Takibi');
+            const mudur = (typeof gdDirectorStaff === 'function') ? gdDirectorStaff() : { name: '', title: 'Okul Müdürü' };
+            const brans = (typeof destBransTemiz === 'function') ? destBransTemiz(kisi.title) : (kisi.title || '');
+            const td = 'border:1px solid #000;padding:4px 6px;vertical-align:top';
+            const satirlar = gorevler.map((g, i) => `<tr><td style="${td};text-align:center">${i + 1}</td><td style="${td}">${escHtml2(g.modul)}</td><td style="${td}">${escHtml2(g.gorev)}</td><td style="${td}">${escHtml2(g.detay)}</td></tr>`).join('');
+            const imzaKutu = (baslik, ad, unvan) => `<td style="width:50%;text-align:center;vertical-align:top;padding:4px 10px"><p style="font-weight:bold;text-decoration:underline;margin:0 0 6px">${baslik}</p><p style="margin:0">Tarih: …/…/……</p><div style="height:42px"></div><p style="font-weight:bold;margin:0">${escHtml2(ad || '……………………')}</p><p style="margin:0">${escHtml2(unvan || '')}</p><p style="margin:2px 0 0">İmza</p></td>`;
+            return `<div style="font-family:'Times New Roman',serif;font-size:11pt;line-height:1.4;color:#000;${ilk ? '' : 'page-break-before:always;break-before:page;'}">
+                <div style="text-align:center;font-weight:bold;line-height:1.35">T.C.<br>${escHtml2(makamUstSatir())}<br>${escHtml2((state.schoolName || '').toLocaleUpperCase('tr'))} MÜDÜRLÜĞÜ</div>
+                <p style="text-align:center;font-weight:bold;margin:14px 0 10px">GÖREVLENDİRME TEBLİĞ-TEBELLÜĞ BELGESİ</p>
+                <table style="width:100%;border-collapse:collapse;margin-bottom:10px;font-size:10.5pt">
+                    <tr><td style="${td};width:30%;font-weight:bold">Adı Soyadı</td><td style="${td}">${escHtml2(kisi.name)}</td></tr>
+                    <tr><td style="${td};font-weight:bold">Unvanı / Branşı</td><td style="${td}">${escHtml2(brans)}</td></tr>
+                    <tr><td style="${td};font-weight:bold">Eğitim-Öğretim Yılı</td><td style="${td}">${escHtml2(state.academicYear || '')}</td></tr>
+                </table>
+                <p style="text-indent:1.25cm;text-align:justify;margin:6px 0">${escHtml2(state.academicYear || '')} eğitim-öğretim yılında okulumuzda aşağıda belirtilen kurul, komisyon ve görevlerde görevlendirilmiş bulunmaktasınız. Görevlerinizi ilgili mevzuat hükümleri çerçevesinde yerine getirmeniz hususunu tebliğ ederim.</p>
+                ${gorevler.length ? `<table style="width:100%;border-collapse:collapse;margin:8px 0;font-size:10pt"><tr style="background:#f1f5f9"><th style="${td};width:7%">S.No</th><th style="${td};width:24%">Görev Alanı</th><th style="${td}">Kurul / Komisyon / Görev</th><th style="${td};width:26%">Görevi / Açıklama</th></tr>${satirlar}</table>` : '<p style="text-align:center;border:1px dashed #999;padding:10px">Bu personele atanmış görev bulunmamaktadır.</p>'}
+                <p style="margin:10px 0 0">Tebliğ olunur.</p>
+                <table style="width:100%;margin-top:18px;border-collapse:collapse;font-size:10.5pt"><tr>
+                    ${imzaKutu('TEBELLÜĞ EDEN', kisi.name, brans)}
+                    ${imzaKutu('TEBLİĞ EDEN', mudur.name, 'Okul Müdürü')}
+                </tr></table>
+                <p style="font-size:8.5pt;margin-top:14px;color:#333">Bu belge iki nüsha düzenlenir; bir nüshası personele verilir, bir nüshası özlük dosyasında saklanır.</p>
+            </div>`;
+        }
+        function ogrTebligHtml() {
+            const sid = state.ogrRaporStaffId;
+            if (!sid) return '<p class="text-center text-slate-400 text-sm py-10">Yukarıdan bir öğretmen veya “Tüm öğretmenler” seçin.</p>';
+            let kisiler;
+            if (sid === '__tum__') kisiler = ((typeof getOgretmenStaff === 'function') ? getOgretmenStaff() : (state.staff || [])).filter(k => ogrGorevleriTopla(k.id).some(g => g.modul !== 'Evrak/Görev Takibi'));
+            else { const k = (state.staff || []).find(s => s.id === sid); kisiler = k ? [k] : []; }
+            if (!kisiler.length) return '<p class="text-center text-slate-500 text-sm py-10">Görev atanmış öğretmen bulunamadı.</p>';
+            return `<p class="no-print text-[11px] text-slate-500 mb-2">${kisiler.length} belge · görevler programın tüm modüllerinden (kurul/komisyon, belirli gün, sosyal etkinlik, nöbet, destek eğitim, kulüp vb.) otomatik alınır.</p><div id="ogr-rapor-yazdir">${kisiler.map((k, i) => ogrTebligSayfa(k, i === 0)).join('')}</div>`;
+        }
         function ogrRaporIcerikHtml() {
+            if (state.ogrRaporBicim === 'teblig') return ogrTebligHtml();
             const sid = state.ogrRaporStaffId;
             if (!sid) return '<p class="text-center text-slate-400 text-sm py-10">Yukarıdan bir öğretmen seçin.</p>';
             const kisi = (state.staff || []).find(s => s.id === sid);
@@ -9269,13 +9324,7 @@ window.boardSetKademe = function(kademe) {
             const modal = document.getElementById('ogr-rapor-modal');
             if (!modal) return;
             if (modal.classList.contains('hidden')) {
-                const sec = document.getElementById('ogr-rapor-secici');
-                if (sec) {
-                    const liste = (typeof getOgretmenStaff === 'function') ? getOgretmenStaff() : (state.staff || []);
-                    const tum = state.staff || [];
-                    sec.innerHTML = '<option value="">— Personel seçin —</option>' +
-                        tum.map(s => `<option value="${s.id}" ${state.ogrRaporStaffId===s.id?'selected':''}>${escHtml2(s.name)}${s.title ? ' (' + escHtml2(s.title) + ')' : ''}</option>`).join('');
-                }
+                ogrRaporKontrolleri();
                 const alan = document.getElementById('ogr-rapor-icerik');
                 if (alan) alan.innerHTML = ogrRaporIcerikHtml();
                 modal.classList.remove('hidden');
@@ -9286,7 +9335,8 @@ window.boardSetKademe = function(kademe) {
             if (!state.ogrRaporStaffId) { showCustomAlert('Personel Seçin', 'Önce listeden bir personel seçin.'); return; }
             try {
                 var _rp = (state.staff || []).find(function(s) { return String(s.id) === String(state.ogrRaporStaffId); });
-                if (typeof yazdirmaAdAyarla === 'function') yazdirmaAdAyarla('Personel Görev Raporu' + (_rp && _rp.name ? ' - ' + _rp.name : '') + (state.schoolName ? ' - ' + state.schoolName : ''));
+                var _ad = state.ogrRaporBicim === 'teblig' ? 'Görevlendirme Tebliğ-Tebellüğ' : 'Personel Görev Raporu';
+                if (typeof yazdirmaAdAyarla === 'function') yazdirmaAdAyarla(_ad + (state.ogrRaporStaffId === '__tum__' ? ' - Tüm Öğretmenler' : (_rp && _rp.name ? ' - ' + _rp.name : '')) + (state.schoolName ? ' - ' + state.schoolName : ''));
             } catch (e) {}
             const kaynak = document.getElementById('ogr-rapor-yazdir');
             const printRoot = document.getElementById('print-root');
@@ -9317,6 +9367,98 @@ window.boardSetKademe = function(kademe) {
         };
         /* ==================== /ÖĞRETMEN GÖREV RAPORU ==================== */
 
+        /* ---- Personel alanı güncelle (T.C., telefon) ---- */
+        window.staffAlanSet = function(id, k, v) {
+            var s = (state.staff || []).find(function(x) { return x.id === id; }); if (!s) return;
+            s[k] = k === 'tc' ? staffTcTemizle(v) : String(v || '').trim();
+            try { saveAllDataHemen(); } catch (e) {}
+            updateUI();
+        };
+        /* ---- Seçmeli liste yazdırma ---- */
+        var HAVUZ_SUTUNLAR = [['sira', 'Sıra'], ['ad', 'Adı Soyadı'], ['unvan', 'Unvanı / Branşı'], ['tc', 'T.C. Kimlik No'], ['tel', 'Telefon'], ['havuz', 'Havuz']];
+        window.havuzListeEnsure = function() {
+            if (!state.havuzListe || typeof state.havuzListe !== 'object') state.havuzListe = {};
+            var L = state.havuzListe;
+            if (L.acik == null) L.acik = false;
+            if (!L.kaynak) L.kaynak = 'sekme';
+            if (!L.sutun) L.sutun = { sira: true, ad: true, unvan: true, tc: false, tel: false, havuz: false };
+            if (!Array.isArray(L.ekSutun)) L.ekSutun = [];
+            if (L.baslik == null) L.baslik = 'PERSONEL LİSTESİ';
+            if (L.bosSatir == null) L.bosSatir = 0;
+            if (L.imza == null) L.imza = true;
+            if (L.yatay == null) L.yatay = false;
+            if (!Array.isArray(L.secilenler)) L.secilenler = [];
+            return L;
+        };
+        window.havuzListeSet = function(k, v, yenile) { havuzListeEnsure()[k] = v; try { saveAllData(); } catch (e) {} if (yenile !== false) updateUI(); };
+        window.havuzListeSutun = function(k, on) { havuzListeEnsure().sutun[k] = !!on; try { saveAllData(); } catch (e) {} updateUI(); };
+        window.havuzListeEkSutunEkle = function() {
+            showModal('Boş Sütun Ekle', [{ key: 'ad', label: 'Sütun başlığı (Örn: İmza, Tarih, Tebellüğ, Açıklama)' }, { key: 'gen', label: 'Genişlik (dar / orta / geniş)', value: 'orta' }], function(d) {
+                if (!d.ad || !String(d.ad).trim()) return;
+                havuzListeEnsure().ekSutun.push({ ad: String(d.ad).trim(), gen: /dar/i.test(d.gen) ? 'dar' : /geni/i.test(d.gen) ? 'genis' : 'orta' });
+                try { saveAllData(); } catch (e) {} updateUI();
+            });
+        };
+        window.havuzListeEkSutunSil = function(i) { havuzListeEnsure().ekSutun.splice(i, 1); try { saveAllData(); } catch (e) {} updateUI(); };
+        window.havuzListeEkSutunAd = function(i, v) { var L = havuzListeEnsure(); if (L.ekSutun[i]) L.ekSutun[i].ad = String(v || '').trim() || L.ekSutun[i].ad; try { saveAllData(); } catch (e) {} updateUI(); };
+        window.havuzListeAc = function(kaynak) {
+            var L = havuzListeEnsure(); L.acik = true;
+            if (kaynak === 'secili') { L.kaynak = 'secili'; L.secilenler = Object.keys(window.__havuzSecili || {}).map(Number); }
+            try { saveAllData(); } catch (e) {} updateUI();
+            setTimeout(function() { var el = document.getElementById('havuz-liste-ayar'); if (el) el.scrollIntoView({ block: 'start', behavior: 'smooth' }); }, 150);
+        };
+        function havuzListeKisiler() {
+            var L = havuzListeEnsure(), tum = state.staff || [];
+            if (L.kaynak === 'secili') return tum.filter(function(s) { return L.secilenler.indexOf(s.id) > -1; });
+            if (L.kaynak === 'tum') return tum.slice();
+            return state.havuzActiveTab === 'diger' ? getDigerStaff() : getOgretmenStaff();
+        }
+        function havuzListeHtml(esc) {
+            var L = havuzListeEnsure(), kisiler = havuzListeKisiler();
+            var secSayi = Object.keys(window.__havuzSecili || {}).length;
+            var cb = function(k, l) { return '<label class="flex items-center gap-1 text-xs"><input type="checkbox" ' + (L.sutun[k] ? 'checked' : '') + ' onchange="havuzListeSutun(\'' + k + '\', this.checked)"> ' + l + '</label>'; };
+            var ayar = '<div id="havuz-liste-ayar" class="no-print mt-5 bg-indigo-50/60 border border-indigo-200 rounded-xl p-3">' +
+                '<div class="flex flex-wrap items-center justify-between gap-2 mb-2"><p class="text-sm font-bold text-indigo-900">🖨️ Liste Yazdır</p><button type="button" onclick="havuzListeSet(\'acik\', false)" class="text-xs font-bold text-slate-500">✕ Kapat</button></div>' +
+                '<div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">' +
+                '<div><p class="font-bold text-slate-600 mb-1">1. Kimler</p>' +
+                [['sekme', 'Açık sekmedekiler (' + (state.havuzActiveTab === 'diger' ? 'Diğer Personel' : 'Öğretmenler') + ')'], ['tum', 'Tüm personel'], ['secili', 'Seçtiklerim (' + (L.kaynak === 'secili' ? L.secilenler.length : secSayi) + ' kişi)']].map(function(o) {
+                    return '<label class="flex items-center gap-1 py-0.5"><input type="radio" name="havuz-liste-kaynak" ' + (L.kaynak === o[0] ? 'checked' : '') + ' onchange="' + (o[0] === 'secili' ? 'havuzListeAc(\'secili\')' : 'havuzListeSet(\'kaynak\', \'' + o[0] + '\')') + '"> ' + o[1] + '</label>';
+                }).join('') + '<p class="text-[10px] text-slate-500 mt-1">“Seçtiklerim” için listedeki kutucukları işaretleyip burayı yeniden seçin.</p></div>' +
+                '<div><p class="font-bold text-slate-600 mb-1">2. Sütunlar</p><div class="grid grid-cols-2 gap-0.5">' + HAVUZ_SUTUNLAR.map(function(c) { return cb(c[0], c[1]); }).join('') + '</div>' +
+                '<p class="font-bold text-slate-600 mt-2 mb-1">Boş sütunlar</p>' +
+                (L.ekSutun.length ? L.ekSutun.map(function(e, i) { return '<div class="flex items-center gap-1 mb-1"><input value="' + esc(e.ad) + '" onchange="havuzListeEkSutunAd(' + i + ', this.value)" class="flex-1 border border-slate-300 rounded px-1.5 py-0.5 text-xs"><span class="text-[10px] text-slate-400">' + (e.gen === 'dar' ? 'dar' : e.gen === 'genis' ? 'geniş' : 'orta') + '</span><button type="button" onclick="havuzListeEkSutunSil(' + i + ')" class="text-rose-600 font-bold px-1">✕</button></div>'; }).join('') : '') +
+                '<button type="button" onclick="havuzListeEkSutunEkle()" class="px-2 py-1 rounded bg-white border border-indigo-300 text-indigo-700 font-bold">+ Boş sütun ekle</button></div>' +
+                '<div><p class="font-bold text-slate-600 mb-1">3. Başlık ve düzen</p>' +
+                '<input value="' + esc(L.baslik) + '" onchange="havuzListeSet(\'baslik\', this.value)" placeholder="Liste başlığı" class="w-full border border-slate-300 rounded px-2 py-1 text-xs mb-1">' +
+                '<label class="flex items-center gap-1 py-0.5">Sonuna boş satır: <input type="number" min="0" max="40" value="' + (L.bosSatir || 0) + '" onchange="havuzListeSet(\'bosSatir\', Math.max(0, Math.min(40, parseInt(this.value, 10) || 0)))" class="w-14 border border-slate-300 rounded px-1 text-xs"></label>' +
+                '<label class="flex items-center gap-1 py-0.5"><input type="checkbox" ' + (L.imza ? 'checked' : '') + ' onchange="havuzListeSet(\'imza\', this.checked)"> Altına müdür imzası</label>' +
+                '<label class="flex items-center gap-1 py-0.5"><input type="checkbox" ' + (L.yatay ? 'checked' : '') + ' onchange="havuzListeSet(\'yatay\', this.checked)"> Yatay sayfa</label></div></div>' +
+                '<p class="text-[10px] text-slate-500 mt-2">Liste aşağıda hazırlanır; üstündeki Yazdır / PDF / Word düğmeleriyle alın. ' + kisiler.length + ' kişi.</p></div>';
+            var sut = HAVUZ_SUTUNLAR.filter(function(c) { return L.sutun[c[0]]; });
+            var tdS = 'border:1px solid #000;padding:4px 6px;vertical-align:middle';
+            var genW = { dar: '9%', orta: '15%', genis: '24%' };
+            var bas = sut.map(function(c) { return '<th style="' + tdS + ';background:#f1f5f9' + (c[0] === 'sira' ? ';width:6%' : '') + '">' + c[1] + '</th>'; }).join('') +
+                L.ekSutun.map(function(e) { return '<th style="' + tdS + ';background:#f1f5f9;width:' + (genW[e.gen] || '15%') + '">' + esc(e.ad) + '</th>'; }).join('');
+            var hucre = function(s, k, i) {
+                if (k === 'sira') return '<td style="' + tdS + ';text-align:center">' + (i + 1) + '</td>';
+                if (k === 'ad') return '<td style="' + tdS + '">' + esc(s.name) + '</td>';
+                if (k === 'unvan') return '<td style="' + tdS + '">' + esc(typeof destBransTemiz === 'function' ? destBransTemiz(s.title) : s.title) + '</td>';
+                if (k === 'tc') return '<td style="' + tdS + '">' + esc(s.tc || '') + '</td>';
+                if (k === 'tel') return '<td style="' + tdS + '">' + esc(s.tel || s.telefon || s.phone || '') + '</td>';
+                if (k === 'havuz') return '<td style="' + tdS + '">' + staffPoolLabel(staffGetPool(s)) + '</td>';
+                return '<td style="' + tdS + '"></td>';
+            };
+            var satir = kisiler.map(function(s, i) { return '<tr style="height:24px">' + sut.map(function(c) { return hucre(s, c[0], i); }).join('') + L.ekSutun.map(function() { return '<td style="' + tdS + '">&nbsp;</td>'; }).join('') + '</tr>'; }).join('');
+            for (var b = 0; b < (L.bosSatir || 0); b++) satir += '<tr style="height:24px">' + sut.map(function(c) { return c[0] === 'sira' ? '<td style="' + tdS + ';text-align:center">' + (kisiler.length + b + 1) + '</td>' : '<td style="' + tdS + '">&nbsp;</td>'; }).join('') + L.ekSutun.map(function() { return '<td style="' + tdS + '">&nbsp;</td>'; }).join('') + '</tr>';
+            var mudur = (typeof gdDirectorStaff === 'function') ? gdDirectorStaff() : { name: '' };
+            var belge = '<div id="havuz-liste-belge" data-evrak="1"' + (L.yatay ? ' data-evrak-yatay="1"' : '') + ' class="bg-white text-black border border-slate-300 rounded-lg mx-auto mt-3" style="font-family:\'Times New Roman\',serif;font-size:11pt;line-height:1.35;padding:12mm;max-width:' + (L.yatay ? '280mm' : '200mm') + '">' +
+                '<div style="text-align:center;font-weight:bold;line-height:1.35">T.C.<br>' + esc((typeof makamUstSatir === 'function' ? makamUstSatir() : '').toLocaleUpperCase('tr-TR')) + '<br>' + esc((state.schoolName || '').toLocaleUpperCase('tr-TR')) + ' MÜDÜRLÜĞÜ</div>' +
+                '<p style="text-align:center;font-weight:bold;margin:10px 0 8px">' + esc(L.baslik || '') + '</p>' +
+                (sut.length + L.ekSutun.length ? '<table style="width:100%;border-collapse:collapse;font-size:10pt"><tr>' + bas + '</tr>' + (satir || '') + '</table>' : '<p style="text-align:center">Sütun seçilmedi.</p>') +
+                (L.imza ? '<table style="width:100%;margin-top:22px"><tr><td style="width:60%"></td><td style="text-align:center"><div>…/…/……</div><div style="height:30px"></div><b>' + esc(mudur.name || '……………………') + '</b><br>Okul Müdürü</td></tr></table>' : '') +
+                '</div>';
+            return ayar + belge;
+        }
         window.renderHavuz = function() {
             ensureStaffPools();
             if (!state.havuzActiveTab) state.havuzActiveTab = 'ogretmen';
@@ -9331,7 +9473,8 @@ window.boardSetKademe = function(kademe) {
                     '<td class="p-3 border-r text-slate-500">' + (i + 1) + '</td>' +
                     '<td class="p-3 border-r font-semibold text-slate-800">' + esc(s.name) + '</td>' +
                     '<td class="p-3 border-r text-slate-600">' + esc(s.title) + '</td>' +
-                    (tab === 'diger' ? '<td class="p-3 border-r text-xs no-print ' + (s.tc ? (staffTcGecerli(s.tc) ? 'text-slate-700' : 'text-rose-600 font-bold') : 'text-amber-600') + '">' + (s.tc ? esc(s.tc) + (staffTcGecerli(s.tc) ? '' : ' ⚠') : '— eksik') + '</td>' : '') +
+                    '<td class="p-1.5 border-r no-print"><input value="' + esc(s.tc || '') + '" inputmode="numeric" maxlength="11" placeholder="—" onchange="staffAlanSet(' + s.id + ', \'tc\', this.value)" class="w-28 border ' + (s.tc && !staffTcGecerli(s.tc) ? 'border-rose-400 bg-rose-50' : 'border-slate-200') + ' rounded px-1.5 py-1 text-xs"></td>' +
+                    '<td class="p-1.5 border-r no-print"><input value="' + esc(s.tel || s.telefon || s.phone || '') + '" inputmode="tel" placeholder="—" onchange="staffAlanSet(' + s.id + ', \'tel\', this.value)" class="w-28 border border-slate-200 rounded px-1.5 py-1 text-xs"></td>' +
                     '<td class="p-3 border-r text-[10px] text-slate-500 no-print">' + staffPoolLabel(staffGetPool(s)) + '</td>' +
                     '<td class="p-3 no-print text-center whitespace-nowrap">' +
                     '<button type="button" onclick="editStaff(' + s.id + ')" class="text-indigo-600 hover:text-indigo-800 font-semibold mr-3"><i class="fa-solid fa-edit mr-1"></i> Düzenle</button>' +
@@ -9346,6 +9489,7 @@ window.boardSetKademe = function(kademe) {
                 '<button type="button" onclick="downloadStaffTemplate()" class="bg-white border border-slate-200 text-slate-700 px-3 py-2 rounded-lg text-sm font-medium shadow-sm">📄 Excel Şablon</button>' +
                 '<label class="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 text-sm font-medium shadow cursor-pointer">📥 Excel\'den Toplu Ekle → ' + (tab === 'diger' ? 'Diğer Personel' : 'Öğretmenler') +
                 '<input type="file" id="staff-excel-input" accept=".xlsx,.xls,.csv" class="hidden" onchange="importStaffFromExcel(this)"></label>' +
+                '<button type="button" onclick="havuzListeAc()" class="bg-slate-800 text-white px-4 py-2 rounded-lg hover:bg-slate-900 text-sm font-medium shadow">🖨️ Liste Yazdır</button>' +
                 '<button type="button" onclick="toggleOgrRaporModal()" class="bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600 text-sm font-medium shadow">📊 Raporlar</button>' +
                 '<button type="button" onclick="addStaff()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 text-sm font-medium shadow">+ ' + (tab === 'diger' ? 'Diğer Personel Ekle' : 'Öğretmen Ekle') + '</button>' +
                 '</div></div>' +
@@ -9357,21 +9501,23 @@ window.boardSetKademe = function(kademe) {
                 (tab === 'diger' ? 'bg-violet-600 text-white border-violet-600' : 'bg-white text-slate-600 border-slate-200') +
                 '">🧹 Diğer Personel (' + digerler.length + ')</button>' +
                 '<span class="text-[11px] text-slate-500 self-center ml-1">Toplam: <b>' + (state.staff || []).length + '</b></span></div>' +
-                '<p class="text-xs text-slate-500 mb-3 no-print">' + (tab === 'diger' ? 'Ekleme ve Excel’den toplu ekleme <b>Diğer Personel</b> havuzuna yapılır. Excel sütunları: <b>Ad Soyad</b>, <b>Unvan</b>, <b>TC Kimlik No</b>. TYP/İUP çizelgesi isim ve T.C.’yi bu listeden alır.' : 'Ekleme ve Excel’den toplu ekleme <b>Öğretmenler</b> havuzuna yapılır. Excel sütunları: <b>Ad Soyad</b>, <b>Unvan</b>. Diğer personel eklemek için önce “Diğer Personel” sekmesine geçin.') + '</p>' +
+                '<p class="text-xs text-slate-500 mb-3 no-print">' + (tab === 'diger' ? 'Ekleme ve Excel’den toplu ekleme <b>Diğer Personel</b> havuzuna yapılır. Excel sütunları: <b>Ad Soyad</b>, <b>Unvan</b>, <b>TC Kimlik No</b>, <b>Telefon</b>. TYP/İUP çizelgesi isim ve T.C.’yi bu listeden alır.' : 'Ekleme ve Excel’den toplu ekleme <b>Öğretmenler</b> havuzuna yapılır. Excel sütunları: <b>Ad Soyad</b>, <b>Unvan</b>, <b>TC Kimlik No</b>, <b>Telefon</b>. T.C. ve telefonu tablodan da doğrudan yazabilirsiniz. Diğer personel eklemek için önce “Diğer Personel” sekmesine geçin.') + '</p>' +
                 (function() { var n = list.filter(function(s) { return window.__havuzSecili && window.__havuzSecili[s.id]; }).length;
                     return '<div id="havuz-secim-bar" class="no-print items-center flex-wrap gap-2 mb-2 p-2 rounded-lg bg-rose-50 border border-rose-200" style="display:' + (n ? 'flex' : 'none') + '">' +
                         '<span id="havuz-secim-sayi" class="text-xs font-bold text-rose-800">' + n + ' kişi seçildi</span>' +
                         '<button type="button" onclick="havuzTopluSil()" class="px-3 py-1.5 rounded-lg bg-rose-600 text-white text-xs font-bold"><i class="fa-solid fa-trash mr-1"></i> Seçilenleri sil</button>' +
+ '<button type="button" onclick="havuzListeAc(\'secili\')" class="px-3 py-1.5 rounded-lg bg-slate-800 text-white text-xs font-bold">🖨️ Seçilenleri yazdır</button>' +
                         '<button type="button" onclick="havuzSecimTemizle()" class="px-3 py-1.5 rounded-lg bg-white border border-rose-200 text-rose-700 text-xs font-bold">Seçimi kaldır</button></div>'; })() +
                 '<div class="overflow-x-auto border border-slate-200 rounded-xl">' +
                 '<table class="w-full text-left border-collapse"><tr class="bg-slate-100 text-slate-700 text-xs uppercase font-bold border-b">' +
                 '<th class="p-2 border-r text-center no-print"><input type="checkbox" id="havuz-tumunu-sec" title="Bu sekmedeki tümünü seç" onchange="havuzTumunuSec(this.checked)" class="w-4 h-4"' + (list.length && list.every(function(s) { return window.__havuzSecili && window.__havuzSecili[s.id]; }) ? ' checked' : '') + '></th>' +
                 '<th class="p-3 border-r">Sıra</th><th class="p-3 border-r">Ad Soyad</th><th class="p-3 border-r">Unvanı</th>' +
-                (tab === 'diger' ? '<th class="p-3 border-r no-print">T.C. Kimlik No</th>' : '') +
+                '<th class="p-3 border-r no-print">T.C. Kimlik No</th><th class="p-3 border-r no-print">Telefon</th>' +
                 '<th class="p-3 border-r no-print">Havuz</th><th class="p-3 no-print text-center">İşlem</th></tr>' +
-                (rows || '<tr><td colspan="' + (tab === 'diger' ? 7 : 6) + '" class="p-6 text-center text-slate-400 text-sm">Bu havuzda kayıt yok.</td></tr>') +
+                (rows || '<tr><td colspan="8" class="p-6 text-center text-slate-400 text-sm">Bu havuzda kayıt yok.</td></tr>') +
                 '</table></div>' +
-                (typeof renderOfficialSignatures === 'function' ? renderOfficialSignatures() : '');
+                (typeof renderOfficialSignatures === 'function' ? renderOfficialSignatures() : '') +
+                (havuzListeEnsure().acik ? havuzListeHtml(esc) : '');
         };
 
 window.staffTcTemizle = function(v) { return String(v == null ? '' : v).replace(/\D/g, '').slice(0, 11); };
@@ -9388,11 +9534,13 @@ window.staffTcTemizle = function(v) { return String(v == null ? '' : v).replace(
                 {key:'name', label:'Ad Soyad'},
                 {key:'title', label: diger ? 'Unvanı / Görevi (Örn: TYP, İşçi, Hizmetli, Memur)' : 'Unvanı / Branşı (Örn: Sınıf Öğretmeni, Müdür Yardımcısı)'}
             ];
-            if (diger) alanlar.push({key:'tc', label:'T.C. Kimlik No (11 hane)'});
+            alanlar.push({key:'tc', label:'T.C. Kimlik No (11 hane)'});
+            alanlar.push({key:'tel', label:'Telefon'});
             showModal(diger ? "Diğer Personel Ekle" : "Öğretmen Ekle", alanlar, (d) => {
                 if (!d.name || !String(d.name).trim()) return;
                 var kayit = { id: generateId(), name: String(d.name).trim(), title: String(d.title || '').trim() || (diger ? 'Personel' : 'Öğretmen'), pool: diger ? STAFF_POOL_DIGER : STAFF_POOL_OGRETMEN };
-                if (diger) {
+                kayit.tel = String(d.tel || '').trim();
+                {
                     kayit.tc = staffTcTemizle(d.tc);
                     if (kayit.tc && !staffTcGecerli(kayit.tc)) setTimeout(function() { showCustomAlert('T.C. Kimlik No', kayit.name + ' kaydedildi; ancak girilen numara geçerli bir T.C. kimlik numarası görünmüyor. Düzenle ile kontrol edin.'); }, 50);
                 }
@@ -9411,16 +9559,16 @@ window.staffTcTemizle = function(v) { return String(v == null ? '' : v).replace(
                 var wb = XLSX.utils.book_new();
                 var diger = state.havuzActiveTab === 'diger';
                 var data = diger ? [
-                    ['Ad Soyad', 'Unvan', 'TC Kimlik No'],
-                    ['Ali Çelik', 'TYP', ''],
-                    ['Fatma Korkmaz', 'Hizmetli', '']
+                    ['Ad Soyad', 'Unvan', 'TC Kimlik No', 'Telefon'],
+                    ['Personel Bir', 'TYP', '', ''],
+                    ['Personel İki', 'Hizmetli', '', '']
                 ] : [
-                    ['Ad Soyad', 'Unvan'],
-                    ['Ayşe Yılmaz', 'Sınıf Öğretmeni'],
-                    ['Mehmet Kaya', 'Müdür Yardımcısı']
+                    ['Ad Soyad', 'Unvan', 'TC Kimlik No', 'Telefon'],
+                    ['Öğretmen Bir', 'Sınıf Öğretmeni', '', ''],
+                    ['Öğretmen İki', 'Müdür Yardımcısı', '', '']
                 ];
                 var ws = XLSX.utils.aoa_to_sheet(data);
-                ws['!cols'] = [{ wch: 28 }, { wch: 28 }, { wch: 16 }];
+                ws['!cols'] = [{ wch: 28 }, { wch: 28 }, { wch: 16 }, { wch: 16 }];
                 XLSX.utils.book_append_sheet(wb, ws, diger ? 'Diger Personel' : 'Ogretmenler');
                 XLSX.writeFile(wb, diger ? 'diger_personel_sablon.xlsx' : 'ogretmen_sablon.xlsx');
             } catch (e) {
@@ -9443,10 +9591,11 @@ window.staffTcTemizle = function(v) { return String(v == null ? '' : v).replace(
         };
 
         window._staffMapColumns = function(headers) {
-            var map = { name: -1, ad: -1, soyad: -1, title: -1, pool: -1, tc: -1 };
+            var map = { name: -1, ad: -1, soyad: -1, title: -1, pool: -1, tc: -1, tel: -1 };
             headers.forEach(function(h, i) {
                 var n = _staffNormHeader(h);
                 if (!n) return;
+                if (map.tel < 0 && (n.indexOf('telefon') >= 0 || n === 'tel' || n === 'gsm' || n.indexOf('cep') === 0)) { map.tel = i; return; }
                 if (map.tc < 0 && (n === 'tc' || n.indexOf('kimlik') >= 0 || n.indexOf('t.c') === 0 || n === 'tckn' || n === 'tc no')) { map.tc = i; return; }
                 if (map.name < 0 && (n === 'ad soyad' || n === 'adi soyadi' || n === 'adsoyad' || n === 'isim' || n === 'personel' || n.indexOf('ad soyad') >= 0)) map.name = i;
                 else if (map.ad < 0 && (n === 'ad' || n === 'adi' || n === 'isim ad')) map.ad = i;
@@ -9526,9 +9675,12 @@ window.staffTcTemizle = function(v) { return String(v == null ? '' : v).replace(
                         if (!name) { skipped++; continue; }
                         var key = _staffNormHeader(name);
                         var tcHam = map.tc >= 0 ? staffTcTemizle(row[map.tc]) : '';
+                        var telHam = map.tel >= 0 ? String(row[map.tel] || '').trim() : '';
                         if (existing[key]) {
-                            var var_ = adIle[key];
-                            if (var_ && hedefHavuz === 'diger' && tcHam && !var_.tc) { var_.tc = tcHam; guncellenen++; } else dup++;
+                            var var_ = adIle[key], gun = false;
+                            if (var_ && tcHam && !var_.tc) { var_.tc = tcHam; gun = true; }
+                            if (var_ && telHam && !var_.tel) { var_.tel = telHam; gun = true; }
+                            if (gun) guncellenen++; else dup++;
                             continue;
                         }
                         var pool = hedefHavuz;
@@ -9538,7 +9690,8 @@ window.staffTcTemizle = function(v) { return String(v == null ? '' : v).replace(
                             title: title || (pool === 'diger' ? 'Personel' : 'Öğretmen'),
                             pool: pool
                         };
-                        if (pool === 'diger') yeni.tc = tcHam;
+                        if (tcHam) yeni.tc = tcHam;
+                        if (telHam) yeni.tel = telHam;
                         state.staff.push(yeni);
                         existing[key] = true;
                         added++;
@@ -9577,13 +9730,15 @@ window.staffTcTemizle = function(v) { return String(v == null ? '' : v).replace(
                 {key:'name', label:'Ad Soyad', value: item.name},
                 {key:'title', label:'Unvanı / Branşı', value: item.title}
             ];
-            if (curPool === STAFF_POOL_DIGER) alanlar.push({key:'tc', label:'T.C. Kimlik No (11 hane)', value: item.tc || ''});
+            alanlar.push({key:'tc', label:'T.C. Kimlik No (11 hane)', value: item.tc || ''});
+            alanlar.push({key:'tel', label:'Telefon', value: item.tel || item.telefon || ''});
             alanlar.push({key:'pool', label:'Havuz (ogretmen / diger)', value: curPool});
             showModal("Personeli Düzenle", alanlar, (d) => {
                 if (!d.name) return;
                 item.name = d.name;
                 item.title = d.title || '';
-                if (curPool === STAFF_POOL_DIGER) {
+                item.tel = String(d.tel || '').trim();
+                {
                     item.tc = staffTcTemizle(d.tc);
                     if (item.tc && !staffTcGecerli(item.tc)) setTimeout(function() { showCustomAlert('T.C. Kimlik No', 'Girilen numara geçerli bir T.C. kimlik numarası görünmüyor; lütfen kontrol edin.'); }, 50);
                 }
@@ -24595,7 +24750,7 @@ window.okUpdateKulupAdi = function(idx, value) {
         };
         /* Ders listesini "Türkçe (2), Matematik (1)" biçiminde metne çevirir */
         window.destStudentLessonText = function(s) {
-            return destStudentLessons(s).map(d => d.ad + (d.saat ? ' (' + d.saat + ')' : '')).join(', ');
+            return destStudentLessons(s).map(d => d.ad).filter(Boolean).join(', ');
         };
         /* Sadece ders adları: "Türkçe / Matematik" */
         window.destStudentLessonNames = function(s) {
@@ -24691,6 +24846,51 @@ window.okUpdateKulupAdi = function(idx, value) {
         };
         const RPD_DONEMLERI = ["SENE BAŞI", "2. DÖNEM BAŞI", "SENE SONU"];
 
+        /* Branştan sınıf/şube bilgisini atar: "Sınıf Öğretmeni (3/A)" → "Sınıf Öğretmeni" */
+        window.destBransTemiz = function(t) {
+            return String(t || '').replace(/\s*[\(\[]\s*\d+\s*[\/\-\.]?\s*[A-Za-zÇĞİÖŞÜçğıöşü]{1,2}\s*(şubesi|sınıfı)?\s*[\)\]]/gi, ' ').replace(/\s+[-–]\s*\d+\s*[\/\-\.]?\s*[A-ZÇĞİÖŞÜ]\b.*$/, '').replace(/\s+/g, ' ').trim();
+        };
+        /* Destek eğitim öğretmeni bilgisi: havuzdaysa branş ve okul portaldan; değilse (başka okuldan, elle eklenen)
+           kullanıcının girdiği branş ve kadrosunun bulunduğu okul. T.C. ve telefon dilekçe için saklanır. */
+        window.destOgrBilgi = function(ad) {
+            const de = state.destekEgitim; if (!de.ogretmenBilgi) de.ogretmenBilgi = {};
+            ad = String(ad || '').trim();
+            const b = de.ogretmenBilgi[ad] || {}, st = (state.staff || []).find(x => x.name === ad);
+            return { ad: ad, manuel: !st, brans: st ? destBransTemiz(st.title) : (b.brans || ''), okul: st ? (state.schoolName || '') : (b.okul || ''), tc: b.tc || (st && st.tc) || '', tel: b.tel || (st && (st.tel || st.telefon || st.phone)) || '' };
+        };
+        window.destOgrBilgiSet = function(ad, alan, deger, yenile) {
+            const de = state.destekEgitim; if (!de.ogretmenBilgi) de.ogretmenBilgi = {};
+            ad = String(ad || '').trim(); if (!ad) return;
+            if (!de.ogretmenBilgi[ad]) de.ogretmenBilgi[ad] = {};
+            de.ogretmenBilgi[ad][alan] = alan === 'tc' ? String(deger || '').replace(/\D/g, '').slice(0, 11) : String(deger || '').trim();
+            try { saveAllData(); } catch (e) {}
+            if (yenile) updateUI();
+        };
+        /* Elle yazılan (okulda görev yapmayan) öğretmen için branş ve kadrosunun bulunduğu okul sorulur */
+        window.destManuelOgretmen = function(idx, isim) {
+            const s = state.destekEgitim.students[idx]; if (!s) return;
+            isim = String(isim || '').trim(); s.supportTeacher = isim;
+            const b = destOgrBilgi(isim);
+            try { saveAllData(); } catch (e) {}
+            updateUI();
+            if (isim && b.manuel && (!b.brans || !b.okul)) {
+                showModal('Okul Dışından Öğretmen: ' + isim, [
+                    { key: 'brans', label: 'Branşı (Örn: Özel Eğitim Öğretmeni)', value: b.brans },
+                    { key: 'okul', label: 'Kadrosunun bulunduğu okul', value: b.okul },
+                    { key: 'tc', label: 'T.C. Kimlik No (dilekçe için)', value: b.tc },
+                    { key: 'tel', label: 'Telefon (dilekçe için)', value: b.tel }
+                ], function(d) { ['brans', 'okul', 'tc', 'tel'].forEach(function(k) { destOgrBilgiSet(isim, k, d[k]); }); updateUI(); });
+            }
+        };
+        /* Dilekçe ve ücret onayı ekranlarında öğretmen bilgisi giriş tablosu (çıktıya girmez) */
+        window.destOgrBilgiPanel = function(adlar) {
+            adlar = [...new Set((adlar || []).map(a => String(a || '').trim()).filter(Boolean))];
+            if (!adlar.length) return '';
+            const inp = (ad, k, v, ph) => `<input value="${escHtml(v || '')}" placeholder="${ph}" onchange="destOgrBilgiSet(${escHtml(JSON.stringify(ad))}, '${k}', this.value, true)" class="w-full border border-slate-300 rounded px-1.5 py-1 text-[11px]">`;
+            return `<div class="no-print bg-white border border-amber-200 rounded-xl p-3 mb-3"><p class="text-[11px] font-bold text-amber-800 mb-1">🧑‍🏫 Öğretmen bilgileri <span class="font-normal text-slate-500">— dilekçe ve ücret onayına otomatik yazılır</span></p>
+                <div class="overflow-x-auto"><table class="w-full text-[11px] border-collapse"><tr class="bg-slate-50"><th class="border border-slate-200 p-1 text-left">Adı Soyadı</th><th class="border border-slate-200 p-1 text-left">Branşı</th><th class="border border-slate-200 p-1 text-left">Kadrosunun Bulunduğu Okul</th><th class="border border-slate-200 p-1 text-left">T.C. Kimlik No</th><th class="border border-slate-200 p-1 text-left">Telefon</th></tr>
+                ${adlar.map(ad => { const b = destOgrBilgi(ad); return `<tr><td class="border border-slate-200 p-1 font-semibold">${escHtml(ad)}${b.manuel ? ' <span class="text-[9px] text-amber-700 font-bold">okul dışından</span>' : ''}</td><td class="border border-slate-200 p-1">${b.manuel ? inp(ad, 'brans', b.brans, 'Branşı') : escHtml(b.brans)}</td><td class="border border-slate-200 p-1">${b.manuel ? inp(ad, 'okul', b.okul, 'Okul adı') : escHtml(b.okul)}</td><td class="border border-slate-200 p-1">${inp(ad, 'tc', b.tc, '11 hane')}</td><td class="border border-slate-200 p-1">${inp(ad, 'tel', b.tel, '05xx xxx xx xx')}</td></tr>`; }).join('')}</table></div></div>`;
+        };
         window.destDirector = function() {
             return state.staff.find(s => s.title.toLowerCase().includes('müdür') && !s.title.toLowerCase().includes('yardımcısı')) || { id: null, name: "................", title: "Okul Müdürü" };
         };
@@ -25427,12 +25627,13 @@ window.okUpdateKulupAdi = function(idx, value) {
                                                     <div class="text-[9px] font-bold text-emerald-700 uppercase mb-1">Destek Eğitimi Verecek Öğretmen</div>
                                                     <select onchange="destSetSupportTeacher(${idx}, this.value)" class="w-full border border-emerald-200 rounded p-1.5 text-xs bg-emerald-50/40">
                                                         <option value="">— Havuzdan seç —</option>
-                                                        ${state.staff.map(t => `<option value="${escHtml(t.name)}" ${s.supportTeacher === t.name ? 'selected' : ''}>${escHtml(t.name)}${t.title ? ' (' + escHtml(t.title) + ')' : ''}</option>`).join('')}
+                                                        ${state.staff.map(t => `<option value="${escHtml(t.name)}" ${s.supportTeacher === t.name ? 'selected' : ''}>${escHtml(t.name)}${t.title ? ' (' + escHtml(destBransTemiz(t.title)) + ')' : ''}</option>`).join('')}
                                                     </select>
                                                 </div>
                                                 <div>
                                                     <div class="text-[9px] font-bold text-slate-400 uppercase mb-1">veya elle yazın</div>
-                                                    <input value="${escHtml(s.supportTeacher || '')}" oninput="destUpdateStudent(${idx},'supportTeacher',this.value)" placeholder="Destek eğitim öğretmeni adı" class="w-full border border-slate-200 rounded p-1.5 text-xs">
+                                                    <input value="${escHtml(s.supportTeacher || '')}" onchange="destManuelOgretmen(${idx}, this.value)" placeholder="Okulda görev yapmayan öğretmenin adı" class="w-full border border-slate-200 rounded p-1.5 text-xs">
+                                                    ${(() => { const b = destOgrBilgi(s.supportTeacher); return (s.supportTeacher && b.manuel) ? `<div class="grid grid-cols-2 gap-1 mt-1"><input value="${escHtml(b.brans)}" placeholder="Branşı" onchange="destOgrBilgiSet(${escHtml(JSON.stringify(b.ad))}, 'brans', this.value, true)" class="border ${b.brans ? 'border-slate-200' : 'border-rose-300 bg-rose-50'} rounded p-1 text-[11px]"><input value="${escHtml(b.okul)}" placeholder="Kadrosunun bulunduğu okul" onchange="destOgrBilgiSet(${escHtml(JSON.stringify(b.ad))}, 'okul', this.value, true)" class="border ${b.okul ? 'border-slate-200' : 'border-rose-300 bg-rose-50'} rounded p-1 text-[11px]"></div>` : ''; })()}
                                                 </div>
                                             </div>
                                             <div class="border-t border-slate-200 pt-2 mt-1">
@@ -25610,7 +25811,7 @@ window.okUpdateKulupAdi = function(idx, value) {
                     /* Öğretmen: önce havuzdan (id), yoksa öğrenci kaydındaki isim (elle yazılmış olabilir) */
                     const tObj = (sch.teacherId ? state.staff.find(x => x.id === sch.teacherId) : null);
                     const tAd = tObj ? tObj.name : (sch.teacherName || s.supportTeacher || '-');
-                    const tBrans = tObj ? (tObj.title || '') : '';
+                    const tBrans = destOgrBilgi(tAd).brans;
                     const dh = sch.dayHours || {};
                     /* Her gün için o güne ait saat sayısı da gösterilir */
                     const rows = (sch.days || []).map(d => `<tr><td class="border border-black p-1 bg-gray-100 font-bold">${d}</td><td class="border border-black p-1 text-center font-semibold">${dh[d] ? dh[d] + ' saat' : '-'}</td><td class="border border-black p-1">${escHtml(sch.lessonText || sch.subjects || '')}</td></tr>`).join('');
@@ -25655,10 +25856,10 @@ window.okUpdateKulupAdi = function(idx, value) {
                         return idEsle || (ad && ad === st.name);
                     });
                     const dersler = [...new Set(ogrenciler.map(sc => (sc.lessonText || sc.subjects || '').trim()).filter(Boolean))].join(', ');
-                    return `<tr><td class="text-center border border-black p-2">${i + 1}</td><td class="font-semibold border border-black p-2">${escHtml(st.name)}</td><td class="border border-black p-2">${escHtml(st.title || '')}</td><td class="border border-black p-2 text-[10px]">${escHtml(dersler || '-')}</td><td class="text-center font-bold border border-black p-2">${h.hours} Saat</td></tr>`;
+                    return `<tr><td class="text-center border border-black p-2">${i + 1}</td><td class="font-semibold border border-black p-2">${escHtml(st.name)}</td><td class="border border-black p-2">${escHtml(destOgrBilgi(st.name).brans)}</td><td class="border border-black p-2">${escHtml(destOgrBilgi(st.name).okul)}</td><td class="border border-black p-2 text-[10px]">${escHtml(dersler || '-')}</td><td class="text-center font-bold border border-black p-2">${h.hours} Saat</td></tr>`;
                 }).join('');
 
-                return menu + `
+                return menu + destOgrBilgiPanel(Object.values(teacherHours).map(h => (h.staff || {}).name)) + `
                     <div class="official-letter-page font-serif text-black text-xs" contenteditable="true" spellcheck="true">
                         <div class="text-center space-y-1 mb-6">
                             <p class="font-bold text-sm uppercase">T.C.</p>
@@ -25668,8 +25869,8 @@ window.okUpdateKulupAdi = function(idx, value) {
                         </div>
                         <p class="text-justify mb-6">Okulumuz bünyesinde yürütülecek olan Destek Eğitim Odası faaliyetlerinde, aşağıda adı soyadı ve branşı belirtilen öğretmenlerin karşılarında yazılı saat kadar ek ders göreviyle görevlendirilmesi hususunu olurlarınıza arz ederim.</p>
                         <table class="w-full border-collapse mb-12" style="border-collapse:collapse;">
-                            <thead><tr class="bg-gray-100"><th class="border border-black p-2 w-10">Sıra</th><th class="border border-black p-2">Öğretmenin Adı Soyadı</th><th class="border border-black p-2">Branşı</th><th class="border border-black p-2">Verdiği Dersler</th><th class="border border-black p-2 w-28">Ders Saati</th></tr></thead>
-                            <tbody>${rows || `<tr><td colspan="5" class="text-center border border-black p-3 text-slate-400">Henüz planlama eklenmedi.</td></tr>`}</tbody>
+                            <thead><tr class="bg-gray-100"><th class="border border-black p-2 w-10">Sıra</th><th class="border border-black p-2">Öğretmenin Adı Soyadı</th><th class="border border-black p-2">Branşı</th><th class="border border-black p-2">Kadrosunun Bulunduğu Okul</th><th class="border border-black p-2">Verdiği Dersler</th><th class="border border-black p-2 w-28">Ders Saati</th></tr></thead>
+                            <tbody>${rows || `<tr><td colspan="6" class="text-center border border-black p-3 text-slate-400">Henüz planlama eklenmedi.</td></tr>`}</tbody>
                         </table>
                         <div class="font-bold w-full">
                             <div class="flex justify-between"><div class="w-1/3"></div><div class="text-center w-1/3">${director.name}<br>Okul Müdürü</div></div>
@@ -25687,7 +25888,7 @@ window.okUpdateKulupAdi = function(idx, value) {
                     const st = state.staff.find(x => x.id === s.classTeacherId);
                     const tObj = (sch.teacherId ? state.staff.find(x => x.id === sch.teacherId) : null);
                     const tAd = tObj ? tObj.name : (sch.teacherName || s.supportTeacher || '-');
-                    const tBrans = tObj ? (tObj.title || '') : '';
+                    const tBrans = destOgrBilgi(tAd).brans;
                     /* Tanı: çoklu tanı listesinden (yoksa eski tek alandan) */
                     const taniList = destStudentTaniList(s);
                     const tani = taniList.length ? taniList.join(', ') : (s.diagnosis || '-');
@@ -25828,7 +26029,7 @@ window.okUpdateKulupAdi = function(idx, value) {
                                     <p><strong>Sınıfı / No:</strong> ${escHtml(s.sClass || '')} / ${escHtml(s.no || '')}</p>
                                     <p><strong>Tanı / Engel:</strong> ${taniList.length ? taniList.map(t=>escHtml(t)).join(', ') : (s.diagnosis || 'Kaynaştırma Eğitimi Kararı')}</p>
                                     ${(s.supportTeacher || sch.teacherName) ? `<p><strong>Destek Eğitim Öğretmeni:</strong> ${escHtml(s.supportTeacher || sch.teacherName)}</p>` : ''}
-                                    ${(sch.lessonText || sch.subjects) ? `<p><strong>Dersler (saat):</strong> ${escHtml(sch.lessonText || sch.subjects)}</p>` : ''}
+                                    ${(sch.lessonText || sch.subjects) ? `<p><strong>Dersler:</strong> ${escHtml(sch.lessonText || sch.subjects)}</p>` : ''}
                                     ${gunSaat ? `<p><strong>Gün / Saat:</strong> ${escHtml(gunSaat)}</p>` : ''}
                                     ${sch.hours ? `<p><strong>Haftalık Toplam:</strong> ${sch.hours} saat</p>` : ''}
                                     ${sch.room ? `<p><strong>Yer:</strong> ${escHtml(sch.room)}</p>` : ''}
@@ -25869,13 +26070,15 @@ window.okUpdateKulupAdi = function(idx, value) {
                         <div class="text-right font-semibold mb-6">Tarih: ${bugun}</div>
                         <div class="text-center font-bold text-sm mb-12 uppercase">${state.schoolName} MÜDÜRLÜĞÜNE<br>${state.ilce} / ${state.il}</div>
                         <p class="indent-8">Okulunuzda tam zamanlı kaynaştırma eğitimi uygulamaları kapsamında eğitim gören özel gereksinimli öğrencilerin bireysel gelişim süreçlerine katkıda bulunmak ve eğitim haklarını desteklemek amacıyla okul bünyesinde açılmış olan <strong>Destek Eğitim Odası</strong>'nda görev almak istiyorum.</p>
-                        <p class="indent-8 mt-4">Uzmanlık ve branş alanım olan <strong>${st.title}</strong> doğrultusunda, boş olan ders saatlerimde ve ders dışı zamanlarımda, haftada toplam <strong>${h.hours} saat</strong> destek eğitim ders görevi üstlenmek istiyorum. Gerekli ek ders görevlendirmemin yapılması hususunu saygılarımla arz ederim.</p>
+                        <p class="indent-8 mt-4">Uzmanlık ve branş alanım olan <strong>${escHtml(destOgrBilgi(st.name).brans) || ed('')}</strong> doğrultusunda, boş olan ders saatlerimde ve ders dışı zamanlarımda, haftada toplam <strong>${h.hours} saat</strong> destek eğitim ders görevi üstlenmek istiyorum. Gerekli ek ders görevlendirmemin yapılması hususunu saygılarımla arz ederim.</p>
                         <div class="grid grid-cols-2 gap-4 pt-12 mt-8">
                             <div class="space-y-1">
                                 <p class="font-bold text-slate-700 border-b pb-1">Öğretmen Bilgileri:</p>
                                 <p><strong>Adı Soyadı:</strong> ${escHtml(st.name || '')}</p>
-                                <p><strong>Branşı / Görevi:</strong> ${escHtml(st.title || '')}</p>
-                                <p><strong>Görev Yaptığı Okul:</strong> ${manuelOgretmen ? ed('') : state.schoolName}</p>
+                                <p><strong>Branşı / Görevi:</strong> ${escHtml(destOgrBilgi(st.name).brans)}</p>
+                                <p><strong>${manuelOgretmen ? 'Kadrosunun Bulunduğu Okul' : 'Görev Yaptığı Okul'}:</strong> ${manuelOgretmen ? (escHtml(destOgrBilgi(st.name).okul) || ed('')) : state.schoolName}</p>
+                                <p><strong>T.C. Kimlik No:</strong> ${escHtml(destOgrBilgi(st.name).tc) || ed('')}</p>
+                                <p><strong>Telefon:</strong> ${escHtml(destOgrBilgi(st.name).tel) || ed('')}</p>
                                 ${derslerim ? `<p><strong>Vereceği Dersler:</strong> ${escHtml(derslerim)}</p>` : ''}
                                 ${gunlerim ? `<p><strong>Günler:</strong> ${escHtml(gunlerim)}</p>` : ''}
                                 ${ogrAdlari.length ? `<p><strong>Öğrenciler:</strong> ${ogrAdlari.map(a=>escHtml(a)).join(', ')}</p>` : ''}
@@ -25889,7 +26092,7 @@ window.okUpdateKulupAdi = function(idx, value) {
                         </div>
                     </div>
                 `}).join('');
-                return menu + `<div class="official-letter-page font-serif text-black" contenteditable="true" spellcheck="true">${pages}</div>`;
+                return menu + destOgrBilgiPanel(list.map(h => (h.staff || {}).name)) + `<div class="official-letter-page font-serif text-black" contenteditable="true" spellcheck="true">${pages}</div>`;
             }
 
             /* ---------- TOPLU DİLEKÇE (tüm veliler + tüm destek öğretmenleri) ---------- */
@@ -25929,7 +26132,8 @@ window.okUpdateKulupAdi = function(idx, value) {
                 Object.values(teacherHours).forEach(h2 => {
                     if (h2 && h2.staff && h2.staff.name) {
                         const havuzda = (state.staff || []).some(x => x.name === h2.staff.name);
-                        ogrMap[h2.staff.name] = { ad: h2.staff.name, brans: h2.staff.title || '', saat: h2.hours || '', manuel: !havuzda };
+                        const bi = destOgrBilgi(h2.staff.name);
+                        ogrMap[h2.staff.name] = { ad: h2.staff.name, brans: bi.brans, okul: bi.okul, tc: bi.tc, tel: bi.tel, saat: h2.hours || '', manuel: !havuzda };
                     }
                 });
                 de.students.forEach(s => {
@@ -25937,7 +26141,8 @@ window.okUpdateKulupAdi = function(idx, value) {
                     if (!ad) return;
                     if (!ogrMap[ad]) {
                         const pp = (state.staff || []).find(x => x.name === ad);
-                        ogrMap[ad] = { ad: ad, brans: pp ? (pp.title || '') : '', saat: '', manuel: !pp };
+                        const bi = destOgrBilgi(ad);
+                        ogrMap[ad] = { ad: ad, brans: bi.brans, okul: bi.okul, tc: bi.tc, tel: bi.tel, saat: '', manuel: !pp };
                     }
                 });
                 const ogrListesi = Object.values(ogrMap);
@@ -25952,7 +26157,9 @@ window.okUpdateKulupAdi = function(idx, value) {
                                 <p class="font-bold text-slate-700 border-b pb-1">Öğretmen Bilgileri:</p>
                                 <p><strong>Adı Soyadı:</strong> ${escHtml(h2.ad)}</p>
                                 <p><strong>Branşı / Görevi:</strong> ${escHtml(h2.brans)}</p>
-                                <p><strong>Görev Yaptığı Okul:</strong> ${h2.manuel ? ed('') : state.schoolName}</p>
+                                <p><strong>${h2.manuel ? 'Kadrosunun Bulunduğu Okul' : 'Görev Yaptığı Okul'}:</strong> ${h2.manuel ? (escHtml(h2.okul) || ed('')) : state.schoolName}</p>
+                                <p><strong>T.C. Kimlik No:</strong> ${escHtml(h2.tc) || ed('')}</p>
+                                <p><strong>Telefon:</strong> ${escHtml(h2.tel) || ed('')}</p>
                             </div>
                             <div class="text-right space-y-2">
                                 <p class="font-bold text-slate-700 border-b pb-1 text-left">Başvuru Sahibi:</p>
@@ -25984,7 +26191,7 @@ window.okUpdateKulupAdi = function(idx, value) {
                     </div>`;
 
                 const govde = secilen.map((sayfa, i) => (i > 0 ? sayfa.replace('class="dest-toplu-sayfa', 'class="board-page-break dest-toplu-sayfa') : sayfa)).join('');
-                return menu + panel + (secilen.length ? `<div class="official-letter-page font-serif text-black" contenteditable="true" spellcheck="true">${govde}</div>` : '');
+                return menu + panel + (secim !== 'veli' ? destOgrBilgiPanel(ogrListesi.map(x => x.ad)) : '') + (secilen.length ? `<div class="official-letter-page font-serif text-black" contenteditable="true" spellcheck="true">${govde}</div>` : '');
             }
 
             return menu;
@@ -36206,7 +36413,7 @@ function isgPrint(kind){
         /* TEK SÜRÜM KAYNAĞI — bu değeri değiştir, her yer (sekme başlığı + sol menü
            etiketi) otomatik güncellenir. Dosya adı da hep bu numarayla aynı olmalı:
            İDARE ASİSTANI v<PORTAL_SURUM>. Sıralama: v6.5.0, v6.5.1 … v6.5.9, v6.6.0 … */
-        window.PORTAL_SURUM = '7.0.4';
+        window.PORTAL_SURUM = '7.0.8';
 
         /* ==================== GENEL BELGE DÜZENLEME ====================
            Programdaki evrakların çoğu salt çıktıydı (yalnızca bazılarında
@@ -36256,13 +36463,30 @@ function isgPrint(kind){
             bduzUygula();
         };
         /* Aktif sekmedeki belge alanlarını düzenlenebilir yap / kayıtlıyı geri yükle */
+        /* BELGE KİMLİĞİ: düzenleme kaydı sekme+sıra ile değil, belgenin kendisiyle eşlenir.
+           Eskiden aynı sekmedeki farklı evraklar (ör. dilekçe → ücret onayı) aynı "sekme::0"
+           anahtarını paylaştığı için, düzenlenen evrak diğer evrakların yerine basılıyordu.
+           Kimlik: belgenin id'si (varsa) + başlığından türetilen imza (tarih/sayı hariç). */
+        function bduzImza(el) {
+            const t = String(el.innerText || el.textContent || '').replace(/[0-9]/g, '').replace(/[.…_\-–\/:]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 160);
+            let x = 5381; for (let i = 0; i < t.length; i++) x = ((x << 5) + x + t.charCodeAt(i)) | 0;
+            return (x >>> 0).toString(36);
+        }
+        function bduzBelgeAnahtari(tab, el, i) {
+            const id = el.id || (el.querySelector('[id]') || {}).id || '';
+            const alt = (function() { try { const s = state; const v = [s.activeTab, (s.destekEgitim || {}).activeView, s.sosyalEtkinlikSub, (s.boardMeetings || {}).activeView, (s.imzaCizelge || {}).activeMainView, (s.okulGuv || {}).view, (s.okulGuv || {}).belgeId]; return v.filter(Boolean).join('|'); } catch (e) { return ''; } })();
+            return tab.id + '::' + alt + '::' + (id || ('b' + i)) + '::' + bduzImza(el);
+        }
         window.bduzUygula = function() {
             const d = bduzEnsure();
             const tab = document.querySelector('.tab-pane:not(.hidden)');
             if (!tab) return;
+            /* Eski sürümün sekme::sıra anahtarlı kayıtları evrakları birbirine karıştırıyordu: bir kez temizlenir */
+            if (!d.anahtarV2) { Object.keys(d.override).forEach(k => { if (/^[^:]+::\d+$/.test(k)) delete d.override[k]; }); d.anahtarV2 = true; try { saveAllData(); } catch (e) {} }
             const alanlar = bduzBelgeAlanlari(tab);
             alanlar.forEach((el, i) => {
-                const anahtar = tab.id + '::' + i;
+                /* Anahtar belge ilk çizildiğinde (özgün hâlinden) hesaplanır ve elemana yazılır */
+                const anahtar = el.getAttribute('data-bd-key') || bduzBelgeAnahtari(tab, el, i);
                 el.setAttribute('data-bd-key', anahtar);
                 /* 1) Kayıtlı düzenleme varsa geri yükle (render onu ezmiş olabilir) */
                 const kayit = d.override[anahtar];
@@ -36469,6 +36693,11 @@ function isgPrint(kind){
             } catch(e){}
         })();
         window.PORTAL_SURUM_NOTLARI = [
+            'Personel Havuzu: tüm personel için T.C. kimlik no ve telefon sütunları; 🖨️ Liste Yazdır — kişileri (sekme / tümü / seçtiklerim) ve sütunları seçin, istediğiniz adla boş sütun (İmza, Tarih…) ekleyin, başlığı yazın; Yazdır / PDF / Word',
+            'Personel Havuzu → 📊 Raporlar: Görevlendirme Tebliğ-Tebellüğ Belgesi — öğretmenin bütün görevleri tek belgede, tebellüğ eden solda, tebliğ eden sağda imza; tüm öğretmenler tek seferde (her biri ayrı sayfa)',
+            'Destek Eğitim: ders adlarının yanındaki saat sayısı kaldırıldı (program, ücret onayı, dilekçe, çizelge)',
+            'Belgeyi Düzenle düzeltmesi: bir evrakta yapılan düzenleme artık yalnız o evraka kaydedilir; başka evraka geçince düzenlenen evrak onun yerine çıkmaz (sıfırlamaya gerek kalmaz)',
+            'Destek Eğitim: okulda görev yapmayan (elle yazılan) öğretmen için branş ve kadrosunun bulunduğu okul sorulur; ücret onayı ve dilekçelere otomatik gelir; branşın yanındaki sınıf/şube kaldırıldı; öğretmen dilekçelerinde T.C. kimlik no ve telefon',
             'TYP EK-2: İŞKUR logosu hazır geliyor; yükleme gerekmez (isterseniz farklı görsel yüklenebilir)',
             'TYP/İUP: EK-1, EK-2 ve EK-6’da 1. sıradaki personelin takvimi şablon — yapılan değişiklik tüm personele uygulanır (ekranda not, çıktıda yok); EK-1 satır sayısı personel sayısı kadar; il adı programdan gelir ve elle değiştirilebilir; TYP’de hafta içi + Cumartesi açık; İUP’de ilk 4 hafta hafta içi 5 gün, sonra Pzt-Sal-Çar açık; ay hücresi renkli',
             'Yeni modül: 📚 İYEP Planlama (2026 TYMM programı) — onay çizelgesi ve Excel, öğretmen kurs takvimi, değerlendirme raporu, öğretmen planı, tamamlama ve devamsızlık tutanakları; okul, il/ilçe, müdür, müdür yardımcısı, rehber öğretmen ve öğretmen listesi portaldan gelir, kayıtlar yedeğe girer',
