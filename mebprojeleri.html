@@ -150,9 +150,11 @@ footer{text-align:center;padding:1.8rem 1rem;color:var(--muted);font-size:.88rem
 <button data-section="basvuru">Başvuru Adımları</button>
 <button data-section="havuz">Veri Havuzu</button>
 <button data-section="kontrol">Kontrol Listeleri</button>
+<button data-section="yedek">Kayıt &amp; Yedek</button>
 <button data-section="hakkinda">Kullanım Rehberi</button>
 </nav>
 
+<div id="yedekBanner" class="alert no-print" style="display:none;margin-top:0">Verileriniz yalnızca bu tarayıcıda duruyor ve son 7 günde yedek alınmadı. <a href="#" onclick="showTab('yedek');return false" style="font-weight:700;color:var(--primary)">Şimdi yedek alın →</a></div>
 <section id="projeler" class="section active">
 <input type="text" class="search-box no-print" id="search" placeholder="Proje ara: tübitak, çedes, dilimizin zenginlikleri, mavi yeşil, harezmi, etwinning...">
 <div class="project-grid" id="projectGrid"></div>
@@ -207,6 +209,7 @@ Elif Şahin | Türkçe Öğretmeni"></textarea>
 <button type="button" class="btn" onclick="saveHavuz()">Değişiklikleri Kaydet</button>
 <button type="button" class="btn outline" onclick="clearHavuz()">Havuzu Temizle</button>
 </div>
+<p id="otoKayitDurum" style="margin-top:.6rem;font-size:.9rem;color:var(--muted)">Alanlar yazdıkça otomatik kaydedilir.</p>
 <p id="havuzMsg" style="margin-top:.8rem;font-size:.95rem;color:var(--accent);display:none;font-weight:700"></p>
 </div>
 </section>
@@ -215,6 +218,35 @@ Elif Şahin | Türkçe Öğretmeni"></textarea>
 <h2 style="margin-bottom:.9rem;color:var(--primary)">Proje Kontrol Listeleri</h2>
 <div class="alert">İşaretleriniz bu cihazda kaydedilir. Maddeler ilgili kılavuzların temel kilometre taşlarıdır; denetim ve yıl sonu raporlamasında tamamlanmış olmaları beklenir.</div>
 <div id="kontrolContent"></div>
+</section>
+
+<section id="yedek" class="section">
+<h2 style="margin-bottom:.5rem;color:var(--primary)">Kayıt &amp; Yedek</h2>
+<p style="color:var(--muted);font-size:.95rem;margin-bottom:1rem">Veri havuzu, Okulum Temiz tesis seçimleri, kontrol listeleri ve kaydettiğiniz belgeler bu tarayıcıda otomatik saklanır. Tarayıcı verisi silinir, dosya farklı bir uygulamayla açılır veya telefon değişirse kaybolur; bu yüzden düzenli olarak yedek dosyası alın.</p>
+<div class="evrak-form"><h4>Depolama Durumu</h4><div id="yedekDurum"></div></div>
+<div class="evrak-form">
+<h4>Yedek Al</h4>
+<p style="font-size:.95rem;margin-bottom:.6rem">Tüm veriler tek bir <b>.json</b> dosyasına yazılır. Dosyayı Google Drive'a, e-postaya veya bilgisayarınıza kopyalayın.</p>
+<div class="doc-actions" style="border:none;margin-top:0;padding-top:0">
+<button type="button" class="btn" onclick="yedekIndir()">⬇️ Yedek Dosyası İndir</button>
+<button type="button" class="btn outline" onclick="yedekKopyala()">📋 Yedeği Metin Olarak Kopyala</button>
+</div>
+</div>
+<div class="evrak-form">
+<h4>Yedekten Geri Yükle</h4>
+<label style="display:flex;gap:.5rem;align-items:flex-start;font-size:.95rem;margin-bottom:.8rem;cursor:pointer"><input type="checkbox" id="yedekBirlestir" checked style="margin-top:.3rem"><span><b>Birleştir</b>: Kayıtlı belgeler korunur, yedektekiler eklenir. İşaret kaldırılırsa bu cihazdaki tüm veriler yedekle değiştirilir.</span></label>
+<div class="doc-actions" style="border:none;margin-top:0;padding-top:0">
+<label class="btn secondary" style="display:inline-block;cursor:pointer">📂 Yedek Dosyası Seç<input type="file" accept=".json,application/json,text/plain" onchange="yedekDosyaSecildi(this)" style="display:none"></label>
+</div>
+<div class="form-group" style="margin-top:.8rem"><label>veya yedek metnini yapıştırın</label><textarea id="yedekMetin" style="min-height:80px;font-family:monospace;font-size:.8rem" placeholder='{"uygulama":"MEB Okul Projeleri Asistanı", ...}'></textarea></div>
+<button type="button" class="btn outline" onclick="yedekMetindenYukle()">Metinden Geri Yükle</button>
+</div>
+<div id="yedekMsg" class="alert" style="display:none"></div>
+<div class="evrak-form">
+<h4>Kayıtlı Belgeler</h4>
+<div id="belgeListe"></div>
+</div>
+<div style="text-align:right;margin-top:1rem"><button type="button" class="btn danger" onclick="tumVerileriSil()">Bu Cihazdaki Tüm Verileri Sil</button></div>
 </section>
 
 <section id="hakkinda" class="section">
@@ -226,14 +258,15 @@ Elif Şahin | Türkçe Öğretmeni"></textarea>
 <li><b>3. Evrak üretimi:</b> Proje kartından “Kılavuz &amp; Evrak” → evrak türü → bilgileri kontrol edin → “Belgeyi Üret”. Belge önizlemede doğrudan düzenlenebilir.</li>
 <li><b>4. Çıktı:</b> “Yazdır / PDF” yazdırma penceresini açar; PDF için hedef olarak “PDF olarak kaydet”i seçin (internet gerekmez). “Word (.doc)” düzenlenebilir dosya indirir.</li>
 <li><b>Resmî yazışma kuralları:</b> Üst yazı ve oluru içeren şablonlar 10.06.2020 tarihli Resmî Yazışmalarda Uygulanacak Usul ve Esaslar Hakkında Yönetmeliğe göre düzenlenmiştir: Times New Roman 12 punto, Sayı/Konu/tarih yerleşimi, hitap ve imza blokları. Sayı EBYS'de belge oluşturulurken alınır; şablondaki sayı alanını DYS'de güncelleyin.</li>
-<li><b>Veri güvenliği:</b> Girilen bilgiler sunucuya gönderilmez, yalnızca bu tarayıcının yerel belleğinde tutulur. Tarayıcı verisi silinirse havuz da silinir.</li>
+<li><b>Veri güvenliği ve yedek:</b> Girilen bilgiler sunucuya gönderilmez; bu tarayıcıda otomatik kaydedilir. Tarayıcı verisi silinirse kaybolur. “Kayıt &amp; Yedek” sekmesinden haftada bir yedek dosyası alın; yeni telefonda aynı sekmeden geri yükleyin.</li>
+<li><b>Belge arşivi:</b> Üretip düzenlediğiniz belgeyi “💾 Belgeyi Kaydet” ile saklayın; “Kayıt &amp; Yedek” sekmesinden yeniden açabilirsiniz.</li>
 <li><b>KVKK:</b> Veli izin/açık rıza belgelerini proje dosyasında saklayın; öğrenci görsellerini rıza vermeyen veliler için yayımlamayın.</li>
 <li><b>Mevzuat güncellemesi:</b> Kılavuz ve çağrılar her yıl güncellenebilir; nihai şartlar için ilgili genel müdürlüğün/kurumun resmî duyurusu esastır.</li>
 </ul>
 </div>
 </section>
 </div>
-<footer>MEB Okul Projeleri Asistanı V4 • Çevrimdışı çalışır • Eğitim ve bilgilendirme amaçlıdır • Resmî kurumlarla doğrudan bağlantısı yoktur</footer>
+<footer>MEB Okul Projeleri Asistanı V5 • Çevrimdışı çalışır • Eğitim ve bilgilendirme amaçlıdır • Resmî kurumlarla doğrudan bağlantısı yoktur</footer>
 <div id="printRoot"></div>
 <script>
 // ================= YARDIMCILAR =================
@@ -301,6 +334,7 @@ function saveHavuz(){
   const msg=document.getElementById('havuzMsg');
   msg.style.display='block';
   msg.style.color= ok ? 'var(--accent)' : 'var(--danger)';
+  if(ok) lsSet('mebProjeMetaV1', Object.assign(lsGet('mebProjeMetaV1',{})||{}, {sonDegisiklik:Date.now()}));
   msg.textContent= ok ? '✓ Havuz kaydedildi ('+d.personel.length+' personel).' : 'Kaydedilemedi: tarayıcı yerel depolamaya izin vermiyor. Dosyayı Chrome ile açmayı deneyin.';
   setTimeout(()=>{msg.style.display='none';},4500);
 }
@@ -755,6 +789,7 @@ function renderBsvTab(filter){
 function showTab(id){
   document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active', b.dataset.section===id));
   document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active', s.id===id));
+  if(id==='yedek' && typeof renderYedek==='function') renderYedek();
 }
 function gotoBasvuru(id){
   showTab('basvuru');
@@ -839,6 +874,7 @@ function showDetail(id){
         <button type="button" class="btn secondary" onclick="printDoc()">🖨️ Yazdır / PDF</button>
         <button type="button" class="btn outline" onclick="downloadWord()">⬇️ Word (.doc)</button>
         <button type="button" class="btn outline" onclick="copyOutput()">📋 Kopyala</button>
+        <button type="button" class="btn" style="background:#6a1b9a" onclick="belgeKaydet()">💾 Belgeyi Kaydet</button>
       </div>
     </div>
     <p class="output-hint no-print" id="outputHint"></p>
@@ -2232,5 +2268,217 @@ renderBsvTab();
 renderKontrol();
 loadHavuz();
 </script>
+<script>
+// ================= KAYIT & YEDEK =================
+const BELGE_KEY='mebProjeBelgelerV1';
+const META_KEY='mebProjeMetaV1';
+const YEDEK_ANAHTARLAR=[HAVUZ_KEY, OT_KEY, KONTROL_KEY, BELGE_KEY];
+const YEDEK_SURUM=1;
+
+// --- Depolama durumu ---
+function depolamaCalisiyor(){
+  try{ const k='__mebTest'; localStorage.setItem(k,'1'); localStorage.removeItem(k); return true; }catch(e){ return false; }
+}
+function depoBoyutu(){
+  let t=0; YEDEK_ANAHTARLAR.forEach(k=>{ try{ const v=localStorage.getItem(k); if(v) t+=v.length*2; }catch(e){} });
+  return t;
+}
+function kb(n){ return n<1024 ? n+' B' : (n/1024).toFixed(1)+' KB'; }
+function getMeta(){ return lsGet(META_KEY,{})||{}; }
+function setMeta(p){ const m=Object.assign(getMeta(),p); lsSet(META_KEY,m); }
+function tarihSaat(ts){ if(!ts) return '—'; const d=new Date(ts); return pad2(d.getDate())+'.'+pad2(d.getMonth()+1)+'.'+d.getFullYear()+' '+pad2(d.getHours())+':'+pad2(d.getMinutes()); }
+
+async function kaliciDepolamaIste(){
+  try{ if(navigator.storage && navigator.storage.persist){ const ok=await navigator.storage.persist(); setMeta({kalici:ok}); return ok; } }catch(e){}
+  return false;
+}
+
+// --- Veri havuzu otomatik kayıt ---
+let __otoKayitT=null;
+function havuzOtomatikKaydet(){
+  clearTimeout(__otoKayitT);
+  __otoKayitT=setTimeout(function(){
+    const d={};
+    for(const [id,key] of Object.entries(HAVUZ_ALANLAR)){ const el=document.getElementById(id); d[key]=el?String(el.value||'').trim():''; }
+    d.personelText=(document.getElementById('h_personel').value||'').trim();
+    d.personel=parsePersonelText(d.personelText);
+    const ok=lsSet(HAVUZ_KEY,d);
+    const s=document.getElementById('otoKayitDurum');
+    if(s){ s.textContent= ok ? '✓ Otomatik kaydedildi • '+tarihSaat(Date.now()).slice(-5) : '⚠ Kaydedilemedi — yedek dosyası alın'; s.style.color= ok?'var(--accent)':'var(--danger)'; }
+    if(ok) setMeta({sonDegisiklik:Date.now()});
+  },700);
+}
+function otoKayitBagla(){
+  Object.keys(HAVUZ_ALANLAR).concat(['h_personel']).forEach(id=>{
+    const el=document.getElementById(id); if(!el) return;
+    el.addEventListener('input',havuzOtomatikKaydet);
+    el.addEventListener('change',havuzOtomatikKaydet);
+  });
+}
+
+// --- Belge arşivi ---
+function getBelgeler(){ return lsGet(BELGE_KEY,[])||[]; }
+function belgeKaydet(){
+  const html=aktifBelgeHtml();
+  if(!html){ alert('Lütfen önce belgeyi üretin.'); return; }
+  const tur=((document.getElementById('docFormTitle')||{}).textContent||'Evrak').split('—')[0].trim();
+  const vars=(currentProje?currentProje.name:'')+' — '+tur;
+  const ad=prompt('Belge adı:', vars);
+  if(ad===null) return;
+  const liste=getBelgeler();
+  const kayit={id:'b'+Date.now(), ad:(ad||vars).trim(), proje:currentProje?currentProje.id:'', projeAd:currentProje?currentProje.name:'', tur:currentDocType||'', html:html, tarih:Date.now()};
+  liste.unshift(kayit);
+  if(!lsSet(BELGE_KEY,liste)){
+    alert('Belge kaydedilemedi. Tarayıcı belleği dolu veya kapalı olabilir. Eski belgeleri silin ya da “Word” ile indirin.');
+    return;
+  }
+  setMeta({sonDegisiklik:Date.now()});
+  alert('✓ Belge tarayıcıya kaydedildi. “Kayıt & Yedek” sekmesinden açabilirsiniz.');
+  renderYedek();
+}
+function belgeAc(id){
+  const b=getBelgeler().find(x=>x.id===id); if(!b) return;
+  const p=projects.find(x=>x.id===b.proje);
+  showTab('projeler');
+  if(p){ showDetail(p.id); const ev=p.evraklar.find(e=>e.code===b.tur); if(ev) selectDoc(ev.code,ev.label); }
+  showHtmlOutput(b.html);
+  const h=document.getElementById('outputHint');
+  if(h) h.innerHTML+=' <b>Kayıtlı belge açıldı:</b> '+esc(b.ad)+'. Değişiklikten sonra “Belgeyi Kaydet” ile yeni sürüm olarak saklayın.';
+}
+function belgeSil(id){
+  const b=getBelgeler().find(x=>x.id===id); if(!b) return;
+  if(!confirm('“'+b.ad+'” silinsin mi?')) return;
+  lsSet(BELGE_KEY,getBelgeler().filter(x=>x.id!==id)); renderYedek();
+}
+
+// --- Yedek dosyası ---
+function yedekVerisi(){
+  const veri={};
+  YEDEK_ANAHTARLAR.forEach(k=>{ const v=lsGet(k,null); if(v!==null) veri[k]=v; });
+  return {uygulama:'MEB Okul Projeleri Asistanı', surum:YEDEK_SURUM, tarih:new Date().toISOString(), veri:veri};
+}
+function yedekAdi(){
+  const h=getHavuz(); const okul=(h.okul||'okul').replace(/[^\wçğıöşüÇĞİÖŞÜ]+/g,'_').slice(0,30);
+  const d=new Date(); return 'MEB_Projeler_Yedek_'+okul+'_'+d.getFullYear()+pad2(d.getMonth()+1)+pad2(d.getDate())+'_'+pad2(d.getHours())+pad2(d.getMinutes())+'.json';
+}
+function yedekIndir(){
+  const json=JSON.stringify(yedekVerisi(),null,1);
+  try{
+    const blob=new Blob([json],{type:'application/json'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=yedekAdi();
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(a.href),3000);
+    setMeta({sonYedek:Date.now()}); renderYedek();
+    yedekMesaj('✓ Yedek dosyası indirildi (İndirilenler klasörü). Telefon değişiminde veya tarayıcı temizliğinde bu dosyayla geri yükleyebilirsiniz.','ok');
+  }catch(e){
+    yedekMesaj('İndirme başarısız oldu. “Yedeği metin olarak kopyala” seçeneğini kullanın.','hata');
+  }
+}
+async function yedekKopyala(){
+  const json=JSON.stringify(yedekVerisi());
+  const ta=document.getElementById('yedekMetin'); ta.value=json;
+  let ok=false;
+  try{ if(navigator.clipboard){ await navigator.clipboard.writeText(json); ok=true; } }catch(e){}
+  if(!ok){ ta.focus(); ta.select(); try{ ok=document.execCommand('copy'); }catch(e){} }
+  if(ok){ setMeta({sonYedek:Date.now()}); renderYedek(); }
+  yedekMesaj(ok?'✓ Yedek panoya kopyalandı. Not uygulamasına, e-postaya veya WhatsApp\'ta kendinize yapıştırarak saklayın.':'Metin kutuya yazıldı; seçip elle kopyalayın.', ok?'ok':'bilgi');
+}
+function yedekMesaj(t,tip){
+  const m=document.getElementById('yedekMsg'); if(!m) return;
+  m.style.display='block'; m.className='alert '+(tip==='ok'?'ok':tip==='hata'?'':'info'); m.textContent=t;
+}
+
+function yedekDogrula(obj){
+  if(!obj || typeof obj!=='object' || !obj.veri || typeof obj.veri!=='object') throw new Error('Bu dosya bir MEB Projeleri Asistanı yedeği değil.');
+  const tanimsiz=Object.keys(obj.veri).filter(k=>!YEDEK_ANAHTARLAR.includes(k));
+  if(tanimsiz.length===Object.keys(obj.veri).length) throw new Error('Yedekte tanınan veri bulunamadı.');
+  return obj;
+}
+function yedekOzet(obj){
+  const v=obj.veri, h=v[HAVUZ_KEY]||{};
+  return '• Okul: '+(h.okul||'—')+'\n• Personel: '+((h.personel||[]).length)+' kişi\n• Kayıtlı belge: '+((v[BELGE_KEY]||[]).length)+'\n• Kontrol işareti: '+Object.values(v[KONTROL_KEY]||{}).filter(Boolean).length+'\n• Yedek tarihi: '+(obj.tarih?tarihSaat(Date.parse(obj.tarih)):'—');
+}
+function yedekUygula(obj){
+  yedekDogrula(obj);
+  const birlestir=document.getElementById('yedekBirlestir').checked;
+  if(!confirm('Yedek içeriği:\n'+yedekOzet(obj)+'\n\n'+(birlestir?'Mevcut verilerle BİRLEŞTİRİLECEK (veri havuzu yedektekiyle değişir, belgeler eklenir).':'Mevcut tüm veriler SİLİNİP yedekle DEĞİŞTİRİLECEK.')+'\n\nDevam edilsin mi?')) return;
+  // güvenlik: geri yüklemeden önce mevcut durumu hafızaya al
+  const onceki=yedekVerisi();
+  try{
+    YEDEK_ANAHTARLAR.forEach(k=>{
+      if(!(k in obj.veri)){ if(!birlestir){ try{ localStorage.removeItem(k); }catch(e){} } return; }
+      if(birlestir && k===BELGE_KEY){
+        const mevcut=getBelgeler(), ids=new Set(mevcut.map(b=>b.id));
+        lsSet(k, mevcut.concat((obj.veri[k]||[]).filter(b=>!ids.has(b.id))).sort((a,b)=>b.tarih-a.tarih));
+      } else if(birlestir && k===KONTROL_KEY){
+        lsSet(k, Object.assign({}, lsGet(k,{})||{}, obj.veri[k]));
+      } else {
+        if(!lsSet(k, obj.veri[k])) throw new Error('Tarayıcı belleğine yazılamadı.');
+      }
+    });
+  }catch(e){
+    Object.entries(onceki.veri).forEach(([k,v])=>lsSet(k,v));
+    yedekMesaj('Geri yükleme başarısız, önceki veriler korundu: '+e.message,'hata'); return;
+  }
+  setMeta({sonGeriYukleme:Date.now()});
+  loadHavuz(); renderKontrol(); renderYedek();
+  const box=document.getElementById('otTesisBox'); if(box) box.remove();
+  yedekMesaj('✓ Yedek geri yüklendi. Veri havuzu, belgeler ve kontrol listeleri güncellendi.','ok');
+}
+function yedekDosyaSecildi(inp){
+  const f=inp.files&&inp.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=function(){ try{ yedekUygula(JSON.parse(r.result)); }catch(e){ yedekMesaj('Dosya okunamadı: '+e.message,'hata'); } inp.value=''; };
+  r.onerror=function(){ yedekMesaj('Dosya okunamadı.','hata'); inp.value=''; };
+  r.readAsText(f,'utf-8');
+}
+function yedekMetindenYukle(){
+  const t=(document.getElementById('yedekMetin').value||'').trim();
+  if(!t){ yedekMesaj('Önce yedek metnini kutuya yapıştırın.','bilgi'); return; }
+  try{ yedekUygula(JSON.parse(t)); }catch(e){ yedekMesaj('Metin geçerli bir yedek değil: '+e.message,'hata'); }
+}
+function tumVerileriSil(){
+  if(!confirm('Bu cihazdaki TÜM veriler (veri havuzu, tesis seçimleri, kontrol listeleri, kayıtlı belgeler) silinecek. Önce yedek almanız önerilir.\n\nDevam edilsin mi?')) return;
+  if(prompt('Onaylamak için SİL yazın:')!=='SİL') return;
+  YEDEK_ANAHTARLAR.concat([META_KEY]).forEach(k=>{ try{ localStorage.removeItem(k); }catch(e){} });
+  location.reload();
+}
+
+// --- Ekran ---
+function renderYedek(){
+  const el=document.getElementById('yedekDurum'); if(!el) return;
+  const calisiyor=depolamaCalisiyor(), m=getMeta(), h=getHavuz(), belgeler=getBelgeler();
+  const gun = m.sonYedek ? Math.floor((Date.now()-m.sonYedek)/86400000) : null;
+  const yedekUyari = !m.sonYedek ? '<span class="durum kapali">Henüz yedek alınmadı</span>' : gun>=7 ? `<span class="durum bekle">Son yedek ${gun} gün önce</span>` : '<span class="durum acik">Yedek güncel</span>';
+  el.innerHTML = `
+    ${calisiyor?'':'<div class="alert"><b>Tarayıcı belleği kullanılamıyor.</b> Dosya bu şekilde açıldığında veriler kaydedilemiyor olabilir. Dosyayı Chrome ile açın veya her oturum sonunda yedek dosyası alın.</div>'}
+    <table class="bsv-takvim"><tbody>
+      <tr><td>Tarayıcı belleği</td><td>${calisiyor?'<span class="durum acik">Çalışıyor</span>':'<span class="durum kapali">Kapalı</span>'} ${m.kalici?'<span class="durum surekli">Kalıcı depolama onaylı</span>':''}</td></tr>
+      <tr><td>Kullanılan alan</td><td>${kb(depoBoyutu())}</td></tr>
+      <tr><td>Veri havuzu</td><td>${h.okul?esc(h.okul):'—'} • ${(h.personel||[]).length} personel</td></tr>
+      <tr><td>Kayıtlı belge</td><td>${belgeler.length}</td></tr>
+      <tr><td>Son değişiklik</td><td>${tarihSaat(m.sonDegisiklik)}</td></tr>
+      <tr><td>Son yedek</td><td>${tarihSaat(m.sonYedek)} ${yedekUyari}</td></tr>
+    </tbody></table>`;
+  const bl=document.getElementById('belgeListe');
+  bl.innerHTML = belgeler.length ? belgeler.map(b=>`
+    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;padding:.6rem .2rem;border-bottom:1px solid #eef2f6">
+      <div style="flex:1 1 220px;min-width:0"><b>${esc(b.ad)}</b><br><span style="font-size:.85rem;color:var(--muted)">${tarihSaat(b.tarih)}${b.projeAd?' • '+esc(b.projeAd):''}</span></div>
+      <button class="btn" style="margin:0" onclick="belgeAc('${b.id}')">Aç</button>
+      <button class="btn outline" style="margin:0" onclick="belgeSil('${b.id}')">Sil</button>
+    </div>`).join('') : '<p style="color:var(--muted)">Henüz kayıtlı belge yok. Belge ürettikten sonra “💾 Belgeyi Kaydet” düğmesini kullanın.</p>';
+  const ban=document.getElementById('yedekBanner');
+  if(ban){
+    const goster = calisiyor && (h.okul||belgeler.length) && (!m.sonYedek || gun>=7);
+    ban.style.display = goster ? 'block' : 'none';
+  }
+}
+function yedekBaslat(){
+  otoKayitBagla();
+  kaliciDepolamaIste().then(renderYedek);
+  renderYedek();
+}
+</script>
+<script>yedekBaslat();</script>
 </body>
 </html>
