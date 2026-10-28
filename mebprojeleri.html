@@ -123,9 +123,48 @@ footer{text-align:center;padding:1.8rem 1rem;color:var(--muted);font-size:.88rem
 .doc .imza-tablo td{height:34pt}
 .doc .uyari-kutu{background:#fff3cd;border:2px solid #e65100;border-radius:6px;padding:10pt;margin-bottom:12pt}
 
+/* E/H ve M/S gibi dar sütunlar */
+.doc table.oz-tablo td:nth-child(4),.doc table.oz-tablo td:nth-child(5),.doc table.oz-tablo th:nth-child(4),.doc table.oz-tablo th:nth-child(5){padding-left:1pt;padding-right:1pt;word-break:normal;overflow-wrap:normal}
+.doc table.oz-tablo tr.sec td{text-align:left}
+.doc table.oz-tablo thead th:nth-child(4),.doc table.oz-tablo thead th:nth-child(5){white-space:nowrap}
+@media(max-width:700px){.output-html table:not(.nb){min-width:620px}.output-html table.oz-tablo{min-width:680px}}
+/* SB.FR.059 resmî form */
+.doc table.sb-dis{table-layout:fixed;margin:0}
+.doc table.sb-dis>thead>tr>td,.doc table.sb-dis>tbody>tr>td{border:none!important;padding:0!important;background:none!important}
+.doc .sb059 table.sb-hdr,.doc .sb059 table.sb-kur,.doc .sb059 table.sb-ana{font-size:10pt;margin:0 0 8pt}
+.doc .sb059 .sb-hdr td{vertical-align:middle;padding:1pt 4pt;font-size:8pt;line-height:1.25}
+.doc .sb059 .sb-hdr .sb-logo{text-align:center}
+.doc .sb059 .sb-hdr .sb-logo img{width:62pt;height:62pt}
+.doc .sb059 .sb-hdr .sb-kurum{text-align:center;font-size:10pt}
+.doc .sb059 .sb-hdr .sb-ad{text-align:center;font-size:11pt;line-height:1.3}
+.doc .sb059 .sb-hdr .sb-v{text-align:center}
+.doc .sb059 .sb-kur td{padding:5pt 5pt;vertical-align:middle;line-height:1.3}
+.doc .sb059 .sb-ana td{line-height:1.2;padding:2pt 4pt;vertical-align:middle}
+.doc .sb059 .sb-ana .sb-q{text-align:justify}
+.doc .sb059 .sb-ana .sb-no{text-align:center;font-size:9pt;font-weight:700;padding:2pt 1pt}
+.doc .sb059 .sb-ana .sb-d{font-size:9pt}
+.doc .sb059 .sb-ana .sb-eh,.doc .sb059 .sb-ana .sb-ms{text-align:center;font-size:10pt;word-break:normal;overflow-wrap:normal}
+.doc .sb059 .sb-ana tr.sb-sec td{background:#f2f2f2;font-weight:400}
+.doc .sb059 .sb-ana tr.sb-genel td{text-align:justify}
+.doc .sb059 .sb-ana tr.sb-baslik td{text-align:center;font-weight:700;font-size:8pt;vertical-align:middle;word-break:keep-all;overflow-wrap:normal;padding:2pt 1pt;line-height:1.25}
+.doc .sb059 .sb-not{font-size:10pt;line-height:1.25;text-align:justify}
+.doc .sb059 .sb-not p{margin:0}
+@media(max-width:700px){.output-html .sb059{min-width:700px}.output-html .sb059 table{min-width:0!important}}
+/* Tablo düzenleme */
+.output-html td.tb-aktif,.output-html th.tb-aktif{outline:2px solid #1976d2;outline-offset:-2px;background:#e3f2fd}
+.output-html col.tb-aktif-sutun{background:#f1f8ff}
+#tbAracCubugu{display:none;position:fixed;left:0;right:0;bottom:0;z-index:50;background:#0d2c5a;color:#fff;padding:.45rem .5rem calc(.45rem + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.25)}
+#tbAracCubugu .tb-satir{display:flex;gap:.35rem;overflow-x:auto;-webkit-overflow-scrolling:touch;align-items:center;max-width:1180px;margin:0 auto}
+#tbAracCubugu button{flex:0 0 auto;background:#1e4a86;color:#fff;border:1px solid #3d6fb0;border-radius:6px;padding:.42rem .6rem;font-size:.88rem;cursor:pointer;white-space:nowrap}
+#tbAracCubugu button:hover{background:#2a5fa6}
+#tbAracCubugu button.tb-kapat{background:#5c6b7a;border-color:#7a8a99}
+#tbAracCubugu .tb-ayrac{flex:0 0 1px;align-self:stretch;background:#3d6fb0;margin:0 .15rem}
+#tbAracCubugu .tb-bilgi{flex:0 0 auto;font-size:.82rem;opacity:.85;padding:0 .3rem;white-space:nowrap}
+body.tb-acik footer{padding-bottom:5rem}
 #printRoot{display:none}
 @media print{
   @page{size:A4;margin:15mm 15mm 15mm 20mm}
+  @page sb059{size:A4;margin:10mm 15mm 14mm 15mm;@bottom-right{content:"Sayfa " counter(page) "/" counter(pages);font-family:'Times New Roman',serif;font-size:8pt}}
   body{background:#fff}
   body *{visibility:hidden!important}
   #printRoot,#printRoot *{visibility:visible!important}
@@ -133,7 +172,9 @@ footer{text-align:center;padding:1.8rem 1rem;color:var(--muted);font-size:.88rem
   #printRoot tr{page-break-inside:avoid}
   #printRoot thead{display:table-header-group}
   #printRoot .uyari-kutu{display:none!important}
-  header,nav,footer,.no-print{display:none!important}
+  #printRoot .sb059{page:sb059}
+  #printRoot .sb059 tr{page-break-inside:avoid}
+  header,nav,footer,.no-print,#tbAracCubugu{display:none!important}
 }
 </style>
 </head>
@@ -266,7 +307,7 @@ Elif Şahin | Türkçe Öğretmeni"></textarea>
 </div>
 </section>
 </div>
-<footer>MEB Okul Projeleri Asistanı V5 • Çevrimdışı çalışır • Eğitim ve bilgilendirme amaçlıdır • Resmî kurumlarla doğrudan bağlantısı yoktur</footer>
+<footer>MEB Okul Projeleri Asistanı V7 • Çevrimdışı çalışır • Eğitim ve bilgilendirme amaçlıdır • Resmî kurumlarla doğrudan bağlantısı yoktur</footer>
 <div id="printRoot"></div>
 <script>
 // ================= YARDIMCILAR =================
@@ -948,7 +989,8 @@ const OT_TESIS=[
 {k:'konferans',l:'Konferans / Çok Amaçlı Salon'},{k:'kutuphane',l:'Kütüphane'},{k:'ogretmenler_odasi',l:'Öğretmenler Odası'},
 {k:'guvenlik_danisma',l:'Güvenlik / Danışma'},{k:'atik_depolama',l:'Atık Geçici Depolama'},{k:'su_deposu',l:'Su Deposu'},
 {k:'oyun_alani',l:'Bahçe / Açık Oyun Alanı'},{k:'kapali_oyun',l:'Kapalı Oyun Alanı'},{k:'asansor',l:'Asansör'},
-{k:'mescit',l:'Mescit / İbadethane'},{k:'ambulans',l:'Ambulans'}
+{k:'mescit',l:'Mescit / İbadethane'},{k:'ambulans',l:'Ambulans'},
+{k:'hizmet_araci',l:'Kurum Hizmet Aracı'},{k:'havuz',l:'Yüzme Havuzu'},{k:'yurt',l:'Pansiyon / Yurt / Misafirhane'},{k:'camasirhane',l:'Çamaşırhane'}
 ];
 const OT_VARSAYILAN=['yemekhane','kantin','revir','kutuphane','ogretmenler_odasi','guvenlik_danisma','atik_depolama','oyun_alani'];
 const OT_KEY='mebOtTesisV1';
@@ -967,7 +1009,7 @@ function ensureOtTesisUI(){
       +'<p style="font-size:.88rem;color:#555;margin-bottom:.6rem">İşaretlenenler “E” + dokümantasyonla yazılır; işaretlenmeyenler için “Okulumuzda böyle bir yer bulunmamaktadır” yazılır ve planlardan çıkarılır. Seçim bu cihazda hatırlanır.</p>'
       +'<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px">'
       +OT_TESIS.map(t=>`<label style="display:flex;align-items:center;gap:6px;font-size:.92rem;background:#fff;padding:6px 8px;border-radius:6px;border:1px solid #cfd8dc;cursor:pointer"><input type="checkbox" id="ot_${t.k}">${t.l}</label>`).join('')
-      +'</div><h4 style="margin:1rem 0 .5rem;color:var(--primary);font-size:1rem">Sorumlular</h4>'
+      +'</div><label style="display:flex;gap:.5rem;align-items:flex-start;margin-top:.8rem;font-size:.92rem;cursor:pointer"><input type="checkbox" id="ot_oz_oto" style="margin-top:.25rem"><span><b>Öz değerlendirme (SB.FR.059):</b> Dokümantasyon ve E/H sütunlarını tesis seçimine göre otomatik doldur. İşaret kaldırılırsa resmî form boş çıkar.</span></label>'+'</div><h4 style="margin:1rem 0 .5rem;color:var(--primary);font-size:1rem">Sorumlular</h4>'
       +'<div class="evrak-grid">'+sel('ot_acil','Acil Durum Sorumlusu')+sel('ot_mudahale','Acil Durum Müdahale Sorumlusu')+sel('ot_iletisim','İletişim Sorumlusu')+sel('ot_kkd','KKD Sorumlusu')
       +'<div><label style="font-size:.9rem;font-weight:700">Temizlik Personeli</label><input type="text" id="ot_temizlik_sorumlu" style="width:100%;padding:8px;border:1px solid #cfd8dc;border-radius:6px"></div>'
       +'<div><label style="font-size:.9rem;font-weight:700">Güvenlik / Danışma</label><input type="text" id="ot_guvenlik_sorumlu" style="width:100%;padding:8px;border:1px solid #cfd8dc;border-radius:6px"></div></div>';
@@ -979,6 +1021,8 @@ function ensureOtTesisUI(){
       cb.checked = saved ? !!saved[t.k] : OT_VARSAYILAN.includes(t.k);
       cb.addEventListener('change', saveOtTesis);
     });
+    const oz=document.getElementById('ot_oz_oto'); const ozv=lsGet('mebOtOzOtoV1',true); oz.checked = ozv!==false;
+    oz.addEventListener('change',()=>lsSet('mebOtOzOtoV1',oz.checked));
   }
   box.style.display='block';
   populateOtSorumluSelects();
@@ -1359,307 +1403,12 @@ function generateDoc(){
     const yard = mudurYrd || ornek.mudurYrd;
 
     if(type==='ot_oz'){
-      const dokE = 'Plan/talimat mevcut, kayıtlar tutulmakta ve uygulanmaktadır.';
-      const dokYok = 'Okulumuzda böyle bir yer / bölüm bulunmamaktadır.';
-      const r = (no,q,dok,eh,ms)=>`<tr><td style="width:8%">${no||''}</td><td style="width:38%">${q}</td><td style="width:32%">${dok||dokE}</td><td style="width:10%;text-align:center"><b>${eh||'E'}</b></td><td style="width:12%;text-align:center">${ms||''}</td></tr>`;
-      const sec = (t)=>`<tr class="sec"><td colspan="5">${t}</td></tr>`;
-      const tesisRow = (no,q,key,evetDok,ms)=>{
-        if(otVar(key)) return r(no,q,evetDok||dokE,'E',ms||'S');
-        return r(no,q,dokYok,'H',ms||'S');
-      };
-      // Genel tesis var mı yardımcı
-      const has = (k)=>otVar(k);
-
-      let rows = '';
-      rows += sec('1) KORUNMA VE KONTROL ÖNLEMLERİ YÖNETİM');
-      rows += r('1(BU)','Kuruluşta, tüm alanları içerecek şekilde ilgili tarafları da kapsayan hijyen ve enfeksiyon risklerine yönelik bir risk değerlendirmesi mevcut mu?','MEBBİS İSGB modülünde güncel risk değerlendirmesi yapılmış ve sisteme yüklenmiştir.','E','M');
-      rows += r('2(BU)','Kuruluşta, Enfeksiyon Önleme ve Kontrol Eylem Planı/Planları hazırlanmış mı?','Okula özel eylem planı hazırlanmış, personel ve öğrencilere tebliğ edilmiştir.','E','M');
-      rows += r('(BU)','a) Hijyen ve enfeksiyon risklerine özgü KKD gerekliliklerini içermekte mi?','Eylem planında KKD gereklilikleri belirtilmiştir.','E','M');
-      rows += r('(BU)','b) Uygun temizlik, hijyen uygulamaları ve gerektiğinde dezenfeksiyon işlemlerini içermekte mi?','Temizlik ve dezenfeksiyon planı eylem planına entegre edilmiştir.','E','M');
-      rows += r('(BU)','c) Tüm faaliyet planlamaları, özel grupların erişilebilirliğini dikkate almakta mı?','Özel eğitim ihtiyacı olan bireyler için erişilebilirlik dikkate alınmıştır.','E','M');
-      rows += r('(BU)','d) Hijyen ve enfeksiyon ile ilgili potansiyel acil durumlar konusunda ziyaretçilerin bilgilendirilmesi ve gerekli tedbirleri içermekte mi?','Ziyaretçi bilgilendirme ve taahhütname formları mevcuttur.','E','M');
-      rows += r('(BU)','e) Kuruluşta gerçekleştirilecek toplu etkinliklerin hijyen ve enfeksiyon riskleri dikkate alınarak kontrollü yapılmasını içermekte mi?','Toplu etkinlikler için risk değerlendirmesi ve önlemler planlanmıştır.','E','M');
-      rows += r('(BU)','f) Öğrenciler ve personelin devamsızlıklarının takip edilmesi, devamsızlıklardaki artışların hijyen ve enfeksiyon riskleri ile ilişkili olması halinde yapılacaklar belirlenmiş mi?','Devamsızlık takip ve bildirim prosedürü belirlenmiştir.','E','M');
-      rows += r('(BU)','g) Enfeksiyon durumlarında semptomları olanları tespit edebilmeye yönelik uygulamaları içermekte mi?','Semptom tespiti ve izolasyon prosedürü mevcuttur.','E','M');
-      rows += r('3(BU)','Kuruluşta enfeksiyon risklerine özgü Kontrol Önlemleri Hiyerarşisi oluşturulmuş mu?','Erken saptama, izolasyon, sağlık iletişimi, nakil ve etkinlik gözden geçirme adımları planlıdır.','E','M');
-      rows += r('(BU)','a) Enfeksiyon belirtileri olan kişilerin erken saptanmasını','Plan dahilindedir.','E','M');
-      rows += r('(BU)','b) Sağlık kuruluşları ile iletişim kurularak destek sağlanmasını','Plan dahilindedir.','E','M');
-      rows += r('(BU)','c) Enfeksiyon kaynağının izolasyonunu','Plan dahilindedir.','E','M');
-      rows += r('(BU)','d) Enfeksiyon kaynağına maruz kalanların sağlık kuruluşuna nakledilmesi/naklinin sağlanmasını','Plan dahilindedir.','E','M');
-      rows += r('(BU)','e) Alınan önlemler ve gerçekleştirilen faaliyetlerin etkinliğinin gözden geçirilmesini','Plan dahilindedir.','E','M');
-      rows += r('4(BU)','Kuruluşta gerekli olan iç ve dış iletişim planlamaları oluşturulmuş mu? (ne, ne zaman, kiminle, nasıl, kim)','İletişim planı (veli, personel, sağlık kurumları, 112) mevcuttur.','E','M');
-      rows += r('5(BU)','Kuruluş, hijyen, enfeksiyon önleme ve kontrol için ihtiyaç duyulan kaynakları tespit ve temin etmiş mi?','El antiseptiği, KKD, temizlik malzemeleri, dezenfektanlar temin edilmiştir.','E','M/S');
-      rows += r('(BU)','a) Kaynaklar belirtilerin tespiti, hijyen, izolasyon ve atık yönetimi için gerekli kaynakları içermekte mi?','Kaynak listesi eylem planında yer almaktadır.','E','M/S');
-      rows += r('(BU)','b) Sorumlu olacak yetkin kişi/kişileri belirlemiş ve görevlendirmiş mi?',`Okul Müdürü ${mudur}; temizlik personeli görevlendirilmiştir.`,'E','M/S');
-      rows += r('(BU)','c) Belirlenen kurallar ve önlemlerin çalışanlar ve diğer kişilere bildirilmesi güvence altına alınmış mı?','Talimatlar tebliğ edilmiş, eğitim kayıtları tutulmuştur.','E','M/S');
-      rows += tesisRow('6(BU)','Özel belirlenmiş alanlara (mutfak, su deposu vb.) kişilerin girişleri ile ilgili metot belirlenmiş mi?','yemekhane','Mutfak/su deposu giriş kuralları uygulanmakta; yetkisiz giriş engellenmektedir.','S');
-      rows += r('7(BU)','Çalışanların/öğrencilerin düzenli eğitimi, hijyen ve enfeksiyon farkındalığı sağlanmış mı?','SEKÖ, BBÖ, el hijyeni ve KKD eğitimleri planlanmış ve uygulanmıştır.','E','S');
-      rows += r('8(BU)','Kuruluş girişlerinde ve iç alanlara afiş, poster, tabela, uyarı işaretleri asılmış mı?','Tuvalet, koridor, giriş ve ortak alanlara hijyen afişleri asılmıştır.','E','S');
-      rows += r('9(BU)','Potansiyel salgın hastalık ve enfeksiyon riskleri için BBÖ eylem planı/yöntem belirlenmiş mi?','BBÖ planı hazır; KKD, izolasyon, bilgilendirme, yönlendirme, dezenfeksiyon adımları içerir.','E','M');
-      rows += r('(BU)','a) Uygun KKD kullanımı ve izolasyon','Plan dahilindedir.','E','M');
-      rows += r('(BU)','b) Yetkin sorumlu kişi/kişilerin yer alması','Plan dahilindedir.','E','M');
-      rows += r('(BU)','c) Yakınlara bilgilendirme','Plan dahilindedir.','E','M');
-      rows += r('(BU)','d) Kontrollü şekilde sağlık kuruluşlarına yönlendirme','Plan dahilindedir.','E','M');
-      rows += r('(BU)','e) Alanların boşaltılması, dezenfeksiyonu ve havalandırması','Plan dahilindedir.','E','M');
-      rows += r('(BU)','f) Uygun ek KKD kullanımı','Plan dahilindedir.','E','M');
-      rows += r('(BU)','g) KKD’lerin uygun şekilde çıkarılması','Plan dahilindedir.','E','M');
-      rows += r('(BU)','h) Tek kullanımlık malzemelerin tıbbi atık olarak bertarafı','Plan dahilindedir.','E','M');
-      rows += r('10(BU)','Salgın hastalık/enfeksiyon şüpheli vakalarının tahliyesi/transferi ile ilgili yöntem belirlenmiş mi?','Tahliye ve sağlık kuruluşuna yönlendirme prosedürü mevcuttur.','E','S');
-      rows += tesisRow('11(BU)','Kuruluş bünyesinde ambulans var ise kullanım ve temizlik kuralları uygulanmakta mı?','ambulans','Ambulans kullanım ve temizlik kuralları uygulanmaktadır.','S');
-      rows += r('12(BU)','Eğitim faaliyetine başlamadan önce ve periyotlarda genel temizlik planlaması ve kontrol yöntemi belirlenmiş mi?','Genel temizlik ve hijyen planı mevcut, kontrol formları tutulmaktadır.','E','M/S');
-      rows += r('13(BU)','Önlemler web sayfasında yayımlanmış mı? Velilere bilgilendirme yapılmış mı?','Velilere e-Okul/SMS/yazılı formlarla bilgilendirme yapılmış, taahhütnameler alınmıştır.','E','M/S');
-      rows += r('14(BU)','Alınan önlemler ve kuruluş şartları ilgili taraflara iletilmiş mi?','Veli bilgilendirme ve taahhütname formları dosyalanmıştır.','E','M/S');
-      rows += r('(BU)','a) Semptomlu öğrencilerin kuruluşa bildirilmesi','Yöntem veli bilgilendirmesinde yer almaktadır.','E','M/S');
-      rows += r('(BU)','b) Ailede hastalık durumunda kuruluşa bilgi verilmesi','Yöntem veli bilgilendirmesinde yer almaktadır.','E','M/S');
-      rows += r('(BU)','c) Bırakma/alma sırasında hijyen ilkelerine uyum','Yöntem veli bilgilendirmesinde yer almaktadır.','E','M/S');
-      rows += r('(BU)','d) Salgın riskinde öğrenci alma önlemleri','Yöntem veli bilgilendirmesinde yer almaktadır.','E','M/S');
-      rows += r('(BU)','e) Riskli grupların öğrencileri bırakıp almaması','Yöntem veli bilgilendirmesinde yer almaktadır.','E','M/S');
-      rows += r('(BU)','f) Yöntemin sürekliliği ve kontrolü','Uygulamalar kayıt ve denetim ile kontrol altındadır.','E','M/S');
-      rows += r('15(BU)','Kuruluş girişlerine el hijyeni altyapısı sağlanmış mı?','Girişlerde el antiseptiği ve bilgilendirme mevcuttur.','E','S');
-      rows += r('(BU)','a) KKD kullanımı bilgilendirme ve kontroller','Gerektiğinde yapılmaktadır.','E','S');
-      rows += r('(BU)','b) Herkesin KKD kuralına uygun kullanımı','Gerektiğinde bilgilendirme yapılmaktadır.','E','S');
-      rows += r('(BU)','c) KKD değiştirirken dikkat edilecek hususlar','Gerektiğinde bilgilendirme yapılmaktadır.','E','S');
-      rows += r('16(BU)','a) Tüm alanlarda el hijyeni için gerekli kaynaklar sağlanmış mı?','Sabun, kâğıt havlu ve antiseptik sağlanmıştır.','E','S');
-      rows += r('(BU)','b) El hijyeni kaynaklarının sürekliliği kontrol ediliyor mu?','Eksiklik kontrolleri yapılmaktadır.','E','S');
-
-      rows += sec('YÜKLENİCİLER, DIŞ SERVİS / HİZMET SUNUCULARI, ÜRÜN VE HİZMET TEDARİKÇİLERİ');
-      rows += r('1(KU)','a) Tedarikçiler temizlik, hijyen ve enfeksiyon önlemleri hakkında bilgilendirilmiş mi?','Tedarikçi bilgilendirme/taahhüt uygulanmaktadır.','E','S');
-      rows += r('(KU)','b) Tedarikçilerin kurallara uyması kontrol ediliyor mu?','Gerekli kontrol tedbirleri uygulanmaktadır.','E','S');
-      rows += r('2(KU)','Dışarıdan tedarik edilen proses, ürün ve hizmetlerin hijyen uygulamalarını olumsuz etkilememesi güvence altında mı?','Tedarik süreçleri hijyen kurallarına uygun yönetilmektedir.','E','S');
-      rows += r('3(KU)','Tedarikçi araçları ile ilgili temizlik ve hijyen kontrolleri yapılıyor mu?','Gerekli hallerde kontrol uygulanmaktadır.','E','S');
-
-      rows += sec('EĞİTİM');
-      rows += r('1(BU)','SEKÖ, BBÖ, salgın belirtileri, kişisel/el hijyeni, KKD eğitimleri plan dâhilinde yapılmış ve kayıtlı mı?','Eğitim planı uygulanmış; imza listeleri dosyalanmıştır.','E','M/S');
-      rows += r('(BU)','Temizlik personeli eğitiminde kimyasal tehlikeler, atık toplama/imha var mı?','Temizlik personeli eğitimi plan dahilindedir.','E','M/S');
-      rows += r('2(BU)','Özel eğitim ihtiyacı olan bireyler için erişim politikaları belirlenmiş ve uygulanıyor mu?','Okul özel eğitim politikaları uygulanmaktadır.','E','M/S');
-
-      rows += sec('ATIK YÖNETİMİ');
-      rows += r('1(BU)','Atık yönetimi yöntemi belirlenmiş mi? Salgın durumunda kurallara uyum sağlanıyor mu?','Atık yönetimi talimatı mevcuttur.','E','S');
-      rows += tesisRow('2(BU)','Atık geçici depolama alanı diğer alanlardan ayrılmış mı?','atik_depolama','Geçici depolama alanı ayrılmış ve düzenlenmiştir.','S');
-      rows += tesisRow('3(BU)','Sıvı ve katı atık geçici depolama alanı her tasfiyeden sonra temizlenmekte mi?','atik_depolama','Her tasfiye sonrası temizlik yapılmaktadır.','S');
-      rows += r('4(BU)','Araç, taşıyıcı ve konteynerler bakımlı, temiz ve uygun durumda tutulmakta mı?','Kontrol ve bakım yapılmaktadır.','E','S');
-      rows += r('5(KU)','Atık kumbaraları tercihen elle temas etmeden açılabilir-kapanabilir (pedallı, sensörlü vb.) mi?','Kapaklı/pedallı atık üniteleri yerleştirilmiştir.','E','S');
-
-      rows += sec('KURULUŞ GİRİŞİ, GÜVENLİK/DANIŞMA');
-      rows += tesisRow('1(BU)','Enfeksiyon, temizlik ve hijyenle ilgili giriş kuralları belirlenmiş ve uygulanmakta mı?','guvenlik_danisma','Giriş kuralları belirlenmiş ve uygulanmaktadır.','S');
-      rows += r('2(BU)','Güvenlik personeli giriş kuralları hakkında bilgiye sahip mi?','Güvenlik personeline tebliğ edilmiştir.','E','S');
-      rows += r('3(BU)','Güvenlik personeli kurallara uyulmasını sağlıyor mu? KKD temin edilmiş mi?','Uygulanmakta; KKD temin edilmiştir.','E','S');
-      rows += r('4(BU)','Ortak kullanılan malzemelerin temizlik/hijyeni “Hijyen ve sanitasyon planında” yer almakta mı?','Planda yer almaktadır.','E','S');
-      rows += r('5(KU)','Giriş/çıkış kuralları uygulanıyor ve ziyaretçiler detaylı kayıt altına alınıyor mu?','Ziyaretçi defteri/kayıt uygulanmaktadır.','E','S');
-      rows += r('6(BU)','Ziyaretçi kartlarının temizlik/hijyeni planda yer almakta mı?','Planda yer almaktadır.','E','S');
-      rows += r('7(BU)','El hijyeni sağlama imkânları bulunmakta mı?','Girişte el antiseptiği mevcuttur.','E','S');
-      rows += r('8(KU)','Ziyaretçilerin giriş/çıkış hijyen kuralları hakkında bilgilendirilmesi sağlanıyor mu?','Bilgilendirme yapılmaktadır.','E','S');
-      rows += r('9(BU)','Danışma personeli için önlemler belirlenmiş ve KKD sağlanmış mı?','Önlemler ve KKD sağlanmıştır.','E','S');
-      rows += r('10(BU)','Danışma bölümü hijyen planında yer almakta mı? (yüzey, kalem, kart)','Planda yer almakta; periyodik temizlik yapılmaktadır.','E','S');
-      rows += r('11(KU)','Acil durumlarla başa çıkmak için eğitilmiş en az bir kişi belirlenmiş mi?',`Acil durum sorumlusu: ${getOtSorumlular().acil}`,'E','M/S');
-      rows += r('12(KU)','Danışmada acil durum iletişim çizelgesi bulunuyor ve ulaşılır mı?','İletişim çizelgesi mevcuttur.','E','S');
-      rows += r('13(KU)','Acil iletişim numaraları listesi mevcut mu? (sağlık, hastane, ambulans vb.)','112 ve yerel sağlık numaraları listelenmiştir.','E','S');
-
-      rows += sec('BEKLEME ALANI / LOBİ');
-      rows += r('1(BU)','Oturma düzeni uygun mesafe ve genel hijyen kurallarına göre düzenlenmiş mi?','Genel hijyen kurallarına uygun düzenleme yapılmıştır.','E','S');
-      rows += r('2(BU)','El hijyeni sağlama imkânları bulunuyor mu?','El antiseptiği mevcuttur.','E','S');
-      rows += r('3(BU)','Alan ve mobilyalar hijyen planına uygun temizleniyor mu?','Plan dahilinde temizlik yapılmaktadır.','E','S');
-      rows += r('4(KU)','Bekleme alanı/lobide hijyen ve enfeksiyon önlemleri alınmış mı?','Önlemler uygulanmaktadır.','E','S');
-
-      rows += sec('DERSLİKLER VE ETÜT SALONLARI');
-      rows += r('1(BU)','Hijyen planına uygun temizlik ve hijyen uygulamaları gerçekleştiriliyor mu?','Günlük temizlik ve sık dokunulan yüzey dezenfeksiyonu uygulanmaktadır.','E','S');
-      rows += r('2(BU)','Havalandırma kontrol altında mı? Sistem periyodik kontrol ediliyor mu?','Düzenli havalandırma; bakım takip edilmektedir.','E','S');
-      rows += r('3(KU)','Pano, ekran vb. alanlara afiş/poster asılmış mı?','Hijyen farkındalık afişleri asılmıştır.','E','S');
-      rows += r('4(BU)','Ortak ekipman ve dolaplar için düzenli temizlik yapılıyor mu?','Plan dahilinde uygulanmaktadır.','E','S');
-      rows += r('(BU)','Ortak temas yüzeyleri için hijyen programı oluşturulmuş ve uygulanıyor mu?','Kullanım sıklığına göre program uygulanmaktadır.','E','S');
-      rows += r('5(BU)','Sık dokunulan yüzeylerin temizliği sağlanıyor mu?','Kapı kolu, sıra, masa vb. öncelikli temizlenmektedir.','E','S');
-      rows += r('6(KU)','Dersliklerde el hijyeni imkânı var mı?','İhtiyaç duyulan alanlarda antiseptik bulundurulmaktadır.','E','S');
-      rows += r('7(KU)','Öğrenci oturma düzeni hijyen ilkelerine uygun mu?','Gerekli hallerde düzenleme yapılmaktadır.','E','S');
-      rows += r('8(BU)','Atık üniteleri uygun ve erişilebilir mi?','Kapaklı atık üniteleri mevcuttur.','E','S');
-      rows += r('9(KU)','Dersliklerde havalandırma talimatı/uygulaması var mı?','Ders aralarında havalandırma teşvik edilmektedir.','E','S');
-
-      rows += sec('ATÖLYELER / LABORATUVARLAR');
-      rows += tesisRow('1(BU)','Hijyen planına uygun temizlik yapılıyor mu?','laboratuvar','Plan dahilinde temizlik yapılmaktadır.','S');
-      rows += tesisRow('2(BU)','Havalandırma kontrol altında mı?','laboratuvar','Havalandırma ve periyodik kontrol uygulanmaktadır.','S');
-      rows += tesisRow('3(KU)','Afiş/poster asılmış mı?','laboratuvar','Farkındalık materyali asılmıştır.','S');
-      rows += tesisRow('4(BU)','Ortak ekipman hijyeni sağlanıyor mu?','laboratuvar','Ortak ekipman temizliği plan dahilindedir.','S');
-      rows += tesisRow('5(BU)','Kimyasal/malzeme güvenliği hijyen ile birlikte yönetiliyor mu?','laboratuvar','Güvenlik ve hijyen talimatları uygulanmaktadır.','S');
-
-      rows += sec('ÖĞRETMENLER ODASI');
-      rows += tesisRow('1(BU)','Hijyen planına uygun temizlik','ogretmenler_odasi','Plan dahilinde temizlik yapılmaktadır.','S');
-      rows += tesisRow('2(BU)','Havalandırma','ogretmenler_odasi','Düzenli havalandırma sağlanmaktadır.','S');
-      rows += tesisRow('3(KU)','Afiş/poster','ogretmenler_odasi','Hijyen afişleri asılmıştır.','S');
-      rows += tesisRow('4(BU)','Ortak yüzey/ekipman hijyeni','ogretmenler_odasi','Ortak yüzeyler düzenli temizlenmektedir.','S');
-      rows += tesisRow('5(BU)','El hijyeni imkânı','ogretmenler_odasi','El antiseptiği bulundurulmaktadır.','S');
-      rows += tesisRow('6(BU)','Atık yönetimi uygun mu?','ogretmenler_odasi','Kapaklı atık ünitesi mevcuttur.','S');
-
-      rows += sec('OFİSLER (İDARİ ODALAR, REHBERLİK SERVİSİ vb.)');
-      rows += r('1(BU)','Hijyen planına uygun temizlik','İdari alanlar plan dahilinde temizlenmektedir.','E','S');
-      rows += r('2(BU)','Havalandırma','Düzenli havalandırma uygulanmaktadır.','E','S');
-      rows += r('3(BU)','Ortak yüzey ve ekipman hijyeni','Telefon, masa, klavye vb. düzenli temizlenmektedir.','E','S');
-
-      rows += sec('TOPLANTI / KONFERANS / ÇOK AMAÇLI SALONLAR');
-      rows += tesisRow('1(BU)','Hijyen planına uygun temizlik','konferans','Etkinlik öncesi/sonrası temizlik yapılmaktadır.','S');
-      rows += tesisRow('2(BU)','Havalandırma','konferans','Havalandırma sağlanmaktadır.','S');
-      rows += tesisRow('3(BU)','Oturma düzeni / kapasite','konferans','Kapasite ve düzen hijyen ilkelerine uygundur.','S');
-      rows += tesisRow('4(BU)','El hijyeni imkânı','konferans','El antiseptiği mevcuttur.','S');
-      rows += tesisRow('5(BU)','Afiş/uyarı','konferans','Hijyen uyarıları asılmıştır.','S');
-      rows += tesisRow('6(BU)','Atık üniteleri','konferans','Kapaklı atık üniteleri mevcuttur.','S');
-
-      rows += sec('KANTİN, YEMEKHANE');
-      const yk = has('yemekhane')||has('kantin');
-      const ykDok = yk ? dokE : dokYok;
-      const ykEH = yk ? 'E' : 'H';
-      for(const [no,q] of [
-        ['1(BU)','Gıda hijyeni ve personel hijyen kuralları uygulanıyor mu?'],
-        ['2(BU)','Tezgâh, ekipman ve yüzey temizlikleri kayıtlı mı?'],
-        ['3(BU)','El yıkama / hijyen altyapısı yeterli mi?'],
-        ['4(BU)','Haşere kontrolü ve atık yönetimi uygun mu?'],
-        ['5(BU)','Depolama koşulları hijyenik mi?'],
-        ['6(BU)','Personel sağlık/hijyen eğitimi var mı?'],
-        ['7(BU)','Öğrenci/personel akışı kontrollü mü?'],
-        ['8(BU)','Havalandırma uygun mu?'],
-        ['9(BU)','Temizlik ve dezenfeksiyon planı uygulanıyor mu?'],
-        ['10(BU)','Su ve gıda güvenliği kontrolleri yapılıyor mu?'],
-        ['11(BU)','Kapalı gıda teşhiri / koruma uygun mu?'],
-        ['12(BU)','Atık yağ ve çöp yönetimi uygun mu?'],
-        ['13(BU)','Denetim ve kayıtlar tutuluyor mu?']
-      ]){
-        rows += r(no,q,ykDok,ykEH,'S');
-      }
-
-      rows += sec('TUVALETLER VE LAVABOLAR');
-      rows += r('1(BU)','Hijyen planına uygun düzenli temizlik','Günlük ve sık temizlik uygulanmaktadır.','E','S');
-      rows += r('2(BU)','Sıvı sabun, kâğıt havlu, tuvalet kâğıdı mevcut mu?','Sarf malzemeleri sürekli bulundurulmaktadır.','E','S');
-      rows += r('3(BU)','El hijyeni afişleri asılmış mı?','El yıkama afişleri asılmıştır.','E','S');
-      rows += r('4(BU)','Havalandırma uygun mu?','Havalandırma sağlanmaktadır.','E','S');
-      rows += r('5(BU)','Kapaklı/pedallı atık üniteleri var mı?','Kapaklı üniteler mevcuttur.','E','S');
-      rows += r('6(KU)','Kız/erkek ve engelli erişimi dikkate alınmış mı?','Erişilebilirlik dikkate alınmıştır.','E','S');
-      rows += r('7(BU)','Su kaçağı ve arıza takibi yapılıyor mu?','Arıza/kaçak takip edilip giderilmektedir.','E','S');
-
-      rows += sec('ASANSÖRLER');
-      rows += tesisRow('1(BU)','Asansör içi temizlik plan dahilinde mi?','asansor','Plan dahilinde temizlenmektedir.','S');
-      rows += tesisRow('2(BU)','Sık dokunulan yüzey (buton, tutamak) dezenfeksiyonu','asansor','Uygulanmaktadır.','S');
-      rows += tesisRow('3(BU)','Havalandırma / kapasite uyarıları','asansor','Uyarılar asılmış; havalandırma kontrol edilmektedir.','S');
-      rows += tesisRow('4(BU)','Periyodik bakım kayıtları','asansor','Yetkili firma bakım kayıtları tutulmaktadır.','S');
-
-      rows += sec('REVİR / SAĞLIK ODASI');
-      rows += tesisRow('1(BU)','Hijyen planına uygun temizlik ve dezenfeksiyon','revir','Plan dahilinde uygulanmaktadır.','S');
-      rows += tesisRow('2(BU)','İzolasyon ve KKD imkânı','revir','İzolasyon ve KKD imkânı mevcuttur.','S');
-      rows += tesisRow('3(BU)','Tıbbi atık yönetimi','revir','Tıbbi atık talimatına uygun bertaraf edilmektedir.','S');
-      rows += tesisRow('4(BU)','Kayıt ve ilaç/malzeme güvenliği','revir','Kayıtlar tutulmakta; malzemeler güvenli muhafaza edilmektedir.','S');
-
-      rows += sec('İBADETHANE / MESCİT');
-      rows += tesisRow('1(BU)','Hijyen planına uygun temizlik','mescit','Plan dahilinde temizlenmektedir.','S');
-      rows += tesisRow('2(BU)','Seccade/malzeme hijyeni','mescit','Kişiye özel kullanım teşvik edilmekte; ortak malzeme düzenli temizlenmektedir.','S');
-      rows += tesisRow('3(BU)','Havalandırma','mescit','Düzenli havalandırma sağlanmaktadır.','S');
-      rows += tesisRow('4(BU)','El hijyeni imkânı','mescit','El antiseptiği mevcuttur.','S');
-      rows += tesisRow('5(BU)','Kapasite ve mesafe düzeni','mescit','Gerekli hallerde uygulanmaktadır.','S');
-      rows += tesisRow('6(BU)','Afiş/uyarı','mescit','Hijyen uyarıları asılmıştır.','S');
-
-      rows += sec('SPOR SALONLARI');
-      for(const [no,q] of [
-        ['1(BU)','Hijyen planına uygun temizlik'],['2(BU)','Havalandırma ve periyodik kontrol'],['3(BU)','Ortak ekipman temizliği'],
-        ['4(BU)','Soyunma/duş bağlantılı alan hijyeni'],['5(BU)','El hijyeni imkânı'],['6(BU)','Afiş/uyarı'],
-        ['7(BU)','Atık üniteleri'],['8(BU)','Sık dokunulan yüzey dezenfeksiyonu'],['9(BU)','Kapasite/oturma düzeni'],
-        ['10(BU)','Su sebili/ortak alan hijyeni'],['11(BU)','İlk yardım malzemesi hijyeni'],['12(BU)','Kayıt ve kontrol']
-      ]){
-        rows += tesisRow(no,q,'spor_salonu',dokE,'S');
-      }
-
-      rows += sec('YÜZME HAVUZLARI');
-      for(let i=1;i<=17;i++){
-        rows += r(i+'(BU)',`Yüzme havuzu maddesi ${i} (klor/pH, temizlik, KKD, duş bariyeri, mevzuat kaydı vb.)`,dokYok,'H','S');
-      }
-
-      rows += sec('ÖĞRENCİ/PERSONEL SOYUNMA ODALARI VE DUŞLARI');
-      for(const [no,q] of [['1(BU)','Mesafe ve hijyen düzeni'],['2(BU)','Düzenli temizlik'],['3(BU)','Havalandırma'],['4(BU)','El hijyeni'],['5(BU)','Çapraz bulaşmayı önleme']] ){
-        rows += tesisRow(no,q,'spor_salonu',dokE,'S');
-      }
-
-      rows += sec('KURULUŞ BAHÇESİ VE AÇIK OYUN ALANLARI');
-      rows += tesisRow('1(BU)','Zemin birikinti/hijyen riski oluşturmayacak nitelikte mi?','oyun_alani','Zemin bakımı ve temizlik yapılmaktadır.','S');
-      rows += tesisRow('2(BU)','Hijyen planına uygun temizlik','oyun_alani','Plan dahilinde temizlik yapılmaktadır.','S');
-      rows += tesisRow('3(KU)','Afiş/poster','oyun_alani','Farkındalık materyali asılmıştır.','S');
-      rows += tesisRow('4(BU)','Pedallı/sensörlü atık ünitesine erişim','oyun_alani','Atık üniteleri erişilebilir durumdadır.','S');
-
-      rows += sec('KAPALI OYUN ALANLARI');
-      rows += tesisRow('1(BU)','Düzenli temizlik ve dezenfeksiyon','kapali_oyun','Plan dahilinde uygulanmaktadır.','S');
-      rows += tesisRow('2(BU)','Zor temizlenen oyuncaklar için önlem','kapali_oyun','Zor temizlenen oyuncaklar kullanımdan kaldırılmıştır.','S');
-      rows += tesisRow('3(BU)','Mesafe ve hijyen düzeni','kapali_oyun','Kapasite ve düzen hijyen ilkelerine uygundur.','S');
-      rows += tesisRow('4(BU)','Havalandırma','kapali_oyun','Düzenli havalandırma sağlanmaktadır.','S');
-
-      rows += sec('MİSAFİRHANE / YURT / PANSİYON');
-      for(let i=1;i<=10;i++) rows += r(i+'(BU)',`Misafirhane/yurt maddesi ${i}`,dokYok,'H','S');
-
-      rows += sec('EĞİTİM KURULUŞLARI HİZMET ARAÇLARI');
-      for(const [no,q] of [['1(BU)','Hijyen planına uygun temizlik ve kayıt'],['2(BU)','Klima kullanım önlemleri'],['3(BU)','Klima filtre bakımı'],['4(BU)','Yerleşim ve KKD önlemleri']] ){
-        rows += r(no,q,dokYok,'H','S');
-      }
-
-      rows += sec('ÖĞRENCİ/PERSONEL SERVİSLERİ / TAŞIMALI EĞİTİM');
-      for(const [no,q] of [
-        ['1(BU)','Hijyen planına uygun temizlik ve kayıt'],['2(BU)','Görevlilerin önlemlere uyumu'],['3(BU)','Araçların plana uygunluğu'],
-        ['4(BU)','KKD kullanım önlemleri'],['5(BU)','Klima kullanım önlemleri'],['6(KU)','Afiş/poster'],
-        ['7(BU)','Semptomda servise almama ve veliye bildirim'],['8(BU)','İzleme ve kayıt'],['9(BU)','Araç içi el hijyeni'],
-        ['10(BU)','Dış tedarikçide önlem güvencesi']
-      ]){
-        rows += tesisRow(no,q,'servis',dokE,'S');
-      }
-
-      rows += sec('TEKNİK HİZMETLER');
-      rows += r('1(BU)','Tüm tesisat, donanım, makine periyodik bakım-temizlik ve kayıtlar','Bakım ve temizlik planı ile kayıtlar tutulmaktadır.','E','S');
-      rows += r('2(BU)','Dışarıdan temin edilen teknik hizmette hijyen kurallarına uyum güvencesi','Sözleşme/talimat ile güvence altına alınmıştır.','E','S');
-
-      rows += sec('SU DEPOLARI');
-      rows += tesisRow('1(BU)','Yeni depolarda TS EN 1508 / TSE K 304 uygunluk yöntemi','su_deposu','Satın alma kriterleri standartlara uygun yönetilmektedir.','S');
-      rows += tesisRow('2(BU)','Mevcut depolarda yasal şartlara uygunluk','su_deposu','Güncel yasal şartlara uygunluk sağlanmaktadır.','S');
-
-      rows += sec('DİĞER KULLANIM ALANLARI');
-      rows += r('1(BU)','Diğer alanlarda temizlik, dezenfeksiyon, KKD ve kapasite uygulamaları planlı mı?','Genel hijyen ve enfeksiyon risk yönetim ilkeleri uygulanmaktadır.','E','S');
-
-      rows += sec('ÇAMAŞIRHANE HİZMETLERİ');
-      rows += r('1(KU)','Ekipman, sıcaklık ve kimyasal doz kontrolü',dokYok,'H','S');
-      rows += r('2(KU)','Torba/çanta etiketleme',dokYok,'H','S');
-      rows += r('3(BU)','Kontamine çamaşır güvenli alanda tutuluyor mu?',dokYok,'H','S');
-      rows += r('4(BU)','En az 60°C / uygun süre yıkama kontrolü',dokYok,'H','S');
-
-      rows += sec('LİDERLİK VE ÖRNEK OLMA');
-      rows += r('1(KU)','Yöneticiler kılavuz şartlarına uyarak öğrenci ve çalışanlara örnek oluyor mu?','İdare kılavuz uygulamalarına uyum göstermekte ve örnek olmaktadır.','E','S');
-
-      rows += sec('ORTAM TEMİZLİĞİ, DEZENFEKSİYONU VE HAVALANDIRMASI');
-      rows += r('1(BU)','Temizleme ve sanitasyon programları oluşturulmuş ve izleniyor mu?','Temizlik-dezenfeksiyon planı ve takip formları mevcuttur.','E','M/S');
-      rows += r('2(BU)','Programda alan, sorumluluk, yöntem, sıklık, izleme ve kontroller tanımlanmış mı?','Planda tanımlanmıştır.','E','M/S');
-      rows += r('3(BU)','Enfekte kişi sonrası oda/malzeme dezenfeksiyonu KKD ile güvence altında mı?','BBÖ ve temizlik planında tanımlanmıştır.','E','S');
-      rows += r('4(BU)','Sık dokunulan yüzeylerin temizliği','Kapı kolu, telefon, masa, musluk vb. önceliklidir.','E','S');
-      rows += r('(BU)','Temizlik sonrası uygun malzeme ile hijyen uygulamaları','Uygulanmaktadır.','E','S');
-      rows += r('(BU)','Uygulama alanı özelliklerine göre hijyen','Alan özelliğine göre uygulanmaktadır.','E','S');
-      rows += r('(BU)','Temizlik malzemelerinin uygunluğu belgelendirilmiş mi?','Uygun ürünler tercih edilmektedir.','E','S');
-      rows += r('5(BU)','Tuvaletlerde uygun hijyen malzemeleri','Sıvı sabun, kâğıt havlu, tuvalet kâğıdı sağlanmaktadır.','E','S');
-      rows += r('6(BU)','Halı/koltuk uygun yöntemle temizleniyor mu?','Uygun yöntemle temizlenmektedir.','E','S');
-      rows += r('7(BU)','Temizlik bezlerinin alanlara göre ayrılması','Bezler alanlara göre ayrılmakta ve temizlenmektedir.','E','S');
-      rows += r('8(BU)','Temizlik personeli maske ve eldiven kullanıyor mu?','KKD kullanımı sağlanmaktadır.','E','S');
-      rows += r('(BU)','Temizlik sonrası donanım imhası ve el hijyeni','Kontrol altına alınmıştır.','E','S');
-      rows += r('9(BU)','Sık havalandırma','Kapı ve pencereler açılarak havalandırma sağlanmaktadır.','E','S');
-      rows += r('(BU)','Merkezi havalandırma bakım ve filtre değişimi','Üretici önerilerine göre takip edilmektedir.','E','S');
-      rows += r('(BU)','Klima ve vantilatör kullanım önlemleri','Önlemler belirlenmiştir.','E','S');
-
-      rows += sec('İLAVE SORULAR');
-      rows += r('','Belge, marka ve logo kullanımı ilgili doküman şartlarına uygun ve etkin kontrol ediliyor mu?','Uygulandığı ölçüde kontrol edilmektedir.','E','');
-
-      const html = `<h3>T.C. MİLLÎ EĞİTİM BAKANLIĞI</h3>
-<h4>Standardizasyon ve Kalite Hizmet Birimi<br>HİJYEN ŞARTLARININ GELİŞTİRİLMESİ, ENFEKSİYON ÖNLEME VE KONTROL KILAVUZU<br><b>ÖZ DEĞERLENDİRME SORU LİSTESİ (SB.FR.059) — Rev.02</b><br>(${donem} Eğitim-Öğretim Yılı)</h4>
-<table class="meta" style="margin-bottom:10px">
-<tr><td><b>Kuruluş Adı</b></td><td colspan="3">${okul}</td></tr>
-<tr><td><b>Adresi</b></td><td colspan="3">${ilIlce}</td></tr>
-<tr><td><b>İletişim</b></td><td>Tel: ${hv.tel||ornek.tel}</td><td>E-mail: ${hv.eposta||ornek.eposta}</td><td></td></tr>
-<tr><td><b>Kuruluş Yetkilisi</b></td><td colspan="2">${mudur} (Okul Müdürü)</td><td>İmza: ________</td></tr>
-</table>
-<p style="font-size:9pt;margin:6px 0"><b>Genel Açıklama:</b> Bu kılavuza göre kuruluşlarda yapılacak denetimlerde salgın şartlarına ilişkin mevcut kuralların belirlendiği ve uygulandığı kontrol edilir; kuruluşların kılavuzdaki tüm planları hazırlaması, dokümante etmesi ve değerlendirmesi gerekmekte olup uygulanması mevcut durum göz önüne alınarak yapılacaktır.</p>
-<table>
-<thead><tr><th>No</th><th>SORULAR</th><th>DOKÜMANTASYON KAYITLARI / UYGULAMALAR</th><th>E/H</th><th>M/S</th></tr></thead>
-<tbody>${rows}</tbody>
-</table>
-<p style="font-size:9pt;margin-top:12px"><b>Tetkik notu:</b> (BU) masabaşı uygunsuzluğunda uygunsuzluk giderilmeden saha tetkikine gidilmez. (KU) masabaşı uygunsuzluğunda saha tetkiki yapılır. Resmi tetkikte güncel SB.FR.059 ve kanıt dosyası esas alınır.</p>
-<p style="margin-top:14px"><b>Hazırlayan / Yetkili:</b> ${mudur} — Okul Müdürü &nbsp;&nbsp; <b>Tarih:</b> ${tarihFormatted}</p>`;
-
-      window.__otHtml = true;
-      showHtmlOutput(html);
+      showHtmlOutput(sbfr059Html({
+        okul: okulRaw,
+        adres: hv.adres || [ilceRaw, ilRaw].filter(Boolean).join(' / '),
+        tel: hv.tel || '', eposta: hv.eposta || '', web: '', fax: '',
+        yetkili: mudurRaw ? mudurRaw+' (Okul Müdürü)' : ''
+      }));
       return;
 
     } else if(type==='ot_risk'){
@@ -2477,6 +2226,308 @@ function yedekBaslat(){
   otoKayitBagla();
   kaliciDepolamaIste().then(renderYedek);
   renderYedek();
+}
+</script>
+<script>
+// ================= TABLO DÜZENLEME =================
+// Önizlemedeki herhangi bir tablo hücresine dokunulunca alttaki araç çubuğu açılır.
+let tbHucre=null;
+const tbGecmis=[];
+const TB_MIN_GENISLIK=3; // %
+
+function tbOutput(){ return document.getElementById('outputHtml'); }
+
+function tbAracCubuguOlustur(){
+  if(document.getElementById('tbAracCubugu')) return;
+  const d=document.createElement('div'); d.id='tbAracCubugu'; d.className='no-print';
+  const B=(ad,fn,t,cls)=>`<button type="button" data-fn="${fn}" title="${t||ad}"${cls?' class="'+cls+'"':''}>${ad}</button>`;
+  d.innerHTML=`<div class="tb-satir">
+    <span class="tb-bilgi" id="tbBilgi">Tablo</span>
+    ${B('↑ Satır','satirUst','Üstüne satır ekle')}${B('↓ Satır','satirAlt','Altına satır ekle')}${B('✕ Satır','satirSil','Satırı sil')}
+    <span class="tb-ayrac"></span>
+    ${B('← Sütun','sutunSol','Soluna sütun ekle')}${B('→ Sütun','sutunSag','Sağına sütun ekle')}${B('✕ Sütun','sutunSil','Sütunu sil')}
+    <span class="tb-ayrac"></span>
+    ${B('⇔ Genişlet','genislet','Sütunu genişlet')}${B('⇆ Daralt','daralt','Sütunu daralt')}${B('Eşitle','esitle','Sütun genişliklerini eşitle')}
+    <span class="tb-ayrac"></span>
+    ${B('E ⇄ H','ehDegistir','Hücrede E/H değiştir')}${B('Hizala','hizala','Sola / ortaya hizala')}${B('Kalın','kalin','Hücreyi kalın yap')}
+    <span class="tb-ayrac"></span>
+    ${B('↶ Geri Al','geriAl','Son tablo işlemini geri al')}${B('Kapat','kapat','Araç çubuğunu kapat','tb-kapat')}
+  </div>`;
+  document.body.appendChild(d);
+  // Odak hücreden kaçmasın
+  d.addEventListener('mousedown',e=>{ if(e.target.closest('button')) e.preventDefault(); });
+  d.addEventListener('click',e=>{
+    const b=e.target.closest('button'); if(!b) return;
+    const fn=TB_ISLEM[b.dataset.fn]; if(fn) fn();
+  });
+}
+
+function tbGoster(hucre){
+  tbAracCubuguOlustur();
+  if(tbHucre && tbHucre!==hucre) tbHucre.classList.remove('tb-aktif');
+  tbHucre=hucre; hucre.classList.add('tb-aktif');
+  const t=hucre.closest('table'); const p=tbKonum(hucre);
+  document.getElementById('tbBilgi').textContent='Satır '+(p.satir+1)+' • Sütun '+(p.sutun+1)+(t?' / '+tbSutunSayisi(t):'');
+  document.getElementById('tbAracCubugu').style.display='block';
+  document.body.classList.add('tb-acik');
+}
+function tbGizle(){
+  if(tbHucre) tbHucre.classList.remove('tb-aktif');
+  tbHucre=null;
+  const d=document.getElementById('tbAracCubugu'); if(d) d.style.display='none';
+  document.body.classList.remove('tb-acik');
+}
+
+// --- Izgara yardımcıları (colspan dikkate alınır) ---
+function tbSatirlar(t){ return Array.from(t.rows); }
+function tbSutunSayisi(t){
+  let m=0; tbSatirlar(t).forEach(r=>{ let n=0; Array.from(r.cells).forEach(c=>n+=c.colSpan||1); m=Math.max(m,n); }); return m;
+}
+function tbKonum(hucre){
+  const r=hucre.parentElement; let c=0;
+  for(const x of r.cells){ if(x===hucre) break; c+=x.colSpan||1; }
+  return {satir:r.rowIndex, sutun:c, satirEl:r};
+}
+// Bir satırda mantıksal sütunu kapsayan hücre
+function tbSutundakiHucre(r,col){
+  let c=0;
+  for(const x of r.cells){ const s=x.colSpan||1; if(col>=c && col<c+s) return {hucre:x, bas:c, span:s}; c+=s; }
+  return null;
+}
+
+// --- Sütun genişlikleri (colgroup) ---
+function tbColgroup(t){
+  let cg=t.querySelector(':scope > colgroup');
+  const n=tbSutunSayisi(t);
+  if(!cg){
+    cg=document.createElement('colgroup');
+    // mevcut ekran genişliklerinden yüzde hesapla
+    const ornek=tbSatirlar(t).find(r=>Array.from(r.cells).every(c=>(c.colSpan||1)===1) && r.cells.length===n);
+    const tw=t.getBoundingClientRect().width||1;
+    for(let i=0;i<n;i++){
+      const col=document.createElement('col');
+      const w= ornek ? ornek.cells[i].getBoundingClientRect().width/tw*100 : 100/n;
+      col.style.width=(Math.round(w*10)/10)+'%';
+      cg.appendChild(col);
+    }
+    t.insertBefore(cg,t.firstChild);
+  }
+  // sütun sayısı ile col sayısını eşitle
+  while(cg.children.length<n){ const col=document.createElement('col'); col.style.width=(100/n).toFixed(1)+'%'; cg.appendChild(col); }
+  while(cg.children.length>n) cg.removeChild(cg.lastChild);
+  return cg;
+}
+function tbGenislikler(cg){ return Array.from(cg.children).map(c=>parseFloat(c.style.width)||0); }
+function tbGenislikYaz(cg,arr){
+  const top=arr.reduce((a,b)=>a+b,0)||1;
+  Array.from(cg.children).forEach((c,i)=>{ c.style.width=(Math.round(arr[i]/top*1000)/10)+'%'; });
+}
+
+// --- Geçmiş ---
+function tbKaydet(){
+  const o=tbOutput(); if(!o) return;
+  tbGecmis.push(o.innerHTML); if(tbGecmis.length>30) tbGecmis.shift();
+}
+
+// --- İşlemler ---
+function tbYeniSatir(kaynak){
+  const r=document.createElement('tr');
+  Array.from(kaynak.cells).forEach(c=>{
+    const n=document.createElement(c.tagName==='TH'&&kaynak.parentElement.tagName!=='THEAD'?'td':c.tagName.toLowerCase());
+    if((c.colSpan||1)>1) n.colSpan=c.colSpan;
+    if(c.getAttribute('style')) n.setAttribute('style',c.getAttribute('style'));
+    n.innerHTML='&nbsp;';
+    r.appendChild(n);
+  });
+  if(kaynak.className && kaynak.className!=='sec') r.className=kaynak.className;
+  return r;
+}
+const TB_ISLEM={
+  satirUst(){ if(!tbHucre) return; tbKaydet(); const r=tbHucre.parentElement; const y=tbYeniSatir(r); r.parentElement.insertBefore(y,r); tbGoster(y.cells[0]); },
+  satirAlt(){ if(!tbHucre) return; tbKaydet(); const r=tbHucre.parentElement; const y=tbYeniSatir(r); r.parentElement.insertBefore(y,r.nextSibling); tbGoster(y.cells[0]); },
+  satirSil(){
+    if(!tbHucre) return; const r=tbHucre.parentElement, t=r.closest('table');
+    if(tbSatirlar(t).length<=1){ if(!confirm('Tablonun son satırı. Tablo tamamen silinsin mi?')) return; tbKaydet(); t.remove(); tbGizle(); return; }
+    tbKaydet(); const sonraki=r.nextElementSibling||r.previousElementSibling; r.remove();
+    if(sonraki && sonraki.cells[0]) tbGoster(sonraki.cells[0]); else tbGizle();
+  },
+  sutunSol(){ tbSutunEkle(0); },
+  sutunSag(){ tbSutunEkle(1); },
+  sutunSil(){
+    if(!tbHucre) return; const t=tbHucre.closest('table'), col=tbKonum(tbHucre).sutun;
+    if(tbSutunSayisi(t)<=1){ alert('Tek sütun silinemez; satır silmeyi kullanın.'); return; }
+    tbKaydet(); const cg=tbColgroup(t); const w=tbGenislikler(cg);
+    tbSatirlar(t).forEach(r=>{ const h=tbSutundakiHucre(r,col); if(!h) return; if(h.span>1) h.hucre.colSpan=h.span-1; else h.hucre.remove(); });
+    w.splice(col,1); cg.removeChild(cg.children[col]); tbGenislikYaz(cg,w);
+    tbGizle();
+  },
+  genislet(){ tbGenislikDegistir(+3); },
+  daralt(){ tbGenislikDegistir(-3); },
+  esitle(){
+    if(!tbHucre) return; const t=tbHucre.closest('table'); tbKaydet();
+    const cg=tbColgroup(t); tbGenislikYaz(cg, tbGenislikler(cg).map(()=>1));
+  },
+  ehDegistir(){
+    if(!tbHucre) return; const x=tbHucre.textContent.trim().toLocaleUpperCase('tr-TR');
+    const yeni={'E':'H','H':'E','EVET':'HAYIR','HAYIR':'EVET','':'E'}[x];
+    if(yeni===undefined){ alert('Bu hücre E/H değil.'); return; }
+    tbKaydet(); const b=tbHucre.querySelector('b'); if(b) b.textContent=yeni; else tbHucre.innerHTML='<b>'+yeni+'</b>';
+  },
+  hizala(){ if(!tbHucre) return; tbKaydet(); tbHucre.style.textAlign = tbHucre.style.textAlign==='center' ? 'left' : 'center'; },
+  kalin(){ if(!tbHucre) return; tbKaydet(); tbHucre.style.fontWeight = tbHucre.style.fontWeight==='700'||tbHucre.style.fontWeight==='bold' ? '' : '700'; },
+  geriAl(){
+    const o=tbOutput(); if(!o||!tbGecmis.length){ alert('Geri alınacak tablo işlemi yok.'); return; }
+    o.innerHTML=tbGecmis.pop(); tbHucre=null; tbGizle();
+  },
+  kapat(){ tbGizle(); }
+};
+function tbSutunEkle(sag){
+  if(!tbHucre) return; const t=tbHucre.closest('table');
+  tbKaydet(); const cg=tbColgroup(t); const w=tbGenislikler(cg);
+  const p=tbKonum(tbHucre); const hucreSpan=tbHucre.colSpan||1;
+  const hedef = sag ? p.sutun+hucreSpan : p.sutun; // yeni sütunun mantıksal indeksi
+  tbSatirlar(t).forEach(r=>{
+    const h = tbSutundakiHucre(r, sag ? hedef-1 : hedef);
+    if(!h){ const n=document.createElement(r.parentElement.tagName==='THEAD'?'th':'td'); n.innerHTML='&nbsp;'; r.appendChild(n); return; }
+    // birleşik hücrenin ortasına ekleniyorsa genişlet
+    const ic = sag ? (hedef < h.bas+h.span) : (hedef > h.bas);
+    if(h.span>1 && ic){ h.hucre.colSpan=h.span+1; return; }
+    const n=document.createElement(h.hucre.tagName.toLowerCase()); n.innerHTML='&nbsp;';
+    if(sag) h.hucre.after(n); else h.hucre.before(n);
+  });
+  const yeniW = Math.max(6, Math.min(15, (w[p.sutun]||10)/2));
+  w.splice(hedef,0,yeniW);
+  const col=document.createElement('col'); cg.insertBefore(col, cg.children[hedef]||null);
+  tbGenislikYaz(cg,w);
+}
+function tbGenislikDegistir(delta){
+  if(!tbHucre) return; const t=tbHucre.closest('table'); const col=tbKonum(tbHucre).sutun;
+  const cg=tbColgroup(t); const w=tbGenislikler(cg); const top=w.reduce((a,b)=>a+b,0)||100;
+  const pct=w.map(x=>x/top*100);
+  if(pct.length<2) return;
+  // diğer sütunlardan orantılı al/ver; en dar sınırı koru
+  const digerToplam=pct.reduce((a,b,i)=>i===col?a:a+b,0);
+  let d=delta;
+  if(d>0){ const verilebilir=pct.reduce((a,b,i)=>i===col?a:a+Math.max(0,b-TB_MIN_GENISLIK),0); d=Math.min(d,verilebilir); }
+  else { d=Math.max(d, TB_MIN_GENISLIK-pct[col]); }
+  if(Math.abs(d)<0.1){ return; }
+  tbKaydet();
+  pct[col]+=d;
+  const havuz=pct.map((b,i)=>i===col?0:(d>0?Math.max(0,b-TB_MIN_GENISLIK):b));
+  const hTop=havuz.reduce((a,b)=>a+b,0)||digerToplam||1;
+  for(let i=0;i<pct.length;i++) if(i!==col) pct[i]-=d*(havuz[i]/hTop);
+  tbGenislikYaz(cg,pct);
+}
+
+// Word çıktısında sütun genişliklerinin korunması için colgroup → hücre genişliği
+function tbGenisliklerHucreye(kok){
+  kok.querySelectorAll('table').forEach(t=>{
+    const cg=t.querySelector(':scope > colgroup'); if(!cg) return;
+    const w=Array.from(cg.children).map(c=>c.style.width);
+    Array.from(t.rows).forEach(r=>{ let c=0; Array.from(r.cells).forEach(x=>{ if((x.colSpan||1)===1 && w[c]) x.style.width=w[c]; c+=x.colSpan||1; }); });
+  });
+}
+
+function tbBaglat(){
+  document.addEventListener('click',e=>{
+    const o=tbOutput(); if(!o || o.style.display==='none') return;
+    if(e.target.closest('#tbAracCubugu')) return;
+    const h=e.target.closest('td,th');
+    if(h && o.contains(h)) tbGoster(h);
+    else if(!o.contains(e.target)) tbGizle();
+  });
+  document.addEventListener('focusin',e=>{
+    const o=tbOutput(); if(!o) return;
+    if(o.contains(e.target)){ const sel=window.getSelection(); const n=sel&&sel.anchorNode; const h=n&&(n.nodeType===1?n:n.parentElement).closest&&(n.nodeType===1?n:n.parentElement).closest('td,th'); if(h&&o.contains(h)) tbGoster(h); }
+  });
+  // yeni belge üretildiğinde geçmişi ve seçimi sıfırla
+  const eski=window.showHtmlOutput;
+  window.showHtmlOutput=function(html){ tbGecmis.length=0; tbGizle(); eski(html);
+    const hint=document.getElementById('outputHint');
+    if(hint && tbOutput().querySelector('table')) hint.innerHTML+=' <b>Tablo düzenleme:</b> bir hücreye dokunun; altta satır/sütun ekleme-silme ve sütun genişletme araçları açılır.';
+  };
+  // çıktılar: aktif vurgusu temizlensin, Word için genişlikler hücreye yazılsın
+  const eskiAktif=window.aktifBelgeHtml;
+  window.aktifBelgeHtml=function(){
+    const h=eskiAktif(); if(!h) return h;
+    const tmp=document.createElement('div'); tmp.innerHTML=h;
+    tmp.querySelectorAll('.tb-aktif').forEach(x=>x.classList.remove('tb-aktif'));
+    tmp.querySelectorAll('[class=""]').forEach(x=>x.removeAttribute('class'));
+    tbGenisliklerHucreye(tmp);
+    return tmp.innerHTML;
+  };
+}
+tbBaglat();
+</script>
+<script>
+// SB.FR.059 Rev.02 — resmî formdan birebir aktarılmıştır (271 satır)
+const SBFR059_LOGO='data:image/png;base64,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';
+const SBFR059_ROWS=[{"t":"s","c":[[5,"<b>Genel Açıklama:</b> Bu kılavuza göre kuruluşlarda yapılacak denetimler esnasında devam eden salgın şartları ile ilgili olarak ilgili Bakanlıklar tarafından yayınlanan mevcut kurallara göre önlemlerin belirlendiği ve uygulandığı kontrol edilir, ancak kuruluşların “Eğitim Kurumlarında Hijyen Şartlarının Geliştirilmesi, Enfeksiyon Önleme ve Kontrol Kılavuzunda” yer alan tüm planların hazırlaması, dokümante edilmesi ve değerlendirmesi gerekmekte olup,  uygulanması mevcut durum göz önüne alınarak yapılacaktır."]],"k":null},{"t":"s","c":[[5,"<b>1) KORUNMA VE KONTROL ÖNLEMLERİ YÖNETİM</b>"]],"k":null},{"t":"r","no":"<b>1(BU)</b>","q":"Kuruluşta, tüm alanları içerecek şekilde ilgili tarafları da kapsayan hijyen ve enfeksiyon risklerine yönelik bir risk değerlendirmesi mevcut mu?","ms":"<b>M</b>","d":"MEBBİS İSGB modülünde güncel risk değerlendirmesi yapılmış ve sisteme yüklenmiştir.","k":null},{"t":"r","no":"<b>2(BU)</b>","q":"Kuruluşta, Enfeksiyon Önleme ve Kontrol Eylem Planı/Planları hazırlanmış mı? <br><b>Bu eylem planları;</b>","ms":"<b>M</b>","d":"Okula özel eylem planı hazırlanmış, personel ve öğrencilere tebliğ edilmiştir.","k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>a)</b> Hijyen ve enfeksiyon risklerine özgü KKD gerekliliklerini içermekte mi?","ms":"<b>M</b>","d":"Eylem planında KKD gereklilikleri belirtilmiştir.","k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>b)</b> Uygun temizlik, hijyen uygulamaları ve gerektiğinde dezenfeksiyon işlemlerini içermekte mi?","ms":"<b>M</b>","d":"Temizlik ve dezenfeksiyon planı eylem planına entegre edilmiştir.","k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>c)</b> Tüm faaliyet planlamaları, özel grupların erişilebilirliğini dikkate almakta mı?","ms":"<b>M</b>","d":"Özel eğitim ihtiyacı olan bireyler için erişilebilirlik dikkate alınmıştır.","k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>d)</b> Hijyen ve enfeksiyon ile ilgili potansiyel acil durumlar konusunda ziyaretçilerin bilgilendirilmesi ve gerekli tedbirleri içermekte mi?","ms":"<b>M</b>","d":"Ziyaretçi bilgilendirme ve taahhütname formları mevcuttur.","k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>e) </b>Kuruluşta gerçekleştirilecek toplu etkinliklerin hijyen ve enfeksiyon riskleri dikkate alınarak kontrollü yapılmasını içermekte mi?","ms":"<b>M</b>","d":"Toplu etkinlikler için risk değerlendirmesi ve önlemler planlanmıştır.","k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>f)</b> Öğrenciler ve personelin devamsızlıklarının takip edilmesi, devamsızlıklardaki artışların hijyen ve enfeksiyon riskleri ile ilişkili olması halinde yapılacaklar belirlenmiş mi?","ms":"<b>M</b>","d":"Devamsızlık takip ve bildirim prosedürü belirlenmiştir.","k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>g)</b>  Enfeksiyon durumlarında semptomları olanları tespit edebilmeye yönelik uygulamaları içermekte mi?","ms":"<b>M</b>","d":"Semptom tespiti ve izolasyon prosedürü mevcuttur.","k":null},{"t":"r","no":"<b>3(BU)</b>","q":"Kuruluşta enfeksiyon risklerine özgü en az aşağıdaki maddeleri içeren Kontrol Önlemleri Hiyerarşisi oluşturulmuş mu? ","ms":"<b>M</b>","d":"Erken saptama, izolasyon, sağlık iletişimi, nakil ve etkinlik gözden geçirme adımları planlıdır.","k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>a)</b> Enfeksiyon belirtileri olan kişilerin erken saptanmasını,","ms":"<b>M</b>","d":"Plan dahilindedir.","k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>b)</b> Sağlık kuruluşları ile iletişim kurularak destek sağlanmasını,","ms":"<b>M</b>","d":"Plan dahilindedir.","k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>c)</b> Enfeksiyon kaynağının izolasyonunu,","ms":"<b>M</b>","d":"Plan dahilindedir.","k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>d)</b> Enfeksiyon kaynağına maruz kalanların sağlık kuruluşuna nakledilmesi/naklinin sağlanmasını,","ms":"<b>M</b>","d":"Plan dahilindedir.","k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>e)</b> Alınan önlemler ve gerçekleştirilen faaliyetlerin etkinliğinin gözden geçirilmesini,","ms":"<b>M</b>","d":"Plan dahilindedir.","k":null},{"t":"r","no":"<b>4(BU)</b>","q":"Kuruluşta; aşağıdaki hususlar dâhil olmak üzere gerekli olan iç ve dış iletişim planlamaları oluşturulmuş mu?<br><b>a)</b>   Ne ile ilgili(hangi konuda) iletişim kuracağını,<br><b>b)</b>   Ne zaman iletişim kuracağını,<br><b>c)</b>   Kiminle iletişim kuracağını,<br><b>d)</b>   Nasıl iletişim kuracağını,<br><b>e)</b>   Kimin iletişim kuracağını.","ms":"<b>M</b>","d":null,"k":null},{"t":"r","no":"<b>5(BU)</b>","q":"Kuruluş, Hijyen, enfeksiyon önleme ve kontrolünün oluşturulması, uygulanması, sürekliliğinin sağlanması için ihtiyaç duyulan kaynakları tespit ve temin etmiş mi? ","ms":"<b>M/S</b>","d":"El antiseptiği, KKD, temizlik malzemeleri, dezenfektanlar temin edilmiştir.","k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>a)</b> Bu kaynaklar; enfeksiyonlara göre yetkili otoritelerce belirlenmiş ve belirtilerin tespiti için kullanılacak kaynaklar, hijyen için gerekli kaynaklar izolasyon için gerekli kaynaklar ile atık yönetimi için gerekli kaynakları içermekte mi?","ms":"<b>M/S</b>","d":"Kaynak listesi eylem planında yer almaktadır.","k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>b)</b> Hijyen, enfeksiyon önleme ve kontrolün sağlanmasının etkili şekilde uygulanması ile proseslerin işletilmesi ve kontrolü için sorumlu olacak yetkin kişi/kişileri belirlemiş ve görevlendirmiş mi?","ms":"<b>M/S</b>","d":null,"k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>c)</b> Kuruluş tarafından belirlenen kurallar ve önlemlerin çalışanlar ve diğer kişilere bildirilmesi ve uygulanması güvence altına alınmış mı?","ms":"<b>M/S</b>","d":"Talimatlar tebliğ edilmiş, eğitim kayıtları tutulmuştur.","k":null},{"t":"r","no":"<b>6(BU)</b>","q":"Hijyen ve enfeksiyon risklerine bağlı olarak özel belirlenmiş alanlara (mutfak, su deposu vb.) kişilerin girişleri ile ilgili belirlenen kuralların uygulanması ve uygun olmayanların bu alanlara alınmaması ile ilgili metot belirlenmiş mi?","ms":"<b>S</b>","d":"Mutfak/su deposu giriş kuralları uygulanmakta; yetkisiz giriş engellenmektedir.","k":"yemekhane"},{"t":"r","no":"<b>7(BU)</b>","q":"Hijyen ve enfeksiyon riskleri ile hastalıkların (virüs vb.) bulaş yolları ve önlenmesine yönelik; çalışanların/öğrencilerin düzenli eğitimi, uygun hijyen ve sanitasyon şartları ile korunma önlemleri ve hijyen, enfeksiyon farkındalığı, sağlanmış mı?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>8(BU)</b>","q":"Kuruluş girişlerinde ve içindeki diğer alanlara hijyen ve enfeksiyonlara özgü kurallar ile enfeksiyon yayılmasını önlemenin yollarını açıklayan bilgilendirme amaçlı afişler, posterler, tabela, uyarı işaretleri vb. asılmış mı?","ms":"<b>S</b>","d":"Tuvalet, koridor, giriş ve ortak alanlara hijyen afişleri asılmıştır.","k":null},{"t":"r","no":"<b>9(BU)</b>","q":"<b>Potansiyel salgın hastalık ve enfeksiyon riskleri dikkate alınarak</b> asgari olarak aşağıda belirtilen adımları içeren bir eylem planı (BBÖ) ya da yöntem belirlenmiş mi?<b> </b><br><b>BBÖ planlaması;</b>","ms":"<b>M</b>","d":"BBÖ planı hazır; KKD, izolasyon, bilgilendirme, yönlendirme, dezenfeksiyon adımları içerir.","k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>a) </b> Salgın hastalık veya enfeksiyon belirtileri olan veya temaslısı olan öğretmen, öğrenci ya da çalışanlara uygun KKD kullanımı ve izolasyonunu içeriyor mu?","ms":"<b>M</b>","d":null,"k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>b) </b> BBÖ planı ve kontrolün sağlanmasında etkili şekilde uygulanmak için sorumlu olacak yetkin kişi/kişilerin yer almasını içeriyor mu?","ms":"<b>M</b>","d":null,"k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>c) </b>  Salgın hastalık/enfeksiyon belirtisi veya temaslısı olan öğretmen, öğrenci ya da çalışanların yakınlarına, İletişim planlamasına uygun olarak bilgilendirme yapılmasını içeriyor mu?","ms":"<b>M</b>","d":null,"k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>d) </b> İletişim planlamasına uygun olarak kontrollü şekilde sağlık kuruluşlarına yönlendirmeyi içeriyor mu?","ms":"<b>M</b>","d":"Plan dahilindedir.","k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>e) </b> Salgın hastalık/enfeksiyon belirtisi gösteren kişi ve temaslılarca kullanılan alanların sağlık otoritelerince belirtilen şekilde boşaltılması, dezenfeksiyonu ve havalandırmasını içeriyor mu?","ms":"<b>M</b>","d":null,"k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>f)</b>  Salgın hastalık/enfeksiyon semptomları olan bir kişi ile ilgilenirken, uygun ek KKD’lerin kullanılmasını içeriyor mu?","ms":"<b>M</b>","d":null,"k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>g)</b> Müdahale sonrası KKD’lerin uygun şekilde çıkarılmasını içeriyor mu?","ms":"<b>M</b>","d":"Plan dahilindedir.","k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>h)</b> Salgın hastalık/enfeksiyon belirtileri olan kişinin vücut sıvılarıyla temas eden eldivenlerin ve diğer tek kullanımlık eşyaların tıbbi atık olarak kabul edilerek uygun şekilde bertaraf edilmesini içeriyor mu?","ms":"<b>M</b>","d":null,"k":null},{"t":"r","no":"<b>10(BU)</b>","q":"Salgın hastalık/enfeksiyon şüpheli vakalarının tahliyesi/transferi ile ilgili yöntem belirlenmiş mi?","ms":"<b>S</b>","d":"Tahliye ve sağlık kuruluşuna yönlendirme prosedürü mevcuttur.","k":null},{"t":"r","no":"<b>11(BU)</b>","q":"Kuruluş bünyesinde ambulans var ise ambulans kullanımı ve temizlik, hijyen ve gerektiğinde dezenfeksiyonu ile ilgili sağlık otoritelerince belirlenen kurallar uygulanmakta mı?","ms":"<b>S</b>","d":"Ambulans kullanım ve temizlik kuralları uygulanmaktadır.","k":"ambulans"},{"t":"r","no":"<b>12 (BU)</b>","q":"Eğitim faaliyetine başlamadan önce ve belirlenmiş periyotlarda binaların genel temizliğinin yapılması, genel hijyenin sağlanması ile ilgili planlama ve kontrol yöntemi belirlenmiş mi?","ms":"<b>M/S</b>","d":"Genel temizlik ve hijyen planı mevcut, kontrol formları tutulmaktadır.","k":null},{"t":"r","no":"<b>13 (BU)</b>","q":"Hijyen ve salgın hastalık/enfeksiyonlar kapsamında alınacak önlemler kuruluşun varsa web sayfasında yayımlanmış mı?<br>Eğitim öğretim faaliyetleri başlamadan önce hijyen ve salgın hastalıklar/enfeksiyonlar ile ilgili uygulamalar konusunda velilere (e-okul, e-posta, SMS vb. iletişim kanalları ile) bilgilendirilme yapılması sağlanmış mı?","ms":"<b>M/S</b>","d":null,"k":null},{"t":"r","no":"<b>14 (BU)</b>","q":"Eğitim öğretim faaliyetleri başlamadan önce hijyen, potansiyel salgın hastalık veya enfeksiyon riskleri kapsamında alınan önlemler ve kuruluş şartları ilgili taraflara (veliler, öğrenciler vb.) iletimi sağlanmış mı? ","ms":"<b>M/S</b>","d":null,"k":null},{"t":"r","no":"<b>(BU)</b>","q":"Uygulanan yöntem;<br><b>a)</b> Çeşitli salgın hastalık semptomları (ateş, öksürük, burun akıntısı, solunum sıkıntısı, ishal vb.) veya enfeksiyon belirtileri gösteren öğrencilerin durumu ile ilgili kuruluşa bilgi verilmesini içeriyor mu?","ms":"<b>M/S</b>","d":null,"k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>b)</b> Aile içerisinde salgın hastalık veya enfeksiyon belirtisi ya da tanısı alan kişi bulunması durumunda kuruluşa bilgi verilmesini içeriyor mu?","ms":"<b>M/S</b>","d":null,"k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>c) </b>Öğrencilerin bırakılması ve alınması sırasında personel ve velilerin kuruluşun hijyen ve enfeksiyon risk yönetim ilkelerine uymasını içeriyor mu?","ms":"<b>M/S</b>","d":null,"k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>d)</b> Salgın hastalık riski bulunması durumunda veliler tarafından öğrencinin alınması ile ilgili kuruluş tarafından belirlenen önlemleri içeriyor mu?","ms":"<b>M/S</b>","d":null,"k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>e)</b> Salgın hastalık dönemlerine özgü riskli gruplarda yer alan kişilerin öğrencileri bırakıp almamasını içeriyor mu? ","ms":"<b>M/S</b>","d":"Yöntem veli bilgilendirmesinde yer almaktadır.","k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>f)</b> Belirlenen yöntem ve ortaya konan şartların uygulamaların sürekliliği, kontrol altına alınmış mı?","ms":"<b>M/S</b>","d":"Eksiklik kontrolleri yapılmaktadır.","k":null},{"t":"r","no":"<b>15 (BU)</b>","q":"Kuruluş girişlerine personel, öğrenci, veli ve ziyaretçilerin el hijyenini sağlayabilmeleri için gerekli altyapı sağlanmış mı?","ms":"<b>S</b>","d":"Girişlerde el antiseptiği ve bilgilendirme mevcuttur.","k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>a)</b> Kuruluşun hijyen ve enfeksiyon risk yönetim ilkelerine uygun olarak; öğretmen, öğrenci ve diğer çalışanların KKD kullanımı için gerekli bilgilendirme ve kontroller gerektiğinde yapılmakta mı?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>b)</b> Kuruluşun hijyen ve enfeksiyon risk yönetim ilkelerine uygun olarak kuruluşta bulunan herkesin KKD’leri kuralına uygun kullanımı için gerekli bilgilendirme ve kontroller gerektiğinde yapılmakta mı?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>c)</b> Kuruluşun hijyen ve enfeksiyon risk yönetim ilkelerine uygun olarak kuruluşta bulunanların KKD değiştirirken dikkat edilmesi gereken hususlar konusunda bilgilendirme ve kontroller gerektiğinde yapılmakta mı?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>16 (BU)</b>","q":"<b>a)</b> Kuruluşun tüm alanlarında el hijyeni için gerekli kaynaklar sağlanmış mı?","ms":"<b>S</b>","d":"Sabun, kâğıt havlu ve antiseptik sağlanmıştır.","k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>b)</b>  El hijyeni için gerekli kaynakların sürekliliğinin sağlanması ile ilgili kontrol kriterleri belirlenerek kontrolün gerçekleştirilmesi sağlanmakta mı?","ms":"<b>S</b>","d":null,"k":null},{"t":"s","c":[[5,"<b>YÜKLENİCİLER, DIŞ SERVİS / HİZMET SUNUCULARI, ÜRÜN VE HİZMET TEDARİKÇİLERİ</b>"]],"k":null},{"t":"r","no":"<b>1(KU)</b>","q":"<b>a)</b> Kuruluş tarafından uyulması gereken temizlik, hijyen ve enfeksiyon önlemleri ve kurallarına dair tedarikçilerini bilgilendirmiş ve güvence altına almış mı? ","ms":"<b>S</b>","d":"Tedarikçi bilgilendirme/taahhüt uygulanmaktadır.","k":null},{"t":"r","no":"<b>(KU)</b>","q":"<b>b)</b> Tedarikçilerin belirlenen önlem ve kurallara uymaları konusunda gerekli kontrol tedbirleri uygulanmakta mı?","ms":"<b>S</b>","d":"Gerekli kontrol tedbirleri uygulanmaktadır.","k":null},{"t":"r","no":"<b>2(KU)</b>","q":"Kuruluş; dışarıdan tedarik edilen proses, ürün ve hizmetlerin, kuruluşun hijyen sanitasyon uygulamalarını olumsuz şekilde etkilememesini güvence altına almış mı?","ms":"<b>S</b>","d":"Tedarik süreçleri hijyen kurallarına uygun yönetilmektedir.","k":null},{"t":"r","no":"<b>3(KU)</b>","q":"Tedarikçi araçları ile ilgili temizlik ve hijyen kontrolleri yapılıyor mu? ","ms":"<b>S</b>","d":"Gerekli hallerde kontrol uygulanmaktadır.","k":null},{"t":"s","c":[[5,"<b>EĞİTİM</b>"]],"k":null},{"t":"r","no":"<b>1 (BU)</b>","q":"Kuruluş en az aşağıdaki eğitimleri bir plan dâhilinde gerçekleştirmiş, öğrenci ve personel yetkinliğini sağlayarak kayıtlarını muhafaza etmiş mi?<br><br>Standart Enfeksiyon Kontrol Önlemleri (SEKÖ);<br>Bulaş Bazlı Önlemler (BBÖ);<br>Salgın hastalık ve enfeksiyon belirtileri ve yayılımı hakkında:<br>Öğrencilerin ve personelin kendisinde belirtiler ve/veya hastalık görüldüğünde yapılacaklar;<br>Hastalığın yayılmaması için yapacakları/yapılacaklar;<br>Kişisel hijyen, el hijyeni,<br>KKD’nin kullanılması","ms":"<b>M/S</b>","d":null,"k":null},{"t":"r","no":"<b>(BU)</b>","q":"Temizlik personeli eğitimlerinde ayrıca;<br>Temizlik yapılmadan önce, yapılırken ve yapıldıktan sonra dikkat edilmesi gereken hususlar,<br>İşyerinde kullanılan temizlik kimyasallarının tehlikelerini, atıkların toplanması ve imhasını<br>içermekte mi?","ms":"<b>M/S</b>","d":null,"k":null},{"t":"r","no":"<b>2 (BU)</b>","q":"Özel eğitim ihtiyacı olan bireylerin eğitime erişimlerini kolaylaştırmak için belirlenen özel eğitim politikaları belirlenmiş ve uygulanmakta mı?","ms":"<b>M/S</b>","d":"Okul özel eğitim politikaları uygulanmaktadır.","k":null},{"t":"s","c":[[5,"<b>ATIK YÖNETİMİ</b>"]],"k":null},{"t":"r","no":"<b>1(BU)</b>","q":"Atık yönetimi ile ilgili yöntem belirlenmiş mi?<br>Sağlık otoritelerince belirlenmesi halinde salgın hastalık durumlarına özgü, atık yönetimi kurallarına uygun hareket edilmesi sağlanmış mı?","ms":"<b>S</b>","d":"Atık yönetimi talimatı mevcuttur.","k":null},{"t":"r","no":"<br><b>2(BU)</b>","q":"Atık geçici depolama alanı, mevzuat gereksinimlerini karşılayacak şekilde diğer alanlar ve çevreden ayrılmış mı?","ms":"<b>S</b>","d":"Geçici depolama alanı ayrılmış ve düzenlenmiştir.","k":"atik_depolama"},{"t":"r","no":"<b>3(BU)</b>","q":"Sıvı ve katı atık geçici depolama alanı, atıkların her tasfiyesinden/uzaklaştırılmasından sonra temizlenmekte mi?","ms":"<b>S</b>","d":"Her tasfiye sonrası temizlik yapılmaktadır.","k":"atik_depolama"},{"t":"r","no":"<b>4(BU)</b>","q":"Araç, taşıyıcı ve konteynerler; bakımlı, temiz ve uygun durumda tutulmakta mı?","ms":"<b>S</b>","d":"Kontrol ve bakım yapılmaktadır.","k":null},{"t":"r","no":"<b>5(KU)</b>","q":"Kullanımda olan atık kumbaraları, tercihen elle temas etmeden açılabilir-kapanabilir (pedallı, sensörlü, vb.) mi?","ms":"<b>S</b>","d":"Kapaklı/pedallı atık üniteleri yerleştirilmiştir.","k":null},{"t":"s","c":[[5,"<b>KURULUŞ GİRİŞİ, GÜVENLİK/DANIŞMA</b>"]],"k":null},{"t":"r","no":"<b>1 (BU)</b>","q":"Kuruluş tarafından enfeksiyon, temizlik ve hijyenle ilgili giriş kuralları belirlenmiş ve uygulanmakta mı? ","ms":"<b>S</b>","d":"Giriş kuralları belirlenmiş ve uygulanmaktadır.","k":"guvenlik_danisma"},{"t":"r","no":"<b>2 (BU)</b>","q":"Güvenlik personeli, hijyen ve enfeksiyon riskleri doğrultusunda oluşturulan kuruluşa giriş kuralları hakkında bilgiye sahip mi?","ms":"<b>S</b>","d":"Güvenlik personeline tebliğ edilmiştir.","k":null},{"t":"r","no":"<b>3 (BU)</b>","q":"Güvenlik personeli, hijyen ve enfeksiyon riskleri doğrultusunda oluşturulan giriş kurallarına uyulmasını sağlıyor mu?<br>Güvenlik personeline hijyen ve enfeksiyon risk yönetim ilkelerine uygun olarak kişisel koruyucu önlemler için gerekli kişiye özel KKD temin edilmiş mi?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>4 (BU)</b>","q":"Güvenlik personeli tarafından ortak kullanılan malzemelerin temizlik/hijyeni ile ilgili yöntem “Hijyen ve sanitasyon planında” yer almakta mı?","ms":"<b>S</b>","d":"Planda yer almaktadır.","k":null},{"t":"r","no":"<b>5 (KU)</b>","q":"Kuruluşa giriş/çıkış ile ilgili hijyen ve enfeksiyon riskleri doğrultusunda kurallar belirlenmiş, uygulanmakta ve ziyaretçiler detaylı olarak kayıt altına alınmakta mı?","ms":"<b>S</b>","d":"Ziyaretçi defteri/kayıt uygulanmaktadır.","k":null},{"t":"r","no":"<b>6(BU)</b>","q":"Ziyaretçi kartlarının temizlik/hijyeni ile ilgili yöntem “Hijyen ve Sanitasyon Planında” yer almakta mı?","ms":"<b>S</b>","d":"Planda yer almaktadır.","k":null},{"t":"r","no":"<b>7(BU)</b>","q":"El Hijyeni sağlama imkânları bulunmakta mı?","ms":"<b>S</b>","d":"Girişte el antiseptiği mevcuttur.","k":null},{"t":"r","no":"<b>8(KU)</b>","q":"Ziyaretçilerin kuruluşa giriş/çıkış ile ilgili hijyen ve enfeksiyon riskleri doğrultusunda bilgilendirilmesi sağlanıyor mu? ","ms":"<b>S</b>","d":"Bilgilendirme yapılmaktadır.","k":null},{"t":"r","no":"<b>9(BU)</b>","q":"Danışma personeli için hijyen ve enfeksiyon riskleri doğrultusunda tüm önlemler belirlenmiş ve gerekli KKD’ler sağlanmış mı?","ms":"<b>S</b>","d":"Önlemler ve KKD sağlanmıştır.","k":null},{"t":"r","no":"<b>10(BU)</b>","q":"Danışma bölümü “Hijyen ve Sanitasyon Planında”  yer almakta mı? ","ms":"<b>S</b>","d":"Planda yer almakta; periyodik temizlik yapılmaktadır.","k":null},{"t":"r","no":"<b>(BU)</b>","q":"Plan en az aşağıdakileri kapsıyor mu?<br><b>a)</b> Danışmada yüzeylerin ziyaretçi yoğunluğu da dikkate alınarak belirli aralıklarla temizlenmesi sağlanıyor mu?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>(BU)</b>","q":"<b>b)</b> Danışma alanının en az günlük olarak temizlenmesi; danışmadaki kalemler, ziyaretçi kartlarının da hijyenik olması sağlanıyor mu?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>11(KU)</b>","q":"Mümkün olduğunda, acil durumlarla başa çıkmak için her zaman göreve hazır eğitilmiş en az bir kişi belirlenmiş mi?","ms":"<b>M/S</b>","d":null,"k":null},{"t":"r","no":"<b>12(KU)</b>","q":"Danışma ofisinde iletişim planına göre belirlenmiş olan personel acil durum iletişim çizelgesinin bulunması ve her zaman ulaşılır olması sağlanmış mı?","ms":"<b>S</b>","d":"İletişim çizelgesi mevcuttur.","k":null},{"t":"r","no":"<b>13(KU)</b>","q":"Danışma ofisinde iletişim planına göre belirlenmiş olan acil iletişim numaraları listesi mevcut mu? (yerel sağlık, hastane, kuruluş doktoru, ambulans vb. )","ms":"<b>S</b>","d":"112 ve yerel sağlık numaraları listelenmiştir.","k":null},{"t":"s","c":[[4,"<b>BEKLEME ALANI / LOBİ</b>"],[1,""]],"k":null},{"t":"r","no":"<b>1 (BU)</b>","q":"Bekleme alanı/Lobi’nin oturma düzeni, kişiler arasında uygun mesafe olacak şekilde ve genel hijyen kurallarına uygun önlemlere göre düzenlenmiş mi?","ms":"<b>S</b>","d":"Genel hijyen kurallarına uygun düzenleme yapılmıştır.","k":null},{"t":"r","no":"<b>2 (BU)</b>","q":"El hijyeni sağlama imkânları bulunuyor mu?","ms":"<b>S</b>","d":"El antiseptiği mevcuttur.","k":null},{"t":"r","no":"<b>3 (BU)</b>","q":"Tüm alan ve içindeki mobilya/eşyaların, “Hijyen ve Sanitasyon Planında” belirlenen şekilde temizlik ve hijyen uygulamaları gerçekleştiriliyor mu?","ms":"<b>S</b>","d":"Günlük temizlik ve sık dokunulan yüzey dezenfeksiyonu uygulanmaktadır.","k":null},{"t":"r","no":"<b>4 (KU)</b>","q":"Bekleme alanı/lobide, hijyen ve enfeksiyon riskleri doğrultusunda önlemler alınmış mı?","ms":"<b>S</b>","d":"Önlemler uygulanmaktadır.","k":null},{"t":"s","c":[[5,"<b>DERSLİKLER VE ETÜT SALONLARI</b>"]],"k":null},{"t":"r","no":"<br><b>1 (BU)</b>","q":"“Hijyen ve Sanitasyon Planında” belirlenen şekilde temizlik ve hijyen uygulamaları gerçekleştiriliyor mu?","ms":"<b>S</b>","d":"Günlük temizlik ve sık dokunulan yüzey dezenfeksiyonu uygulanmaktadır.","k":null},{"t":"r","no":"<b>2 (BU)</b>","q":"Havalandırma, hijyen ve enfeksiyon risk yönetim ilkeleri dikkate alınarak kontrol altında tutuluyor mu?<br>Havalandırma sistemi periyodik kontrolü yapılıyor mu?","ms":"<b>S</b>","d":"Düzenli havalandırma; bakım takip edilmektedir.","k":null},{"t":"r","no":"<b>3 (KU)</b>","q":"Pano, ekran vb. görünür alanlara, temizlik, hijyen ve sanitasyon bilincini ve farkındalığını artırmaya yönelik afiş, poster vb. asılmış mı?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>4 (BU)</b>","q":"Ortak kullanılan ekipman ve dolaplar için “Hijyen ve Sanitasyon Planına”  uygun olarak düzenli şekilde temizlik ve hijyen uygulamaları gerçekleştiriliyor mu? ","ms":"<b>S</b>","d":"Günlük temizlik ve sık dokunulan yüzey dezenfeksiyonu uygulanmaktadır.","k":null},{"t":"r","no":"<b>(BU)</b>","q":"Ortak temas yüzeyleri (bilgisayarlar, dolaplar, makinalar, aletler vb.) için kullanım şartları, kullanım sıklığı, kullanıcı sayısı vb. kriterlerine göre hijyen ve sanitasyon programları oluşturulmuş ve uygulanmakta mı?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>(BU)</b>","q":"Kullanılan ekipmanların yüzey temizlikleri var ise üretici firmaların belirlediği kriterler de dikkate alınarak uygulanmakta mı?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>(BU)</b>","q":"Elle temas etmeden açılabilir-kapanabilir pedallı, sensörlü, vb. atık kumbaralarına ulaşılabilir durumda mı?","ms":"<b>S</b>","d":"Kapaklı/pedallı atık üniteleri yerleştirilmiştir.","k":null},{"t":"r","no":"<b>5 (BU)</b>","q":"Oturma düzeni hijyen ve enfeksiyon risk yönetim ilkeleri dikkate alınarak planlanmış ve uygulanıyor mu?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>6(KU)</b>","q":"Sınıf içinde yapılan aktiviteler, hijyen ve enfeksiyon risk yönetim ilkeleri dikkate alınarak planlanmış ve uygulanıyor mu?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>7(KU)</b>","q":"Eğitim malzemelerinin kişiye özel olması, öğrenciler arası malzeme alışverişi yapılmaması, hijyen ve enfeksiyon risk yönetim ilkeleri dikkate alınarak planlanmış ve uygulanıyor mu?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>8(BU)</b>","q":"Öğrenci gruplarının sınıf kullanımları ve sınıf değişikliği yapılması durumu, hijyen ve enfeksiyon risk yönetim ilkeleri dikkate alınarak planlanmış ve uygulanıyor mu?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>9(KU)</b>","q":"Öğrencilerin toplu halde bir arada bulunmaları, hijyen ve enfeksiyon risk yönetim ilkeleri dikkate alınarak planlanmış ve uygulanıyor mu? ","ms":"<b>S</b>","d":null,"k":null},{"t":"s","c":[[4,"<b>ATÖLYELER/LABORATUVARLAR</b>"],[1,""]],"k":"laboratuvar"},{"t":"r","no":"<b>1 (BU)</b>","q":"Çalışma alanında yer alan ortak temas yüzeyleri (çalışma tezgâhları, deney masaları, laboratuvar malzemeleri, el aletleri vb.) için kullanım şartları, kullanım sıklığı, kullanıcı sayısı vb. kriterlerine göre hijyen ve sanitasyon programları oluşturulmuş ve uygulanmakta mı?","ms":"<b>S</b>","d":null,"k":"laboratuvar"},{"t":"r","no":"<b>2 (BU)</b>","q":"Havalandırma, hijyen ve enfeksiyon risk yönetim ilkeleri dikkate alınarak kontrol altında tutuluyor mu?<br>Havalandırma sistemi periyodik kontrolü yapılıyor mu?","ms":"<b>S</b>","d":"Düzenli havalandırma; bakım takip edilmektedir.","k":"laboratuvar"},{"t":"r","no":"<b>3(KU)</b>","q":"Atölye ve laboratuvarlarda panolara, ekranlara ve ortak alanlara, temizlik, hijyen ve sanitasyon bilincini ve farkındalığını artırmaya yönelik afiş, poster vb. asılmış mı?","ms":"<b>S</b>","d":null,"k":"laboratuvar"},{"t":"r","no":"<b>4(BU)</b>","q":"Öğrencilerin toplu halde bir arada bulunmaları, hijyen ve enfeksiyon risk yönetim ilkeleri dikkate alınarak planlanmış ve uygulanıyor mu?","ms":"<b>S</b>","d":null,"k":"laboratuvar"},{"t":"r","no":"<b>5(BU)</b>","q":"Ortak kullanılan ekipman ve çalışma alanlarında “Hijyen ve Sanitasyon Planına”  uygun olarak düzenli şekilde temizlik ve hijyen uygulamaları gerçekleştiriliyor mu?","ms":"<b>S</b>","d":"Günlük temizlik ve sık dokunulan yüzey dezenfeksiyonu uygulanmaktadır.","k":"laboratuvar"},{"t":"s","c":[[5,"<b>ÖĞRETMENLER ODASI</b>"]],"k":"ogretmenler_odasi"},{"t":"r","no":"<b>1 (BU)</b>","q":"Oda, kişiler arasında uygun mesafe olacak şekilde ve genel hijyen kurallarına uygun önlemlere göre düzenlenmiş mi?","ms":"<b>S</b>","d":"Genel hijyen kurallarına uygun düzenleme yapılmıştır.","k":"ogretmenler_odasi"},{"t":"r","no":"<b>2 (BU)</b>","q":"Havalandırma, hijyen ve enfeksiyon risk yönetim ilkeleri dikkate alınarak kontrol altında tutuluyor mu?<br>Havalandırma sistemi periyodik kontrolü yapılıyor mu?","ms":"<b>S</b>","d":"Düzenli havalandırma; bakım takip edilmektedir.","k":"ogretmenler_odasi"},{"t":"r","no":"<br><b>3 (KU)</b>","q":"Bilgisayar klavyesi, mouse, telefon, dolap, kalem, silgi vb. malzeme ve ekipman için kullanım şartları, kullanım sıklığı, kullanıcı sayısı vb. kriterlerine göre hijyen ve sanitasyon programları oluşturulmuş ve uygulanmakta mı?","ms":"<b>S</b>","d":null,"k":"ogretmenler_odasi"},{"t":"r","no":"<b>4 (BU)</b>","q":"El hijyeni sağlama imkânları bulunuyor mu?","ms":"<b>S</b>","d":"El antiseptiği mevcuttur.","k":"ogretmenler_odasi"},{"t":"r","no":"<b>5 (BU)</b>","q":"Elle temas etmeden açılabilir-kapanabilir pedallı, sensörlü vb. atık kumbaralarına ulaşılabilir durumda mı?","ms":"<b>S</b>","d":"Kapaklı/pedallı atık üniteleri yerleştirilmiştir.","k":"ogretmenler_odasi"},{"t":"r","no":"<b>6 (BU)</b>","q":"Odanın eklentilerinde çay ocağı veya mutfak bulunması durumunda, hijyen ve enfeksiyon risk yönetim ilkeleri dikkate alınmakta mı?","ms":"<b>S</b>","d":null,"k":"ogretmenler_odasi"},{"t":"s","c":[[5,"<b>OFİSLER (İDARİ ODALAR, REHBERLİK SERVİSİ vb.)</b>"]],"k":null},{"t":"r","no":"<b>1 (BU)</b>","q":"Ofislerin yerleşimi kişiler arasında uygun mesafe olacak şekilde ve genel hijyen kurallarına uygun önlemlere göre düzenlenmiş mi?","ms":"<b>S</b>","d":"Genel hijyen kurallarına uygun düzenleme yapılmıştır.","k":null},{"t":"r","no":"<b>2 (BU)</b>","q":"Havalandırma, hijyen ve enfeksiyon risk yönetim ilkeleri dikkate alınarak kontrol altında tutuluyor mu?<br>Havalandırma sistemi periyodik kontrolü yapılıyor mu?","ms":"<b>S</b>","d":"Düzenli havalandırma; bakım takip edilmektedir.","k":null},{"t":"r","no":"<b>3 (BU)</b>","q":"Bilgisayar klavyesi, mouse, telefon, dolap, kalem, silgi vb. malzeme ve ekipman için kullanım şartları, kullanım sıklığı, kullanıcı sayısı vb. kriterlerine göre hijyen ve sanitasyon programları oluşturulmuş ve uygulanmakta mı?","ms":"<b>S</b>","d":null,"k":null},{"t":"s","c":[[5,"<b>TOPLANTI/KONFERANS SALONLARI/ÇOK AMAÇLI SALONLAR</b>"]],"k":"konferans"},{"t":"r","no":"<b>1 (BU)</b>","q":"Kişiler arasında uygun mesafe olacak şekilde ve genel hijyen kurallarına uygun önlemlere göre düzenlenmiş mi?","ms":"<b>S</b>","d":"Genel hijyen kurallarına uygun düzenleme yapılmıştır.","k":"konferans"},{"t":"r","no":"<b>2 (BU)</b>","q":"Hijyen ve enfeksiyon riskleri doğrultusunda önlemler alınmış mı?","ms":"<b>S</b>","d":"Önlemler uygulanmaktadır.","k":"konferans"},{"t":"r","no":"<b>3 (BU)</b>","q":"“Hijyen ve Sanitasyon Planına”  uygun olarak toplantı öncesi/sonrası (masa, varsa teknik donanımlar, mikrofon vb.) temizlik ve hijyen uygulamaları yapılıyor mu?","ms":"<b>S</b>","d":null,"k":"konferans"},{"t":"r","no":"<b>4 (BU)</b>","q":"Toplantı sırasında ikram sunumu, hijyen ve enfeksiyon risk yönetim ilkelerine uygun olarak yapılmakta mı?","ms":"<b>S</b>","d":null,"k":"konferans"},{"t":"r","no":"<b>5 (BU)</b>","q":"Havalandırma, hijyen ve enfeksiyon risk yönetim ilkeleri dikkate alınarak kontrol altında tutuluyor mu?<br>Havalandırma sistemi periyodik kontrolü yapılıyor mu?","ms":"<b>S</b>","d":"Düzenli havalandırma; bakım takip edilmektedir.","k":"konferans"},{"t":"r","no":"<b>6 (BU)</b>","q":"Toplantı salonunun girişinde el hijyeni sağlama imkânları bulunuyor mu? ","ms":"<b>S</b>","d":"El antiseptiği mevcuttur.","k":"konferans"},{"t":"s","c":[[5,"<b>KANTİN, YEMEKHANE</b>"]],"k":"kantin|yemekhane"},{"t":"r","no":"<b>1 (BU)</b>","q":"Hijyen ve Sanitasyon Planına”  uygun olarak temizlik ve hijyen uygulamaları yapılıyor mu?","ms":"<b>S</b>","d":"Günlük temizlik ve sık dokunulan yüzey dezenfeksiyonu uygulanmaktadır.","k":"kantin|yemekhane"},{"t":"r","no":"<b>2 (BU)</b>","q":"Yemek hizmetinin dışarıdan temin edilmesi durumunda mevcut kurallara ek olarak yüklenici firmadan Hijyen, Enfeksiyon Önleme ve Kontrol İçin Eylem Planı istenmiş mi? <br><b>Not</b>: Tercihen yemek hizmeti TS EN ISO 22000 Gıda Güvenliği Yönetim Sistemi veya TS 13811 Hijyen ve Sanitasyon Yönetim Sistemi belgeli kuruluşlardan temin edilmelidir. Kuruluş tarafından mümkünse, tedarikçinin bu kurallara uyumu için yerinde denetim gerçekleştirilebilir.","ms":"<b>S</b>","d":null,"k":"kantin|yemekhane"},{"t":"r","no":"<b>3 (BU)</b>","q":"Kantin/Yemekhane personelinin kişisel hijyen ve enfeksiyonlara yönelik kurallara sıkı bir şekilde uyma farkındalığı sağlanmış mı?","ms":"<b>S</b>","d":"SEKÖ, BBÖ, el hijyeni ve KKD eğitimleri planlanmış ve uygulanmıştır.","k":"kantin|yemekhane"},{"t":"r","no":"<b>4 (BU)</b>","q":"Personelin işe özgü KKD’ler (maske, bone, eldiven vb.) kullanması sağlanmış mı?","ms":"<b>S</b>","d":"KKD kullanımı sağlanmaktadır.","k":"kantin|yemekhane"},{"t":"r","no":"<b>5 (BU)</b>","q":"Yemekhane girişlerinde el hijyeni sağlama imkânları bulunuyor mu?","ms":"<b>S</b>","d":"El antiseptiği mevcuttur.","k":"kantin|yemekhane"},{"t":"r","no":"<b>6 (BU)</b>","q":"Kişilere yemek öncesi ve sonrası el yıkama yoluyla el hijyeni sağlamaları konusunun hatırlatılması (girişte ve uygun noktalara yerleştirilen uyarıcı afişler/posterler vb. bulunması gereklidir) için gerekli düzenlemeler yapılmış mı?","ms":"<b>S</b>","d":null,"k":"kantin|yemekhane"},{"t":"r","no":"<b>7 (BU)</b>","q":"Büfe ve sık kullanılan yüzeylerin sık sık temizlik ve hijyen uygulamaları yapılıyor mu?","ms":"<b>S</b>","d":"Günlük temizlik ve sık dokunulan yüzey dezenfeksiyonu uygulanmaktadır.","k":"kantin|yemekhane"},{"t":"r","no":"<b>8 (BU)</b>","q":"Menaj takımlarının (tuz, karabiber, sos vb.), şekerin, kürdanın vb. hijyen ve enfeksiyon risk yönetim ilkelerine uygun olarak sunulması sağlanmış mı?","ms":"<b>S</b>","d":null,"k":"kantin|yemekhane"},{"t":"r","no":"<b>9 (BU)</b>","q":"Hijyen ve enfeksiyon risk yönetim ilkelerine uygun olarak su sebilleri, kahve, çay vb. içecek makinaları ve otomatlarda “Hijyen ve Sanitasyon planına” uygun olarak uygulamalar gerçekleştiriliyor mu?","ms":"<b>S</b>","d":null,"k":"kantin|yemekhane"},{"t":"r","no":"<b>10 (BU)</b>","q":"Havalandırma, hijyen ve enfeksiyon risk yönetim ilkeleri dikkate alınarak kontrol altında tutuluyor mu?<br>Havalandırma sistemi periyodik kontrolü yapılıyor mu?","ms":"<b>S</b>","d":"Düzenli havalandırma; bakım takip edilmektedir.","k":"kantin|yemekhane"},{"t":"r","no":"<b>11 (BU)</b>","q":"Bulaşık yıkama donanımının düzgün çalışması, özellikle çalışma sıcaklıklarının yanı sıra temizlik ve dezenfekte edici kimyasalların kullanım dozunun uygunluğu kontrol altına alınmış mı?","ms":"<b>S</b>","d":null,"k":"kantin|yemekhane"},{"t":"r","no":"<b>12 (BU)</b>","q":"Kuruluşlarda hammadde ve/veya gıdanın depolanması ve muhafazası ile ilgili yürürlükteki yasal şartlara uygun düzenlemeler sağlanmış mı?<br><b>Not: Riskli dönemlerde diğer otoriteler tarafından belirlenen ilave kurallar MEB talimatı ile uygulanmalıdır.</b>","ms":"<b>S</b>","d":null,"k":"kantin|yemekhane"},{"t":"r","no":"<b>13 (BU)</b>","q":"Hijyen ve enfeksiyon risk yönetim ilkelerine uygun olarak kişiler arası uygun mesafe olacak şekilde yerleşim planı uygulanıyor mu? ","ms":"<b>S</b>","d":null,"k":"kantin|yemekhane"},{"t":"s","c":[[5,"<b>TUVALETLER VE LAVABOLAR</b>"]],"k":null},{"t":"r","no":"<b>1 (BU)</b>","q":"Kapılar ve kapı kolları dâhil tüm yüzeyler için “Hijyen ve Sanitasyon Planı” uygulanıyor mu? ","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>2 (BU)</b>","q":"Tuvaletlerin havalandırma sistemi temiz, hava sirkülasyonu yeterli ve uygun mu?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>3 (BU)</b>","q":"El hijyeni sağlama imkânları bulunuyor mu?","ms":"<b>S</b>","d":"El antiseptiği mevcuttur.","k":null},{"t":"r","no":"<b>4 (BU)</b>","q":"Temizlik, hijyen ve sanitasyon bilincini ve farkındalığını artırmaya yönelik afiş, poster vb. asılmış mı?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>5 (BU)</b>","q":"Personel ve öğrencilerin kâğıt havluları ve benzeri atıkları atmalarını kolaylaştırıcı, çıkışa yakın noktalara elle temas etmeden açılıp kapanabilen atık kumbaralarına ulaşılabilir durumda mı?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>6 (KU)</b>","q":"Hepafiltreli hava akımı ile çalışan el kurutma cihazları dışındaki el kurutucu cihazlar için hijyen ve enfeksiyon risk yönetim ilkelerine uygun önlemler uygulanıyor mu?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>7 (BU)</b>","q":"Kuruluş genelindeki lavabo ve gider bağlantıların deveboyunlarının S sifon şekilde olması sağlanmış mı?","ms":"<b>S</b>","d":null,"k":null},{"t":"s","c":[[5,"<b>ASANSÖRLER</b>"]],"k":"asansor"},{"t":"r","no":"<b>1 (BU)</b>","q":"Asansör kapasitesi hijyen ve enfeksiyon risk yönetim ilkelerine uygun olarak belirlenmiş mi?","ms":"<b>S</b>","d":"Tedarikçi bilgilendirme/taahhüt uygulanmaktadır.","k":"asansor"},{"t":"r","no":"<b>2 (BU)</b>","q":"“Hijyen ve Sanitasyon Planına” uygun olarak temizlik ve hijyen uygulamaları yapılıyor mu?<br>Asansör girişlerinde el hijyeni sağlama imkânları bulunuyor mu?","ms":"<b>S</b>","d":null,"k":"asansor"},{"t":"r","no":"<b>3 (BU)</b>","q":"Hijyen ve enfeksiyon risk yönetim ilkelerine uygun olarak asansör içinde öksürük, hapşırık adabına uyulmasına yönelik uyarılar sağlanmış mı?","ms":"<b>S</b>","d":null,"k":"asansor"},{"t":"r","no":"<b>4 (BU)</b>","q":"Havalandırma, hijyen ve enfeksiyon risk yönetim ilkeleri dikkate alınarak kontrol altında tutuluyor mu?<br>Havalandırma sistemi periyodik kontrolü yapılıyor mu?","ms":"<b>S</b>","d":"Düzenli havalandırma; bakım takip edilmektedir.","k":"asansor"},{"t":"s","c":[[1,""],[3,"<b>REVİR/SAĞLIK ODASI</b>"],[1,""]],"k":"revir"},{"t":"r","no":"<b>1 (BU)</b>","q":"“Hijyen ve Sanitasyon Planına” uygun olarak temizlik ve hijyen uygulamaları yapılıyor ve gerektiğinde dezenfekte edilmesi sağlanıyor mu?","ms":"<b>S</b>","d":"Günlük temizlik ve sık dokunulan yüzey dezenfeksiyonu uygulanmaktadır.","k":"revir"},{"t":"r","no":"<b>2 (BU)</b>","q":"Reviri kullanabilecek kişi sayısının belirlenmesi, revire gelen kişilerin KKD kullanımına yönelik önlemlerin alınması, revire başvuran kişilere ait vaka takip kayıtlarının tutulması sağlanmakta mı?","ms":"<b>S</b>","d":null,"k":"revir"},{"t":"r","no":"<b>3 (BU)</b>","q":"Havalandırma, hijyen ve enfeksiyon risk yönetim ilkeleri dikkate alınarak kontrol altında tutuluyor mu?<br>Havalandırma sistemi periyodik kontrolü yapılıyor mu?","ms":"<b>S</b>","d":"Düzenli havalandırma; bakım takip edilmektedir.","k":"revir"},{"t":"r","no":"<b>4 (BU)</b>","q":"Revirde oluşan atıkların, kılavuzun atık yönetimi maddesinde anlatıldığı şekilde bertaraf edilmesi sağlanıyor mu?","ms":"<b>S</b>","d":null,"k":"revir"},{"t":"s","c":[[1,""],[3,"<b>İBADETHANE / MESCİD</b>"],[1,""]],"k":"mescit"},{"t":"r","no":"<b>1 (BU)</b>","q":"“Hijyen ve Sanitasyon Planına” uygun olarak temizlik ve hijyen uygulamaları yapılıyor mu?","ms":"<b>S</b>","d":"Günlük temizlik ve sık dokunulan yüzey dezenfeksiyonu uygulanmaktadır.","k":"mescit"},{"t":"r","no":"<b>2 (BU)</b>","q":"Havalandırma, hijyen ve enfeksiyon risk yönetim ilkeleri dikkate alınarak kontrol altında tutuluyor mu?<br>Havalandırma sistemi periyodik kontrolü yapılıyor mu?","ms":"<b>S</b>","d":"Düzenli havalandırma; bakım takip edilmektedir.","k":"mescit"},{"t":"r","no":"<b>3 (BU)</b>","q":"El hijyeni sağlama imkânları bulunuyor mu?","ms":"<b>S</b>","d":"El antiseptiği mevcuttur.","k":"mescit"},{"t":"r","no":"<b>4 (BU)</b>","q":"Kişiler arasında uygun mesafe olacak şekilde ve genel hijyen kurallarına uygun önlemlere göre düzenlenmiş mi?","ms":"<b>S</b>","d":"Genel hijyen kurallarına uygun düzenleme yapılmıştır.","k":"mescit"},{"t":"r","no":"<b>5 (BU)</b>","q":"Hijyen ve enfeksiyon risk yönetim ilkelerine uygun olarak dini kitaplar, tespih, takke, rahle, seccade, başörtüsü vb.nin ortak kullanımına yönelik tedbirler uygulanıyor mu?","ms":"<b>S</b>","d":null,"k":"mescit"},{"t":"r","no":"<b>6 (BU)</b>","q":"Abdesthane ayrı bir bölüm olarak düzenlenmişse ‘Tuvalet ve Lavabolar’ maddesindeki düzenlemeler dikkate alınmış mı?","ms":"<b>S</b>","d":null,"k":"mescit"},{"t":"s","c":[[5,"<b>SPOR SALONLARI</b>"]],"k":"spor_salonu"},{"t":"r","no":"<b>1 (BU)</b>","q":"Salonda yer alan ortak temas yüzeyleri için kullanım şartları, kullanım sıklığı, kullanıcı sayısı vb. kriterlerine göre hijyen ve sanitasyon programları oluşturulmuş ve uygulanmakta mı?","ms":"<b>S</b>","d":null,"k":"spor_salonu"},{"t":"r","no":"<b>2 (BU)</b>","q":"Temizlik, hijyen ve sanitasyon bilincini ve farkındalığını artırmaya yönelik afiş, poster vb. asılmış mı?","ms":"<b>S</b>","d":null,"k":"spor_salonu"},{"t":"r","no":"<b>3 (BU)</b>","q":"Salonların girişleri ve içerisinde el hijyeni sağlama imkânları bulunuyor mu?","ms":"<b>S</b>","d":"El antiseptiği mevcuttur.","k":"spor_salonu"},{"t":"r","no":"<b>4 (BU)</b>","q":"Salonlarda uygun alanlara pedallı ve kapaklı atık kumbaralarına ulaşılabilir durumda ve düzenli olarak boşaltılması sağlanmakta mı? ","ms":"<b>S</b>","d":null,"k":"spor_salonu"},{"t":"r","no":"<b>5 (BU)</b>","q":"Egzersiz araçlarının yanlarına Sağlık Bakanlığı tarafından ruhsatlandırılmış dezenfektan özelliği olan mendiller konulmuş mu? ","ms":"<b>S</b>","d":null,"k":"spor_salonu"},{"t":"r","no":"<b>6 (BU)</b>","q":"Salonlarda su ve sabuna erişimin kolay olması ve burada tek kullanımlık kâğıt havluların bulunması sağlanmış mı?","ms":"<b>S</b>","d":null,"k":"spor_salonu"},{"t":"r","no":"<b>7 (BU)</b>","q":"İçeriye girmeden görünür bir yere asılmış olan,  uyulması gereken kuralları açıklayan bilgilendirmelerin okunması ve belirtilen kurallara uyulması güvence altına alınmış mı?","ms":"<b>S</b>","d":null,"k":"spor_salonu"},{"t":"r","no":"<b>8 (BU)</b>","q":"Salonlarda kişisel havlu ve mat vb. malzemelerin kişiyi özgü kullanımı sağlanmakta mı?","ms":"<b>S</b>","d":null,"k":"spor_salonu"},{"t":"r","no":"<b>9 (BU)</b>","q":"Havluların kuruluş tarafından karşılanması halinde poşetli veya görevli personel tarafından verilmesi, mat türü malzemenin de her kullanıcıdan sonra  dezenfekte edilmesi sağlanmakta mı?","ms":"<b>S</b>","d":null,"k":"spor_salonu"},{"t":"r","no":"<b>10 (BU)</b>","q":"Görevli personelin hijyen ve enfaksiyon riskleri konusunda bilgilendirilmesi sağlanmış mı?","ms":"<b>S</b>","d":"Tedarikçi bilgilendirme/taahhüt uygulanmaktadır.","k":"spor_salonu"},{"t":"r","no":"<b>11 (BU)</b>","q":"Merkezi havalandırma sistemi bulunuyor ise havalandırma temiz hava sirkülasyonunu sağlayacak şekilde düzenlenmiş mi? Ortamın sık sık havalandırılması sağlanıyor mu?","ms":"<b>S</b>","d":null,"k":"spor_salonu"},{"t":"r","no":"<b>12 (BU)</b>","q":"Havalandırma sisteminin bakımı ve filtre değişimleri üretici firma önerileri doğrultusunda yapılmakta mı? ","ms":"<b>S</b>","d":null,"k":"spor_salonu"},{"t":"s","c":[[5,"<b>YÜZME HAVUZLARI</b>"]],"k":"havuz"},{"t":"r","no":"<b>1 (BU)</b>","q":"Enfeksiyon belirtileri gösteren kişilerin havuzu kullanmaması için gerekli önlemler alınmış mı?","ms":"<b>S</b>","d":"Plan dahilindedir.","k":"havuz"},{"t":"r","no":"<b>2 (BU)</b>","q":"Varsa ters yıkama sıklığı, havuz kullanım yoğunluklarına göre düzenlenmiş mi?","ms":"<b>S</b>","d":null,"k":"havuz"},{"t":"r","no":"<b>3 (BU)</b>","q":"Süper klorlama (şoklama) işlemi havuz kullanım yoğunluğuna göre planlanmış mı?","ms":"<b>S</b>","d":null,"k":"havuz"},{"t":"r","no":"<b>4 (BU)</b>","q":"Kapalı havuz alanının hava kalitesi taze hava ile destekleniyor ve nem oranı kontrol altına alınmış mı?","ms":"<b>S</b>","d":null,"k":"havuz"},{"t":"r","no":"<b>5 (BU)</b>","q":"Hijyen ve enfeksiyon risk yönetim ilkelerine uygun olarak havuz bölgesi ve havuz içi kapasite kullanımı kuralları belirlenmiş ve uygulanmakta mı?","ms":"<b>S</b>","d":"Giriş kuralları belirlenmiş ve uygulanmaktadır.","k":"havuz"},{"t":"r","no":"<b>6 (BU)</b>","q":"“Hijyen ve Sanitasyon Planına” uygun düzenli olarak temizlik yapılması, sık kullanılan alan ve malzemelerin (basamaklar ve korkuluklar ile ortak kullanılan soyunma odaları ve buralardaki eşya dolapları, yıkanma ve dinlenme alanları, musluk, duş ekipmanları, şezlonglar, duş düğmeleri, kapı kolları vb.) daha sık temizlenmesi sağlanmakta mı?","ms":"<b>S</b>","d":null,"k":"havuz"},{"t":"r","no":"<b>7 (BU)</b>","q":"Kapalı ve Açık havuzlarda Yüzme Havuzlarının Tabi Olacağı Sağlık Esasları ve Şartları Hakkındaki Yönetmelik’e uyuluyor mu?<br>Günde 2 kez ölçülen parametrelerin panoya asılması ve gerektiğinde gösterilmek üzere kayıt altına alınması kontrol altına alınmış mı?<br>Not:  Havuz suyundaki klor seviyesini açık havuzlarda 1-3 ppm, kapalı havuzlarda 1 ile 1,5 ppm arasında tutulması sağlanmalıdır.<br><b>Not: Mikrobiyolojik kalite için rutin testler mevzuata uygun olarak yapılmalıdır.</b>","ms":"<b>S</b>","d":null,"k":"havuz"},{"t":"r","no":"<b>8 (BU)</b>","q":"Klor seviyesi ve pH değerlerine dair kayıtların doğrulanmasına istinaden kabul edilen aralıklar haricinde bir tespit mevcut ise alınacak aksiyonlar tanımlanmış ve gerçekleştiriliyor mu?","ms":"<b>S</b>","d":null,"k":"havuz"},{"t":"r","no":"<b>9 (BU)</b>","q":"Havuz çevresinde tuvaletler, duş ve soyunma kabinleri için öngörülen temizlik ve dezenfeksiyon faaliyetleri kayıt altına alınıyor mu?","ms":"<b>S</b>","d":null,"k":"havuz"},{"t":"r","no":"<b>10 (BU)</b>","q":"Havuz çevresinde gerçekleştirilen temizlik kayıtlarının doğrulanmasına istinaden kabul edilen aralıklar haricinde bir tespit mevcut ise ilave aksiyonlar tanımlanmış ve gerçekleştiriliyor mu?","ms":"<b>S</b>","d":null,"k":"havuz"},{"t":"r","no":"<b>11 (BU)</b>","q":"Havuz girişleri ve içerisinde uygun yerlere hijyen ve enfeksiyon risklerine özgü kuralların yer aldığı bilgilendirme amaçlı afişler, posterler, tabela, uyarı işaretleri vb. asılmış mı?","ms":"<b>S</b>","d":"Tuvalet, koridor, giriş ve ortak alanlara hijyen afişleri asılmıştır.","k":"havuz"},{"t":"r","no":"<b>12 (BU)</b>","q":"Cankurtaranların salgın dönemlerine özgü ve genel kullanım için gerekli KKD’leri kullanmaları sağlanmakta mı?","ms":"<b>S</b>","d":null,"k":"havuz"},{"t":"r","no":"<b>13 (BU)</b>","q":"Resüsitasyon (canlandırma) işlemi için gereken; suni solunum maskesi, balon ventilasyon mevcut mu?","ms":"<b>S</b>","d":null,"k":"havuz"},{"t":"r","no":"<b>14 (BU)</b>","q":"Cankurtaranların canlandırma ve ilk yardım gibi yüksek riskli girişimler yapmalarının, enfeksiyon kontrol önlemlerine uygunluğu kontrol altına alınmış mı?","ms":"<b>S</b>","d":null,"k":"havuz"},{"t":"r","no":"<b>15 (BU)</b>","q":"Hijyen ve enfeksiyon risk yönetim ilkelerine uygun olarak cankurtaranlar, canlandırma ve ilk yardım işlemlerine uygun KKD’ler kullanması gerekliliği hakkında farkındalığa sahip mi?","ms":"<b>S</b>","d":null,"k":"havuz"},{"t":"r","no":"<b>16 (BU)</b>","q":"Havlu vb. malzemelerin kişiye özel olması, özellikle deniz gözlüğü, şnorkel, palet gibi malzemelerin paylaşılmaması kontrol altına alınmış mı? <br><b>Not: Kişilerin kendilerine ait havlu, bornoz ve havuz oyuncakları getirmesi/kullanması teşvik edilmelidir.</b><br><b>Havlu, bornoz, peştamal vb. tekstil ürünleri en az 60 oC’de yıkanmalıdır.</b>","ms":"<b>S</b>","d":null,"k":"havuz"},{"t":"r","no":"<b>17 (BU)</b>","q":"Kullanıcıların yüzme havuzuna girmeden önce duş alması ve el, ayak dezenfeksiyonu yapması (hijyen bariyeri) kontrol altına alınmış mı?","ms":"<b>S</b>","d":null,"k":"havuz"},{"t":"s","c":[[5,"<b>ÖĞRENCİ/PERSONEL SOYUNMA ODALARI VE DUŞLARI</b>"]],"k":"spor_salonu"},{"t":"r","no":"<b>1 (BU)</b>","q":"Kişiler arasında uygun mesafe olacak şekilde ve genel hijyen kurallarına uygun önlemlere göre düzenlenmiş mi?","ms":"<b>S</b>","d":"Genel hijyen kurallarına uygun düzenleme yapılmıştır.","k":"spor_salonu"},{"t":"r","no":"<b>2 (BU)</b>","q":"“Hijyen ve Sanitasyon Planına” uygun düzenli olarak temizlik uygulamaları yapılması, sık kullanılan alan ve malzemelerin daha sık temizlenmesi sağlanmakta mı?","ms":"<b>S</b>","d":null,"k":"spor_salonu"},{"t":"r","no":"<b>3 (BU)</b>","q":"Havalandırma, hijyen ve enfeksiyon risk yönetim ilkeleri dikkate alınarak kontrol altında tutuluyor mu?<br>Havalandırma sisteminin periyodik kontrolü yapılıyor mu?","ms":"<b>S</b>","d":"Düzenli havalandırma; bakım takip edilmektedir.","k":"spor_salonu"},{"t":"r","no":"<b>4 (BU)</b>","q":"Soyunma odalarında el hijyeni sağlama imkânları bulunuyor mu?","ms":"<b>S</b>","d":"El antiseptiği mevcuttur.","k":"spor_salonu"},{"t":"r","no":"<b>5 (BU)</b>","q":"Kirli ve temiz kıyafetlerden, ayakkabılardan çapraz bulaşmayı önleyebilmek için gerekli tedbirler alınmış mı?","ms":"<b>S</b>","d":null,"k":"spor_salonu"},{"t":"s","c":[[5,"<b>KURULUŞ BAHÇESİ VE AÇIK OYUN ALANLARI</b>"]],"k":"oyun_alani"},{"t":"r","no":"<b>1 (BU)</b>","q":"Kuruluş bahçesi ve açık oyun alanlarında zemin, hijyen riski oluşturabilecek (atık su, çeşitli kimyasallar vb.) birikintilere izin vermeyecek nitelikte mi?","ms":"<b>S</b>","d":null,"k":"oyun_alani"},{"t":"r","no":"<b>2 (BU)</b>","q":"“Hijyen ve Sanitasyon Planına” uygun düzenli olarak temizlik uygulamaları yapılması, sık kullanılan alan ve malzemelerin daha sık temizlenmesi sağlanmakta mı?","ms":"<b>S</b>","d":null,"k":"oyun_alani"},{"t":"r","no":"<b>3 (KU)</b>","q":"Bahçe ve açık oyun alanlarında uygun yerlere temizlik, hijyen ve sanitasyon bilincini ve farkındalığını artırmaya yönelik afiş, poster vb. asılmış mı?","ms":"<b>S</b>","d":null,"k":"oyun_alani"},{"t":"r","no":"<b>4 (BU)</b>","q":"Elle temas etmeden açılabilir-kapanabilir pedallı, sensörlü, vb. atık kumbaralarına ulaşılabilir durumda mı?","ms":"<b>S</b>","d":"Kapaklı/pedallı atık üniteleri yerleştirilmiştir.","k":"oyun_alani"},{"t":"s","c":[[5,"<b>KAPALI OYUN ALANLARI</b>"]],"k":"kapali_oyun"},{"t":"r","no":"<b>1 (BU)</b>","q":"“Hijyen ve Sanitasyon Planına” uygun düzenli olarak temizlik ve dezenfeksiyon yapılması, sık kullanılan alan ve malzemelerin daha sık temizlenmesi sağlanmakta mı?","ms":"<b>S</b>","d":null,"k":"kapali_oyun"},{"t":"r","no":"<b>2 (BU)</b>","q":"Hijyen ve enfeksiyon risk yönetim ilkelerine göre hijyenik şekilde temizlenmesi zor olan oyuncaklarla ilgili önlemler alınmakta mı?","ms":"<b>S</b>","d":null,"k":"kapali_oyun"},{"t":"r","no":"<b>3 (BU)</b>","q":"Kapalı oyun alanları kişiler arasında uygun mesafe olacak şekilde ve genel hijyen kurallarına uygun önlemlere göre düzenlenmiş mi?","ms":"<b>S</b>","d":"Genel hijyen kurallarına uygun düzenleme yapılmıştır.","k":"kapali_oyun"},{"t":"r","no":"<b>4 (BU)</b>","q":"Havalandırma, hijyen ve enfeksiyon risk yönetim ilkeleri dikkate alınarak kontrol altında tutuluyor mu?<br>Havalandırma sistemi periyodik kontrolü yapılıyor mu?","ms":"<b>S</b>","d":"Düzenli havalandırma; bakım takip edilmektedir.","k":"kapali_oyun"},{"t":"s","c":[[4,"<b>MİSAFİRHANE/YURTLAR/PANSİYONLAR</b>"],[1,""]],"k":"yurt"},{"t":"r","no":"<b>1 (BU)</b>","q":"Konaklama odaları, kişiler arasında uygun mesafe olacak şekilde ve genel hijyen kurallarına uygun önlemlere göre düzenlenmiş mi?","ms":"<b>S</b>","d":"Genel hijyen kurallarına uygun düzenleme yapılmıştır.","k":"yurt"},{"t":"r","no":"<b>2 (BU)</b>","q":"Ziyaretçilerin misafirhane/yurt/pansiyona giriş çıkış ile ilgili hijyen ve enfeksiyon riskleri doğrultusunda bilgilendirilmesi sağlanıyor mu?","ms":"<b>S</b>","d":"Bilgilendirme yapılmaktadır.","k":"yurt"},{"t":"r","no":"<b>3 (BU)</b>","q":"“Hijyen ve Sanitasyon Planına” uygun düzenli olarak temizlik ve hijyen uygulamalarının yapılması, tekstil malzemelerinin, sık kullanılan alan ve malzemelerin daha sık temizlenmesi sağlanmakta mı?<br>Yapılan işlemler kayıt altına alınmakta mı?","ms":"<b>S</b>","d":null,"k":"yurt"},{"t":"r","no":"<b>4 (BU)</b>","q":"Girişlerde el hijyeni sağlama imkânları bulunuyor mu?","ms":"<b>S</b>","d":"El antiseptiği mevcuttur.","k":"yurt"},{"t":"r","no":"<b>5 (BU)</b>","q":"Havalandırma, hijyen ve enfeksiyon risk yönetim ilkeleri dikkate alınarak kontrol altında tutuluyor mu?<br>Havalandırma sistemi periyodik kontrolü yapılıyor mu?","ms":"<b>S</b>","d":"Düzenli havalandırma; bakım takip edilmektedir.","k":"yurt"},{"t":"r","no":"<b>6 (BU)</b>","q":"Salgın hastalık ve enfeksiyon riski bulunması halinde kişilerin misafirhane/yurt/pansiyonlara girişleri ile ilgili belirlenen kuralların uygulanması ve uygun olmayanların kuruluşa alınmayıp en yakın sağlık kuruluşuna sevki planlanmış ve gerektiğinde uygulanıyor mu? ","ms":"<b>S</b>","d":null,"k":"yurt"},{"t":"r","no":"<b>7 (BU)</b>","q":"Odalarda ve kişisel dolaplarda yiyecek ve içecek bulundurulmaması sağlanıyor mu?","ms":"<b>S</b>","d":null,"k":"yurt"},{"t":"r","no":"<b>8 (BU)</b>","q":"Odalarda kalan kişi sayısına göre yeterli sayıda tuvalet/banyo olanağı sağlanmakta mı?","ms":"<b>S</b>","d":null,"k":"yurt"},{"t":"r","no":"<b>9 (BU)</b>","q":"Odalarda bulunan duş yerleri ve tuvaletler ve lavabolar bu kılavuzun ilgili maddelerine uygun mu?","ms":"<b>S</b>","d":null,"k":"yurt"},{"t":"r","no":"<b>10 (BU)</b>","q":"Tuvalet ve lavabolarda hijyen şartları için gerekli kaynaklar (su, sabun, tuvalet kâğıdı, temassız atık kumbarası, kâğıt havlu vb.) bulunmakta mı?","ms":"<b>S</b>","d":null,"k":"yurt"},{"t":"s","c":[[5,"<b>EĞİTİM KURULUŞLARI HİZMET ARAÇLARI</b>"]],"k":"hizmet_araci"},{"t":"r","no":"<b>1 (BU)</b>","q":"“Hijyen ve Sanitasyon Planına” uygun düzenli olarak temizlik ve hijyen uygulaması yapılması, tekstil malzemelerinin, ortak temas noktaları ve malzemelerin daha sık temizlenmesi sağlanmakta mı?<br>Yapılan işlemler kayıt altına alınmakta mı?","ms":"<b>S</b>","d":null,"k":"hizmet_araci"},{"t":"r","no":"<b>2 (BU)</b>","q":"Hijyen ve enfeksiyon risk yönetim ilkelerine uygun olarak araçlarda klima kullanım önlemleri belirlenmiş mi? ","ms":"<b>S</b>","d":"Eylem planında KKD gereklilikleri belirtilmiştir.","k":"hizmet_araci"},{"t":"r","no":"<b>3 (BU)</b>","q":"Araçların klima hava filtre bakımı düzenli olarak yapılması ve takip edilmesi sağlanıyor mu?","ms":"<b>S</b>","d":null,"k":"hizmet_araci"},{"t":"r","no":"<b>4 (BU)</b>","q":"Araçlarda, hijyen ve enfeksiyon risk yönetim ilkelerine uygun olarak yerleşim planı ve uygun kişisel koruyucu önlemler için gerekli kişiye özel KKD kullanım önlemleri belirlenmiş mi?","ms":"<b>S</b>","d":null,"k":"hizmet_araci"},{"t":"s","c":[[5,"<b>ÖĞRENCİ/PERSONEL SERVİSLERİ/TAŞIMALI EĞİTİM HİZMETLERİ</b>"]],"k":"servis"},{"t":"r","no":"<b>1 (BU)</b>","q":"“Hijyen ve Sanitasyon Planına” uygun düzenli olarak temizlik ve hijyen uygulamaları yapılması, tekstil malzemelerinin ortak temas noktaları ve malzemelerin daha sık temizlenmesi sağlanmakta mı? Yapılan işlemler kayıt altına alınmakta mı?","ms":"<b>S</b>","d":null,"k":"servis"},{"t":"r","no":"<b>2 (BU)</b>","q":"Servis görevlilerinin hijyen ve enfeksiyon risklerine göre belirlenen önlemlere uymaları sağlanmakta mı?","ms":"<b>S</b>","d":null,"k":"servis"},{"t":"r","no":"<b>3 (BU)</b>","q":"Öğrenci/Personel Servisleri/Taşımalı Eğitim Hizmetlerinde araçların “Hijyen ve Sanitasyon Planına”  uygunluğu kontrol ediliyor mu?","ms":"<b>S</b>","d":null,"k":"servis"},{"t":"r","no":"<b>4 (BU)</b>","q":"Hijyen ve enfeksiyon risk yönetim ilkelerine uygun olarak servis aracında bulunan öğretmen, öğrenci ve diğer kişilerin KKD kullanımı için gerekli önlemler planlanmış ve gerektiğinde uygulanıyor mu?","ms":"<b>S</b>","d":null,"k":"servis"},{"t":"r","no":"<b>5 (BU)</b>","q":"Hijyen ve enfeksiyon risk yönetim ilkelerine uygun olarak araçlarda klima kullanım önlemleri belirlenmiş mi?","ms":"<b>S</b>","d":"Eylem planında KKD gereklilikleri belirtilmiştir.","k":"servis"},{"t":"r","no":"<b>6 (KU)</b>","q":"Servis araçlarında uygun yerlere hijyen ve enfeksiyon risklerine yönelik kurallar ve genel hijyenle ilgili bilgilendirme amaçlı afişler, posterler, tabela, uyarı işaretleri vb. asılmış mı?","ms":"<b>S</b>","d":null,"k":"servis"},{"t":"r","no":"<b>7 (BU)</b>","q":"Salgın hastalık ve enfeksiyon riski bulunması halinde sağlık otoritelerince hastalık belirtilerinin tespiti amacıyla belirlenen kuralların (ateş ölçümü vb.) uygulanması ve uygun olmayan öğrencilerin servise alınmayıp velilerine bildirilmesi planlanmış ve gerektiğinde uygulanıyor mu?","ms":"<b>S</b>","d":null,"k":"servis"},{"t":"r","no":"<b>8 (BU)</b>","q":"Servis araçlarında hijyen ve enfeksiyon risk yönetim ilkelerine uygun hizmet vermeleri sağlanmakta, izlenmekte ve kayıt altına alınmakta mı?","ms":"<b>S</b>","d":null,"k":"servis"},{"t":"r","no":"<b>9 (BU)</b>","q":"Araç içerisinde el hijyeni sağlama imkânları bulunuyor mu?","ms":"<b>S</b>","d":"El antiseptiği mevcuttur.","k":"servis"},{"t":"r","no":"<b>10 (BU)</b>","q":"Servis hizmeti, kuruluş dışı tedarikçiden tarafından sağlanıyor ise belirlenen önlemlerin alınması ve hijyen uygulamalarının  yapılması güvence altına alınmış mı?","ms":"<b>S</b>","d":null,"k":"servis"},{"t":"s","c":[[5,"<b>TEKNİK HİZMETLER</b>"]],"k":null},{"t":"r","no":"<b>1 (BU)</b>","q":"Kuruluştaki tüm tesisat, donanım, makine ve ekipmanların (enerji, ısıtma, havalandırma, iklimlendirme ekipmanları, bulaşık, çamaşır makineleri, buzdolapları, asansörler vb.) bakım ve temizlik planına uygun ve periyodik olarak kontrolleri sağlanmakta mı?<br>Bakım ve temizlik kayıtları oluşturulmuş mu?","ms":"","d":null,"k":null},{"t":"r","no":"<b>2 (BU)</b>","q":"Teknik hizmetlerin, dışarıdan temin edildiği durumlarda kuruluşun tüm hijyen ve sanitasyon kurallarına uyum göstermesi güvence altına alınmış mı?","ms":"","d":null,"k":null},{"t":"s","c":[[5,"<b>SU DEPOLARI</b>"]],"k":"su_deposu"},{"t":"r","no":"<b>1 (BU)</b>","q":"Yeni su depolarının temininde satın alma kriterlerinin TS EN 1508, TSE K 304 Standartlarına uygunluğun sağlanması için gerekli yöntem belirlenmiş mi?","ms":"<b>S</b>","d":null,"k":"su_deposu"},{"t":"r","no":"<b>2 (BU)</b>","q":"Mevcut su depolarının kullanımında salgın hastalıklara yönelik riskleri önlemek ve hijyen ve sanitasyon sürekliliğini sağlamak için güncel yasal şartlara uygunluk sağlanmış mı?","ms":"<b>S</b>","d":null,"k":"su_deposu"},{"t":"s","c":[[5,"<b>DİĞER KULLANIM ALANLARI: </b>Belirtiniz"]],"k":"diger"},{"t":"r","no":"<b>1 (BU)</b>","q":"Kuruluşta yer alan diğer kullanım alanlarının, genel hijyen ve enfeksiyon risk yönetim ilkelerine uygun kapasite kullanım, temizlik ve dezenfeksiyon, uygun KKD kullanımı vb. şartları konusunda uygulamalar planlanmakta, sürdürülmekte ve kontrol edilmekte mi?","ms":"<b>S</b>","d":null,"k":"diger"},{"t":"s","c":[[5,"<b>ÇAMAŞIRHANE HİZMETLERİ</b>"]],"k":"camasirhane"},{"t":"r","no":"<b>1 (KU)</b>","q":"Çamaşır ekipmanının düzgün çalışması, özellikle çalışma sıcaklıklarının yanı sıra temizlik ve dezenfekte edici kimyasalların doğru dozda kullanımı kontrol altına alınmış mı?","ms":"<b>S</b>","d":null,"k":"camasirhane"},{"t":"r","no":"<b>2 (KU)</b>","q":"Tüm çamaşır torbalarına/çantalarına ilgili alan (ofis/oda) ve tarih gibi bilgiler içeren etiket konulmuş mu?","ms":"<b>S</b>","d":null,"k":"camasirhane"},{"t":"r","no":"<b>3 (BU)</b>","q":"Tüm kullanılmış / kontamine çamaşırlar; yıkanmayı beklerken belirlenmiş, güvenli, kilitlenebilir bir alanda tutuluyor mu?","ms":"<b>S</b>","d":null,"k":"camasirhane"},{"t":"r","no":"<b>4 (BU)</b>","q":"Kontamine çamaşırların en az 60°C / 1.5 saat yıkanması kontrol altına alınmış mı?  ","ms":"<b>S</b>","d":null,"k":"camasirhane"},{"t":"s","c":[[5,"<b>LİDERLİK VE ÖRNEK OLMA</b>"]],"k":null},{"t":"r","no":"<b>1 (KU)</b>","q":"Kuruluşun sahibi, ortakları veya yöneticileri bu kılavuzda belirtilen şartlara uyarak öğrencilere ve çalışanlara örnek oluyor mu?","ms":"<b>S</b>","d":"İdare kılavuz uygulamalarına uyum göstermekte ve örnek olmaktadır.","k":null},{"t":"s","c":[[5,"<b>ORTAM TEMİZLİĞİ, DEZENFEKSİYONU VE HAVALANDIRMASI</b>"]],"k":null},{"t":"r","no":"<b>1 (BU)</b>","q":"Kuruluşta temizlik ve sanitasyon teçhizatları da dahil bütün alanların hijyenik koşullarda bulundurulduğunu teminat altına almak için temizleme ve sanitasyon programları oluşturulmuş mu?   Programlar, sürekli uygunluk ve etkinlik için izlenmekte mi?","ms":"<b>M/S</b>","d":null,"k":null},{"t":"r","no":"<b>2 (BU)</b>","q":"Temizleme ve/veya sanitasyon programlarında en az aşağıdakiler belirlenmiş mi?<br>Temizlenecek ve/veya sanitize edilecek alan, araç ve gereçler, teçhizat parçaları<br>Belirtilen görevler için sorumluluklar<br>Temizleme/sanitasyon yöntem ve sıklıkları<br>İzleme ve doğrulama düzenlemeleri <br>Temizlik/sanitasyon sonrası kontroller<br>Çalışma öncesi kontroller","ms":"<b>M/S</b>","d":null,"k":null},{"t":"r","no":"<b>3 (BU)</b>","q":"Enfeksiyon şüpheli veya tanı almış kişilerin kuruluştan ayrıldıktan sonra kullandığı oda ve mümkünse diğer tüm malzemelerin temizliğinin ve dezenfeksiyonun uygun KKD kullanılarak yapılması güvence altına alınmış mı?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>4 (BU)</b>","q":"Binalardaki her türlü eşya, araç ve gerecin, özellikle sık dokunulan yüzeylerin (kapı kolları, telefon ahizeleri, masa yüzeyleri, musluk ve batarya başlıkları gibi) temizliğine dikkat ediliyor mu?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b> (BU)</b>","q":"Bu amaçla, temizlik sonrası hijyen risk yönetim ilkelerine uygun olarak uygun malzemelerle gerekli uygulamalar sürdürülmekte mi?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>(BU)</b>","q":"Hijyen uygulamaları, uygulama alanının özellikleri dikkate alınarak gerçekleştiriliyor mu?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>(BU)</b>","q":"Kullanılan temizlik ve hijyen malzemelerinin ilgili otoritelerce uygunluğu değerlendirilmiş ve belgelendirilmiş olmasına dikkat ediliyor mu?","ms":"<b>S</b>","d":"Uygun ürünler tercih edilmektedir.","k":null},{"t":"r","no":"<b>5 (BU)</b>","q":"Tuvaletlerde hijyen sağlanması için uygun malzemelerin kullanılması sağlanıyor mu?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>6 (BU)</b>","q":"Halı, koltuk gibi yüzeyler su ve deterjanla silinebilir veya toz kaldırmayacak özelliğe sahip makineler ile yıkanması sağlanıyor mu?<br><b>Not: Bu amaçla sıcak buhar da uygulanabilir.</b>","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>7 (BU)</b>","q":"Temizlik bezlerinin kullanım alanına göre ayrılması ve her kullanım sonrası uygun şekilde temizlenmesi sağlanıyor mu?<br><b>Not: Yıkanabilen, tekrar kullanılan temizlik malzemelerinin en az 60°C’da yıkanması önerilir. Paspas başlıkları su içerisinde bekletilmemelidir.</b>","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>8 (BU)</b>","q":"Temizlik yapan personelin tıbbi maske ve eldiven kullanması sağlanmış mı?","ms":"<b>S</b>","d":"KKD kullanımı sağlanmaktadır.","k":null},{"t":"r","no":"<b> (BU)</b>","q":"Temizlik sonrasında personelin kullandıkları donanımları çöp kutusuna atmaları ve el hijyenlerini sağlamaları kontrol altına alınmış mı?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>9 (BU)</b>","q":"Kuruluştaki sınıf, salon, yemekhane, yatakhane ve diğer tüm odaların kapı ve pencereleri açılarak sık havalandırılması kontrol altına alınmış mı?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b> (BU)</b>","q":"Hijyen ve enfeksiyon risk yönetim ilkelerine uygun olarak, merkezi havalandırma sistemleri bulunan kuruluşlarda gerekli kontrollerin yapılması, havalandırma sistemlerinin bakımı ve filtre değişimlerinin üretici firma önerileri doğrultusunda gerçekleştirilmesi kontrol altına alınmış mı?","ms":"<b>S</b>","d":null,"k":null},{"t":"r","no":"<b>(BU)</b>","q":"Hijyen ve enfeksiyon risk yönetim ilkelerine göre klimaların ve vantilatör kullanım önlemleri belirlenmiş mi?","ms":"<b>S</b>","d":"Eylem planında KKD gereklilikleri belirtilmiştir.","k":null},{"t":"s","c":[[1,""],[3,"<b>İLAVE SORULAR:</b>"],[1,""]],"k":null},{"t":"r","no":"","q":"Belge, Marka ve Logo Kullanımı <br>Tüm tetkik süresince; belge, marka ve logo kullanımı, ilgili doküman şartlarına uygun mu ve etkin bir şekilde kontrol ediliyor mu?","ms":"","d":"Uygulandığı ölçüde kontrol edilmektedir.","k":null}];
+</script>
+<script>
+// ================= SB.FR.059 ÖZ DEĞERLENDİRME SORU LİSTESİ (Rev.02) =================
+const OT_OZ_OTO_KEY='mebOtOzOtoV1';
+function sbfr059Html(o){
+  const otoEl=document.getElementById('ot_oz_oto');
+  const oto= otoEl ? otoEl.checked : true;
+  const T=getOtTesis();
+  const varMi=k=>{ if(!k) return true; if(k==='diger') return null; return k.split('|').some(x=>T[x]); };
+  const dokE='Plan/talimat mevcut, kayıtlar tutulmakta ve uygulanmaktadır.';
+  const dokYok='Okulumuzda böyle bir yer / bölüm bulunmamaktadır.';
+  const V=(x)=>x?esc(x):'';
+
+  let govde='';
+  SBFR059_ROWS.forEach((r,i)=>{
+    if(r.t==='s'){
+      const genel = i===0;
+      govde+='<tr class="sb-sec'+(genel?' sb-genel':'')+'">'+r.c.map(([sp,h])=>`<td${sp>1?` colspan="${sp}"`:''}>${h}</td>`).join('')+'</tr>';
+      return;
+    }
+    let d='',eh='';
+    if(oto){
+      const v=varMi(r.k);
+      if(v===true){ d=r.d||dokE; eh='E'; }
+      else if(v===false){ d=dokYok; eh='H'; }
+    }
+    govde+=`<tr><td class="sb-no">${r.no}</td><td class="sb-q">${r.q}</td><td class="sb-d">${esc(d)}</td><td class="sb-eh">${eh?'<b>'+eh+'</b>':''}</td><td class="sb-ms">${r.ms}</td></tr>`;
+  });
+
+  const ust=`<table class="sb-hdr">
+<colgroup><col style="width:15.7%"><col style="width:57.9%"><col style="width:13.2%"><col style="width:13.2%"></colgroup>
+<tr><td rowspan="5" class="sb-logo"><img src="${SBFR059_LOGO}" alt="MEB"></td>
+<td rowspan="3" class="sb-kurum"><b>TC.</b><br><b style="font-size:11pt">MİLLÎ EĞİTİM BAKANLIĞI</b><br><b>Standardizasyon ve Kalite Hizmet Birimi</b></td>
+<td class="sb-k">Doküman No</td><td class="sb-v">SB. FR. 059</td></tr>
+<tr><td class="sb-k">İlk Yayın Tarihi</td><td class="sb-v">20.07.2020</td></tr>
+<tr><td class="sb-k">Revizyon Tarihi</td><td class="sb-v">03.07.2023</td></tr>
+<tr><td rowspan="2" class="sb-ad"><b>Hijyen Şartlarının Geliştirilmesi, Enfeksiyon Önleme ve Kontrol Kılavuzu Öz Değerlendirme Soru Listesi</b></td>
+<td class="sb-k">Revizyon No</td><td class="sb-v">02</td></tr>
+<tr><td class="sb-k">Sayfa No</td><td class="sb-v sb-sayfa"></td></tr>
+</table>`;
+
+  const kurulus=`<table class="sb-kur">
+<colgroup><col style="width:22.4%"><col style="width:7.1%"><col style="width:31.7%"><col style="width:12.9%"><col style="width:25.9%"></colgroup>
+<tr><td>Kuruluş Adı</td><td colspan="4">${V(o.okul)}</td></tr>
+<tr><td>Adresi</td><td colspan="4">${V(o.adres)}</td></tr>
+<tr><td rowspan="2">İletişim Bilgileri</td><td>Tel:</td><td>${V(o.tel)}</td><td>Web:</td><td>${V(o.web)}</td></tr>
+<tr><td>Fax:</td><td>${V(o.fax)}</td><td>E-mail:</td><td>${V(o.eposta)}</td></tr>
+<tr><td>Kuruluş Yetkilisi</td><td colspan="2">${V(o.yetkili)}</td><td>İmza</td><td></td></tr>
+</table>`;
+
+  const ana=`<table class="sb-ana">
+<colgroup><col style="width:7.8%"><col style="width:41.6%"><col style="width:31.2%"><col style="width:9.1%"><col style="width:10.3%"></colgroup>
+<tbody><tr class="sb-sec sb-baslik"><td colspan="2">SORULAR</td><td>DOKÜMANTASYON KAYITLARI/UYGULAMALAR</td><td>EVET (E)<br>HAYIR (H)</td><td>MASABAŞI (M) /<br>SAHA (S)</td></tr>
+${govde}</tbody></table>`;
+
+  const notlar=`<div class="sb-not">
+<p>Masabaşı tetkik sırasında (BU) işareti olan sorularda uygunsuzluk tespit edilmesi durumunda uygunsuzluk giderilmeden saha tetkikine gidilmez.</p>
+<p>Masabaşı tetkik sırasında (KU) işareti olan sorularda uygunsuzluk tespit edilmesi durumunda saha tetkiki gerçekleştirilir.</p>
+<p>Masabaşı tetkik gerekli hallerde sahada da gerçekleştirilebilir.</p>
+<p>Masabaşı/Saha tetkiki sırasında (BU) işareti olan sorularda uygunsuzluk tespit edilmesi durumunda tetkik heyeti kuruluşa belge verilmemesi ve takip tetkiki (uzaktan veya masa başı veya saha) planlanması yönünde tavsiye kararında bulunulur.</p>
+<p>Masabaşı/Saha tetkiki sonucunda (KU) işareti olan sorularda uygunsuzluk tespit edilmesi durumunda masabaşı ve/veya sahada tespit edilen küçük uygunsuzlukların (uzaktan veya masabaşı veya saha) kapatılmasına müteakip belge verilmesi yönünde tavsiye kararında bulunulur.</p>
+</div>`;
+
+  // Dış tablo: başlık bloğu yazdırmada her sayfanın üstünde tekrarlanır
+  return `<div class="sb059"><table class="sb-dis"><thead><tr><td>${ust}</td></tr></thead><tbody><tr><td>${kurulus}${ana}${notlar}</td></tr></tbody></table></div>`;
 }
 </script>
 <script>yedekBaslat();</script>
