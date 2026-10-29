@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<title>ÖĞRETMEN ASİSTANI v2.2.6</title>
+<title>ÖĞRETMEN ASİSTANI v2.2.7</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Comic+Neue:wght@400;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700;800&family=Noto+Serif:wght@400;600;700&display=swap" rel="stylesheet">
@@ -593,7 +593,7 @@ button:has(.fa-print) i.fa-print{ color:#fff !important; }
         </div>
         <div class="flex-1 min-w-0">
           <div class="font-display font-semibold text-white text-[15.5px] leading-tight">Öğretmen Asistanı</div>
-          <div class="text-[10px] mt-0.5" style="color:rgba(247,243,234,.55);" id="sidebar-surum">v2.2.6</div>
+          <div class="text-[10px] mt-0.5" style="color:rgba(247,243,234,.55);" id="sidebar-surum">v2.2.7</div>
         </div>
         <button onclick="siteHaritasiAc()" class="p-1.5 shrink-0" style="color:rgba(247,243,234,.55);" title="Site Haritası"><i class="fa-solid fa-sitemap text-[15px]"></i></button><button type="button" onclick="turMenuAc()" class="tur-baslat-btn p-1.5 shrink-0" style="color:rgba(247,243,234,.55);" title="Tanıtımlar: programı ve modülleri adım adım tanıtır" aria-label="Tanıtımlar"><span style="font-size:16px;line-height:1;">🎓</span></button>
       </div>
@@ -686,10 +686,17 @@ button:has(.fa-print) i.fa-print{ color:#fff !important; }
 
 /* Depolama: sürüm değişince eski iskelet kalıntıları (eski checklist, eski
    şema alanları vb.) temizlenir; okul/öğretmen bilgisi ve öğrenci havuzu korunur. */
-const APP_VERSION = '2.2.6';
+const APP_VERSION = '2.2.7';
 /* Sürüm dizisi: 1.2.1, 1.2.2, 1.2.3 ... — her sürümde SURUM_NOTLARI güncellenir */
 const SURUM_GORUNTULEME_KEY = 'oa_surumPopupGosterim'; /* { version, count } */
 const SURUM_NOTLARI = {
+  '2.2.7': [
+    'YENİ: Dosya Kapakları modülü «Öğretmen Dosyası Oluşturma» oldu. 1. sekmede kademe (okul öncesi / ilkokul / ortaokul / lise) ve görevlerinize göre süzülen, 10 bölümlük sıralı madde listesi; her maddede hazır / eksik durumu ve hazırlık yüzdesi',
+    'Burada üretilenler: Türk Bayrağı (kanundaki ölçülerle), İstiklal Marşı, Gençliğe Hitabe, Atatürk portresi (kendi görseliniz), öğretmen tanıtım formu, ders giriş-çıkış saatleri, sınıf listeleri, şube öğretmenler kurulu tutanağı, yazılı sınav teslim tutanağı, proje dağıtım listesi ve değerlendirme ölçeği, ders kesim raporu',
+    'Başka modüldeki evraklar için «Şimdi oluştur →» kısayolu; modülde işiniz bitince alttaki «Öğretmen Dosyasına dön» çubuğu sizi aynı maddeye geri getirir',
+    'Yönetmelik ve yönergeler kâğıda basılmaz: kademeye göre (İlköğretim / Ortaöğretim Kurumları Yönetmeliği) ve ortak mevzuat için resmî bağlantıyı açan karekod sayfaları; istenirse 6’lı tek sayfa dizin',
+    'Tek PDF: dosyaya girecek maddeleri işaretleyin → «Dosyayı oluştur» → sayfalar hazırlanırken kapak türünü seçin (8 tür, canlı önizleme) → PDF’i indirin ya da yazdırın; içindekiler ve bölüm ayraçları isteğe bağlı. Dosya kapağı oluşturucu 2. sekmede'
+  ],
   '2.2.6': [
     'Dilimizin Zenginlikleri aylık raporları tüm kademe ve düzeyler için ayrıntılandırıldı: okul öncesi (36–48 / 48–60 / 60–72 ay), ilkokul 1–4, ortaokul 5–8 ve ortaöğretim 9–12; her ay için kademenin eylem planına uygun uygulama süreci ve numaralı uygulama adımları, kazanımlar (düzeye özgü madde dâhil), örnek sözcükler ve ürünler, kullanılan ölçme araçları, ayrıntılı gözlem ve değerlendirme, güçlük → çözüm tablosu ve sonraki ay planlaması',
     'Sayfa düzeni: rapor tek sayfayı az aşıyorsa (ör. yalnız imzalar taşacaksa) tek sayfaya sığdırılır; belirgin biçimde uzunsa 2 sayfa olur ve son bölüm imzalarla birlikte kalır'
@@ -1743,7 +1750,7 @@ const MODUL_IPUCU = {
   'ogrenciHavuzu': 'Sınıfınızdaki öğrencileri kaydedersiniz (ad, no, veli, iletişim). Diğer modüller isimleri buradan çeker. Toplu ekleme ve sıralama yapılabilir.',
   'imsakTakvim': 'Seçilen yıl (ör. 2027) için Ocak–Aralık yıllık takvim ve Ramazan imsakiyesi; resmî tatiller, dinî bayramlar, okul tatilleri ve okula özel günler; vakitler ilinize göre hesaplanır ya da Diyanet tablosu yapıştırılır; okul / sınıf adına özel, fotoğraf veya yazı filigranlı.',
   'takvim': 'Okul ve kişisel önemli tarihleri işlersiniz. MEB takvimiyle uyumlu hatırlatmalar için kullanın.',
-  'dosyaKapaklari': 'Öğretmen dosyası için 3 farklı formatta ayraç/kapak sayfaları — başlıkları seç, yazdır veya PDF al.',
+  'dosyaKapaklari': 'Kademenize göre sıralı öğretmen dosyası: burada üretilen evraklar, diğer modüllere «Şimdi oluştur» kısayolu ve dönüş çubuğu, mevzuat için karekod sayfaları; seçtiğiniz maddeler kapak, içindekiler ve ayraçlarla tek PDF olur. 2. sekmede dosya kapağı oluşturucu.',
   'kendimiTakip': 'Yıl içinde hazırlamanız gereken işleri ay ay listeler; tamamladıklarınızı işaretlersiniz. Kişisel kontrol listesidir.',
   'haftalikProgram': 'Haftalık ders programını oluşturur ve yazdırırsınız. İlkokul için hazır dağıt örnekleri kullanılabilir.',
   'dersPlani': 'Sınıf düzeyine ve derse göre günlük ders planı hazırlar: TYMM verisinden çıktı ve süreç bileşenleri, zamanlanmış öğretmen/öğrenci etkinlikleri; yazdırır veya PDF/ZIP alırsınız.',
@@ -1795,7 +1802,7 @@ const NAV_GROUPS = [
   { id:'sistem', ad:'Sistem', modules:[
       {id:'ayarlar', ad:'Kurum / Öğretmen Bilgileri', icon:'fa-id-badge', ready:true},
       {id:'ogrenciHavuzu', ad:'Öğrenci Havuzu', icon:'fa-users', ready:true},
-      {id:'dosyaKapaklari', ad:'Dosya Kapakları', icon:'fa-folder-open', ready:true},
+      {id:'dosyaKapaklari', ad:'Öğretmen Dosyası Oluşturma', icon:'fa-folder-open', ready:true},
       {id:'takvim', ad:'Takvim', icon:'fa-calendar-days', ready:true},
       {id:'imsakTakvim', ad:'İmsakiye ve Yıllık Takvim', icon:'fa-moon', ready:true},
       {id:'kendimiTakip', ad:'Kendimi Takip Ediyorum', icon:'fa-list-check', ready:true},
@@ -2813,7 +2820,7 @@ document.addEventListener('keydown', function(e){
   if((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')){ e.preventDefault(); siteHaritasiAc(); }
 });
 
-const ARAMA_DIZINI = {"ayarlar": ["Kurum / Öğretmen Bilgileri", "Eğitim Kademesi", "Okul Öncesi", "İlkokul", "Ortaokul", "İmam Hatip Ortaokulu", "Lise / Ortaöğretim", "Mesleki ve Teknik Eğitim", "İmam Hatip Lisesi", "Özel Eğitim", "Halk Eğitimi / Yaygın Eğitim", "Eğitim-Öğretim Yılı", "Okul Adı", "Öğretmen Adı Soyadı", "Branş", "Okul Müdürü Adı Soyadı", "Kaydet", "Öğretmen profilleri", "Aktif", "Kullanıcı Değiştir", "Profil Ekle", "e-Okul PDF'i ile Toplu Oluştur", "Künye ile Toplu Oluştur", "Künye ile Toplu Oluştur:", "Öğrenci Künye Defteri", "Veri yedekleme", "JSON yedek", "Yedek Al (JSON)", "Yedekten Geri Yükle", "Uygulama sürümü", "Tüm Veriyi Sıfırla", "Örn. Atatürk Ortaokulu", "Adınız Soyadınız", "Örn. Matematik, Sınıf Öğretmenliği, Rehberlik", "Evrak imza bloklarında kullanılacak", "Yeni profil adı"], "ogrenciHavuzu": ["Öğrenci Havuzu", "Künye Defterinden Aktar", "Yeni Şube", "Öğrenciler", "Sınıf Listesi Oluştur", "Kulüp Listesi", "İlkokul", "Listeyi Yazdır", "Şubeyi Sil", "No sırası", "Ada göre", "Excel / CSV Şablon", "Excel'den Toplu Ekle", "e-Okul PDF'den Ekle", "Yeni Öğrenci Ekle", "Excel/CSV", "e-Okul sınıf listesi PDF", "🔍 Öğrenci ara (ad veya no)…"], "dosyaKapaklari": ["Dosya Kapakları", "Tümünü seç", "Temizle", "Grubu kaldır", "Ana KapakANA KAPAK", "Grubu seç", "İstiklal Marşı", "Atatürk'ün Gençliğe Hitabesi", "Öğretmen Andı", "657 Sayılı Devlet Memurları Kanunu", "1739 Sayılı Millî Eğitim Temel Kanunu", "7528 Sayılı Öğretmenlik Mesleği Kanunu", "Millî Eğitim Bakanlığı Okul Öncesi ve İlköğretim Kurumları Yönetmeliği", "Millî Eğitim Bakanlığı Ortaöğretim Kurumları Yönetmeliği", "Millî Eğitim Bakanlığı Özel Öğretim Kurumları Yönetmeliği", "Kamu Kurum ve Kuruluşlarında Çalışan Personelin Kılık ve Kıyafet Yönetmeliği", "Millî Eğitim Bakanlığı Eğitim Kurumları Sosyal Etkinlikler Yönetmeliği", "Zümre Toplantı Tutanakları Dosyası", "Veli Toplantı Tutanakları Dosyası", "Öğrenci Bilgi Formları Dosyası", "İş Günü Takvimi", "Haftalık Ders Programı", "Belirli Gün ve Haftalar", "Günlük Planlar", "Yıllık Planlar", "Okul Temelli Planlama (OTP)", "Kulüp Yıllık Çalışma Planı", "Değerler Eğitimi Planı ve Raporları", "Dilimizin Zenginlikleri Projesi", "Yazılı Sınav Evrakları", "Ortak Sınav Sonuç Analizleri", "Performans Görevleri", "Proje Ödevleri", "Öğrenci Gelişim Raporları", "Sınıf Listesi", "Sınıf İhtiyaç Listesi", "Sınıf Demirbaş Eşya Listesi", "Sınıf Boy ve Ağırlık Listesi", "Sınıf Kitaplık Listesi", "Oturma Düzeni", "Sınıf Başkanı ve Yardımcısı Seçim Tutanağı", "Veli İletişim Bilgileri", "Sosyal Medya Veli İzin Belgesi", "Öğrenci / Veli Görüşme Formları", "Veli Ev Ziyareti Gözlem Formları", "Rehberlik Planı", "Rehberlik Formları", "BEP (Bireyselleştirilmiş Eğitim Programı)", "ZEP (Zenginleştirilmiş Eğitim Programı)", "ŞÖK Dosyası", "Süreç Değerlendirme Ölçekleri", "Sosyal Etkinlik Çalışmaları", "Sosyal Kulüp Dosyası", "Çevre İncelemesi", "Nöbet Çizelgeleri", "Hizmet İçi Eğitim ve Seminer Belgeleri", "Resmî Yazışmalar", "Diğer Evraklar", "Ekle", "Ayraçlara bölüm numarası yaz (01, 02, 03…)", "Ana kapaktan sonra «İçindekiler» sayfası ekle", "Sırt etiketlerini yazdır", "PDF İndir", "Örn. Okul Gezi Planları"], "takvim": ["Takvim", "2026-2027 MEB Takvimini Yükle", "Etkinlik Ekle", "Yaklaşan / Bekleyen", "Genel"], "kendimiTakip": ["Kendimi Takip Ediyorum", "Genel ilerleme", "Madde", "Durum", "Yıllık Planımı hazırladım mı?", "Bekliyor", "Günlük planlarımı hazırlayıp kullanıyor muyum?", "1. Dönem Zümre Toplantı tutanağını idareye teslim ettim mi?", "2. Dönem Zümre Toplantı tutanağını idareye teslim ettim mi?", "1. Dönem Veli Toplantı Tutanağını idareye teslim ettim mi?", "2. Dönem Veli Toplantı Tutanağını idareye teslim ettim mi?", "Veli ev ziyareti yapıp, tutanak hazırladım mı?", "Veliyle iş yeri veya okulda görüşme yapıp, tutanak hazırladım mı?", "Sınıf Kitaplığı oluşturdum mu?", "Sınıfımdaki Kaynaştırma öğrencisi için BEP hazırlayıp Rehberlik Servisi ile paylaştım mı?", "Görev aldığım kurslarla ilgili plan hazırlayıp idareye teslim ettim mi?", "Görev aldığım kurslarla ilgili defter dolduruyor muyum?", "1. Dönem karne işlemlerini bitirdim mi?", "2. Dönem karne işlemlerini bitirdim mi?", "Eyl", "Eki", "Kas", "Ara", "Oca", "Şub", "Mar", "Nis", "May", "Haz", "Düzenle", "Sil"], "haftalikProgram": ["Haftalık Ders Programı", "Renkli çizelge", "Başlama Saati", "Ders Süresi (dk)", "Teneffüs (dk) — varsayılan", "Günlük Ders Saati Sayısı", "Cumartesi günü ekle", "Öğle arası var", "TTKB Haftalık Ders Çizelgesi (09.05.2025 / 04)", "Program", "Çizelge", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Fen Bilimleri", "Sosyal Bilgiler", "T.C. İnkılap Tarihi ve Atatürkçülük", "Din Kültürü ve Ahlak Bilgisi", "Beden Eğitimi ve Spor", "Yabancı Dil", "İkinci Yabancı Dil", "Teknoloji ve Tasarım", "Bilişim Teknolojileri ve Yazılım", "Rehberlik ve Yönlendirme", "Seçmeli Ders", "Diğer / Serbest...", "Şube —", "Renkli çizelge (sınıf panosu için)", "Renkli Yazdır", "Başlık", "Renk teması", "Gökyüzü", "Pembe", "Bahçe", "Lavanta", "Güneş", "Günler satırda", "Günler sütunda", "Ders saatlerini yaz", "Dersleri renklendir", "Okul / sınıf / öğretmen bilgisi", "Boş şablon (elle doldurmak için)", "GÜNLER", "1.DERS08:30–09:10", "2.DERS09:20–10:00", "3.DERS10:10–10:50", "4.DERS11:00–11:40", "5.DERS11:50–12:30", "6.DERS12:40–13:20", "7.DERS13:30–14:10", "PAZARTESİ", "SALI", "ÇARŞAMBA", "PERŞEMBE", "CUMA", "Ders adı yaz", "Renkli pano çizelgesi"], "dersPlani": ["Ders Planı / Günlük Plan", "Yeni Ders Planı / Günlük Plan", "Müfredattan Otomatik Oluştur", "İkinci Yabancı Dil", "Seçmeli Ders", "Hafta", "1. Hafta — 14.09.2026 – 18.09.2026", "2. Hafta — 21.09.2026 – 25.09.2026", "3. Hafta — 28.09.2026 – 02.10.2026", "4. Hafta — 05.10.2026 – 09.10.2026", "5. Hafta — 12.10.2026 – 16.10.2026", "6. Hafta — 19.10.2026 – 23.10.2026", "7. Hafta — 26.10.2026 – 30.10.2026", "8. Hafta — 02.11.2026 – 06.11.2026", "9. Hafta — 09.11.2026 – 13.11.2026", "10. Hafta — 23.11.2026 – 27.11.2026", "11. Hafta — 30.11.2026 – 04.12.2026", "12. Hafta — 07.12.2026 – 11.12.2026", "13. Hafta — 14.12.2026 – 18.12.2026", "14. Hafta — 21.12.2026 – 25.12.2026", "15. Hafta — 28.12.2026 – 01.01.2027", "16. Hafta — 04.01.2027 – 08.01.2027", "17. Hafta — 11.01.2027 – 15.01.2027", "18. Hafta — 18.01.2027 – 22.01.2027", "19. Hafta — 08.02.2027 – 12.02.2027", "20. Hafta — 15.02.2027 – 19.02.2027", "21. Hafta — 22.02.2027 – 26.02.2027", "22. Hafta — 01.03.2027 – 05.03.2027", "23. Hafta — 15.03.2027 – 19.03.2027", "24. Hafta — 22.03.2027 – 26.03.2027", "25. Hafta — 29.03.2027 – 02.04.2027", "26. Hafta — 05.04.2027 – 09.04.2027", "27. Hafta — 12.04.2027 – 16.04.2027", "28. Hafta — 19.04.2027 – 23.04.2027", "29. Hafta — 26.04.2027 – 30.04.2027", "30. Hafta — 03.05.2027 – 07.05.2027", "31. Hafta — 10.05.2027 – 14.05.2027", "32. Hafta — 17.05.2027 – 21.05.2027", "33. Hafta — 24.05.2027 – 28.05.2027", "34. Hafta — 31.05.2027 – 04.06.2027", "35. Hafta — 07.06.2027 – 11.06.2027", "36. Hafta — 14.06.2027 – 18.06.2027", "37. Hafta — 21.06.2027 – 25.06.2027", "Oluştur", "Yeni Plan", "Dersine Göre Doldur", "Tümünü yenile", "Tüm bölümleri aç", "I. BÖLÜM — Kimlik · Süre · Alan", "TYMM taslak plandan otomatik doldur", "— Ders ve sınıf seçin —", "Bu haftayı doldur", "Ders Adı", "Seçiniz", "Fen Bilimleri", "Sosyal Bilgiler", "T.C. İnkılap Tarihi ve Atatürkçülük", "Din Kültürü ve Ahlak Bilgisi", "Beden Eğitimi ve Spor", "Yabancı Dil", "Teknoloji ve Tasarım", "Bilişim Teknolojileri ve Yazılım", "Rehberlik ve Yönlendirme", "Diğer (elle yaz)...", "Sınıf / Şube", "Hafta (tarih aralığı)", "Ders Saati", "Ünite / Tema / Öğrenme Alanı", "Konu (İçerik Çerçevesi)", "II. BÖLÜM — Öğrenme Çıktıları ve Süreç", "Öğrenme Çıktıları", "Süreç Bileşenleri", "Öğretme-Öğrenme Yöntem ve Teknikleri", "Anlatım", "Soru-Cevap", "Beyin Fırtınası", "Gösterip Yaptırma", "Grup Çalışması", "Problem Çözme", "Drama / Rol Yapma", "İstasyon", "Oyun Temelli Öğrenme", "İş Birlikli Öğrenme", "Tartışma", "Proje", "Deney / Gözlem", "Dijital araçlarla uygulama", "Araç-Gereç ve Kaynaklar", "Ders kitabı", "Çalışma yaprağı", "Etkileşimli tahta", "EBA / dijital içerik", "Görsel materyal", "Manipülatif / somut materyal", "Ölçme araçları", "Oyun materyali", "Öğretme-Öğrenme Etkinlikleri (süreç)", "III. BÖLÜM — Ölçme · SDB · Değer · Okuryazarlık", "Ölçme ve Değerlendirme (Öğrenme Kanıtları)", "Gözlem formu", "Kontrol listesi", "Performans görevi", "Çalışma kâğıdı", "Öz değerlendirme formu", "Akran değerlendirme", "Dereceli puanlama anahtarı", "Görüşme formu", "Sosyal - Duygusal Öğrenme Becerileri", "SDB1.1. Kendini Tanıma (Öz Farkındalık)", "SDB1.2. Kendini Düzenleme (Öz Düzenleme)", "SDB2.1. İletişim", "SDB2.2. İş Birliği", "SDB3.3. Sorumlu Karar Verme", "Değerler", "D1. Adalet", "D3. Çalışkanlık", "D4. Dostluk", "D8. Mahremiyet", "D11. Özgürlük", "D13. Sağlıklı Yaşam", "D14. Saygı", "D16. Sorumluluk", "D19. Vatanseverlik", "Okuryazarlık Becerileri", "OB1. Bilgi Okuryazarlığı", "OB2. Dijital Okuryazarlık", "OB4. Görsel Okuryazarlık", "OB5. Veri Okuryazarlığı", "OB6. Sürdürülebilirlik Okuryazarlığı", "IV. BÖLÜM — Belirli Gün · Farklılaştırma · Okul Temelli", "Belirli Gün ve Haftalar", "Farklılaştırma (zenginleştirme / destek)", "Okul Temelli Planlama", "Planın Uygulanmasına İlişkin Açıklamalar", "TYMM değer / beceri etiketleri (plana işlenir)", "Adalet", "Dostluk", "Dürüstlük", "Sabır", "Saygı", "Sevgi", "Sorumluluk", "Vatanseverlik", "Yardımseverlik", "Temizlik", "Okuma becerisi", "Yazma becerisi", "Dinleme/izleme", "Konuşma", "Problem çözme", "Eleştirel düşünme", "İş birliği", "Öz denetim", "İletişim", "Dijital yetkinlik", "Öğrenmeyi öğrenme", "Sosyal katılım", "Kaydet", "Boş alanları akıllı doldur", "Vazgeç", "Elle yaz..."], "egzersizPlani": ["Ders Dışı Egzersiz Çalışma Planı", "Yeni Çalışma"], "iyepPlani": ["İYEP Plan Hazırlama", "Tamamlama tutanağı", "Türkçe başlangıç öğrenme alanı", "Matematik başlangıç teması", "Öğrenme Çıktıları", "Öğrenme Alanı / Tema", "2. Sınıf Düzeyi (İlk Okuma Yazma)", "3. Sınıf Düzeyi (Anlama)", "Matematik Tema 1", "Matematik Tema 4", "2026 TYMM İYEP", "Plan", "Devamsızlıktan çıkarma", "Not:", "Planı oluştur", "Verilen ders(ler)", "1 → 2 → 3 (5+72+19 = 96 saat)", "2 → 3 (72+19 = 91 saat)", "Sadece 3 (19 saat)", "Kurs başlangıç tarihi", "Araç-gereç", "Kurs günleri ve günlük saatler", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar", "Haftalık toplam: 9 saat", "Türkçe 96 s", "Matematik 0 s", "96 saat"], "kilavuzKagit": ["İlk Defterim · Okuma Yazma", "Okuma Anlama", "Okuma Düzeyi", "Tam ekran", "Defteri tüm ekrana yay", "İlk Defterim", "Eş kelimeleri bul-boya", "Aynı kelimeleri boya", "Kelime boyama", "Kelime tamamlama", "Anlamlı cümle oluşturma", "Karesel okuma"], "izlemeTymm": ["Varsayılan", "Çocuk yazısı", "Okuma yazı (Andika)", "Okuma Düzeyi İzleme", "Kelime sayısı tablosu", "Kitap okuma takibi", "Ödev takip formu", "Öğrenci", "Tümü / seçiniz", "Başlangıç (takvim)", "Bitiş (takvim)", "Tarih aralığına göre satır oluştur", "Tek satır", "Sütun başlıkları (düzenlenebilir)", "Tüm öğrenciler (toplu yazdır)", "Ders (başlık)", "Ders adı olmadan", "İkinci Yabancı Dil", "Seçmeli Ders", "Diğer (elle yaz)…", "Sıralama", "Okul numarasına göre", "Ada göre", "Ek boş satır", "Tarih sütunları (yalnızca hafta içi)", "Kaç tarih?", "Başlangıç", "Tarihleri ekle", "Pzt", "Sal", "Çar", "Per", "Cum", "Tek tarih", "Ekle", "Sayfa yönü", "Otomatik (tarih sayısına göre)", "A4 dikey", "A4 yatay", "«Yapılan» toplam sütunu", "Açıklama sütunu", "İşaret açıklaması", "Hazır işaretler (✔ ½ ✘ G R)", "Tarih sütunlarını topluca oluştur", "Kaç sütun?", "Başlangıç tarihi", "Günler", "Ardışık her gün", "Yalnızca hafta içi", "Sütunları oluştur", "Tek tarih ekle", "Tarihi ekle", "Tablo yazdır", "Sütun grafik", "Çizgi grafik"], "degerlerDil": ["Değerler Eğitimi · Dilimizin Zenginlikleri", "aylık rapor", "Değerler Eğitimi", "Dilimizin Zenginlikleri", "Aylık değerler planı ve raporu", "Eğitim öğretim yılı", "Eylül — Saygı", "Değer / Tema", "D1 · Adalet", "D2 · Aile Bütünlüğü", "D3 · Çalışkanlık", "D4 · Dostluk", "D5 · Duyarlılık", "D6 · Dürüstlük", "D7 · Estetik", "D8 · Mahremiyet", "D9 · Merhamet", "D10 · Mütevazılık", "D11 · Özgürlük", "D12 · Sabır", "D13 · Sağlıklı Yaşam", "D14 · Saygı", "D15 · Sevgi", "D16 · Sorumluluk", "D17 · Tasarruf", "D18 · Temizlik", "D19 · Vatanseverlik", "D20 · Yardımseverlik", "Empati", "Hoşgörü", "Paylaşma", "Etkinlik (TYMM eylem)", "Kazanım / öğrenme çıktısı / gözlem", "Aylık rapor — Eylül", "Özet", "Güçlü yönler", "Geliştirilecek yönler", "Öneriler", "Kısa not", "Eylül raporu yazdır", "Ekim — Sorumluluk", "Aylık rapor — Ekim", "Ekim raporu yazdır", "Kasım — Dürüstlük", "Aylık rapor — Kasım", "Kasım raporu yazdır", "Aralık — Yardımseverlik", "Aylık rapor — Aralık", "Aralık raporu yazdır", "Ocak — Sabır", "Aylık rapor — Ocak", "Ocak raporu yazdır", "Şubat — Sevgi", "Aylık rapor — Şubat", "Şubat raporu yazdır", "Mart — Vatanseverlik", "Aylık rapor — Mart", "Mart raporu yazdır", "Nisan — Adalet", "Aylık rapor — Nisan", "Nisan raporu yazdır", "Mayıs — Hoşgörü", "Aylık rapor — Mayıs", "Mayıs raporu yazdır", "Haziran — Çalışkanlık", "Aylık rapor — Haziran", "Haziran raporu yazdır", "Yıl sonu raporu", "Sınıf / şube", "Genel değerlendirme", "Geliştirilmesi gereken yönler", "Yıl sonu raporunu yazdır", "Tüm aylık plan yazdır", "Tüm aylık raporlar yazdır", "Yıl sonu raporu yazdır", "Aylık uygulama raporu", "Uygulama süreci", "Kazanımlar ve gelişim alanları", "Sözcük ve ürün örnekleri", "Gözlem ve değerlendirme", "Karşılaşılan güçlükler ve çözüm önerileri", "Sınıf düzeyi", "Yapıldı Yapılmadı", "Üst düzey adımlar", "Rapor tarihi", "Sınıf mevcudu", "1. sınıf", "2. sınıf", "3. sınıf", "4. sınıf", "Eylem planı adımları"], "tymmRaporlari": ["TYMM Raporları", "otomatik", "Sınıf düzeyi", "1. sınıf", "2. sınıf", "3. sınıf", "5. sınıf", "6. sınıf", "7. sınıf", "9. sınıf", "10. sınıf", "11. sınıf", "Hayat Bilgisi", "Beden Eğitimi ve Oyun", "İmza unvanı", "Rapor türü:", "Aylık", "I. Dönem", "II. Dönem", "Yıl Sonu", "Eylül", "Ekim", "Kasım", "Aralık", "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Şablon:", "Resmî anlatım", "İzleme formu", "Haftalık çizelge (yatay)", "1. sınıf · Türkçe · Ekim", "TYMM çerçeve müfredat verisi (haftalık çıktı listesi)", "Dönem:", "Tema / Ünite:", "Öğrenme çıktısı:", "Öğretmen girdileri — boş bırakılan alanlar otomatik doldurulur", "Gerçekleşme düzeyi:", "Tamamen", "Büyük ölçüde", "Kısmen", "OTP etkinliğinin adı", "OTP etkinliğinin kısa açıklaması", "Güçlü yönler", "Desteklenecek yönler", "Sonraki ay planı", "Öğretmen notu (isteğe bağlı)", "Tema / çıktıları düzenle", "Tema / ünite (elle)", "Öğrenme çıktıları (elle)", "Ek belirli gün/hafta", "Raporu Yazdır", "Farklı anlatım", "Otomatik metni alanlara aktar", "Girdileri temizle", "Toplu yazdırma — 1-A", "Tümünü seç", "Hiçbiri", "Kapsam", "Seçili ay (Ekim) — her ders bir rapor", "I. Dönem — her ders için Eylül–Ocak aylık raporları", "II. Dönem — her ders için Şubat–Haziran aylık raporları", "Tüm yıl — her ders için 10 aylık rapor", "I. Dönem raporu — her ders bir rapor", "II. Dönem raporu — her ders bir rapor", "Yıl sonu raporu — her ders bir rapor", "Toplu Yazdır", "Önizleme", "Gizle", "Bu ay üzerinde çalışılan öğrenme çıktıları:", "Süreç bileşenlerine dönük başlıca uygulamalar:", "Güçlü yönler:", "Desteklenecek yönler:", "UYGUNDUR", "Örn. 1-A", "Sınıf Öğretmeni", "Boşsa öneri: Sesli Okuma Saati", "Etkinlikte ne yapıldı, hangi beceriler desteklendi?", "Boş bırakırsanız otomatik metin kullanılır", "Boşsa yıllık plandaki bir sonraki ay temasından üretilir", "Rapora ek not olarak yazdırılır", "Her satıra bir tema; boşsa plandaki tema", "Her satıra bir çıktı. Örn: MÜZ.2.1.1. … söyleyebilme", "Her satıra bir gün", "Sıradaki hazır öneriyi getir"], "oturmaPlani": ["Sınıf Oturma Planı"], "nobetCizelgesi": ["Öğrenci Nöbet Çizelgesi"], "ihtiyacListesi": ["İhtiyaç Listesi", "Listeyi temizle", "Tümünü ekle", "Okul Öncesi", "1. Sınıf", "2. Sınıf", "3. Sınıf", "4. Sınıf", "Katalog — tıklayarak ekle / çıkar", "1 adet vesikalık fotoğraf", "1 top A4 fotokopi kâğıdı", "10’lu küçük boy (A4) renkli fon karton (kalın)", "10’lu el işi kâğıdı", "Renkli A4 kâğıdı (50’li paket)", "Büyük boy ıslak mendil (1 paket)", "1 rulo peçete", "5 adet yuvarlak kırmızı kalem", "5 adet yuvarlak kurşun kalem (basmalı/uçlu kalem olmamalı)", "2’li kâğıt havlu", "Kâğıt havlu (4’lü paket)", "2 adet çıtçıtlı plastik zarf dosya", "Pritt / UHU yapıştırıcı", "Küt uçlu plastik makas", "Cetvel seti", "Islak mendil (1 paket)", "Peçete (1 paket)", "Kâğıt havlu (1 adet)", "İlköğretim 1. kademe İmla Kılavuzu", "İlköğretim 1. kademe Türkçe sözlük", "12’li kuru boya (kaliteli marka)", "12’li sulu boya + su kabı (kaliteli marka)", "12’li pastel boya (kaliteli marka)", "6’lı keçeli kalem", "4’lü oyun hamuru", "1 kutu ataç (defter düzeni için)", "Şeffaf izole bant", "Abaküs", "Sayma çubuğu / sayma fasulyesi", "Küçük boy kolonya", "En az iki gözlü kalem kutusu (ses çıkarmayan)", "3 adet kaliteli yuvarlak kurşun kalem", "3 adet yuvarlak kırmızı kurşun kalem", "Yumuşak, leke bırakmayan kaliteli silgi (kokulu silgi alınmamalı)", "Çöp hazneli kalemtıraş", "Stick yapıştırıcı", "2 adet farklı renk tahta kalemi (öğrenci kullanımı için)", "2 adet büyük boy, yeni satır aralığına uygun kılavuz çizgili yazı defteri", "1 adet büyük boy 60 yaprak çizgili defter (Türkçe — 2. dönem)", "1 adet büyük boy 40 yaprak çizgili defter (Hayat Bilgisi — 2. dönem)", "1 adet büyük boy 60 yaprak kareli defter (Matematik)", "1 adet orta boy 40 yaprak resim defteri (sayfaları kopartılabilir)", "1 adet küçük boy not defteri (ödevler için)", "1 adet çıtçıtlı dosya (ödev dosyası)", "Kendinden poşetli sunum dosyası (60 sayfalık) — 4 adet", "Beslenme çantası", "Beslenme örtüsü (bez)", "Suluk", "Masaya sermek için bezden dikilmiş beslenme havlusu", "Beslenme kapları", "Peçete ve ıslak mendil (küçük boy)", "Beslenme malzemeleri kesinlikle okul çantasında taşınmayacaktır", "Tüm defter ve kitaplar kaplanıp etiketlenecek; ad, soyad, sınıf yazılacak", "Kuru boya, keçeli ve pastel boyalar tek tek etiketlenecek", "Kanserojen madde içermeyen, sade ve kaliteli malzeme tercih edilecek", "Geçen yıldan kalan sağlam malzemeler kullanılabilir; kırık/eksik getirilmeyecek", "Uçlu / basmalı kalem alınmayacak", "Özel madde ekle", "Yazdırılacak liste (0 madde)", "Veliye not", "Listeye özel madde yazın...", "Yazdırma puntosu — çıktı tek sayfayı aşmaz"], "beslenmeListesi": ["Haftalık Beslenme Listesi", "Başlık", "Hafta / ay etiketi", "Grup", "Hazır şablon", "Klasik (pano örneği)", "Anaokulu A (öğlen / ara öğün)", "Anaokulu B (çeşitli)", "Sağlıklı çanta önerisi", "Uygula", "Pazartesi", "Beslenme / ana öğün", "Yan kutu (meyve / sebze / kuruyemiş)", "Salı", "Çarşamba", "Perşembe", "Cuma", "Veliye not", "Örn. Eylül 1. Hafta"], "fotoCerceve": ["Fotoğraf Çerçeve Baskısı", "hiçbir yerden kesilmez", "Not:", "Kare", "Dikdörtgen", "Bu modüle özel yedek", "genel yedekte tutulmaz", "Bu modülü yedekle", "Yedekten yükle", "Başlamadan önce ayarlar", "Çerçeve şekli", "Yuvarlak (1:1)", "Kare (1:1)", "Genişlik / En (cm)", "Yükseklik / Boy (cm)", "Oranı koru", "Çerçeveler arası boşluk (cm)", "Sayfa kenar boşluğu (cm)", "Fotoğrafın çerçeveye yerleşimi", "Hiç kesme — fotoğrafın tamamı görünsün", "Çerçeve fotoğrafın oranına uysun", "Çerçeveyi doldur (kırpar)", "Boşlukların zemin rengi", "Beyaz", "Açık gri", "Açık mavi", "Siyah", "Fotoğrafın altına öğrenci adı ekle (havuzdan seçilebilir)", "Devam et", "Yuvarlak/karede en = boy"], "panoHazirlama": ["Pano Hazırlama", "Nasıl kullanılır?", "Pano metni", "Resimli harf", "Resimli hazır panolar", "Hazır tema motifleri", "Kendi görselim", "Boyama (siyah-beyaz)", "Renkli + boyama birlikte", "Akıllı baskı", "Tombul", "29 Ekim", "24 Kasım", "Yerli Malı Haftası", "12 Mart", "18 Mart", "19 Mayıs", "Anneler Günü", "Babalar Günü", "Kütüphane Haftası", "Çevre / Orman", "Bilim ve Teknoloji", "Ramazan / Bayram", "Okula dönüş", "Karne / Yaz", "Panorama", "Sayılar ve ritmik sayma", "Ritmik sayma", "Sayı kartları", "10 → tek kart (sayıyı bölme)", "Her rakam ayrı kart", "Rakamlar 0–9", "Sayılar 1–10", "Sayılar 1–20", "Onluklar 10–100", "Yüzlükler 100–1000", "2'şer say", "3'er say", "4'er say", "5'er say", "10'ar say", "100'er say", "Kaçar kaçar", "İleri / geri sayma", "Boş kart (öğrenci tamamlasın)", "Eksik sayıyı tamamlama", "Hazır pano önerileri", "Hoş geldiniz", "Cumhuriyet", "10 Kasım", "Öğretmenler Günü", "Yerli Malı", "Kış", "Yeni yıl", "Sonbahar", "Bahar", "23 Nisan", "Okuma köşesi", "Sınıf kuralları", "Haydi okula", "Bilim", "Ramazan", "Değerlerimiz", "Karne", "Mezuniyet", "Kraft (doğal)", "Neon", "Kurşun kalem", "Dijital", "Şablon", "AFlama", "AÜçgen flama", "AKare", "ADaire", "AAltıgen", "AYıldız", "AKalp", "ABulut", "ARozet", "ASadece harf", "ABalon", "ATren", "AYapboz", "ALego", "AKitap", "AElma", "AÇiçek", "AYaprak", "AKar tanesi", "AGüneş", "AMezuniyet kepi", "ATablet", "AKardan adam", "Kurşun kalem harf", "Desen / zemin", "ADüz (parlak)", "APuantiyeli", "AÇizgili", "ADefter (kareli)", "AYıldızlı", "AÇiçekli", "AKarlı", "AÇini (mavi-beyaz)", "AAAKraft kâğıt", "AAAhşap", "AUzay", "AKara tahta", "AAy yıldızlı", "AAANeon", "Renk paleti", "Gökkuşağı", "Canlı", "Pastel", "Okul", "Kırmızı-beyaz", "Resmî (koyu)", "İlkbahar", "Yaz / güneş", "Deniz", "Tek renk", "Harf stili", "Dolgulu", "Gölgeli", "Çıkartma", "3 Boyutlu", "Kontur", "Yazı tipi", "Kalın", "Yuvarlak", "Okul (Andika)", "Klasik", "Harf rengi", "Otomatik", "Beyaz", "Siyah", "Baskı", "Büyük — sayfada 1 harf", "Orta — sayfada 2 harf", "Küçük — sayfada 4 harf", "Kelimeler arasına süs kartı", "Yok", "★ Yıldız", "♥ Kalp", "✿ Çiçek", "Ay yıldız", "Köşeye sıra numarası yaz (örn. 3/14)", "Orta/küçük boyutta kesim çizgisi çiz", "Yazdır (11 sayfa)", "Önizleme — Flama · Düz (parlak) · Gökkuşağı", "Örn. BU SINIF MEZUN OLUYOR", "HOŞ GELDİNİZ", "CUMHURİYET 103. YIL", "ATAM İZİNDEYİZ", "İYİ Kİ VARSINIZ", "YERLİ MALI HAFTASI", "KIŞ GELDİ", "MUTLU YILLAR", "MERHABA SONBAHAR", "BAHAR GELDİ", "23 NİSAN KUTLU OLSUN", "OKUMA KÖŞESİ", "SINIF KURALLARIMIZ", "HAYDİ OKULA", "MATEMATİK KÖŞESİ", "BİLİM KÖŞESİ", "TÜRKÇE KÖŞESİ", "HOŞ GELDİN RAMAZAN", "DEĞERLERİMİZ", "İYİ TATİLLER", "BU SINIF MEZUN OLUYOR", "ÜRETİYORUZ", "GELECEK SENSİN", "ÇALIŞKAN ÖĞRENCİLER", "KISA BİR MOLA", "Flama", "Üçgen flama", "Kare", "Daire", "Altıgen", "Yıldız", "Kalp", "Bulut", "Rozet", "Sadece harf", "Balon", "Tren", "Yapboz", "Lego", "Kitap", "Elma", "Çiçek", "Yaprak", "Kar tanesi", "Güneş", "Mezuniyet kepi", "Tablet", "Kardan adam", "Düz (parlak)", "Puantiyeli", "Çizgili", "Defter (kareli)", "Yıldızlı", "Çiçekli", "Karlı", "Çini (mavi-beyaz)", "Kraft kâğıt", "Ahşap", "Uzay", "Kara tahta", "Ay yıldızlı", "Özel harf rengi"], "sinifGazetesi": ["Sınıf Gazetesi", "Kaydet", "Örnek sayı", "Boş sayı", "Sonraki sayı", "Künye ve görünüm", "Gazete adı", "Slogan", "Sayı", "Sayfa", "1 sayfa (A4)", "2 sayfa (ön-arka)", "Tasarım", "Klasik gazete", "Modern (lacivert)", "Renkli çocuk", "Doğa", "Magazin", "Dinamik", "Retro", "Yazı tipi", "Gazete (serif)", "Modern (sans)", "Kalın başlık", "Daktilo / retro", "Yuvarlak çocuk", "Alt bilgi", "Manşet haberi", "Fotoğraf ekle", "Haberler (2/6)", "Haber ekle", "Haber 1", "Kategori yok", "Okulumuzdan", "Sınıfımızdan", "Bilim", "Spor", "Sanat", "Kitap", "Gezi", "Röportaj", "Çevre", "Duyuru", "Haber 2", "Köşeler", "Öğretmenimizden / Editörden", "Haftanın sözü", "Biliyor muydunuz?", "Yaklaşan etkinlikler", "Haftanın yıldızları", "Şiir / yazı köşesi", "Gülümseten köşe", "Kelime avı bulmacası", "Harfleri yeniden diz", "Yayın kurulu (künye)", "Önizleme", "Büyük başlık", "Spot: haberi bir-iki cümleyle özetleyin", "Manşet haberinin metni (paragrafları boş satırla ayırın)", "Muhabir", "Haber başlığı", "Haber metni (Kim? Ne? Nerede? Ne zaman? Nasıl? Neden?)", "Muhabir (öğrenci adı ya da ekip)", "Köşe başlığı", "Öğrencilere kısa bir not…", "Söz", "Kimin sözü / kaynak", "Her satıra bir ilginç bilgi", "Pazartesi: Kitap değişim günü", "Her satıra: Ad — neden yıldız?", "Başlık", "Dizeler", "Yazan", "Fıkra, bilmece ya da tekerleme", "Virgülle en çok 10 kelime: KİTAP, OKUL, …", "Genel yayın yönetmeni: … Haber: …", "Yukarı", "Aşağı", "Sil"], "okumaAnlama": ["Okuma Anlama Metinleri", "Sınıf", "1. Sınıf", "2. Sınıf", "3. Sınıf", "4. Sınıf", "5. Sınıf", "6. Sınıf", "7. Sınıf", "8. Sınıf", "Tür", "Tümü (24)", "Değer / beceri metni", "5N1K metni", "Hikâye", "Bilgilendirici", "Ara", "Yeni metin", "Toplu seçim", "Çalışma kâğıdı seçenekleri", "Yazı: NormalBüyük", "Normal", "Büyük", "Paragraf numarası", "Okuma süresi kaydı", "Kelime çalışması", "5N1K tablosu (hikâyelerde)", "Cevap anahtarı: Ayrı sayfadaAynı sayfadaYok", "Ayrı sayfada", "Aynı sayfada", "Yok", "Metinler 24 metin · 12 yeni", "Merhaba ÇemberiDeğer / beceri metni · Saygı · 27 kelime · kısa", "Merhaba Çemberi", "Sınıf GörevlisiDeğer / beceri metni · Sorumluluk · 23 kelime · kısa", "Sınıf Görevlisi", "Ellerimizi YıkayalımDeğer / beceri metni · Temizlik · 17 kelime · kısa", "Ellerimizi Yıkayalım", "Aile SofrasıDeğer / beceri metni · Sevgi · 18 kelime · kısa", "Aile Sofrası", "Düşen KalemDeğer / beceri metni · Yardımseverlik · 17 kelime · kısa", "Düşen Kalem", "Kitap SaatiDeğer / beceri metni · Okuma okuryazarlığı · 13 kelime · kısa", "Kitap Saati", "Parkta Top5N1K metni · Dostluk · 27 kelime · kısa", "Parkta Top", "TohumDeğer / beceri metni · Sabır · 20 kelime · kısa", "Tohum", "Pano ResmiDeğer / beceri metni · Görsel okuryazarlık · 20 kelime · kısa", "Pano Resmi", "ÖdevDeğer / beceri metni · Çalışkanlık · 14 kelime · kısa", "Ödev", "Bayrak5N1K metni · Vatanseverlik · 21 kelime · kısa", "Bayrak", "Üzgün ArkadaşDeğer / beceri metni · Empati · 17 kelime · kısa", "Üzgün Arkadaş", "Minik Tohum YENİHikâye · Sabır · 46 kelime · kısa", "Minik Tohum YENİ", "Pazar Kahvaltısı YENİHikâye · Aile / Yardımlaşma · 33 kelime · kısa", "Pazar Kahvaltısı YENİ", "Kayıp Silgi YENİHikâye · Dürüstlük · 37 kelime · kısa", "Kayıp Silgi YENİ", "Kar Yağdı YENİHikâye · Mevsimler · 32 kelime · kısa", "Kar Yağdı YENİ", "Pırıl Pırıl Dişler YENİBilgilendirici · Sağlıklı Yaşam · 38 kelime · kısa", "Pırıl Pırıl Dişler YENİ", "Bahçedeki Kirpi YENİHikâye · Hayvan Sevgisi · 36 kelime · kısa", "Bahçedeki Kirpi YENİ", "Yeni Arkadaşım YENİHikâye · Dostluk · 34 kelime · kısa", "Yeni Arkadaşım YENİ", "Trafik Lambası YENİBilgilendirici · Trafik Güvenliği · 32 kelime · kısa", "Trafik Lambası YENİ", "Kitap Kurdu YENİHikâye · Okuma Sevgisi · 39 kelime · kısa", "Kitap Kurdu YENİ", "Uçurtma YENİHikâye · Oyun / İş Birliği · 35 kelime · kısa", "Uçurtma YENİ", "Kumbaram YENİHikâye · Tasarruf · 31 kelime · kısa", "Kumbaram YENİ", "Sınıf Bitkimiz YENİHikâye · Sorumluluk · 33 kelime · kısa", "Sınıf Bitkimiz YENİ", "Başlık, tür veya tema…"], "posterHazirlama": ["Poster Hazırlama", "Önemli:", "%100 / gerçek boyut", "kesik çizgiden kesip", "Temizle", "Yazdır (0 sayfa)", "Görsel veya PDF", "PDF", "Kelime sanatı hazırla", "Pano ölçüsü → otomatik ızgara", "Pano eni (cm)", "Pano boyu (cm)", "Boyu görselin oranından hesapla (bozulma olmaz)", "Sayfa yönü", "Otomatik (en az sayfa)", "A4 dikey", "A4 yatay", "Yazıcı kenar payı", "Yok (kenarsız)", "5 mm (önerilir)", "Satır/sütunu hesapla", "Ölçüyü görselden öner", "Hazır ızgara (elle)", "Sütun (en)", "Satır (boy)", "Görselin ızgaraya yerleşimi", "Sığdır — tamamı görünür, kenarda boşluk olabilir", "Kapla — panoyu tamamen doldurur, taşan kısmı kesilir", "Bindirme payı", "Yok", "Köşede küçük konum işareti (A1, B2…)", "Bindirme kesim çizgisi göster (yapıştırma kolaylığı)", "Canlı önizleme", "örn. 120", "örn. 90"], "kelimeSanati": ["Kelime Sanatı", "Yeniden üret", "PNG", "Postere gönder", "Kelimeler (her satıra bir · * ile büyük)", "Değerler", "Okulum", "Öğretmenler Günü", "Cumhuriyet", "23 Nisan", "Kitap / Okuma", "Doğa / Çevre", "Öğrenci adlarını ekle", "Yalnız öğrenci adları", "Şekil", "Kalp", "Yıldız", "Daire", "Kare", "Yuvarlak kare", "Flama", "Üçgen", "Elmas", "Altıgen", "Bulut", "Hilal", "Elma", "Kitap", "Ağaç", "Balon", "Damla", "Güneş", "Harf / sayı", "Özel silüet", "Başlık (isteğe bağlı)", "Kâğıt", "A4 dikey", "A4 yatay", "Özel ölçü / pano (cm)", "Kelime yönü", "Yalnız yatay", "Çoğu yatay, bazıları dikey", "Yarı yarıya", "Zemin", "Beyaz", "Krem", "Açık mavi", "Koyu", "Lacivert", "Renk paleti", "Sıcak", "Okul", "Pastel", "Gökkuşağı", "Deniz", "Orman", "Kırmızı tonlar", "Siyah", "Tek renk", "Açık (koyu zemine)", "Yazı tipi", "Kalın", "Yuvarlak", "Serif", "El yazısı", "Doluluk", "Şeklin zeminini hafifçe göster", "Oluştur", "Önizleme", "Örn. 3-A SINIFI", "Pano ölçüsünde, A4 parçalara bölerek basmak için"], "etiketOlusturucu": ["Etiket Oluşturucu", "Öğrenci Havuzundan", "Şube seç — Şube seçin — 1-A (0 öğrenci)", "— Şube seçin —", "1-A (0 öğrenci)", "Öğrencileri Getir", "Metni Uygula", "Kağıt & Izgara", "Kağıt A3A4A5A6", "Yön Dikey Yatay", "Dikey", "Yatay", "Sütun", "Satır", "Aralık (mm)", "Kenarlık kalınlığı (px)", "Kenarlık rengi", "Toplam hücre", "Stil (Tüm hücrelere uygulanır)", "Inter", "Roboto", "Nunito", "Poppins", "Montserrat", "Open Sans", "Lato", "Merriweather", "Playfair Display", "Source Sans Pro", "Ubuntu", "Raleway", "Oswald", "Quicksand", "Comic Sans MS", "Arial", "Georgia", "Times New Roman", "Courier New", "Verdana", "Tahoma", "Trebuchet MS", "Impact", "Boyut", "Kalın", "Arka plan", "Yazı rengi", "Uygulama modu Tüm hücrelere Sadece seçili", "Tüm hücrelere", "Sadece seçili", "Aynı metni tüm hücrelere dağıt", "Tüm Hücrelere Yaz", "Yalnızca Boşlara", "Word İndir", "Metinleri Temizle", "Tüm Ayarları Sıfırla", "Ali Veli Ayşe Yılmaz ...", "Örn. Selahaddin Eyyubi İlkokulu 1-B Sınıfı", "Sadece içi boş olan hücrelere yazar, dolu etiketlere dokunmaz"], "geometrikAcinim": ["Geometrik Cisim Açınımı", "gerçek boyutunda", "Düz çizgiler", "kesik çizgiler", "gri paylar", "Küp", "Kare prizma", "Dikdörtgenler prizması", "Üçgen prizma", "Altıgen prizma", "Kare piramit", "Üçgen piramit (düzgün dörtyüzlü)", "Silindir", "Koni", "Kenar uzunluğu (cm)", "Yazı boyutu: 14 pt", "Yapıştırma payları", "Yüz adlarını göster", "Renkli (kapalıysa boyama için beyaz)", "Baskı: Gerçek boyut (1:1)Sayfaya sığdır", "Gerçek boyut (1:1)", "Sayfaya sığdır", "Açınım 22.0 × 17.0 cm · yüze tıklayarak seçin", "3B görünüm", "Yüz:", "Ayrıt:", "Köşe:", "Yüzey alanı:", "Hacim:", "Yüzler", "Yazı ve renkleri sıfırla", "Sol", "Sağ", "Arka", "Üst", "Alt", "Yazı (isteğe bağlı)", "Yüz rengi"], "zumreToplantisi": ["Zümre Toplantısı", "Toplantı Türü", "Zümre Öğretmenler Kurulu", "Okul Zümre Başkanları Kurulu", "İlçe Zümre Başkanları Toplantısı", "İl Zümre Başkanları Toplantısı", "Branş / Zümre", "Okul Öncesi Öğretmenliği", "Sınıf Öğretmenliği", "Birleştirilmiş Sınıf (1-2)", "Birleştirilmiş Sınıf (3-4)", "Türk Dili ve Edebiyatı", "Fen Bilimleri", "Fizik", "Kimya", "Biyoloji", "Sosyal Bilgiler", "Coğrafya", "Felsefe Grubu", "Yabancı Dil", "Din Kültürü ve Ahlak Bilgisi", "Beden Eğitimi ve Spor", "Bilişim Teknolojileri / Teknoloji ve Tasarım", "Rehberlik (Psikolojik Danışmanlık)", "Kademe / sınıf düzeyi", "Okul Öncesi (varsayılan)", "İlkokul (1-4. sınıf)", "Ortaokul (5-8. sınıf)", "Lise (hazırlık, 9-12. sınıf)", "Mesleki ve Teknik Ortaöğretim", "Gündemi bu kademeye göre yenile", "Sene Başı", "2. Dönem Başı", "Yıl Sonu", "Kısa", "Normal", "Geniş", "Örnek Hazırla", "Açılış, yoklama ve toplantı yeter sayısının tespiti", "ALINAN KARAR / DEĞERLENDİRME DÜZENLENDİ Örnek üret", "Örnek üret", "Hazır Karar Önerileri (5)", "Bir önceki eğitim öğretim yılına ait zümre kararlarının değerlendirilmesi", "Hazır Karar Önerileri (6)", "Gelişim gözlem formlarının ve kazanım-gösterge takip çizelgesinin kullanımının planlanması", "Hazır Karar Önerileri (7)", "Oyun temelli öğrenme ve serbest zaman etkinliklerinin dengeli programlanması", "Hazır Karar Önerileri (3)", "Yaşam Becerileri Projesi ve beceri temelli etkinliklerin planlanması", "Ölçme-değerlendirme: Bakanlık dışı deneme/tarama sınavlarının uygulanmaması", "Yeni EBA, MEBİ ve dijital eğitim platformlarının ders süreçlerinde kullanımı", "TYMM Öğretmen Eğitimi Paketlerinin tamamlanması", "Sınıf içi cep telefonu kullanımına ilişkin uygulama birliği", "e-Okul gelişim/beceri raporlarının süresinde doldurulması", "Okul dışı öğrenme ortamları ve dijital platformdan yararlanma", "Hazır Karar Önerileri (8)", "Uyum haftası/uyum sürecinin planlanması ve kademeli uyum uygulaması", "Gelişimin gözlemlenmesi, gözlem kayıtları, ürün dosyası (portfolyo) ve gelişim raporları", "Günlük akış, öğrenme merkezleri ve materyal düzeninin belirlenmesi", "Hazır Karar Önerileri (4)", "Aile katılımı ve aile eğitim çalışmalarının planlanması", "Beslenme, sağlık, hijyen ve güvenlik önlemleri", "Özel gereksinimli ve kaynaştırma eğitimi alan çocuklar için uyarlamalar", "Dilek, temenniler ve kapanış", "Gündem Onay Sayfası", "Bu madde için zenginleştirilmiş örnek karar metni üret"], "veliToplantisi": ["Veli Toplantısı", "Kademe / sınıf düzeyi", "Okul Öncesi (anasınıfı / anaokulu)", "İlkokul 1. Sınıf", "İlkokul (2-4. sınıf)", "Ortaokul (5-7. sınıf) (varsayılan)", "Ortaokul 8. Sınıf (LGS)", "Lise (hazırlık, 9-11. sınıf)", "Lise 12. Sınıf (YKS)", "Mesleki ve Teknik Ortaöğretim", "Gündemi bu kademeye göre yenile", "Sene Başı", "2. Dönem Başı", "Yıl Sonu", "Kısa", "Normal", "Geniş", "Örnek Hazırla", "Açılış, tanışma ve gündem maddelerinin okunması", "ALINAN KARAR / DEĞERLENDİRME DÜZENLENDİ Örnek üret", "Örnek üret", "Hazır Karar Önerileri (3)", "Sınıf rehber öğretmeninin tanıtılması ve ders öğretmenleriyle iletişim", "Öğretim programı: 5, 6 ve 7. sınıflarda Türkiye Yüzyılı Maarif Modeli", "5. sınıf öğrencilerinin ortaokula uyumu", "Ölçme-değerlendirme, sınavlar ve performans görevleri", "Ortak yazılı sınavlar (6 ve 7. sınıflar)", "Devamsızlık ve okula geç gelme", "Planlı ders çalışma, ödev ve kitap okuma", "Hazır Karar Önerileri (6)", "Ergenlik dönemi, iletişim ve sosyal-duygusal gelişim", "Cep telefonu, sosyal medya ve dijital güvenlik", "Hazır Karar Önerileri (5)", "Akran zorbalığı, okul güvenliği ve okul kuralları", "Sosyal etkinlikler, kulüpler ve yarışmalar", "Okul aile birliği ve sınıf veli temsilcisinin belirlenmesi", "Okul-aile iş birliği ve “Ailemle Eğitim Yolculuğum” çalışmaları", "Veli görüşmelerinin yalnızca Okul Randevu Sistemi üzerinden yürütülmesi", "Hazır Karar Önerileri (4)", "Kayıt parası veya zorunlu ücret uygulamalarının olmaması", "Bakanlık dışı deneme sınavı ve ek mali yük oluşturan uygulamaların yapılmaması", "Okul güvenliği ve kontrollü giriş-çıkış bilgilendirmesi", "Sağlıklı beslenme ve kantin uygulamaları hakkında bilgilendirme", "Beslenme, temizlik ve düzenli uyku alışkanlıklarının önemi paylaşılmıştır.", "Özel sağlık durumlarının öğretmen ve idareye bildirilmesi gerektiği hatırlatılmıştır.", "Ücretsiz kaynaklar dışında zorunlu materyal dayatmaması", "e-Okul gelişim raporları hakkında veli bilgilendirmesi", "Velilerin görüş, soru ve önerilerinin alınması", "Dilek, temenniler ve kapanış", "İyi dilek ve temennilerle toplantı sonlandırılmış; katılan velilere teşekkür edilmiştir.", "Gündem Onay Sayfası", "İmza listesi tablo ayarı", "Otomatik", "Dar", "Satır yüksekliği 26 px", "Yazı boyutu 9 pt", "Öğrenci %", "Veli %", "Yakınlık %", "Telefon %", "İmza %", "Veli İmza Listesi", "Veli Davetiyesi", "Bu madde için zenginleştirilmiş örnek karar metni üret", "Öğrenci ve veli adlarının uzunluğuna göre sütunları otomatik ayarlar"], "bepGelistirmeBirimi": ["BEP Geliştirme Birimi Toplantısı", "Genel Toplantı", "Öğrenciye Özel Toplantı", "1. Toplantı", "2. Toplantı", "3. Toplantı", "Öğrenciye yönelik sınıf ve okul içerisinde alınabilecek tedbirlerin görüşülmesi", "ALINAN KARAR / DEĞERLENDİRME DÜZENLENDİ", "Hazır Karar Önerileri (3)", "Tüm branş öğretmenlerinin öğrenciye ait eğitsel performanslarını sunması", "Destek eğitim ihtiyacının görüşülmesi", "Destek eğitim hizmetlerinin planlandığı şekilde sürdürülmesine karar verilmiştir.", "Bir sonraki toplantı tarihinin görüşülmesi", "Bir sonraki BEP geliştirme birimi toplantı tarihinin belirlenmesine karar verilmiştir.", "Hizmet Türü", "Gelişim Alanı/Ders", "Haftalık Süre", "Sorumlu kişi(ler)", "Destek satırı ekle", "Evet ( x )", "Hayır ( )", "Bir Sonraki BEP geliştirme birimi toplantı tarihi :", "Ünvanı", "Üye ekle", "Katılımcılardan aktar"], "psikososyalEkip": ["Psikososyal Koruma / Krize Müdahale Ekibi", "1. Toplantı (Sene Başı)", "2. Toplantı", "3. Toplantı (Yıl Sonu)", "Açılış ve yoklama", "ALINAN KARAR / DEĞERLENDİRME DÜZENLENDİ", "Travma/kriz durumlarında yapılacaklar konusunda planlama yapılması", "Travma/kriz durumlarında çalışılacak bireylerin yönlendirme işlemleri", "Dilek ve temenniler", "Kapanış", "«Kapanış» maddesi görüşülmüş; uygulamaya esas alınmak üzere kabulüne karar verilmiştir."], "rpdKomisyonu": ["RPD Hizmetleri Yürütme Komisyonu", "1. Toplantı (Sene Başı)", "2. Toplantı", "3. Toplantı (Yıl Sonu)", "Açılış ve yoklama", "ALINAN KARAR / DEĞERLENDİRME DÜZENLENDİ", "Komisyon üyelerinin ve görev dağılımının belirlenmesi", "Okul RPD Programı ve yıllık çalışma takviminin incelenmesi", "Sınıf rehberlik planlarının incelenmesi ve onaylanması", "Rehberlik ihtiyaç belirleme çalışmalarının planlanması", "Okullarda Şiddetin Önlenmesi Genelgesi kapsamında yapılacak çalışmaların planlanması", "Okul web sitesinde RPD hizmetleri bölümünün kullanımı", "Dilek ve temenniler", "Kapanış", "«Kapanış» maddesi görüşülmüş; uygulamaya esas alınmak üzere kabulüne karar verilmiştir."], "bepPlani": ["BEP Planı Hazırlama", "Not:", "2018 Özel Eğitim Hizmetleri Yönetmeliği", "Yeni BEP Dosyası", "Öğrenci Havuzu", "BEP Değerlendirme"], "bepDegerlendirme": ["BEP Değerlendirme Raporu", "Yeni BEP Değerlendirme Raporu"], "sinifRehberlikRaporu": ["Sınıf Rehberlik Faaliyet Raporu", "MEB Rehberlik ve Psikolojik Danışma Hizmetleri Yönetmeliği Madde 23/ı", "1. Dönem Sonu", "Yıl / 2. Dönem Sonu", "1. Kazanımlar (18/18)", "Tüm kazanımlar (yıllık plana göre) gerçekleştirilebildi mi?", "Evet", "Kısmen", "Hayır", "Kısmen / Hayır ise: gerçekleştirilemeyen kazanım (hafta) ve nedeni", "1. sınıf programı — haftalık takip (18/18)", "1. Kalbimin Duygu Yüzü", "2. Ziyaretçilerimiz Var", "3. Okulumuzu Geziyoruz", "4. Bil Bakalım", "5. Kolaylaştır Hayatı", "6. Okuldaki Riskleri Biliyorum", "7. Benim Seçimlerim", "8. Neden Tercih Ediyorum?", "9. Rollerim ve Sorumluluklarım", "10. Çocuk Hakları Sözleşmem", "11. Fiziksel Özelliklerimi Biliyorum", "12. Doğal Olarak Farklıyım", "13. Meslekleri Oynayabilirim", "14. Duygum ve Ben", "15. Perde Arkasındaki Duygular", "16. Duygularımı Uygun İfade Etmek Güzel", "17. Duygu Kutusu", "18. Fotoğrafa Gülümse", "2. Uygulanan teknikler", "Satır", "Yapılan Çalışma", "Kız", "Erkek", "Top.", "3. Yapılan rehberlik faaliyetleri", "4. PDR servisine yönlendirmeler", "Havuzdan seç", "Öğrenci", "Veli", "Yönlendirme Nedeni", "5. Velilere yönelik faaliyetler", "Anne", "Baba", "Diğer", "6. Güçlükler · 7. Genel değerlendirme", "Karşılaşılan güçlükler ve nedenleri", "Çözüm önerileri", "7. Genel değerlendirme", "Örnek genel değerlendirme", "Örnek güçlük", "Örnek çözüm", "Raporu Yazdır", "not"], "ogrenciGozlem": ["Öğrenci Gözlem Notları"], "veliGorusme": ["Veli Görüşme / Ziyaret Formu", "Yeni Veli Görüşme / Ziyaret Formu", "Veli görüşme çizelgesi", "Görüşme çizelgesi", "Kaçıncı görüşme", "Öğrenciye yakınlığı", "Boş çizelge"], "veliIletisimListesi": ["Veli İletişim Listesi", "Listeyi Yazdır (Yatay)", "Öğrenci Havuzu", "Öğrenci Havuzuna Git"], "ogrenciKarti": ["Öğrenci Kartı", "8 kart", "Kart türü", "Öğle arası kartı", "Servis kartı", "Öğrenci tanıtım / iletişim kartı", "Sınıf kütüphanesi kartı", "Renk:", "Okul numarası", "Veli adı", "Telefonlar", "Eğitim-öğretim yılı", "Kesim çizgisi", "Kart başlığı (isteğe bağlı)", "Kart altı notu (isteğe bağlı)", "Okul logosu", "Yükle", "Tüm şube", "Seçtiğim öğrenciler", "Tümü eve", "Tümü okulda", "ÖĞLE ARASI KARTI", "Örn. Kaybolursa okula teslim ediniz."], "eOkulBilgiFormu": ["E-Okul Öğrenci Bilgi Formu", "Öğrenci", "Öğrenci yok", "Künyeden Doldur", "Bu öğrenciyi yazdır", "Şubeyi toplu yazdır (0)", "Havuz ve künye defterindeki bilgileri forma yeniden yaz"], "dilekceler": ["Dilekçe Örnekleri", "Profilimden doldur", "Personel", "Süt İzni Dilekçesi", "Analık (Doğum) İzni", "Aylıksız (Ücretsiz) İzin", "Refakat İzni", "Mazeret / Babalık / Evlilik / Ölüm İzni", "Nöbet Muafiyeti", "Yönetici Olarak Görevlendirme", "Sözleşmeliden Kadroya Geçiş", "Emeklilik Talebi", "Aile Durumu Bildirimi", "Öğretim", "Ders Kesim Raporu", "Gezi Düzenleme Talebi", "Veli / Öğrenci", "KVKK Aydınlatma + Açık Rıza (Veli)", "Sosyal Medya / Fotoğraf İzin Belgesi", "Gezi Veli İzin Belgesi", "Ad Soyad", "T.C. Kimlik No", "Kurum / Okul", "Branş / Görev", "Kadro durumu", "Kadrolu", "Sözleşmeli", "Aday öğretmen", "Ücretli", "Kurum sicil no (varsa)", "Dilekçe tarihi", "İlçe / İl (hitabın altına)", "Ev adresi", "Telefon", "Ek(ler)", "Çocuğun doğum tarihi", "Analık izninin bittiği tarih", "Süt izni dönemi", "İlk altı ay — günde 3 saat", "İkinci altı ay — günde 1,5 saat", "Kullanılacak saat aralığı (isteğe bağlı)", "İznin başlayacağı tarih", "11 haneli", "Örn. Matematik veya Sınıf Öğretmeni", "Örn. ÇANKAYA", "Boş bırakılırsa noktalı satır basılır", "Boşsa: Çocuğun nüfus kayıt örneği", "Örn. 08.30–11.30"], "matAlistirma": ["Matematik Alıştırma Üretici", "Farklı soru setleri", "isimli", "Sınıf", "1. Sınıf", "2. Sınıf", "3. Sınıf", "4. Sınıf", "5. Sınıf", "6. Sınıf", "7. Sınıf", "8. Sınıf", "Konular", "Toplama", "Eldesiz toplama (2 basamak)", "Eldeli toplama", "3 sayı ile toplama", "Verilmeyenli toplama", "Çıkarma", "Onluk bozmadan çıkarma", "Onluk bozarak çıkarma", "Çarpma", "Çarpım tablosu", "Bölme", "Kalansız bölme", "Karışık", "Toplama–çıkarma–çarpma", "Eğlenceli", "Sihirli toplama kutusu", "Ölçüler", "Saat okuma (yarım saat)", "Saat çizme", "Sayılar", "Sayı karşılaştırma (100’e kadar)", "Basamak değeri / çözümleme", "Sayı örüntüleri", "Problemler", "Toplama–çıkarma problemleri", "Çarpma–bölme problemleri", "Soru sayısı", "Başlık", "Tasarım", "Renkli (sınıfa göre renk)", "Sade (siyah-beyaz baskıya uygun)", "Öğrenci adı (tek kâğıt için)", "İsimli yazdır (şube)", "— Kullanma —", "1-A (0 öğrenci)", "Kopya / form sayısı", "Tüm kopyalarda aynı sorular", "Cevap anahtarı (ayrı sayfa)", "Alıştırma üret", "MATEMATİK ALIŞTIRMASI"], "calismaProgrami": ["Çalışma Programı Hazırla", "Günlere göre farklı konu", "Hazır şablonlar", "İlkokul", "1. sınıf ilk okuma-yazma", "İlkokul 1–2 (kısa bloklar)", "İlkokul 3–4 (45–60 dk)", "Ortaokul", "Ortaokul 5–6 (dengeli)", "Ortaokul günlük (1–1,5 saat)", "Ortaokul LGS hazırlık", "Lise", "Lise genel (2+ saat)", "Lise sayısal ağırlıklı", "Lise 11–12 YKS hazırlık", "Lise sınav / tatil dönemi", "Tatil / hafta sonu", "Hafta sonu tekrar", "Yarıyıl tatili (2 hafta)", "Yaz tatili (okuma + tekrar)", "Öğrenci (havuzdan)", "— Seçin veya elle yazın —", "Ad Soyad", "Sınıf / şube", "Program başlığı", "Uygulanacak günler", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar", "Saatler ve konular", "Satır", "Konu / etkinlik", "Haftalık çalışma:", "Bu haftaki hedeflerim (her satıra bir)", "Verimli çalışma önerileri (her satıra bir)", "Veliye not", "Baskı", "Günlük akış (dikey)", "Haftalık ızgara (yatay)", "Takip çizelgesi", "Tasarım", "Renkli (çocuk dostu)", "Pastel (sade renkli)", "Sade (siyah-beyaz)", "Şubedeki tüm öğrencilere (isimli)", "— Yalnız bu öğrenci —", "İmza alanları", "Türkçe (okuma–anlama)", "Matematik (işlem / problem)", "Mola", "Fen / Hayat / Sosyal", "Ödev kontrolü / tekrar", "Örn. Her gün 20 sayfa kitap okuyacağım. Çarpım tablosunu 6’ya kadar ezberleyeceğim.", "Pazartesi — boş: varsayılan; «-»: o gün yok", "Salı — boş: varsayılan; «-»: o gün yok", "Çarşamba — boş: varsayılan; «-»: o gün yok", "Perşembe — boş: varsayılan; «-»: o gün yok", "Cuma — boş: varsayılan; «-»: o gün yok", "Yukarı", "Aşağı", "Sil"], "kulupPlani": ["Kulüp Planı ve Faaliyet Raporları", "Yıllık Çalışma Planı", "Aylık Faaliyet Raporu", "Yıl Sonu Faaliyet Raporu", "Kulübümdeki Öğrenciler", "1. Kulübü seç", "Kulüp Adı (47 resmi TYMM kulübünden)", "— Seçiniz —", "Kızılay Kulübü", "Yeşilay Kulübü", "Beyazay Kulübü", "Siberay Kulübü", "Tarih ve Kültürel Miras Kulübü", "Tabiat ve Yaşanabilir Çevre Kulübü", "Sağlıklı Yaşam ve Fiziksel Aktivite Kulübü", "Yaşam Becerileri Kulübü", "Kültür ve Yayıncılık Kulübü", "Medeniyet ve Düşünce Kulübü", "Felsefe ve Münazara Kulübü", "Dil, Hitabet ve İletişim Kulübü", "Gezi ve Turizm Kulübü", "Kapsayıcı Yaşam Kulübü", "Ahilik ve Fütüvvet Kulübü", "Fotoğrafçılık ve Film Kulübü", "Görsel Sanatlar Kulübü", "Dijital Sanatlar Kulübü", "Müzik Kulübü", "Sahne Sanatları Kulübü", "Gelenekli Sanatlar Kulübü", "Edebiyat ve Yazarlık Kulübü", "Spor Kulübü", "Ata Sporları Kulübü", "Halk Oyunları Kulübü", "İzcilik ve Doğa Sporları Kulübü", "Akıl ve Zekâ Oyunları Kulübü", "Çocuk Oyunları Kulübü", "Medya ve Bilgi Okuryazarlığı Kulübü", "Dijital Vatandaşlık, Güvenli İnternet ve Sosyal Medya Kulübü", "Bilim ve Teknoloji Kulübü", "Analoji ve Tasarım Kulübü", "Sosyal Bilimler Kulübü", "Matematik Kulübü", "Proje ve Araştırma Kulübü", "Yapay Zekâ Kulübü", "Dijital Beceriler Kulübü", "Girişimcilik ve Üretkenlik Kulübü", "Havacılık ve Uzay Kulübü", "Tasarım ve Mühendislik Kulübü", "Meslekî Tanıtım ve Meslekî Gelişim Kulübü", "Nezaket Hareketi Kulübü", "Demokrasi ve İnsan Hakları Kulübü", "Trafik ve İlk Yardım Kulübü", "Afet Farkındalığı Kulübü", "Diplomasi ve Müzakere Kulübü", "Sıfır Atık Kulübü", "Listede yok — kendim yazacağım"], "anmaKutlama": ["Belirli Gün ve Hafta Programları", "Serbest Ekle", "Katalogdan seç · 2026-2027 eğitim-öğretim yılı · 71 gün/hafta", "İçerik düzeyi Kurum kademesi (Ortaokul) İlkokul (sade, kısa) Ortaokul Lise", "Kurum kademesi (Ortaokul)", "İlkokul (sade, kısa)", "Ortaokul", "Lise", "— Gün / hafta seçiniz (eğitim yılı sırasıyla) —", "7 Eyl · Uluslararası Temiz Hava Günü (Etkinlik)", "12 Eyl · Dünya İlk Yardım Günü (Etkinlik) ⚑ hafta sonu", "14 Eyl · İlköğretim Haftası (Kutlama)", "18 Eyl · Öğrenciler Günü (Kutlama)", "19 Eyl · Gaziler Günü — 105. yıl (Anma) ⚑ hafta sonu", "21 Eyl · 15 Temmuz Demokrasi ve Millî Birlik Günü — 10. yıl (Anma)", "28 Eyl · Dünya Okul Sütü Günü (Etkinlik)", "28 Eyl · Disleksi Haftası (Etkinlik)", "1 Eki · Dünya Disleksi Günü (Etkinlik)", "4 Eki · Hayvanları Koruma Günü (Etkinlik) ⚑ hafta sonu", "8 Eki · Ahilik Kültürü Haftası (Etkinlik)", "13 Eki · Dünya Afet Azaltma Günü (Etkinlik)", "24 Eki · Birleşmiş Milletler Günü — 81. yıl (Etkinlik) ⚑ hafta sonu", "29 Eki · Cumhuriyet Bayramı — 103. yıl (Kutlama)", "29 Eki · Kızılay Haftası — 158. yıl (Etkinlik)", "2 Kas · Lösemili Çocuklar Haftası (Etkinlik)", "3 Kas · Organ Bağışı ve Nakli Haftası (Etkinlik)", "10 Kas · Atatürk Haftası — 88. yıl (Anma)", "12 Kas · Afet Eğitimi Hazırlık Günü — 27. yıl (Etkinlik)", "14 Kas · Dünya Diyabet Günü (Etkinlik) ⚑ hafta sonu", "20 Kas · Dünya Felsefe Günü (Etkinlik)", "20 Kas · Dünya Çocuk Hakları Günü — 37. yıl (Etkinlik)", "21 Kas · Ağız ve Diş Sağlığı Haftası (Etkinlik) ⚑ hafta sonu", "24 Kas · Öğretmenler Günü — 98. yıl (Kutlama)", "3 Ara · Dünya Engelliler Günü (Etkinlik)", "4 Ara · Dünya Madenciler Günü (Etkinlik)", "5 Ara · Türk Kadınına Seçme ve Seçilme Hakkının Verilişi — 92. yıl (Kutlama) ⚑ hafta sonu", "7 Ara · Mevlana Haftası — 753. yıl (Anma)", "7 Ara · İnsan Hakları ve Demokrasi Haftası — 78. yıl (Etkinlik)", "12 Ara · Tutum, Yatırım ve Türk Malları Haftası — 97. yıl (Etkinlik) ⚑ hafta sonu", "20 Ara · Mehmet Akif Ersoy'u Anma Haftası — 90. yıl (Anma) ⚑ hafta sonu", "11 Oca · Enerji Tasarrufu Haftası (Etkinlik)", "22 Şub · Vergi Haftası (Etkinlik)", "1 Mar · Yeşilay Haftası — 107. yıl (Etkinlik)", "1 Mar · Girişimcilik Haftası (Etkinlik)", "8 Mar · Dünya Kadınlar Günü (Kutlama)", "8 Mar · Bilim ve Teknoloji Haftası (Etkinlik)", "12 Mar · İstiklâl Marşı'nın Kabulü ve Mehmet Akif Ersoy'u Anma Günü — 106. yıl (Anma)", "15 Mar · Tüketiciyi Koruma Haftası (Etkinlik)", "15 Mar · Türk Dünyası ve Toplulukları Haftası (Etkinlik)", "18 Mar · Şehitler Günü — 112. yıl (Anma)", "18 Mar · Yaşlılar Haftası (Etkinlik)", "21 Mar · Orman Haftası (Etkinlik) ⚑ hafta sonu", "22 Mar · Dünya Su Günü (Etkinlik)", "27 Mar · Dünya Tiyatrolar Günü (Etkinlik) ⚑ hafta sonu", "29 Mar · Kütüphaneler Haftası (Etkinlik)", "1 Nis · Kanser Haftası (Etkinlik)", "2 Nis · Dünya Otizm Farkındalık Günü (Etkinlik)", "7 Nis · Kişisel Verileri Koruma Günü — 11. yıl (Etkinlik)", "7 Nis · Dünya Sağlık Günü / Haftası (Etkinlik)", "15 Nis · Turizm Haftası (Etkinlik)", "23 Nis · Ulusal Egemenlik ve Çocuk Bayramı — 107. yıl (Kutlama)", "23 Nis · Dünya Kitap Günü (Etkinlik, ek)", "26 Nis · Dünya Fikrî Mülkiyet Günü (Etkinlik)", "29 Nis · Kût’ül Amâre Zaferi — 111. yıl (Anma)", "3 May · Bilişim Haftası (Etkinlik)", "3 May · Trafik ve İlkyardım Haftası (Etkinlik)", "4 May · İş Sağlığı ve Güvenliği Haftası (Etkinlik)", "9 May · Anneler Günü (Kutlama) ⚑ hafta sonu", "10 May · Vakıflar Haftası (Etkinlik)", "10 May · Engelliler Haftası (Etkinlik)", "18 May · Müzeler Haftası (Etkinlik)", "19 May · Atatürk'ü Anma, Gençlik ve Spor Bayramı — 108. yıl (Kutlama)", "25 May · Etik Günü (Etkinlik)", "29 May · İstanbul'un Fethi — 574. yıl (Kutlama) ⚑ hafta sonu", "31 May · Hayat Boyu Öğrenme Haftası (Etkinlik)", "7 Haz · Çevre ve İklim Değişikliği Haftası (Etkinlik)", "20 Haz · Babalar Günü (Kutlama) ⚑ hafta sonu", "30 Ağu · Zafer Bayramı — 105. yıl (Kutlama)", "Mevlid-i Nebî Haftası (Etkinlik)", "Mahallî Kurtuluş Günleri, Atatürk Günleri ve Tarihî Günler (Kutlama)", "“Kaçıncı yıl” ifadeleri", "Tümü", "Kutlama", "Anma", "Etkinlik"], "etkinlikRaporu": ["Etkinlik / Faaliyet Raporu", "Yeni Rapor"], "notCizelgesi": ["Not Çizelgesi / Ortalama Hesaplayıcı", "Fen Bilimleri", "Sosyal Bilgiler", "T.C. İnkılap Tarihi ve Atatürkçülük", "Din Kültürü ve Ahlak Bilgisi", "Beden Eğitimi ve Spor", "Yabancı Dil", "İkinci Yabancı Dil", "Teknoloji ve Tasarım", "Bilişim Teknolojileri ve Yazılım", "Rehberlik ve Yönlendirme", "Seçmeli Ders", "Diğer / Serbest...", "Dönem", "1. Dönem", "2. Dönem"], "ilkokulIzleme": ["İlkokul İzleme-Değerlendirme Formu", "Sınıf düzeyi (katalog)", "1. Sınıf", "2. Sınıf", "3. Sınıf", "4. Sınıf", "İlk Okuma Yazma", "Hayat Bilgisi", "Beden Eğitimi ve Oyun", "Ünite / Tema", "Dinleme/İzleme", "Konuşma", "Okuma", "Yazma", "Bu temayı yazdır", "Dersi yazdır (tüm temalar)", "Şubeyi yazdır"], "donemYilSonu": ["Dönem / Yıl Sonu Değerlendirme Formu", "Yeni Dönem / Yıl Sonu Değerlendirme Formu"], "karneGorusleri": ["Karne Görüşleri", "Akrostiş Karne Görüşü", "Nesir Karne Görüşü", "Öğrenci Havuzu", "Öğrenci Havuzuna Git", "Oluşturulan görüşler", "Yeniden oluştur", "Tümünü kopyala"], "rozetBelge": ["Rozet, Kokart ve Motivasyon Belgeleri", "Belgeler", "Rozetler", "Kokartlar", "Kitap Kurdu Belgesi", "Başarı Belgesi", "Üstün Başarı Belgesi", "Teşekkür Belgesi", "Katılım Belgesi", "Haftanın Yıldızı", "Ayın Öğrencisi", "Okuma Şampiyonu", "Matematik Ustası", "Kulüp Sertifikası", "Derece Belgesi", "Belirli gün ve haftalar", "Kulüpler", "Motivasyon", "Boş şablon", "Cumhuriyet Bayramı", "Öğretmenler Günü", "23 Nisan Çocuk Bayramı", "Kitap Okuma Kulübü", "Bilim ve Teknoloji Kulübü", "Süper Okuyucu", "Yardımsever", "İsimli toplu yazdır"], "imsakTakvim": ["İmsakiye ve Yıllık Takvim", "Yıllık Takvim", "İmsakiye", "Ramazan İmsakiyesi", "Namaz vakitleri", "Kadir Gecesi", "Bayram namazı", "Fitre", "Filigran", "Duvar takvimi", "12 ay tek sayfa", "Resmî tatiller", "Dinî bayramlar", "Kandiller", "Okul tatilleri", "Diyanet tablosunu yapıştır"]};
+const ARAMA_DIZINI = {"ayarlar": ["Kurum / Öğretmen Bilgileri", "Eğitim Kademesi", "Okul Öncesi", "İlkokul", "Ortaokul", "İmam Hatip Ortaokulu", "Lise / Ortaöğretim", "Mesleki ve Teknik Eğitim", "İmam Hatip Lisesi", "Özel Eğitim", "Halk Eğitimi / Yaygın Eğitim", "Eğitim-Öğretim Yılı", "Okul Adı", "Öğretmen Adı Soyadı", "Branş", "Okul Müdürü Adı Soyadı", "Kaydet", "Öğretmen profilleri", "Aktif", "Kullanıcı Değiştir", "Profil Ekle", "e-Okul PDF'i ile Toplu Oluştur", "Künye ile Toplu Oluştur", "Künye ile Toplu Oluştur:", "Öğrenci Künye Defteri", "Veri yedekleme", "JSON yedek", "Yedek Al (JSON)", "Yedekten Geri Yükle", "Uygulama sürümü", "Tüm Veriyi Sıfırla", "Örn. Atatürk Ortaokulu", "Adınız Soyadınız", "Örn. Matematik, Sınıf Öğretmenliği, Rehberlik", "Evrak imza bloklarında kullanılacak", "Yeni profil adı"], "ogrenciHavuzu": ["Öğrenci Havuzu", "Künye Defterinden Aktar", "Yeni Şube", "Öğrenciler", "Sınıf Listesi Oluştur", "Kulüp Listesi", "İlkokul", "Listeyi Yazdır", "Şubeyi Sil", "No sırası", "Ada göre", "Excel / CSV Şablon", "Excel'den Toplu Ekle", "e-Okul PDF'den Ekle", "Yeni Öğrenci Ekle", "Excel/CSV", "e-Okul sınıf listesi PDF", "🔍 Öğrenci ara (ad veya no)…"], "dosyaKapaklari": ["Öğretmen Dosyası Oluşturma", "Öğretmen dosyası", "Dosya Kapağı Oluşturma", "Dosyayı oluştur", "Şimdi oluştur", "Öğretmen Dosyasına dön", "Kapak türünü seçin", "Türk Bayrağı", "Gençliğe Hitabe", "Atatürk Portresi", "Öğretmen Tanıtım Formu", "Ders Giriş-Çıkış Saatleri", "Mevzuat Karekodları", "karekod", "QR kod", "Yönetmelik", "Okul Öncesi Eğitim ve İlköğretim Kurumları Yönetmeliği", "Ortaöğretim Kurumları Yönetmeliği", "Özel Eğitim Hizmetleri Yönetmeliği", "Öğretmenlik Mesleği Kanunu", "Sosyal Etkinlikler Yönetmeliği", "Şube Öğretmenler Kurulu Tutanağı", "ŞÖK", "Yazılı Sınav Kâğıtları Teslim Tutanağı", "Proje Ödevi Dağıtım Listesi", "Proje Değerlendirme Ölçeği", "Ders Kesim Raporu", "Sınıf Listesi", "İçindekiler", "Bölüm ayraç sayfaları", "Tek PDF", "Tümünü seç", "Temizle", "Grubu kaldır", "Ana KapakANA KAPAK", "Grubu seç", "İstiklal Marşı", "Atatürk'ün Gençliğe Hitabesi", "Öğretmen Andı", "657 Sayılı Devlet Memurları Kanunu", "1739 Sayılı Millî Eğitim Temel Kanunu", "7528 Sayılı Öğretmenlik Mesleği Kanunu", "Millî Eğitim Bakanlığı Okul Öncesi ve İlköğretim Kurumları Yönetmeliği", "Millî Eğitim Bakanlığı Ortaöğretim Kurumları Yönetmeliği", "Millî Eğitim Bakanlığı Özel Öğretim Kurumları Yönetmeliği", "Kamu Kurum ve Kuruluşlarında Çalışan Personelin Kılık ve Kıyafet Yönetmeliği", "Millî Eğitim Bakanlığı Eğitim Kurumları Sosyal Etkinlikler Yönetmeliği", "Zümre Toplantı Tutanakları Dosyası", "Veli Toplantı Tutanakları Dosyası", "Öğrenci Bilgi Formları Dosyası", "İş Günü Takvimi", "Haftalık Ders Programı", "Belirli Gün ve Haftalar", "Günlük Planlar", "Yıllık Planlar", "Okul Temelli Planlama (OTP)", "Kulüp Yıllık Çalışma Planı", "Değerler Eğitimi Planı ve Raporları", "Dilimizin Zenginlikleri Projesi", "Yazılı Sınav Evrakları", "Ortak Sınav Sonuç Analizleri", "Performans Görevleri", "Proje Ödevleri", "Öğrenci Gelişim Raporları", "Sınıf İhtiyaç Listesi", "Sınıf Demirbaş Eşya Listesi", "Sınıf Boy ve Ağırlık Listesi", "Sınıf Kitaplık Listesi", "Oturma Düzeni", "Sınıf Başkanı ve Yardımcısı Seçim Tutanağı", "Veli İletişim Bilgileri", "Sosyal Medya Veli İzin Belgesi", "Öğrenci / Veli Görüşme Formları", "Veli Ev Ziyareti Gözlem Formları", "Rehberlik Planı", "Rehberlik Formları", "BEP (Bireyselleştirilmiş Eğitim Programı)", "ZEP (Zenginleştirilmiş Eğitim Programı)", "ŞÖK Dosyası", "Süreç Değerlendirme Ölçekleri", "Sosyal Etkinlik Çalışmaları", "Sosyal Kulüp Dosyası", "Çevre İncelemesi", "Nöbet Çizelgeleri", "Hizmet İçi Eğitim ve Seminer Belgeleri", "Resmî Yazışmalar", "Diğer Evraklar", "Ekle", "Ayraçlara bölüm numarası yaz (01, 02, 03…)", "Ana kapaktan sonra «İçindekiler» sayfası ekle", "Sırt etiketlerini yazdır", "PDF İndir", "Örn. Okul Gezi Planları", "Dosya Kapakları"], "takvim": ["Takvim", "2026-2027 MEB Takvimini Yükle", "Etkinlik Ekle", "Yaklaşan / Bekleyen", "Genel"], "kendimiTakip": ["Kendimi Takip Ediyorum", "Genel ilerleme", "Madde", "Durum", "Yıllık Planımı hazırladım mı?", "Bekliyor", "Günlük planlarımı hazırlayıp kullanıyor muyum?", "1. Dönem Zümre Toplantı tutanağını idareye teslim ettim mi?", "2. Dönem Zümre Toplantı tutanağını idareye teslim ettim mi?", "1. Dönem Veli Toplantı Tutanağını idareye teslim ettim mi?", "2. Dönem Veli Toplantı Tutanağını idareye teslim ettim mi?", "Veli ev ziyareti yapıp, tutanak hazırladım mı?", "Veliyle iş yeri veya okulda görüşme yapıp, tutanak hazırladım mı?", "Sınıf Kitaplığı oluşturdum mu?", "Sınıfımdaki Kaynaştırma öğrencisi için BEP hazırlayıp Rehberlik Servisi ile paylaştım mı?", "Görev aldığım kurslarla ilgili plan hazırlayıp idareye teslim ettim mi?", "Görev aldığım kurslarla ilgili defter dolduruyor muyum?", "1. Dönem karne işlemlerini bitirdim mi?", "2. Dönem karne işlemlerini bitirdim mi?", "Eyl", "Eki", "Kas", "Ara", "Oca", "Şub", "Mar", "Nis", "May", "Haz", "Düzenle", "Sil"], "haftalikProgram": ["Haftalık Ders Programı", "Renkli çizelge", "Başlama Saati", "Ders Süresi (dk)", "Teneffüs (dk) — varsayılan", "Günlük Ders Saati Sayısı", "Cumartesi günü ekle", "Öğle arası var", "TTKB Haftalık Ders Çizelgesi (09.05.2025 / 04)", "Program", "Çizelge", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Fen Bilimleri", "Sosyal Bilgiler", "T.C. İnkılap Tarihi ve Atatürkçülük", "Din Kültürü ve Ahlak Bilgisi", "Beden Eğitimi ve Spor", "Yabancı Dil", "İkinci Yabancı Dil", "Teknoloji ve Tasarım", "Bilişim Teknolojileri ve Yazılım", "Rehberlik ve Yönlendirme", "Seçmeli Ders", "Diğer / Serbest...", "Şube —", "Renkli çizelge (sınıf panosu için)", "Renkli Yazdır", "Başlık", "Renk teması", "Gökyüzü", "Pembe", "Bahçe", "Lavanta", "Güneş", "Günler satırda", "Günler sütunda", "Ders saatlerini yaz", "Dersleri renklendir", "Okul / sınıf / öğretmen bilgisi", "Boş şablon (elle doldurmak için)", "GÜNLER", "1.DERS08:30–09:10", "2.DERS09:20–10:00", "3.DERS10:10–10:50", "4.DERS11:00–11:40", "5.DERS11:50–12:30", "6.DERS12:40–13:20", "7.DERS13:30–14:10", "PAZARTESİ", "SALI", "ÇARŞAMBA", "PERŞEMBE", "CUMA", "Ders adı yaz", "Renkli pano çizelgesi"], "dersPlani": ["Ders Planı / Günlük Plan", "Yeni Ders Planı / Günlük Plan", "Müfredattan Otomatik Oluştur", "İkinci Yabancı Dil", "Seçmeli Ders", "Hafta", "1. Hafta — 14.09.2026 – 18.09.2026", "2. Hafta — 21.09.2026 – 25.09.2026", "3. Hafta — 28.09.2026 – 02.10.2026", "4. Hafta — 05.10.2026 – 09.10.2026", "5. Hafta — 12.10.2026 – 16.10.2026", "6. Hafta — 19.10.2026 – 23.10.2026", "7. Hafta — 26.10.2026 – 30.10.2026", "8. Hafta — 02.11.2026 – 06.11.2026", "9. Hafta — 09.11.2026 – 13.11.2026", "10. Hafta — 23.11.2026 – 27.11.2026", "11. Hafta — 30.11.2026 – 04.12.2026", "12. Hafta — 07.12.2026 – 11.12.2026", "13. Hafta — 14.12.2026 – 18.12.2026", "14. Hafta — 21.12.2026 – 25.12.2026", "15. Hafta — 28.12.2026 – 01.01.2027", "16. Hafta — 04.01.2027 – 08.01.2027", "17. Hafta — 11.01.2027 – 15.01.2027", "18. Hafta — 18.01.2027 – 22.01.2027", "19. Hafta — 08.02.2027 – 12.02.2027", "20. Hafta — 15.02.2027 – 19.02.2027", "21. Hafta — 22.02.2027 – 26.02.2027", "22. Hafta — 01.03.2027 – 05.03.2027", "23. Hafta — 15.03.2027 – 19.03.2027", "24. Hafta — 22.03.2027 – 26.03.2027", "25. Hafta — 29.03.2027 – 02.04.2027", "26. Hafta — 05.04.2027 – 09.04.2027", "27. Hafta — 12.04.2027 – 16.04.2027", "28. Hafta — 19.04.2027 – 23.04.2027", "29. Hafta — 26.04.2027 – 30.04.2027", "30. Hafta — 03.05.2027 – 07.05.2027", "31. Hafta — 10.05.2027 – 14.05.2027", "32. Hafta — 17.05.2027 – 21.05.2027", "33. Hafta — 24.05.2027 – 28.05.2027", "34. Hafta — 31.05.2027 – 04.06.2027", "35. Hafta — 07.06.2027 – 11.06.2027", "36. Hafta — 14.06.2027 – 18.06.2027", "37. Hafta — 21.06.2027 – 25.06.2027", "Oluştur", "Yeni Plan", "Dersine Göre Doldur", "Tümünü yenile", "Tüm bölümleri aç", "I. BÖLÜM — Kimlik · Süre · Alan", "TYMM taslak plandan otomatik doldur", "— Ders ve sınıf seçin —", "Bu haftayı doldur", "Ders Adı", "Seçiniz", "Fen Bilimleri", "Sosyal Bilgiler", "T.C. İnkılap Tarihi ve Atatürkçülük", "Din Kültürü ve Ahlak Bilgisi", "Beden Eğitimi ve Spor", "Yabancı Dil", "Teknoloji ve Tasarım", "Bilişim Teknolojileri ve Yazılım", "Rehberlik ve Yönlendirme", "Diğer (elle yaz)...", "Sınıf / Şube", "Hafta (tarih aralığı)", "Ders Saati", "Ünite / Tema / Öğrenme Alanı", "Konu (İçerik Çerçevesi)", "II. BÖLÜM — Öğrenme Çıktıları ve Süreç", "Öğrenme Çıktıları", "Süreç Bileşenleri", "Öğretme-Öğrenme Yöntem ve Teknikleri", "Anlatım", "Soru-Cevap", "Beyin Fırtınası", "Gösterip Yaptırma", "Grup Çalışması", "Problem Çözme", "Drama / Rol Yapma", "İstasyon", "Oyun Temelli Öğrenme", "İş Birlikli Öğrenme", "Tartışma", "Proje", "Deney / Gözlem", "Dijital araçlarla uygulama", "Araç-Gereç ve Kaynaklar", "Ders kitabı", "Çalışma yaprağı", "Etkileşimli tahta", "EBA / dijital içerik", "Görsel materyal", "Manipülatif / somut materyal", "Ölçme araçları", "Oyun materyali", "Öğretme-Öğrenme Etkinlikleri (süreç)", "III. BÖLÜM — Ölçme · SDB · Değer · Okuryazarlık", "Ölçme ve Değerlendirme (Öğrenme Kanıtları)", "Gözlem formu", "Kontrol listesi", "Performans görevi", "Çalışma kâğıdı", "Öz değerlendirme formu", "Akran değerlendirme", "Dereceli puanlama anahtarı", "Görüşme formu", "Sosyal - Duygusal Öğrenme Becerileri", "SDB1.1. Kendini Tanıma (Öz Farkındalık)", "SDB1.2. Kendini Düzenleme (Öz Düzenleme)", "SDB2.1. İletişim", "SDB2.2. İş Birliği", "SDB3.3. Sorumlu Karar Verme", "Değerler", "D1. Adalet", "D3. Çalışkanlık", "D4. Dostluk", "D8. Mahremiyet", "D11. Özgürlük", "D13. Sağlıklı Yaşam", "D14. Saygı", "D16. Sorumluluk", "D19. Vatanseverlik", "Okuryazarlık Becerileri", "OB1. Bilgi Okuryazarlığı", "OB2. Dijital Okuryazarlık", "OB4. Görsel Okuryazarlık", "OB5. Veri Okuryazarlığı", "OB6. Sürdürülebilirlik Okuryazarlığı", "IV. BÖLÜM — Belirli Gün · Farklılaştırma · Okul Temelli", "Belirli Gün ve Haftalar", "Farklılaştırma (zenginleştirme / destek)", "Okul Temelli Planlama", "Planın Uygulanmasına İlişkin Açıklamalar", "TYMM değer / beceri etiketleri (plana işlenir)", "Adalet", "Dostluk", "Dürüstlük", "Sabır", "Saygı", "Sevgi", "Sorumluluk", "Vatanseverlik", "Yardımseverlik", "Temizlik", "Okuma becerisi", "Yazma becerisi", "Dinleme/izleme", "Konuşma", "Problem çözme", "Eleştirel düşünme", "İş birliği", "Öz denetim", "İletişim", "Dijital yetkinlik", "Öğrenmeyi öğrenme", "Sosyal katılım", "Kaydet", "Boş alanları akıllı doldur", "Vazgeç", "Elle yaz..."], "egzersizPlani": ["Ders Dışı Egzersiz Çalışma Planı", "Yeni Çalışma"], "iyepPlani": ["İYEP Plan Hazırlama", "Tamamlama tutanağı", "Türkçe başlangıç öğrenme alanı", "Matematik başlangıç teması", "Öğrenme Çıktıları", "Öğrenme Alanı / Tema", "2. Sınıf Düzeyi (İlk Okuma Yazma)", "3. Sınıf Düzeyi (Anlama)", "Matematik Tema 1", "Matematik Tema 4", "2026 TYMM İYEP", "Plan", "Devamsızlıktan çıkarma", "Not:", "Planı oluştur", "Verilen ders(ler)", "1 → 2 → 3 (5+72+19 = 96 saat)", "2 → 3 (72+19 = 91 saat)", "Sadece 3 (19 saat)", "Kurs başlangıç tarihi", "Araç-gereç", "Kurs günleri ve günlük saatler", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar", "Haftalık toplam: 9 saat", "Türkçe 96 s", "Matematik 0 s", "96 saat"], "kilavuzKagit": ["İlk Defterim · Okuma Yazma", "Okuma Anlama", "Okuma Düzeyi", "Tam ekran", "Defteri tüm ekrana yay", "İlk Defterim", "Eş kelimeleri bul-boya", "Aynı kelimeleri boya", "Kelime boyama", "Kelime tamamlama", "Anlamlı cümle oluşturma", "Karesel okuma"], "izlemeTymm": ["Varsayılan", "Çocuk yazısı", "Okuma yazı (Andika)", "Okuma Düzeyi İzleme", "Kelime sayısı tablosu", "Kitap okuma takibi", "Ödev takip formu", "Öğrenci", "Tümü / seçiniz", "Başlangıç (takvim)", "Bitiş (takvim)", "Tarih aralığına göre satır oluştur", "Tek satır", "Sütun başlıkları (düzenlenebilir)", "Tüm öğrenciler (toplu yazdır)", "Ders (başlık)", "Ders adı olmadan", "İkinci Yabancı Dil", "Seçmeli Ders", "Diğer (elle yaz)…", "Sıralama", "Okul numarasına göre", "Ada göre", "Ek boş satır", "Tarih sütunları (yalnızca hafta içi)", "Kaç tarih?", "Başlangıç", "Tarihleri ekle", "Pzt", "Sal", "Çar", "Per", "Cum", "Tek tarih", "Ekle", "Sayfa yönü", "Otomatik (tarih sayısına göre)", "A4 dikey", "A4 yatay", "«Yapılan» toplam sütunu", "Açıklama sütunu", "İşaret açıklaması", "Hazır işaretler (✔ ½ ✘ G R)", "Tarih sütunlarını topluca oluştur", "Kaç sütun?", "Başlangıç tarihi", "Günler", "Ardışık her gün", "Yalnızca hafta içi", "Sütunları oluştur", "Tek tarih ekle", "Tarihi ekle", "Tablo yazdır", "Sütun grafik", "Çizgi grafik"], "degerlerDil": ["Değerler Eğitimi · Dilimizin Zenginlikleri", "aylık rapor", "Değerler Eğitimi", "Dilimizin Zenginlikleri", "Aylık değerler planı ve raporu", "Eğitim öğretim yılı", "Eylül — Saygı", "Değer / Tema", "D1 · Adalet", "D2 · Aile Bütünlüğü", "D3 · Çalışkanlık", "D4 · Dostluk", "D5 · Duyarlılık", "D6 · Dürüstlük", "D7 · Estetik", "D8 · Mahremiyet", "D9 · Merhamet", "D10 · Mütevazılık", "D11 · Özgürlük", "D12 · Sabır", "D13 · Sağlıklı Yaşam", "D14 · Saygı", "D15 · Sevgi", "D16 · Sorumluluk", "D17 · Tasarruf", "D18 · Temizlik", "D19 · Vatanseverlik", "D20 · Yardımseverlik", "Empati", "Hoşgörü", "Paylaşma", "Etkinlik (TYMM eylem)", "Kazanım / öğrenme çıktısı / gözlem", "Aylık rapor — Eylül", "Özet", "Güçlü yönler", "Geliştirilecek yönler", "Öneriler", "Kısa not", "Eylül raporu yazdır", "Ekim — Sorumluluk", "Aylık rapor — Ekim", "Ekim raporu yazdır", "Kasım — Dürüstlük", "Aylık rapor — Kasım", "Kasım raporu yazdır", "Aralık — Yardımseverlik", "Aylık rapor — Aralık", "Aralık raporu yazdır", "Ocak — Sabır", "Aylık rapor — Ocak", "Ocak raporu yazdır", "Şubat — Sevgi", "Aylık rapor — Şubat", "Şubat raporu yazdır", "Mart — Vatanseverlik", "Aylık rapor — Mart", "Mart raporu yazdır", "Nisan — Adalet", "Aylık rapor — Nisan", "Nisan raporu yazdır", "Mayıs — Hoşgörü", "Aylık rapor — Mayıs", "Mayıs raporu yazdır", "Haziran — Çalışkanlık", "Aylık rapor — Haziran", "Haziran raporu yazdır", "Yıl sonu raporu", "Sınıf / şube", "Genel değerlendirme", "Geliştirilmesi gereken yönler", "Yıl sonu raporunu yazdır", "Tüm aylık plan yazdır", "Tüm aylık raporlar yazdır", "Yıl sonu raporu yazdır", "Aylık uygulama raporu", "Uygulama süreci", "Kazanımlar ve gelişim alanları", "Sözcük ve ürün örnekleri", "Gözlem ve değerlendirme", "Karşılaşılan güçlükler ve çözüm önerileri", "Sınıf düzeyi", "Yapıldı Yapılmadı", "Üst düzey adımlar", "Rapor tarihi", "Sınıf mevcudu", "1. sınıf", "2. sınıf", "3. sınıf", "4. sınıf", "Eylem planı adımları"], "tymmRaporlari": ["TYMM Raporları", "otomatik", "Sınıf düzeyi", "1. sınıf", "2. sınıf", "3. sınıf", "5. sınıf", "6. sınıf", "7. sınıf", "9. sınıf", "10. sınıf", "11. sınıf", "Hayat Bilgisi", "Beden Eğitimi ve Oyun", "İmza unvanı", "Rapor türü:", "Aylık", "I. Dönem", "II. Dönem", "Yıl Sonu", "Eylül", "Ekim", "Kasım", "Aralık", "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Şablon:", "Resmî anlatım", "İzleme formu", "Haftalık çizelge (yatay)", "1. sınıf · Türkçe · Ekim", "TYMM çerçeve müfredat verisi (haftalık çıktı listesi)", "Dönem:", "Tema / Ünite:", "Öğrenme çıktısı:", "Öğretmen girdileri — boş bırakılan alanlar otomatik doldurulur", "Gerçekleşme düzeyi:", "Tamamen", "Büyük ölçüde", "Kısmen", "OTP etkinliğinin adı", "OTP etkinliğinin kısa açıklaması", "Güçlü yönler", "Desteklenecek yönler", "Sonraki ay planı", "Öğretmen notu (isteğe bağlı)", "Tema / çıktıları düzenle", "Tema / ünite (elle)", "Öğrenme çıktıları (elle)", "Ek belirli gün/hafta", "Raporu Yazdır", "Farklı anlatım", "Otomatik metni alanlara aktar", "Girdileri temizle", "Toplu yazdırma — 1-A", "Tümünü seç", "Hiçbiri", "Kapsam", "Seçili ay (Ekim) — her ders bir rapor", "I. Dönem — her ders için Eylül–Ocak aylık raporları", "II. Dönem — her ders için Şubat–Haziran aylık raporları", "Tüm yıl — her ders için 10 aylık rapor", "I. Dönem raporu — her ders bir rapor", "II. Dönem raporu — her ders bir rapor", "Yıl sonu raporu — her ders bir rapor", "Toplu Yazdır", "Önizleme", "Gizle", "Bu ay üzerinde çalışılan öğrenme çıktıları:", "Süreç bileşenlerine dönük başlıca uygulamalar:", "Güçlü yönler:", "Desteklenecek yönler:", "UYGUNDUR", "Örn. 1-A", "Sınıf Öğretmeni", "Boşsa öneri: Sesli Okuma Saati", "Etkinlikte ne yapıldı, hangi beceriler desteklendi?", "Boş bırakırsanız otomatik metin kullanılır", "Boşsa yıllık plandaki bir sonraki ay temasından üretilir", "Rapora ek not olarak yazdırılır", "Her satıra bir tema; boşsa plandaki tema", "Her satıra bir çıktı. Örn: MÜZ.2.1.1. … söyleyebilme", "Her satıra bir gün", "Sıradaki hazır öneriyi getir"], "oturmaPlani": ["Sınıf Oturma Planı"], "nobetCizelgesi": ["Öğrenci Nöbet Çizelgesi"], "ihtiyacListesi": ["İhtiyaç Listesi", "Listeyi temizle", "Tümünü ekle", "Okul Öncesi", "1. Sınıf", "2. Sınıf", "3. Sınıf", "4. Sınıf", "Katalog — tıklayarak ekle / çıkar", "1 adet vesikalık fotoğraf", "1 top A4 fotokopi kâğıdı", "10’lu küçük boy (A4) renkli fon karton (kalın)", "10’lu el işi kâğıdı", "Renkli A4 kâğıdı (50’li paket)", "Büyük boy ıslak mendil (1 paket)", "1 rulo peçete", "5 adet yuvarlak kırmızı kalem", "5 adet yuvarlak kurşun kalem (basmalı/uçlu kalem olmamalı)", "2’li kâğıt havlu", "Kâğıt havlu (4’lü paket)", "2 adet çıtçıtlı plastik zarf dosya", "Pritt / UHU yapıştırıcı", "Küt uçlu plastik makas", "Cetvel seti", "Islak mendil (1 paket)", "Peçete (1 paket)", "Kâğıt havlu (1 adet)", "İlköğretim 1. kademe İmla Kılavuzu", "İlköğretim 1. kademe Türkçe sözlük", "12’li kuru boya (kaliteli marka)", "12’li sulu boya + su kabı (kaliteli marka)", "12’li pastel boya (kaliteli marka)", "6’lı keçeli kalem", "4’lü oyun hamuru", "1 kutu ataç (defter düzeni için)", "Şeffaf izole bant", "Abaküs", "Sayma çubuğu / sayma fasulyesi", "Küçük boy kolonya", "En az iki gözlü kalem kutusu (ses çıkarmayan)", "3 adet kaliteli yuvarlak kurşun kalem", "3 adet yuvarlak kırmızı kurşun kalem", "Yumuşak, leke bırakmayan kaliteli silgi (kokulu silgi alınmamalı)", "Çöp hazneli kalemtıraş", "Stick yapıştırıcı", "2 adet farklı renk tahta kalemi (öğrenci kullanımı için)", "2 adet büyük boy, yeni satır aralığına uygun kılavuz çizgili yazı defteri", "1 adet büyük boy 60 yaprak çizgili defter (Türkçe — 2. dönem)", "1 adet büyük boy 40 yaprak çizgili defter (Hayat Bilgisi — 2. dönem)", "1 adet büyük boy 60 yaprak kareli defter (Matematik)", "1 adet orta boy 40 yaprak resim defteri (sayfaları kopartılabilir)", "1 adet küçük boy not defteri (ödevler için)", "1 adet çıtçıtlı dosya (ödev dosyası)", "Kendinden poşetli sunum dosyası (60 sayfalık) — 4 adet", "Beslenme çantası", "Beslenme örtüsü (bez)", "Suluk", "Masaya sermek için bezden dikilmiş beslenme havlusu", "Beslenme kapları", "Peçete ve ıslak mendil (küçük boy)", "Beslenme malzemeleri kesinlikle okul çantasında taşınmayacaktır", "Tüm defter ve kitaplar kaplanıp etiketlenecek; ad, soyad, sınıf yazılacak", "Kuru boya, keçeli ve pastel boyalar tek tek etiketlenecek", "Kanserojen madde içermeyen, sade ve kaliteli malzeme tercih edilecek", "Geçen yıldan kalan sağlam malzemeler kullanılabilir; kırık/eksik getirilmeyecek", "Uçlu / basmalı kalem alınmayacak", "Özel madde ekle", "Yazdırılacak liste (0 madde)", "Veliye not", "Listeye özel madde yazın...", "Yazdırma puntosu — çıktı tek sayfayı aşmaz"], "beslenmeListesi": ["Haftalık Beslenme Listesi", "Başlık", "Hafta / ay etiketi", "Grup", "Hazır şablon", "Klasik (pano örneği)", "Anaokulu A (öğlen / ara öğün)", "Anaokulu B (çeşitli)", "Sağlıklı çanta önerisi", "Uygula", "Pazartesi", "Beslenme / ana öğün", "Yan kutu (meyve / sebze / kuruyemiş)", "Salı", "Çarşamba", "Perşembe", "Cuma", "Veliye not", "Örn. Eylül 1. Hafta"], "fotoCerceve": ["Fotoğraf Çerçeve Baskısı", "hiçbir yerden kesilmez", "Not:", "Kare", "Dikdörtgen", "Bu modüle özel yedek", "genel yedekte tutulmaz", "Bu modülü yedekle", "Yedekten yükle", "Başlamadan önce ayarlar", "Çerçeve şekli", "Yuvarlak (1:1)", "Kare (1:1)", "Genişlik / En (cm)", "Yükseklik / Boy (cm)", "Oranı koru", "Çerçeveler arası boşluk (cm)", "Sayfa kenar boşluğu (cm)", "Fotoğrafın çerçeveye yerleşimi", "Hiç kesme — fotoğrafın tamamı görünsün", "Çerçeve fotoğrafın oranına uysun", "Çerçeveyi doldur (kırpar)", "Boşlukların zemin rengi", "Beyaz", "Açık gri", "Açık mavi", "Siyah", "Fotoğrafın altına öğrenci adı ekle (havuzdan seçilebilir)", "Devam et", "Yuvarlak/karede en = boy"], "panoHazirlama": ["Pano Hazırlama", "Nasıl kullanılır?", "Pano metni", "Resimli harf", "Resimli hazır panolar", "Hazır tema motifleri", "Kendi görselim", "Boyama (siyah-beyaz)", "Renkli + boyama birlikte", "Akıllı baskı", "Tombul", "29 Ekim", "24 Kasım", "Yerli Malı Haftası", "12 Mart", "18 Mart", "19 Mayıs", "Anneler Günü", "Babalar Günü", "Kütüphane Haftası", "Çevre / Orman", "Bilim ve Teknoloji", "Ramazan / Bayram", "Okula dönüş", "Karne / Yaz", "Panorama", "Sayılar ve ritmik sayma", "Ritmik sayma", "Sayı kartları", "10 → tek kart (sayıyı bölme)", "Her rakam ayrı kart", "Rakamlar 0–9", "Sayılar 1–10", "Sayılar 1–20", "Onluklar 10–100", "Yüzlükler 100–1000", "2'şer say", "3'er say", "4'er say", "5'er say", "10'ar say", "100'er say", "Kaçar kaçar", "İleri / geri sayma", "Boş kart (öğrenci tamamlasın)", "Eksik sayıyı tamamlama", "Hazır pano önerileri", "Hoş geldiniz", "Cumhuriyet", "10 Kasım", "Öğretmenler Günü", "Yerli Malı", "Kış", "Yeni yıl", "Sonbahar", "Bahar", "23 Nisan", "Okuma köşesi", "Sınıf kuralları", "Haydi okula", "Bilim", "Ramazan", "Değerlerimiz", "Karne", "Mezuniyet", "Kraft (doğal)", "Neon", "Kurşun kalem", "Dijital", "Şablon", "AFlama", "AÜçgen flama", "AKare", "ADaire", "AAltıgen", "AYıldız", "AKalp", "ABulut", "ARozet", "ASadece harf", "ABalon", "ATren", "AYapboz", "ALego", "AKitap", "AElma", "AÇiçek", "AYaprak", "AKar tanesi", "AGüneş", "AMezuniyet kepi", "ATablet", "AKardan adam", "Kurşun kalem harf", "Desen / zemin", "ADüz (parlak)", "APuantiyeli", "AÇizgili", "ADefter (kareli)", "AYıldızlı", "AÇiçekli", "AKarlı", "AÇini (mavi-beyaz)", "AAAKraft kâğıt", "AAAhşap", "AUzay", "AKara tahta", "AAy yıldızlı", "AAANeon", "Renk paleti", "Gökkuşağı", "Canlı", "Pastel", "Okul", "Kırmızı-beyaz", "Resmî (koyu)", "İlkbahar", "Yaz / güneş", "Deniz", "Tek renk", "Harf stili", "Dolgulu", "Gölgeli", "Çıkartma", "3 Boyutlu", "Kontur", "Yazı tipi", "Kalın", "Yuvarlak", "Okul (Andika)", "Klasik", "Harf rengi", "Otomatik", "Beyaz", "Siyah", "Baskı", "Büyük — sayfada 1 harf", "Orta — sayfada 2 harf", "Küçük — sayfada 4 harf", "Kelimeler arasına süs kartı", "Yok", "★ Yıldız", "♥ Kalp", "✿ Çiçek", "Ay yıldız", "Köşeye sıra numarası yaz (örn. 3/14)", "Orta/küçük boyutta kesim çizgisi çiz", "Yazdır (11 sayfa)", "Önizleme — Flama · Düz (parlak) · Gökkuşağı", "Örn. BU SINIF MEZUN OLUYOR", "HOŞ GELDİNİZ", "CUMHURİYET 103. YIL", "ATAM İZİNDEYİZ", "İYİ Kİ VARSINIZ", "YERLİ MALI HAFTASI", "KIŞ GELDİ", "MUTLU YILLAR", "MERHABA SONBAHAR", "BAHAR GELDİ", "23 NİSAN KUTLU OLSUN", "OKUMA KÖŞESİ", "SINIF KURALLARIMIZ", "HAYDİ OKULA", "MATEMATİK KÖŞESİ", "BİLİM KÖŞESİ", "TÜRKÇE KÖŞESİ", "HOŞ GELDİN RAMAZAN", "DEĞERLERİMİZ", "İYİ TATİLLER", "BU SINIF MEZUN OLUYOR", "ÜRETİYORUZ", "GELECEK SENSİN", "ÇALIŞKAN ÖĞRENCİLER", "KISA BİR MOLA", "Flama", "Üçgen flama", "Kare", "Daire", "Altıgen", "Yıldız", "Kalp", "Bulut", "Rozet", "Sadece harf", "Balon", "Tren", "Yapboz", "Lego", "Kitap", "Elma", "Çiçek", "Yaprak", "Kar tanesi", "Güneş", "Mezuniyet kepi", "Tablet", "Kardan adam", "Düz (parlak)", "Puantiyeli", "Çizgili", "Defter (kareli)", "Yıldızlı", "Çiçekli", "Karlı", "Çini (mavi-beyaz)", "Kraft kâğıt", "Ahşap", "Uzay", "Kara tahta", "Ay yıldızlı", "Özel harf rengi"], "sinifGazetesi": ["Sınıf Gazetesi", "Kaydet", "Örnek sayı", "Boş sayı", "Sonraki sayı", "Künye ve görünüm", "Gazete adı", "Slogan", "Sayı", "Sayfa", "1 sayfa (A4)", "2 sayfa (ön-arka)", "Tasarım", "Klasik gazete", "Modern (lacivert)", "Renkli çocuk", "Doğa", "Magazin", "Dinamik", "Retro", "Yazı tipi", "Gazete (serif)", "Modern (sans)", "Kalın başlık", "Daktilo / retro", "Yuvarlak çocuk", "Alt bilgi", "Manşet haberi", "Fotoğraf ekle", "Haberler (2/6)", "Haber ekle", "Haber 1", "Kategori yok", "Okulumuzdan", "Sınıfımızdan", "Bilim", "Spor", "Sanat", "Kitap", "Gezi", "Röportaj", "Çevre", "Duyuru", "Haber 2", "Köşeler", "Öğretmenimizden / Editörden", "Haftanın sözü", "Biliyor muydunuz?", "Yaklaşan etkinlikler", "Haftanın yıldızları", "Şiir / yazı köşesi", "Gülümseten köşe", "Kelime avı bulmacası", "Harfleri yeniden diz", "Yayın kurulu (künye)", "Önizleme", "Büyük başlık", "Spot: haberi bir-iki cümleyle özetleyin", "Manşet haberinin metni (paragrafları boş satırla ayırın)", "Muhabir", "Haber başlığı", "Haber metni (Kim? Ne? Nerede? Ne zaman? Nasıl? Neden?)", "Muhabir (öğrenci adı ya da ekip)", "Köşe başlığı", "Öğrencilere kısa bir not…", "Söz", "Kimin sözü / kaynak", "Her satıra bir ilginç bilgi", "Pazartesi: Kitap değişim günü", "Her satıra: Ad — neden yıldız?", "Başlık", "Dizeler", "Yazan", "Fıkra, bilmece ya da tekerleme", "Virgülle en çok 10 kelime: KİTAP, OKUL, …", "Genel yayın yönetmeni: … Haber: …", "Yukarı", "Aşağı", "Sil"], "okumaAnlama": ["Okuma Anlama Metinleri", "Sınıf", "1. Sınıf", "2. Sınıf", "3. Sınıf", "4. Sınıf", "5. Sınıf", "6. Sınıf", "7. Sınıf", "8. Sınıf", "Tür", "Tümü (24)", "Değer / beceri metni", "5N1K metni", "Hikâye", "Bilgilendirici", "Ara", "Yeni metin", "Toplu seçim", "Çalışma kâğıdı seçenekleri", "Yazı: NormalBüyük", "Normal", "Büyük", "Paragraf numarası", "Okuma süresi kaydı", "Kelime çalışması", "5N1K tablosu (hikâyelerde)", "Cevap anahtarı: Ayrı sayfadaAynı sayfadaYok", "Ayrı sayfada", "Aynı sayfada", "Yok", "Metinler 24 metin · 12 yeni", "Merhaba ÇemberiDeğer / beceri metni · Saygı · 27 kelime · kısa", "Merhaba Çemberi", "Sınıf GörevlisiDeğer / beceri metni · Sorumluluk · 23 kelime · kısa", "Sınıf Görevlisi", "Ellerimizi YıkayalımDeğer / beceri metni · Temizlik · 17 kelime · kısa", "Ellerimizi Yıkayalım", "Aile SofrasıDeğer / beceri metni · Sevgi · 18 kelime · kısa", "Aile Sofrası", "Düşen KalemDeğer / beceri metni · Yardımseverlik · 17 kelime · kısa", "Düşen Kalem", "Kitap SaatiDeğer / beceri metni · Okuma okuryazarlığı · 13 kelime · kısa", "Kitap Saati", "Parkta Top5N1K metni · Dostluk · 27 kelime · kısa", "Parkta Top", "TohumDeğer / beceri metni · Sabır · 20 kelime · kısa", "Tohum", "Pano ResmiDeğer / beceri metni · Görsel okuryazarlık · 20 kelime · kısa", "Pano Resmi", "ÖdevDeğer / beceri metni · Çalışkanlık · 14 kelime · kısa", "Ödev", "Bayrak5N1K metni · Vatanseverlik · 21 kelime · kısa", "Bayrak", "Üzgün ArkadaşDeğer / beceri metni · Empati · 17 kelime · kısa", "Üzgün Arkadaş", "Minik Tohum YENİHikâye · Sabır · 46 kelime · kısa", "Minik Tohum YENİ", "Pazar Kahvaltısı YENİHikâye · Aile / Yardımlaşma · 33 kelime · kısa", "Pazar Kahvaltısı YENİ", "Kayıp Silgi YENİHikâye · Dürüstlük · 37 kelime · kısa", "Kayıp Silgi YENİ", "Kar Yağdı YENİHikâye · Mevsimler · 32 kelime · kısa", "Kar Yağdı YENİ", "Pırıl Pırıl Dişler YENİBilgilendirici · Sağlıklı Yaşam · 38 kelime · kısa", "Pırıl Pırıl Dişler YENİ", "Bahçedeki Kirpi YENİHikâye · Hayvan Sevgisi · 36 kelime · kısa", "Bahçedeki Kirpi YENİ", "Yeni Arkadaşım YENİHikâye · Dostluk · 34 kelime · kısa", "Yeni Arkadaşım YENİ", "Trafik Lambası YENİBilgilendirici · Trafik Güvenliği · 32 kelime · kısa", "Trafik Lambası YENİ", "Kitap Kurdu YENİHikâye · Okuma Sevgisi · 39 kelime · kısa", "Kitap Kurdu YENİ", "Uçurtma YENİHikâye · Oyun / İş Birliği · 35 kelime · kısa", "Uçurtma YENİ", "Kumbaram YENİHikâye · Tasarruf · 31 kelime · kısa", "Kumbaram YENİ", "Sınıf Bitkimiz YENİHikâye · Sorumluluk · 33 kelime · kısa", "Sınıf Bitkimiz YENİ", "Başlık, tür veya tema…"], "posterHazirlama": ["Poster Hazırlama", "Önemli:", "%100 / gerçek boyut", "kesik çizgiden kesip", "Temizle", "Yazdır (0 sayfa)", "Görsel veya PDF", "PDF", "Kelime sanatı hazırla", "Pano ölçüsü → otomatik ızgara", "Pano eni (cm)", "Pano boyu (cm)", "Boyu görselin oranından hesapla (bozulma olmaz)", "Sayfa yönü", "Otomatik (en az sayfa)", "A4 dikey", "A4 yatay", "Yazıcı kenar payı", "Yok (kenarsız)", "5 mm (önerilir)", "Satır/sütunu hesapla", "Ölçüyü görselden öner", "Hazır ızgara (elle)", "Sütun (en)", "Satır (boy)", "Görselin ızgaraya yerleşimi", "Sığdır — tamamı görünür, kenarda boşluk olabilir", "Kapla — panoyu tamamen doldurur, taşan kısmı kesilir", "Bindirme payı", "Yok", "Köşede küçük konum işareti (A1, B2…)", "Bindirme kesim çizgisi göster (yapıştırma kolaylığı)", "Canlı önizleme", "örn. 120", "örn. 90"], "kelimeSanati": ["Kelime Sanatı", "Yeniden üret", "PNG", "Postere gönder", "Kelimeler (her satıra bir · * ile büyük)", "Değerler", "Okulum", "Öğretmenler Günü", "Cumhuriyet", "23 Nisan", "Kitap / Okuma", "Doğa / Çevre", "Öğrenci adlarını ekle", "Yalnız öğrenci adları", "Şekil", "Kalp", "Yıldız", "Daire", "Kare", "Yuvarlak kare", "Flama", "Üçgen", "Elmas", "Altıgen", "Bulut", "Hilal", "Elma", "Kitap", "Ağaç", "Balon", "Damla", "Güneş", "Harf / sayı", "Özel silüet", "Başlık (isteğe bağlı)", "Kâğıt", "A4 dikey", "A4 yatay", "Özel ölçü / pano (cm)", "Kelime yönü", "Yalnız yatay", "Çoğu yatay, bazıları dikey", "Yarı yarıya", "Zemin", "Beyaz", "Krem", "Açık mavi", "Koyu", "Lacivert", "Renk paleti", "Sıcak", "Okul", "Pastel", "Gökkuşağı", "Deniz", "Orman", "Kırmızı tonlar", "Siyah", "Tek renk", "Açık (koyu zemine)", "Yazı tipi", "Kalın", "Yuvarlak", "Serif", "El yazısı", "Doluluk", "Şeklin zeminini hafifçe göster", "Oluştur", "Önizleme", "Örn. 3-A SINIFI", "Pano ölçüsünde, A4 parçalara bölerek basmak için"], "etiketOlusturucu": ["Etiket Oluşturucu", "Öğrenci Havuzundan", "Şube seç — Şube seçin — 1-A (0 öğrenci)", "— Şube seçin —", "1-A (0 öğrenci)", "Öğrencileri Getir", "Metni Uygula", "Kağıt & Izgara", "Kağıt A3A4A5A6", "Yön Dikey Yatay", "Dikey", "Yatay", "Sütun", "Satır", "Aralık (mm)", "Kenarlık kalınlığı (px)", "Kenarlık rengi", "Toplam hücre", "Stil (Tüm hücrelere uygulanır)", "Inter", "Roboto", "Nunito", "Poppins", "Montserrat", "Open Sans", "Lato", "Merriweather", "Playfair Display", "Source Sans Pro", "Ubuntu", "Raleway", "Oswald", "Quicksand", "Comic Sans MS", "Arial", "Georgia", "Times New Roman", "Courier New", "Verdana", "Tahoma", "Trebuchet MS", "Impact", "Boyut", "Kalın", "Arka plan", "Yazı rengi", "Uygulama modu Tüm hücrelere Sadece seçili", "Tüm hücrelere", "Sadece seçili", "Aynı metni tüm hücrelere dağıt", "Tüm Hücrelere Yaz", "Yalnızca Boşlara", "Word İndir", "Metinleri Temizle", "Tüm Ayarları Sıfırla", "Ali Veli Ayşe Yılmaz ...", "Örn. Selahaddin Eyyubi İlkokulu 1-B Sınıfı", "Sadece içi boş olan hücrelere yazar, dolu etiketlere dokunmaz"], "geometrikAcinim": ["Geometrik Cisim Açınımı", "gerçek boyutunda", "Düz çizgiler", "kesik çizgiler", "gri paylar", "Küp", "Kare prizma", "Dikdörtgenler prizması", "Üçgen prizma", "Altıgen prizma", "Kare piramit", "Üçgen piramit (düzgün dörtyüzlü)", "Silindir", "Koni", "Kenar uzunluğu (cm)", "Yazı boyutu: 14 pt", "Yapıştırma payları", "Yüz adlarını göster", "Renkli (kapalıysa boyama için beyaz)", "Baskı: Gerçek boyut (1:1)Sayfaya sığdır", "Gerçek boyut (1:1)", "Sayfaya sığdır", "Açınım 22.0 × 17.0 cm · yüze tıklayarak seçin", "3B görünüm", "Yüz:", "Ayrıt:", "Köşe:", "Yüzey alanı:", "Hacim:", "Yüzler", "Yazı ve renkleri sıfırla", "Sol", "Sağ", "Arka", "Üst", "Alt", "Yazı (isteğe bağlı)", "Yüz rengi"], "zumreToplantisi": ["Zümre Toplantısı", "Toplantı Türü", "Zümre Öğretmenler Kurulu", "Okul Zümre Başkanları Kurulu", "İlçe Zümre Başkanları Toplantısı", "İl Zümre Başkanları Toplantısı", "Branş / Zümre", "Okul Öncesi Öğretmenliği", "Sınıf Öğretmenliği", "Birleştirilmiş Sınıf (1-2)", "Birleştirilmiş Sınıf (3-4)", "Türk Dili ve Edebiyatı", "Fen Bilimleri", "Fizik", "Kimya", "Biyoloji", "Sosyal Bilgiler", "Coğrafya", "Felsefe Grubu", "Yabancı Dil", "Din Kültürü ve Ahlak Bilgisi", "Beden Eğitimi ve Spor", "Bilişim Teknolojileri / Teknoloji ve Tasarım", "Rehberlik (Psikolojik Danışmanlık)", "Kademe / sınıf düzeyi", "Okul Öncesi (varsayılan)", "İlkokul (1-4. sınıf)", "Ortaokul (5-8. sınıf)", "Lise (hazırlık, 9-12. sınıf)", "Mesleki ve Teknik Ortaöğretim", "Gündemi bu kademeye göre yenile", "Sene Başı", "2. Dönem Başı", "Yıl Sonu", "Kısa", "Normal", "Geniş", "Örnek Hazırla", "Açılış, yoklama ve toplantı yeter sayısının tespiti", "ALINAN KARAR / DEĞERLENDİRME DÜZENLENDİ Örnek üret", "Örnek üret", "Hazır Karar Önerileri (5)", "Bir önceki eğitim öğretim yılına ait zümre kararlarının değerlendirilmesi", "Hazır Karar Önerileri (6)", "Gelişim gözlem formlarının ve kazanım-gösterge takip çizelgesinin kullanımının planlanması", "Hazır Karar Önerileri (7)", "Oyun temelli öğrenme ve serbest zaman etkinliklerinin dengeli programlanması", "Hazır Karar Önerileri (3)", "Yaşam Becerileri Projesi ve beceri temelli etkinliklerin planlanması", "Ölçme-değerlendirme: Bakanlık dışı deneme/tarama sınavlarının uygulanmaması", "Yeni EBA, MEBİ ve dijital eğitim platformlarının ders süreçlerinde kullanımı", "TYMM Öğretmen Eğitimi Paketlerinin tamamlanması", "Sınıf içi cep telefonu kullanımına ilişkin uygulama birliği", "e-Okul gelişim/beceri raporlarının süresinde doldurulması", "Okul dışı öğrenme ortamları ve dijital platformdan yararlanma", "Hazır Karar Önerileri (8)", "Uyum haftası/uyum sürecinin planlanması ve kademeli uyum uygulaması", "Gelişimin gözlemlenmesi, gözlem kayıtları, ürün dosyası (portfolyo) ve gelişim raporları", "Günlük akış, öğrenme merkezleri ve materyal düzeninin belirlenmesi", "Hazır Karar Önerileri (4)", "Aile katılımı ve aile eğitim çalışmalarının planlanması", "Beslenme, sağlık, hijyen ve güvenlik önlemleri", "Özel gereksinimli ve kaynaştırma eğitimi alan çocuklar için uyarlamalar", "Dilek, temenniler ve kapanış", "Gündem Onay Sayfası", "Bu madde için zenginleştirilmiş örnek karar metni üret"], "veliToplantisi": ["Veli Toplantısı", "Kademe / sınıf düzeyi", "Okul Öncesi (anasınıfı / anaokulu)", "İlkokul 1. Sınıf", "İlkokul (2-4. sınıf)", "Ortaokul (5-7. sınıf) (varsayılan)", "Ortaokul 8. Sınıf (LGS)", "Lise (hazırlık, 9-11. sınıf)", "Lise 12. Sınıf (YKS)", "Mesleki ve Teknik Ortaöğretim", "Gündemi bu kademeye göre yenile", "Sene Başı", "2. Dönem Başı", "Yıl Sonu", "Kısa", "Normal", "Geniş", "Örnek Hazırla", "Açılış, tanışma ve gündem maddelerinin okunması", "ALINAN KARAR / DEĞERLENDİRME DÜZENLENDİ Örnek üret", "Örnek üret", "Hazır Karar Önerileri (3)", "Sınıf rehber öğretmeninin tanıtılması ve ders öğretmenleriyle iletişim", "Öğretim programı: 5, 6 ve 7. sınıflarda Türkiye Yüzyılı Maarif Modeli", "5. sınıf öğrencilerinin ortaokula uyumu", "Ölçme-değerlendirme, sınavlar ve performans görevleri", "Ortak yazılı sınavlar (6 ve 7. sınıflar)", "Devamsızlık ve okula geç gelme", "Planlı ders çalışma, ödev ve kitap okuma", "Hazır Karar Önerileri (6)", "Ergenlik dönemi, iletişim ve sosyal-duygusal gelişim", "Cep telefonu, sosyal medya ve dijital güvenlik", "Hazır Karar Önerileri (5)", "Akran zorbalığı, okul güvenliği ve okul kuralları", "Sosyal etkinlikler, kulüpler ve yarışmalar", "Okul aile birliği ve sınıf veli temsilcisinin belirlenmesi", "Okul-aile iş birliği ve “Ailemle Eğitim Yolculuğum” çalışmaları", "Veli görüşmelerinin yalnızca Okul Randevu Sistemi üzerinden yürütülmesi", "Hazır Karar Önerileri (4)", "Kayıt parası veya zorunlu ücret uygulamalarının olmaması", "Bakanlık dışı deneme sınavı ve ek mali yük oluşturan uygulamaların yapılmaması", "Okul güvenliği ve kontrollü giriş-çıkış bilgilendirmesi", "Sağlıklı beslenme ve kantin uygulamaları hakkında bilgilendirme", "Beslenme, temizlik ve düzenli uyku alışkanlıklarının önemi paylaşılmıştır.", "Özel sağlık durumlarının öğretmen ve idareye bildirilmesi gerektiği hatırlatılmıştır.", "Ücretsiz kaynaklar dışında zorunlu materyal dayatmaması", "e-Okul gelişim raporları hakkında veli bilgilendirmesi", "Velilerin görüş, soru ve önerilerinin alınması", "Dilek, temenniler ve kapanış", "İyi dilek ve temennilerle toplantı sonlandırılmış; katılan velilere teşekkür edilmiştir.", "Gündem Onay Sayfası", "İmza listesi tablo ayarı", "Otomatik", "Dar", "Satır yüksekliği 26 px", "Yazı boyutu 9 pt", "Öğrenci %", "Veli %", "Yakınlık %", "Telefon %", "İmza %", "Veli İmza Listesi", "Veli Davetiyesi", "Bu madde için zenginleştirilmiş örnek karar metni üret", "Öğrenci ve veli adlarının uzunluğuna göre sütunları otomatik ayarlar"], "bepGelistirmeBirimi": ["BEP Geliştirme Birimi Toplantısı", "Genel Toplantı", "Öğrenciye Özel Toplantı", "1. Toplantı", "2. Toplantı", "3. Toplantı", "Öğrenciye yönelik sınıf ve okul içerisinde alınabilecek tedbirlerin görüşülmesi", "ALINAN KARAR / DEĞERLENDİRME DÜZENLENDİ", "Hazır Karar Önerileri (3)", "Tüm branş öğretmenlerinin öğrenciye ait eğitsel performanslarını sunması", "Destek eğitim ihtiyacının görüşülmesi", "Destek eğitim hizmetlerinin planlandığı şekilde sürdürülmesine karar verilmiştir.", "Bir sonraki toplantı tarihinin görüşülmesi", "Bir sonraki BEP geliştirme birimi toplantı tarihinin belirlenmesine karar verilmiştir.", "Hizmet Türü", "Gelişim Alanı/Ders", "Haftalık Süre", "Sorumlu kişi(ler)", "Destek satırı ekle", "Evet ( x )", "Hayır ( )", "Bir Sonraki BEP geliştirme birimi toplantı tarihi :", "Ünvanı", "Üye ekle", "Katılımcılardan aktar"], "psikososyalEkip": ["Psikososyal Koruma / Krize Müdahale Ekibi", "1. Toplantı (Sene Başı)", "2. Toplantı", "3. Toplantı (Yıl Sonu)", "Açılış ve yoklama", "ALINAN KARAR / DEĞERLENDİRME DÜZENLENDİ", "Travma/kriz durumlarında yapılacaklar konusunda planlama yapılması", "Travma/kriz durumlarında çalışılacak bireylerin yönlendirme işlemleri", "Dilek ve temenniler", "Kapanış", "«Kapanış» maddesi görüşülmüş; uygulamaya esas alınmak üzere kabulüne karar verilmiştir."], "rpdKomisyonu": ["RPD Hizmetleri Yürütme Komisyonu", "1. Toplantı (Sene Başı)", "2. Toplantı", "3. Toplantı (Yıl Sonu)", "Açılış ve yoklama", "ALINAN KARAR / DEĞERLENDİRME DÜZENLENDİ", "Komisyon üyelerinin ve görev dağılımının belirlenmesi", "Okul RPD Programı ve yıllık çalışma takviminin incelenmesi", "Sınıf rehberlik planlarının incelenmesi ve onaylanması", "Rehberlik ihtiyaç belirleme çalışmalarının planlanması", "Okullarda Şiddetin Önlenmesi Genelgesi kapsamında yapılacak çalışmaların planlanması", "Okul web sitesinde RPD hizmetleri bölümünün kullanımı", "Dilek ve temenniler", "Kapanış", "«Kapanış» maddesi görüşülmüş; uygulamaya esas alınmak üzere kabulüne karar verilmiştir."], "bepPlani": ["BEP Planı Hazırlama", "Not:", "2018 Özel Eğitim Hizmetleri Yönetmeliği", "Yeni BEP Dosyası", "Öğrenci Havuzu", "BEP Değerlendirme"], "bepDegerlendirme": ["BEP Değerlendirme Raporu", "Yeni BEP Değerlendirme Raporu"], "sinifRehberlikRaporu": ["Sınıf Rehberlik Faaliyet Raporu", "MEB Rehberlik ve Psikolojik Danışma Hizmetleri Yönetmeliği Madde 23/ı", "1. Dönem Sonu", "Yıl / 2. Dönem Sonu", "1. Kazanımlar (18/18)", "Tüm kazanımlar (yıllık plana göre) gerçekleştirilebildi mi?", "Evet", "Kısmen", "Hayır", "Kısmen / Hayır ise: gerçekleştirilemeyen kazanım (hafta) ve nedeni", "1. sınıf programı — haftalık takip (18/18)", "1. Kalbimin Duygu Yüzü", "2. Ziyaretçilerimiz Var", "3. Okulumuzu Geziyoruz", "4. Bil Bakalım", "5. Kolaylaştır Hayatı", "6. Okuldaki Riskleri Biliyorum", "7. Benim Seçimlerim", "8. Neden Tercih Ediyorum?", "9. Rollerim ve Sorumluluklarım", "10. Çocuk Hakları Sözleşmem", "11. Fiziksel Özelliklerimi Biliyorum", "12. Doğal Olarak Farklıyım", "13. Meslekleri Oynayabilirim", "14. Duygum ve Ben", "15. Perde Arkasındaki Duygular", "16. Duygularımı Uygun İfade Etmek Güzel", "17. Duygu Kutusu", "18. Fotoğrafa Gülümse", "2. Uygulanan teknikler", "Satır", "Yapılan Çalışma", "Kız", "Erkek", "Top.", "3. Yapılan rehberlik faaliyetleri", "4. PDR servisine yönlendirmeler", "Havuzdan seç", "Öğrenci", "Veli", "Yönlendirme Nedeni", "5. Velilere yönelik faaliyetler", "Anne", "Baba", "Diğer", "6. Güçlükler · 7. Genel değerlendirme", "Karşılaşılan güçlükler ve nedenleri", "Çözüm önerileri", "7. Genel değerlendirme", "Örnek genel değerlendirme", "Örnek güçlük", "Örnek çözüm", "Raporu Yazdır", "not"], "ogrenciGozlem": ["Öğrenci Gözlem Notları"], "veliGorusme": ["Veli Görüşme / Ziyaret Formu", "Yeni Veli Görüşme / Ziyaret Formu", "Veli görüşme çizelgesi", "Görüşme çizelgesi", "Kaçıncı görüşme", "Öğrenciye yakınlığı", "Boş çizelge"], "veliIletisimListesi": ["Veli İletişim Listesi", "Listeyi Yazdır (Yatay)", "Öğrenci Havuzu", "Öğrenci Havuzuna Git"], "ogrenciKarti": ["Öğrenci Kartı", "8 kart", "Kart türü", "Öğle arası kartı", "Servis kartı", "Öğrenci tanıtım / iletişim kartı", "Sınıf kütüphanesi kartı", "Renk:", "Okul numarası", "Veli adı", "Telefonlar", "Eğitim-öğretim yılı", "Kesim çizgisi", "Kart başlığı (isteğe bağlı)", "Kart altı notu (isteğe bağlı)", "Okul logosu", "Yükle", "Tüm şube", "Seçtiğim öğrenciler", "Tümü eve", "Tümü okulda", "ÖĞLE ARASI KARTI", "Örn. Kaybolursa okula teslim ediniz."], "eOkulBilgiFormu": ["E-Okul Öğrenci Bilgi Formu", "Öğrenci", "Öğrenci yok", "Künyeden Doldur", "Bu öğrenciyi yazdır", "Şubeyi toplu yazdır (0)", "Havuz ve künye defterindeki bilgileri forma yeniden yaz"], "dilekceler": ["Dilekçe Örnekleri", "Profilimden doldur", "Personel", "Süt İzni Dilekçesi", "Analık (Doğum) İzni", "Aylıksız (Ücretsiz) İzin", "Refakat İzni", "Mazeret / Babalık / Evlilik / Ölüm İzni", "Nöbet Muafiyeti", "Yönetici Olarak Görevlendirme", "Sözleşmeliden Kadroya Geçiş", "Emeklilik Talebi", "Aile Durumu Bildirimi", "Öğretim", "Ders Kesim Raporu", "Gezi Düzenleme Talebi", "Veli / Öğrenci", "KVKK Aydınlatma + Açık Rıza (Veli)", "Sosyal Medya / Fotoğraf İzin Belgesi", "Gezi Veli İzin Belgesi", "Ad Soyad", "T.C. Kimlik No", "Kurum / Okul", "Branş / Görev", "Kadro durumu", "Kadrolu", "Sözleşmeli", "Aday öğretmen", "Ücretli", "Kurum sicil no (varsa)", "Dilekçe tarihi", "İlçe / İl (hitabın altına)", "Ev adresi", "Telefon", "Ek(ler)", "Çocuğun doğum tarihi", "Analık izninin bittiği tarih", "Süt izni dönemi", "İlk altı ay — günde 3 saat", "İkinci altı ay — günde 1,5 saat", "Kullanılacak saat aralığı (isteğe bağlı)", "İznin başlayacağı tarih", "11 haneli", "Örn. Matematik veya Sınıf Öğretmeni", "Örn. ÇANKAYA", "Boş bırakılırsa noktalı satır basılır", "Boşsa: Çocuğun nüfus kayıt örneği", "Örn. 08.30–11.30"], "matAlistirma": ["Matematik Alıştırma Üretici", "Farklı soru setleri", "isimli", "Sınıf", "1. Sınıf", "2. Sınıf", "3. Sınıf", "4. Sınıf", "5. Sınıf", "6. Sınıf", "7. Sınıf", "8. Sınıf", "Konular", "Toplama", "Eldesiz toplama (2 basamak)", "Eldeli toplama", "3 sayı ile toplama", "Verilmeyenli toplama", "Çıkarma", "Onluk bozmadan çıkarma", "Onluk bozarak çıkarma", "Çarpma", "Çarpım tablosu", "Bölme", "Kalansız bölme", "Karışık", "Toplama–çıkarma–çarpma", "Eğlenceli", "Sihirli toplama kutusu", "Ölçüler", "Saat okuma (yarım saat)", "Saat çizme", "Sayılar", "Sayı karşılaştırma (100’e kadar)", "Basamak değeri / çözümleme", "Sayı örüntüleri", "Problemler", "Toplama–çıkarma problemleri", "Çarpma–bölme problemleri", "Soru sayısı", "Başlık", "Tasarım", "Renkli (sınıfa göre renk)", "Sade (siyah-beyaz baskıya uygun)", "Öğrenci adı (tek kâğıt için)", "İsimli yazdır (şube)", "— Kullanma —", "1-A (0 öğrenci)", "Kopya / form sayısı", "Tüm kopyalarda aynı sorular", "Cevap anahtarı (ayrı sayfa)", "Alıştırma üret", "MATEMATİK ALIŞTIRMASI"], "calismaProgrami": ["Çalışma Programı Hazırla", "Günlere göre farklı konu", "Hazır şablonlar", "İlkokul", "1. sınıf ilk okuma-yazma", "İlkokul 1–2 (kısa bloklar)", "İlkokul 3–4 (45–60 dk)", "Ortaokul", "Ortaokul 5–6 (dengeli)", "Ortaokul günlük (1–1,5 saat)", "Ortaokul LGS hazırlık", "Lise", "Lise genel (2+ saat)", "Lise sayısal ağırlıklı", "Lise 11–12 YKS hazırlık", "Lise sınav / tatil dönemi", "Tatil / hafta sonu", "Hafta sonu tekrar", "Yarıyıl tatili (2 hafta)", "Yaz tatili (okuma + tekrar)", "Öğrenci (havuzdan)", "— Seçin veya elle yazın —", "Ad Soyad", "Sınıf / şube", "Program başlığı", "Uygulanacak günler", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar", "Saatler ve konular", "Satır", "Konu / etkinlik", "Haftalık çalışma:", "Bu haftaki hedeflerim (her satıra bir)", "Verimli çalışma önerileri (her satıra bir)", "Veliye not", "Baskı", "Günlük akış (dikey)", "Haftalık ızgara (yatay)", "Takip çizelgesi", "Tasarım", "Renkli (çocuk dostu)", "Pastel (sade renkli)", "Sade (siyah-beyaz)", "Şubedeki tüm öğrencilere (isimli)", "— Yalnız bu öğrenci —", "İmza alanları", "Türkçe (okuma–anlama)", "Matematik (işlem / problem)", "Mola", "Fen / Hayat / Sosyal", "Ödev kontrolü / tekrar", "Örn. Her gün 20 sayfa kitap okuyacağım. Çarpım tablosunu 6’ya kadar ezberleyeceğim.", "Pazartesi — boş: varsayılan; «-»: o gün yok", "Salı — boş: varsayılan; «-»: o gün yok", "Çarşamba — boş: varsayılan; «-»: o gün yok", "Perşembe — boş: varsayılan; «-»: o gün yok", "Cuma — boş: varsayılan; «-»: o gün yok", "Yukarı", "Aşağı", "Sil"], "kulupPlani": ["Kulüp Planı ve Faaliyet Raporları", "Yıllık Çalışma Planı", "Aylık Faaliyet Raporu", "Yıl Sonu Faaliyet Raporu", "Kulübümdeki Öğrenciler", "1. Kulübü seç", "Kulüp Adı (47 resmi TYMM kulübünden)", "— Seçiniz —", "Kızılay Kulübü", "Yeşilay Kulübü", "Beyazay Kulübü", "Siberay Kulübü", "Tarih ve Kültürel Miras Kulübü", "Tabiat ve Yaşanabilir Çevre Kulübü", "Sağlıklı Yaşam ve Fiziksel Aktivite Kulübü", "Yaşam Becerileri Kulübü", "Kültür ve Yayıncılık Kulübü", "Medeniyet ve Düşünce Kulübü", "Felsefe ve Münazara Kulübü", "Dil, Hitabet ve İletişim Kulübü", "Gezi ve Turizm Kulübü", "Kapsayıcı Yaşam Kulübü", "Ahilik ve Fütüvvet Kulübü", "Fotoğrafçılık ve Film Kulübü", "Görsel Sanatlar Kulübü", "Dijital Sanatlar Kulübü", "Müzik Kulübü", "Sahne Sanatları Kulübü", "Gelenekli Sanatlar Kulübü", "Edebiyat ve Yazarlık Kulübü", "Spor Kulübü", "Ata Sporları Kulübü", "Halk Oyunları Kulübü", "İzcilik ve Doğa Sporları Kulübü", "Akıl ve Zekâ Oyunları Kulübü", "Çocuk Oyunları Kulübü", "Medya ve Bilgi Okuryazarlığı Kulübü", "Dijital Vatandaşlık, Güvenli İnternet ve Sosyal Medya Kulübü", "Bilim ve Teknoloji Kulübü", "Analoji ve Tasarım Kulübü", "Sosyal Bilimler Kulübü", "Matematik Kulübü", "Proje ve Araştırma Kulübü", "Yapay Zekâ Kulübü", "Dijital Beceriler Kulübü", "Girişimcilik ve Üretkenlik Kulübü", "Havacılık ve Uzay Kulübü", "Tasarım ve Mühendislik Kulübü", "Meslekî Tanıtım ve Meslekî Gelişim Kulübü", "Nezaket Hareketi Kulübü", "Demokrasi ve İnsan Hakları Kulübü", "Trafik ve İlk Yardım Kulübü", "Afet Farkındalığı Kulübü", "Diplomasi ve Müzakere Kulübü", "Sıfır Atık Kulübü", "Listede yok — kendim yazacağım"], "anmaKutlama": ["Belirli Gün ve Hafta Programları", "Serbest Ekle", "Katalogdan seç · 2026-2027 eğitim-öğretim yılı · 71 gün/hafta", "İçerik düzeyi Kurum kademesi (Ortaokul) İlkokul (sade, kısa) Ortaokul Lise", "Kurum kademesi (Ortaokul)", "İlkokul (sade, kısa)", "Ortaokul", "Lise", "— Gün / hafta seçiniz (eğitim yılı sırasıyla) —", "7 Eyl · Uluslararası Temiz Hava Günü (Etkinlik)", "12 Eyl · Dünya İlk Yardım Günü (Etkinlik) ⚑ hafta sonu", "14 Eyl · İlköğretim Haftası (Kutlama)", "18 Eyl · Öğrenciler Günü (Kutlama)", "19 Eyl · Gaziler Günü — 105. yıl (Anma) ⚑ hafta sonu", "21 Eyl · 15 Temmuz Demokrasi ve Millî Birlik Günü — 10. yıl (Anma)", "28 Eyl · Dünya Okul Sütü Günü (Etkinlik)", "28 Eyl · Disleksi Haftası (Etkinlik)", "1 Eki · Dünya Disleksi Günü (Etkinlik)", "4 Eki · Hayvanları Koruma Günü (Etkinlik) ⚑ hafta sonu", "8 Eki · Ahilik Kültürü Haftası (Etkinlik)", "13 Eki · Dünya Afet Azaltma Günü (Etkinlik)", "24 Eki · Birleşmiş Milletler Günü — 81. yıl (Etkinlik) ⚑ hafta sonu", "29 Eki · Cumhuriyet Bayramı — 103. yıl (Kutlama)", "29 Eki · Kızılay Haftası — 158. yıl (Etkinlik)", "2 Kas · Lösemili Çocuklar Haftası (Etkinlik)", "3 Kas · Organ Bağışı ve Nakli Haftası (Etkinlik)", "10 Kas · Atatürk Haftası — 88. yıl (Anma)", "12 Kas · Afet Eğitimi Hazırlık Günü — 27. yıl (Etkinlik)", "14 Kas · Dünya Diyabet Günü (Etkinlik) ⚑ hafta sonu", "20 Kas · Dünya Felsefe Günü (Etkinlik)", "20 Kas · Dünya Çocuk Hakları Günü — 37. yıl (Etkinlik)", "21 Kas · Ağız ve Diş Sağlığı Haftası (Etkinlik) ⚑ hafta sonu", "24 Kas · Öğretmenler Günü — 98. yıl (Kutlama)", "3 Ara · Dünya Engelliler Günü (Etkinlik)", "4 Ara · Dünya Madenciler Günü (Etkinlik)", "5 Ara · Türk Kadınına Seçme ve Seçilme Hakkının Verilişi — 92. yıl (Kutlama) ⚑ hafta sonu", "7 Ara · Mevlana Haftası — 753. yıl (Anma)", "7 Ara · İnsan Hakları ve Demokrasi Haftası — 78. yıl (Etkinlik)", "12 Ara · Tutum, Yatırım ve Türk Malları Haftası — 97. yıl (Etkinlik) ⚑ hafta sonu", "20 Ara · Mehmet Akif Ersoy'u Anma Haftası — 90. yıl (Anma) ⚑ hafta sonu", "11 Oca · Enerji Tasarrufu Haftası (Etkinlik)", "22 Şub · Vergi Haftası (Etkinlik)", "1 Mar · Yeşilay Haftası — 107. yıl (Etkinlik)", "1 Mar · Girişimcilik Haftası (Etkinlik)", "8 Mar · Dünya Kadınlar Günü (Kutlama)", "8 Mar · Bilim ve Teknoloji Haftası (Etkinlik)", "12 Mar · İstiklâl Marşı'nın Kabulü ve Mehmet Akif Ersoy'u Anma Günü — 106. yıl (Anma)", "15 Mar · Tüketiciyi Koruma Haftası (Etkinlik)", "15 Mar · Türk Dünyası ve Toplulukları Haftası (Etkinlik)", "18 Mar · Şehitler Günü — 112. yıl (Anma)", "18 Mar · Yaşlılar Haftası (Etkinlik)", "21 Mar · Orman Haftası (Etkinlik) ⚑ hafta sonu", "22 Mar · Dünya Su Günü (Etkinlik)", "27 Mar · Dünya Tiyatrolar Günü (Etkinlik) ⚑ hafta sonu", "29 Mar · Kütüphaneler Haftası (Etkinlik)", "1 Nis · Kanser Haftası (Etkinlik)", "2 Nis · Dünya Otizm Farkındalık Günü (Etkinlik)", "7 Nis · Kişisel Verileri Koruma Günü — 11. yıl (Etkinlik)", "7 Nis · Dünya Sağlık Günü / Haftası (Etkinlik)", "15 Nis · Turizm Haftası (Etkinlik)", "23 Nis · Ulusal Egemenlik ve Çocuk Bayramı — 107. yıl (Kutlama)", "23 Nis · Dünya Kitap Günü (Etkinlik, ek)", "26 Nis · Dünya Fikrî Mülkiyet Günü (Etkinlik)", "29 Nis · Kût’ül Amâre Zaferi — 111. yıl (Anma)", "3 May · Bilişim Haftası (Etkinlik)", "3 May · Trafik ve İlkyardım Haftası (Etkinlik)", "4 May · İş Sağlığı ve Güvenliği Haftası (Etkinlik)", "9 May · Anneler Günü (Kutlama) ⚑ hafta sonu", "10 May · Vakıflar Haftası (Etkinlik)", "10 May · Engelliler Haftası (Etkinlik)", "18 May · Müzeler Haftası (Etkinlik)", "19 May · Atatürk'ü Anma, Gençlik ve Spor Bayramı — 108. yıl (Kutlama)", "25 May · Etik Günü (Etkinlik)", "29 May · İstanbul'un Fethi — 574. yıl (Kutlama) ⚑ hafta sonu", "31 May · Hayat Boyu Öğrenme Haftası (Etkinlik)", "7 Haz · Çevre ve İklim Değişikliği Haftası (Etkinlik)", "20 Haz · Babalar Günü (Kutlama) ⚑ hafta sonu", "30 Ağu · Zafer Bayramı — 105. yıl (Kutlama)", "Mevlid-i Nebî Haftası (Etkinlik)", "Mahallî Kurtuluş Günleri, Atatürk Günleri ve Tarihî Günler (Kutlama)", "“Kaçıncı yıl” ifadeleri", "Tümü", "Kutlama", "Anma", "Etkinlik"], "etkinlikRaporu": ["Etkinlik / Faaliyet Raporu", "Yeni Rapor"], "notCizelgesi": ["Not Çizelgesi / Ortalama Hesaplayıcı", "Fen Bilimleri", "Sosyal Bilgiler", "T.C. İnkılap Tarihi ve Atatürkçülük", "Din Kültürü ve Ahlak Bilgisi", "Beden Eğitimi ve Spor", "Yabancı Dil", "İkinci Yabancı Dil", "Teknoloji ve Tasarım", "Bilişim Teknolojileri ve Yazılım", "Rehberlik ve Yönlendirme", "Seçmeli Ders", "Diğer / Serbest...", "Dönem", "1. Dönem", "2. Dönem"], "ilkokulIzleme": ["İlkokul İzleme-Değerlendirme Formu", "Sınıf düzeyi (katalog)", "1. Sınıf", "2. Sınıf", "3. Sınıf", "4. Sınıf", "İlk Okuma Yazma", "Hayat Bilgisi", "Beden Eğitimi ve Oyun", "Ünite / Tema", "Dinleme/İzleme", "Konuşma", "Okuma", "Yazma", "Bu temayı yazdır", "Dersi yazdır (tüm temalar)", "Şubeyi yazdır"], "donemYilSonu": ["Dönem / Yıl Sonu Değerlendirme Formu", "Yeni Dönem / Yıl Sonu Değerlendirme Formu"], "karneGorusleri": ["Karne Görüşleri", "Akrostiş Karne Görüşü", "Nesir Karne Görüşü", "Öğrenci Havuzu", "Öğrenci Havuzuna Git", "Oluşturulan görüşler", "Yeniden oluştur", "Tümünü kopyala"], "rozetBelge": ["Rozet, Kokart ve Motivasyon Belgeleri", "Belgeler", "Rozetler", "Kokartlar", "Kitap Kurdu Belgesi", "Başarı Belgesi", "Üstün Başarı Belgesi", "Teşekkür Belgesi", "Katılım Belgesi", "Haftanın Yıldızı", "Ayın Öğrencisi", "Okuma Şampiyonu", "Matematik Ustası", "Kulüp Sertifikası", "Derece Belgesi", "Belirli gün ve haftalar", "Kulüpler", "Motivasyon", "Boş şablon", "Cumhuriyet Bayramı", "Öğretmenler Günü", "23 Nisan Çocuk Bayramı", "Kitap Okuma Kulübü", "Bilim ve Teknoloji Kulübü", "Süper Okuyucu", "Yardımsever", "İsimli toplu yazdır"], "imsakTakvim": ["İmsakiye ve Yıllık Takvim", "Yıllık Takvim", "İmsakiye", "Ramazan İmsakiyesi", "Namaz vakitleri", "Kadir Gecesi", "Bayram namazı", "Fitre", "Filigran", "Duvar takvimi", "12 ay tek sayfa", "Resmî tatiller", "Dinî bayramlar", "Kandiller", "Okul tatilleri", "Diyanet tablosunu yapıştır"]};
 
 /* ==========================================================================
    BEP PLANI HAZIRLAMA (v1.7 uygulaması, gömülü)
@@ -3589,7 +3596,7 @@ function render(opts){
     else if(state.aktifModul==='kelimeSanati') el.innerHTML = renderKelimeSanati();
     else if(state.aktifModul==='etiketOlusturucu') el.innerHTML = renderEtiketOlusturucu();
     else if(state.aktifModul==='geometrikAcinim') el.innerHTML = renderGeometrikAcinim();
-    else if(state.aktifModul==='dosyaKapaklari') el.innerHTML = renderDosyaKapaklari();
+    else if(state.aktifModul==='dosyaKapaklari') el.innerHTML = renderOgretmenDosyasiModul();
     else if(TUTANAK_TIPLERI[state.aktifModul]) el.innerHTML = renderToplantiModulu(state.aktifModul);
     else if(state.aktifModul==='bepPlani') el.innerHTML = renderBepPlaniGomulu();
     else if(state.aktifModul==='bepDegerlendirme') el.innerHTML = renderBepDegerlendirme();
@@ -32414,6 +32421,977 @@ function renderImsakTakvim(){
 window.addEventListener('resize', function(){ try{ if(state.aktifModul === 'imsakTakvim') itOnizlemeOlcekle(); }catch(e){} });
 
 
+
+/* ==========================================================================
+   Karekod (QR) üretici — bağımsız, çevrim dışı çalışır.
+   Bayt kipi (UTF-8), hata düzeltme M (varsayılan), sürüm 1–40, otomatik maske.
+   Algoritma QR standardını (ISO/IEC 18004) izler; kütüphane gerektirmez.
+   ========================================================================== */
+const QRK = (function(){
+  const ECC_BLOK_KOD = { // [düzey][sürüm] blok başına hata düzeltme kod sözcüğü
+    L:[-1,7,10,15,20,26,18,20,24,30,18,20,24,26,30,22,24,28,30,28,28,28,28,30,30,26,28,30,30,30,30,30,30,30,30,30,30,30,30,30,30],
+    M:[-1,10,16,26,18,24,16,18,22,22,26,30,22,22,24,24,28,28,26,26,26,26,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28],
+    Q:[-1,13,22,18,26,18,24,18,22,20,24,28,26,24,20,30,24,28,28,26,30,28,30,30,30,30,28,30,30,30,30,30,30,30,30,30,30,30,30,30,30],
+    H:[-1,17,28,22,16,22,28,26,26,24,28,24,28,22,24,24,30,28,28,26,28,30,24,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30]
+  };
+  const ECC_BLOK_SAYI = {
+    L:[-1,1,1,1,1,1,2,2,2,2,4,4,4,4,4,6,6,6,6,7,8,8,9,9,10,12,12,12,13,14,15,16,17,18,19,19,20,21,22,24,25],
+    M:[-1,1,1,1,2,2,4,4,4,5,5,5,8,9,9,10,10,11,13,14,16,17,17,18,20,21,23,25,26,28,29,31,33,35,37,38,40,43,45,47,49],
+    Q:[-1,1,1,2,2,4,4,6,6,8,8,8,10,12,16,12,17,16,18,21,20,23,23,25,27,29,34,34,35,38,40,43,45,48,51,53,56,59,62,65,68],
+    H:[-1,1,1,2,4,4,4,5,6,8,8,11,11,16,16,18,16,19,21,25,25,25,34,30,32,35,37,40,42,45,48,51,54,57,60,63,66,70,74,77,81]
+  };
+  const DUZEY_BIT = { L:1, M:0, Q:3, H:2 };
+
+  function hamModul(v){
+    let r = (16 * v + 128) * v + 64;
+    if(v >= 2){ const n = Math.floor(v / 7) + 2; r -= (25 * n - 10) * n - 55; if(v >= 7) r -= 36; }
+    return r;
+  }
+  function veriKodSozcuk(v, d){ return Math.floor(hamModul(v) / 8) - ECC_BLOK_KOD[d][v] * ECC_BLOK_SAYI[d][v]; }
+
+  /* GF(256) üzerinde Reed–Solomon */
+  function rsCarp(x, y){
+    let z = 0;
+    for(let i = 7; i >= 0; i--){ z = (z << 1) ^ ((z >>> 7) * 0x11D); z ^= ((y >>> i) & 1) * x; }
+    return z & 0xFF;
+  }
+  function rsBolen(derece){
+    const r = []; for(let i = 0; i < derece - 1; i++) r.push(0); r.push(1);
+    let kok = 1;
+    for(let i = 0; i < derece; i++){
+      for(let j = 0; j < r.length; j++){ r[j] = rsCarp(r[j], kok); if(j + 1 < r.length) r[j] ^= r[j + 1]; }
+      kok = rsCarp(kok, 0x02);
+    }
+    return r;
+  }
+  function rsKalan(veri, bolen){
+    const r = bolen.map(function(){ return 0; });
+    veri.forEach(function(b){
+      const f = b ^ r.shift(); r.push(0);
+      bolen.forEach(function(c, i){ r[i] ^= rsCarp(c, f); });
+    });
+    return r;
+  }
+
+  function utf8(s){ return Array.from(new TextEncoder().encode(String(s))); }
+
+  function uret(metin, duzey){
+    duzey = duzey || 'M';
+    const veri = utf8(metin);
+    let v = 1, kap = 0;
+    for(; v <= 40; v++){
+      const sayacBit = v <= 9 ? 8 : 16;
+      kap = veriKodSozcuk(v, duzey) * 8;
+      if(4 + sayacBit + veri.length * 8 <= kap) break;
+    }
+    if(v > 40) throw new Error('Metin karekod için çok uzun');
+    /* Bit akışı */
+    const bit = [];
+    const ekle = function(deger, n){ for(let i = n - 1; i >= 0; i--) bit.push((deger >>> i) & 1); };
+    ekle(4, 4); ekle(veri.length, v <= 9 ? 8 : 16);
+    veri.forEach(function(b){ ekle(b, 8); });
+    ekle(0, Math.min(4, kap - bit.length));
+    ekle(0, (8 - bit.length % 8) % 8);
+    for(let p = 0xEC; bit.length < kap; p ^= 0xEC ^ 0x11) ekle(p, 8);
+    const kod = [];
+    for(let i = 0; i < bit.length; i += 8){ let b = 0; for(let j = 0; j < 8; j++) b = (b << 1) | bit[i + j]; kod.push(b); }
+    /* Bloklar + hata düzeltme + serpiştirme */
+    const blokSay = ECC_BLOK_SAYI[duzey][v], eccLen = ECC_BLOK_KOD[duzey][v];
+    const hamKod = Math.floor(hamModul(v) / 8);
+    const kisaSay = blokSay - hamKod % blokSay, kisaLen = Math.floor(hamKod / blokSay);
+    const bolen = rsBolen(eccLen);
+    const bloklar = [];
+    for(let i = 0, k = 0; i < blokSay; i++){
+      const dat = kod.slice(k, k + kisaLen - eccLen + (i < kisaSay ? 0 : 1));
+      k += dat.length;
+      const ecc = rsKalan(dat, bolen);
+      if(i < kisaSay) dat.push(0);
+      bloklar.push(dat.concat(ecc));
+    }
+    const son = [];
+    for(let i = 0; i < bloklar[0].length; i++){
+      bloklar.forEach(function(b, j){ if(i !== kisaLen - eccLen || j >= kisaSay) son.push(b[i]); });
+    }
+    /* Matris */
+    const n = v * 4 + 17;
+    const m = [], fonk = [];
+    for(let i = 0; i < n; i++){ m.push(new Array(n).fill(false)); fonk.push(new Array(n).fill(false)); }
+    const koy = function(x, y, k){ m[y][x] = k; fonk[y][x] = true; };
+    for(let i = 0; i < n; i++){ koy(6, i, i % 2 === 0); koy(i, 6, i % 2 === 0); }
+    const bulucu = function(x, y){
+      for(let dy = -4; dy <= 4; dy++) for(let dx = -4; dx <= 4; dx++){
+        const d = Math.max(Math.abs(dx), Math.abs(dy)), xx = x + dx, yy = y + dy;
+        if(xx >= 0 && xx < n && yy >= 0 && yy < n) koy(xx, yy, d !== 2 && d !== 4);
+      }
+    };
+    bulucu(3, 3); bulucu(n - 4, 3); bulucu(3, n - 4);
+    const hizaPoz = (function(){
+      if(v === 1) return [];
+      const sayi = Math.floor(v / 7) + 2;
+      const adim = (v === 32) ? 26 : Math.ceil((v * 4 + 4) / (sayi * 2 - 2)) * 2;
+      const r = [6];
+      for(let p = n - 7; r.length < sayi; p -= adim) r.splice(1, 0, p);
+      return r;
+    })();
+    hizaPoz.forEach(function(a, i){ hizaPoz.forEach(function(b, j){
+      if((i === 0 && j === 0) || (i === 0 && j === hizaPoz.length - 1) || (i === hizaPoz.length - 1 && j === 0)) return;
+      for(let dy = -2; dy <= 2; dy++) for(let dx = -2; dx <= 2; dx++) koy(a + dx, b + dy, Math.max(Math.abs(dx), Math.abs(dy)) !== 1);
+    }); });
+    const bicimBit = function(maske){
+      const d = DUZEY_BIT[duzey] << 3 | maske;
+      let r = d; for(let i = 0; i < 10; i++) r = (r << 1) ^ ((r >>> 9) * 0x537);
+      const b = (d << 10 | r) ^ 0x5412;
+      for(let i = 0; i <= 5; i++) koy(8, i, ((b >>> i) & 1) !== 0);
+      koy(8, 7, ((b >>> 6) & 1) !== 0); koy(8, 8, ((b >>> 7) & 1) !== 0); koy(7, 8, ((b >>> 8) & 1) !== 0);
+      for(let i = 9; i < 15; i++) koy(14 - i, 8, ((b >>> i) & 1) !== 0);
+      for(let i = 0; i < 8; i++) koy(n - 1 - i, 8, ((b >>> i) & 1) !== 0);
+      for(let i = 8; i < 15; i++) koy(8, n - 15 + i, ((b >>> i) & 1) !== 0);
+      koy(8, n - 8, true);
+    };
+    bicimBit(0);
+    if(v >= 7){
+      let r = v; for(let i = 0; i < 12; i++) r = (r << 1) ^ ((r >>> 11) * 0x1F25);
+      const b = v << 12 | r;
+      for(let i = 0; i < 18; i++){ const k = ((b >>> i) & 1) !== 0, a = n - 11 + i % 3, c = Math.floor(i / 3); koy(a, c, k); koy(c, a, k); }
+    }
+    /* Veri yerleştirme (zikzak) */
+    let i = 0;
+    for(let sag = n - 1; sag >= 1; sag -= 2){
+      if(sag === 6) sag = 5;
+      for(let dik = 0; dik < n; dik++){
+        for(let j = 0; j < 2; j++){
+          const x = sag - j, yukari = ((sag + 1) & 2) === 0, y = yukari ? n - 1 - dik : dik;
+          if(!fonk[y][x] && i < son.length * 8){ m[y][x] = ((son[i >>> 3] >>> (7 - (i & 7))) & 1) !== 0; i++; }
+        }
+      }
+    }
+    const maskeUygula = function(k){
+      for(let y = 0; y < n; y++) for(let x = 0; x < n; x++){
+        if(fonk[y][x]) continue;
+        let t;
+        switch(k){
+          case 0: t = (x + y) % 2 === 0; break;
+          case 1: t = y % 2 === 0; break;
+          case 2: t = x % 3 === 0; break;
+          case 3: t = (x + y) % 3 === 0; break;
+          case 4: t = (Math.floor(x / 3) + Math.floor(y / 2)) % 2 === 0; break;
+          case 5: t = x * y % 2 + x * y % 3 === 0; break;
+          case 6: t = (x * y % 2 + x * y % 3) % 2 === 0; break;
+          default: t = ((x + y) % 2 + x * y % 3) % 2 === 0;
+        }
+        if(t) m[y][x] = !m[y][x];
+      }
+    };
+    const ceza = function(){
+      let c = 0;
+      const satir = function(get){
+        for(let a = 0; a < n; a++){
+          let renk = false, uz = 0; const gecmis = [0,0,0,0,0,0,0];
+          const desen = function(){ const q = gecmis[1]; const core = q > 0 && gecmis[2] === q && gecmis[3] === q * 3 && gecmis[4] === q && gecmis[5] === q;
+            return (core && gecmis[0] >= q * 4 && gecmis[6] >= q ? 1 : 0) + (core && gecmis[6] >= q * 4 && gecmis[0] >= q ? 1 : 0); };
+          const it = function(u){ if(gecmis[0] === 0) u += n; gecmis.pop(); gecmis.unshift(u); };
+          for(let b = 0; b < n; b++){
+            if(get(a, b) === renk){ uz++; if(uz === 5) c += 3; else if(uz > 5) c++; }
+            else { it(uz); if(!renk) c += desen() * 40; renk = get(a, b); uz = 1; }
+          }
+          /* bitiş */
+          if(renk){ it(uz); uz = 0; }
+          uz += n; it(uz); c += desen() * 40;
+        }
+      };
+      satir(function(a, b){ return m[a][b]; });
+      satir(function(a, b){ return m[b][a]; });
+      for(let y = 0; y < n - 1; y++) for(let x = 0; x < n - 1; x++){
+        const k = m[y][x]; if(k === m[y][x + 1] && k === m[y + 1][x] && k === m[y + 1][x + 1]) c += 3;
+      }
+      let koyu = 0; m.forEach(function(r){ r.forEach(function(k){ if(k) koyu++; }); });
+      const top = n * n; c += (Math.ceil(Math.abs(koyu * 20 - top * 10) / top) - 1) * 10;
+      return c;
+    };
+    let enIyi = 0, enAz = Infinity;
+    for(let k = 0; k < 8; k++){
+      maskeUygula(k); bicimBit(k);
+      const p = ceza(); if(p < enAz){ enAz = p; enIyi = k; }
+      maskeUygula(k);
+    }
+    maskeUygula(enIyi); bicimBit(enIyi);
+    return { boyut:n, matris:m, surum:v };
+  }
+  /** SVG çıktısı (kenar boşluğu: 4 modül) */
+  function svg(metin, opt){
+    opt = opt || {};
+    const q = uret(metin, opt.duzey || 'M');
+    const kb = 4, top = q.boyut + kb * 2;
+    let yol = '';
+    for(let y = 0; y < q.boyut; y++){
+      for(let x = 0; x < q.boyut; x++){ if(q.matris[y][x]) yol += 'M' + (x + kb) + ',' + (y + kb) + 'h1v1h-1z'; }
+    }
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + top + ' ' + top + '" shape-rendering="crispEdges" style="display:block;width:' + (opt.genislik || '60mm') + ';height:' + (opt.genislik || '60mm') + ';' + (opt.stil || '') + '"><rect width="' + top + '" height="' + top + '" fill="#fff"/><path d="' + yol + '" fill="' + (opt.renk || '#000') + '"/></svg>';
+  }
+  return { uret:uret, svg:svg };
+})();
+
+
+/* ==========================================================================
+   v2.2.7 — ÖĞRETMEN DOSYASI OLUŞTURMA
+   Kademe ve görevlere göre süzülen madde listesi; burada üretilen evraklar,
+   diğer modüllere kısayol (dönüş çubuğuyla), mevzuat karekod sayfaları;
+   seçilen maddelerden kapak + içindekiler + ayraçlarla tek PDF.
+   ========================================================================== */
+const OD_KONTROL_TARIHI = '30.10.2026';
+const OD_BOLUMLER = [
+  { id:'milli', ad:'Millî Değerler', renk:'#b91c1c' },
+  { id:'ogretmen', ad:'Öğretmen ve Görev Bilgileri', renk:'#1e3a8a' },
+  { id:'mevzuat', ad:'Mevzuat ve Öğretim Programları', renk:'#334155' },
+  { id:'plan', ad:'Planlama', renk:'#047857' },
+  { id:'sinif', ad:'Sınıf Yönetimi', renk:'#0e7490' },
+  { id:'kurul', ad:'Kurullar ve Toplantılar', renk:'#7c2d12' },
+  { id:'olcme', ad:'Ölçme ve Değerlendirme', renk:'#9a3412' },
+  { id:'rehber', ad:'Rehberlik ve Özel Eğitim', renk:'#6d28d9' },
+  { id:'etkinlik', ad:'Etkinlikler', renk:'#a16207' },
+  { id:'son', ad:'Dönem ve Yıl Sonu', renk:'#1f2937' }
+];
+/* Mevzuat: bağlantılar resmî kaynaklardan (mevzuat.gov.tr, meb.gov.tr) alınmıştır */
+const OD_MEVZUAT = [
+  { k:'ilkogretimYon', ad:'Millî Eğitim Bakanlığı Okul Öncesi Eğitim ve İlköğretim Kurumları Yönetmeliği', ac:'Okul öncesi, ilkokul ve ortaokulda öğretmenin görev ve sorumlulukları; zümre ve şube öğretmenler kurulu, ölçme-değerlendirme, devam-devamsızlık ve öğrenci davranışlarına ilişkin esaslar.', url:'https://www.mevzuat.gov.tr/mevzuat?MevzuatNo=19942&MevzuatTur=7&MevzuatTertip=5', kademe:['okulOncesi','ilkokul','ortaokul'] },
+  { k:'ortaogretimYon', ad:'Millî Eğitim Bakanlığı Ortaöğretim Kurumları Yönetmeliği', ac:'Ortaöğretimde öğretmenin görevleri, zümre ve şube öğretmenler kurulu, sınavlar, proje, devamsızlık, sınıf geçme ve disiplin esasları.', url:'https://www.mevzuat.gov.tr/mevzuat?MevzuatNo=18812&MevzuatTur=7&MevzuatTertip=5', kademe:['lise'] },
+  { k:'meslekKanunu', ad:'Öğretmenlik Mesleği Kanunu (7528 sayılı)', ac:'Öğretmenlik mesleğine giriş, hazırlık eğitimi, kariyer basamakları, mesleki gelişim, hak ve yükümlülükler.', url:'https://www.mevzuat.gov.tr/mevzuat?MevzuatNo=7528&MevzuatTur=1&MevzuatTertip=5' },
+  { k:'olcmeYon', ad:'Millî Eğitim Bakanlığı Ölçme ve Değerlendirme Yönetmeliği', ac:'Ölçme ve değerlendirme hizmetlerinin yürütülmesine ilişkin usul ve esaslar.', url:'https://www.mevzuat.gov.tr/mevzuat?MevzuatNo=40317&MevzuatTur=7&MevzuatTertip=5', kademe:['ilkokul','ortaokul','lise'] },
+  { k:'ozelEgitim', ad:'Özel Eğitim Hizmetleri Yönetmeliği', ac:'Kaynaştırma/bütünleştirme, BEP geliştirme birimi, bireyselleştirilmiş eğitim programı ve destek eğitim hizmetleri.', url:'https://www.mevzuat.gov.tr/mevzuat?MevzuatNo=24736&MevzuatTur=7&MevzuatTertip=5' },
+  { k:'rehberlikYon', ad:'Millî Eğitim Bakanlığı Rehberlik ve Psikolojik Danışma Hizmetleri Yönetmeliği', ac:'Sınıf rehber öğretmeninin görevleri, rehberlik planı ve hizmetlerin yürütülmesi.', url:'https://www.mevzuat.gov.tr/mevzuat?MevzuatNo=34760&MevzuatTur=7&MevzuatTertip=5' },
+  { k:'sosyalEtkinlik', ad:'Millî Eğitim Bakanlığı Eğitim Kurumları Sosyal Etkinlikler Yönetmeliği', ac:'Öğrenci kulüpleri, toplum hizmeti, sosyal etkinlikler ve geziler.', url:'https://www.mevzuat.gov.tr/mevzuat?MevzuatNo=23639&MevzuatTur=7&MevzuatTertip=5' },
+  { k:'takvim', ad:'2026-2027 Eğitim-Öğretim Yılı Çalışma Takvimi', ac:'Ders yılının başlangıcı, ara tatiller, yarıyıl tatili ve ders yılı sonu (MEB duyurusu).', url:'https://www.meb.gov.tr/2026-2027-egitim-ogretim-yili-takvimi-aciklandi/haber/41057/tr' },
+  { k:'tymm', ad:'Türkiye Yüzyılı Maarif Modeli Öğretim Programları', ac:'Maarif Modeli öğretim programları ve temel yaklaşım (TYMM resmî sitesi).', url:'https://tymm.meb.gov.tr/' },
+  { k:'cerceve', ad:'Maarif Modeli Çerçeve Yıllık Planları', ac:'Derslere ve sınıf düzeylerine göre çerçeve yıllık planlar.', url:'https://tymm.meb.gov.tr/taslak-cerceve-planlari' },
+  { k:'mufredat', ad:'Öğretim Programları (eski programla okuyan sınıflar)', ac:'Maarif Modeline henüz geçmeyen sınıf düzeylerinin öğretim programları.', url:'https://mufredat.meb.gov.tr/', kademe:['ilkokul','ortaokul','lise'] },
+  { k:'hazirlik', ad:'Millî Eğitim Bakanlığı Öğretmenlik Mesleğine Hazırlık Eğitimi Yönetmeliği', ac:'Hazırlık eğitimi (adaylık) süreci, programı ve değerlendirilmesi.', url:'https://akademi.meb.gov.tr/meb_iys_dosyalar/2026_04/69d373065ed38866397105_Haz%C4%B1rl%C4%B1k_E%C4%9Fitimi_Y%C3%B6netmeli%C4%9Fi.pdf', profil:'aday' },
+  { k:'mebMevzuat', ad:'MEB Mevzuat Listesi (tüm yönetmelikler)', ac:'Bakanlığın yürürlükteki yönetmelikleri; güncel değişiklikler buradan izlenir.', url:'https://www.meb.gov.tr/mevzuat/liste.php?ara=6' }
+];
+const OD_MADDELER = [
+  { id:'bayrak', b:'milli', ad:'Türk Bayrağı', ac:'Türk Bayrağı Kanunu’ndaki ölçülere göre çizilir.', tur:'burada', uret:function(){ return odBayrakHtml(); } },
+  { id:'istiklal', b:'milli', ad:'İstiklal Marşı', ac:'On kıtanın tamamı, tek sayfa.', tur:'burada', uret:function(){ return odIstiklalHtml(); } },
+  { id:'hitabe', b:'milli', ad:'Gençliğe Hitabe', tur:'burada', uret:function(){ return odHitabeHtml(); } },
+  { id:'portre', b:'milli', ad:'Atatürk Portresi', ac:'Kendi görselinizi yükleyin; çerçeveli tam sayfa basılır.', tur:'burada', duzen:'portre', hazir:function(o){ return !!o.portre; }, uret:function(){ return odPortreHtml(); } },
+  { id:'tanitim', b:'ogretmen', ad:'Öğretmen Tanıtım Formu', ac:'Ad, branş ve okul Kurum Bilgileri’nden gelir; diğer alanları buradan doldurun.', tur:'burada', duzen:'tanitim', uret:function(){ return odTanitimHtml(); } },
+  { id:'haftalik', b:'ogretmen', ad:'Haftalık Ders Programı', tur:'kisayol', modul:'haftalikProgram', yakala:function(){ yazdirHaftalikProgram(); }, hazir:function(){ return Object.keys((state.haftalikProgram || {}).hucreler || {}).length > 0; } },
+  { id:'saatler', b:'ogretmen', ad:'Ders Giriş-Çıkış Saatleri', ac:'Haftalık Ders Programı’ndaki başlangıç saati, ders ve teneffüs sürelerinden hesaplanır.', tur:'burada', uret:function(){ return odSaatlerHtml(); } },
+  { id:'takvim', b:'ogretmen', ad:'Okul Çalışma Takvimi', tur:'kisayol', modul:'takvim', yakala:function(){ takvimYazdir(); }, hazir:function(){ return (state.takvim || []).length > 0; } },
+  { id:'mevzuat', b:'mevzuat', ad:'Mevzuat Karekodları', ac:'Yönetmelik ve yönergeler kâğıda basılmaz; okutunca güncel resmî metni açan karekod sayfaları.', tur:'karekod', duzen:'mevzuat', uret:function(){ return odMevzuatHtml(); } },
+  { id:'yillik', b:'plan', ad:'Ünitelendirilmiş Yıllık Planlar', ac:'Ders Planı modülündeki «Müfredattan otomatik oluştur» paneliyle; çerçeve planlar için Mevzuat bölümündeki karekod.', tur:'kisayol', modul:'dersPlani', kademe:['ilkokul','ortaokul','lise'] },
+  { id:'dersPlan', b:'plan', ad:'Ders Planları', tur:'kisayol', modul:'dersPlani', kademe:['ilkokul','ortaokul','lise'], yakala:function(){ odKayitlariYazdir('dersPlani'); }, hazir:function(){ return odKayitSay('dersPlani') > 0; } },
+  { id:'aylikPlan', b:'plan', ad:'Aylık Plan ve Günlük Eğitim Akışları', tur:'kisayol', modul:'dersPlani', kademe:['okulOncesi'], yakala:function(){ odKayitlariYazdir('aylikPlan'); odKayitlariYazdir('gunlukAkis'); }, hazir:function(){ return odKayitSay('aylikPlan') + odKayitSay('gunlukAkis') > 0; } },
+  { id:'iyep', b:'plan', ad:'İYEP Planı', tur:'kisayol', modul:'iyepPlani', kademe:['ilkokul'], yakala:function(){ iyepYazdir(); } },
+  { id:'egzersiz', b:'plan', ad:'Ders Dışı Egzersiz Çalışma Planı', tur:'kisayol', modul:'egzersizPlani', yakala:function(){ ((state.egzersiz || {}).calismalar || []).forEach(function(c){ egYazdirCalismaPlani(c.id); }); }, hazir:function(){ return ((state.egzersiz || {}).calismalar || []).length > 0; } },
+  { id:'kulup', b:'plan', ad:'Sosyal Kulüp Yıllık Planı ve Raporları', tur:'kisayol', modul:'kulupPlani', profil:'kulup' },
+  { id:'degerler', b:'plan', ad:'Değerler Eğitimi Planı ve Raporları', tur:'kisayol', modul:'degerlerDil', yakala:function(){ degerlerPlanYazdir(); } },
+  { id:'dz', b:'plan', ad:'Dilimizin Zenginlikleri Aylık Raporları', tur:'kisayol', modul:'degerlerDil', yakala:function(){ dilRaporYazdir(); }, hazir:function(){ try{ return !!degerlerDilState().dil.plan; }catch(e){ return false; } } },
+  { id:'bgh', b:'plan', ad:'Belirli Gün ve Haftalar Programları', tur:'kisayol', modul:'anmaKutlama' },
+  { id:'sinifListe', b:'sinif', ad:'Sınıf Listesi', ac:'Seçili şubelerin öğrencileri Öğrenci Havuzu’ndan gelir.', tur:'burada', hazir:function(o){ return odSubeler().some(function(s){ return (s.ogrenciler || []).length; }); }, uret:function(){ return odSinifListesiHtml(); } },
+  { id:'oturma', b:'sinif', ad:'Sınıf Oturma Planı', tur:'kisayol', modul:'oturmaPlani', yakala:function(){ odSubeler().forEach(function(s){ oturmaYazdir(s.id); }); } },
+  { id:'nobet', b:'sinif', ad:'Öğrenci Nöbet Çizelgesi', tur:'kisayol', modul:'nobetCizelgesi', kademe:['ilkokul','ortaokul','lise'], yakala:function(){ odSubeler().forEach(function(s){ nobetYazdir(s.id); }); } },
+  { id:'veliIletisim', b:'sinif', ad:'Veli İletişim Listesi', tur:'kisayol', modul:'veliIletisimListesi', yakala:function(){ veliIletisimYazdir(); }, hazir:function(){ return (state.subeler || []).length > 0; } },
+  { id:'zumre', b:'kurul', ad:'Zümre Öğretmenler Kurulu Tutanakları (okul / ilçe / il)', tur:'kisayol', modul:'zumreToplantisi' },
+  { id:'sok', b:'kurul', ad:'Şube Öğretmenler Kurulu Tutanakları', ac:'Seçili her şube için gündemli boş tutanak; toplantıdan sonra doldurulup imzalanır.', tur:'burada', kademe:['ilkokul','ortaokul','lise'], uret:function(){ return odSokHtml(); } },
+  { id:'veliToplanti', b:'kurul', ad:'Veli Toplantısı Tutanakları ve İmza Sirküleri', tur:'kisayol', modul:'veliToplantisi' },
+  { id:'izleme', b:'olcme', ad:'İzleme-Değerlendirme Ölçekleri', tur:'kisayol', modul:'ilkokulIzleme', kademe:['ilkokul'] },
+  { id:'gelisimOO', b:'olcme', ad:'Gelişim Gözlem Kayıtları', tur:'kisayol', modul:'ogrenciGozlem', kademe:['okulOncesi'] },
+  { id:'notCizelge', b:'olcme', ad:'Not Çizelgesi ve Performans Değerlendirmesi', tur:'kisayol', modul:'notCizelgesi', kademe:['ortaokul','lise'] },
+  { id:'yaziliTeslim', b:'olcme', ad:'Yazılı Sınav Kâğıtları Teslim Tutanağı', ac:'Branş, ad ve şubeler otomatik dolar.', tur:'burada', kademe:['ortaokul','lise'], uret:function(){ return odYaziliTeslimHtml(); } },
+  { id:'proje', b:'olcme', ad:'Proje Ödevi Dağıtım Listesi ve Değerlendirme Ölçeği', tur:'burada', kademe:['ortaokul','lise'], uret:function(){ return odProjeHtml(); } },
+  { id:'sinavAnaliz', b:'olcme', ad:'Sınav Analizleri', ac:'e-Okul’dan alınan analiz çıktıları bu bölüme eklenir.', tur:'dis', kademe:['ortaokul','lise'] },
+  { id:'rehberlik', b:'rehber', ad:'Sınıf Rehberlik Planı ve Faaliyet Raporu', tur:'kisayol', modul:'sinifRehberlikRaporu', profil:'rehber' },
+  { id:'veliGorusme', b:'rehber', ad:'Veli Görüşme Çizelgesi', tur:'kisayol', modul:'veliGorusme', yakala:function(){ vgcYazdir(); }, hazir:function(){ return (state.subeler || []).length > 0; } },
+  { id:'gozlem', b:'rehber', ad:'Öğrenci Gözlem Notları', tur:'kisayol', modul:'ogrenciGozlem', kademe:['ilkokul','ortaokul','lise'] },
+  { id:'bep', b:'rehber', ad:'BEP Dosyası ve BEP Değerlendirme Raporu', tur:'kisayol', modul:'bepPlani', profil:'bep', hazir:function(){ return (state.bepDosyalari || []).length > 0; } },
+  { id:'etkinlik', b:'etkinlik', ad:'Sosyal Etkinlik ve Faaliyet Raporları', tur:'kisayol', modul:'etkinlikRaporu' },
+  { id:'karne', b:'son', ad:'Karne Görüşleri', tur:'kisayol', modul:'karneGorusleri', kademe:['ilkokul'] },
+  { id:'donemSonu', b:'son', ad:'Dönem / Yıl Sonu Değerlendirme Raporları', tur:'kisayol', modul:'donemYilSonu' },
+  { id:'dersKesim', b:'son', ad:'Ders Kesim Raporu', ac:'Branş ve şubeler otomatik; işlenen saat ve açıklamalar doldurulur.', tur:'burada', kademe:['ilkokul','ortaokul','lise'], uret:function(){ return odDersKesimHtml(); } }
+];
+
+/* ---------- Durum ---------- */
+function odState(){
+  if(!state.ogretmenDosyasi) state.ogretmenDosyasi = {};
+  const o = state.ogretmenDosyasi;
+  if(!o.secimDisi) o.secimDisi = {};
+  if(!o.manuel) o.manuel = {};
+  if(!o.tanitim) o.tanitim = {};
+  if(!o.mevzuatDisi) o.mevzuatDisi = {};
+  if(!o.ayar) o.ayar = { ayrac:true, icindekiler:true, mevzuatDizin:false, format:'klasik' };
+  if(!o.subeIdler) o.subeIdler = (state.subeler || []).map(function(s){ return s.id; });
+  if(o.sinifOgr === undefined) o.sinifOgr = true;
+  return o;
+}
+function odKademeTahmin(){
+  const k = String((state.ayarlar || {}).kademe || '');
+  if(/Öncesi/i.test(k)) return 'okulOncesi';
+  if(/İlkokul/i.test(k)) return 'ilkokul';
+  if(/Lise|Ortaöğretim|Mesleki|Anadolu/i.test(k)) return 'lise';
+  if(/Ortaokul/i.test(k)) return 'ortaokul';
+  return '';
+}
+const OD_KADEME_AD = { okulOncesi:'Okul Öncesi', ilkokul:'İlkokul', ortaokul:'Ortaokul', lise:'Lise / Ortaöğretim' };
+function odGorunur(m){
+  const o = odState();
+  if(m.kademe && m.kademe.indexOf(o.kademe) < 0) return false;
+  if(m.profil && !o[m.profil]) return false;
+  return true;
+}
+function odListe(){ return OD_MADDELER.filter(odGorunur); }
+function odSeciliMi(id){ return !odState().secimDisi[id]; }
+function odSubeler(){
+  const o = odState();
+  const l = (state.subeler || []).filter(function(s){ return o.subeIdler.indexOf(s.id) >= 0; });
+  return l.length ? l : (state.subeler || []);
+}
+function odKayitSay(tip){ return (state.dersPlanlari || []).filter(function(k){ return k.tip === tip; }).length; }
+function odKayitlariYazdir(tip){
+  (state.dersPlanlari || []).filter(function(k){ return k.tip === tip; })
+    .sort(function(a, b){ return String((a.veriler || {}).tarih || a.olusturma || '').localeCompare(String((b.veriler || {}).tarih || b.olusturma || '')); })
+    .forEach(function(k){ dpYazdir(k.id); });
+}
+/** Maddenin durumu: hazir | eksik | gerekYok | ayri | dis */
+function odDurum(m){
+  const o = odState();
+  if(o.manuel[m.id]) return o.manuel[m.id];
+  if(m.tur === 'dis') return 'dis';
+  if(m.hazir) return m.hazir(o) ? 'hazir' : 'eksik';
+  if(m.tur === 'burada' || m.tur === 'karekod') return 'hazir';
+  return m.yakala ? 'hazir' : 'ayri';
+}
+const OD_DURUM_AD = { hazir:['Hazır','#166534','#DCFCE7'], eksik:['Eksik','#B91C1C','#FEE2E2'], gerekYok:['Gerek yok','#475569','#F1F5F9'], ayri:['Modülünden yazdırılır','#92400E','#FEF3C7'], dis:['Dış kaynak','#1E40AF','#DBEAFE'], tamam:['Tamamlandı','#166534','#DCFCE7'] };
+
+/* ---------- Ekran ---------- */
+function renderOgretmenDosyasiModul(){
+  const sekme = (state.dosyaKapaklariAyar && state.dosyaKapaklariAyar.odSekme) || 'dosya';
+  const btn = function(id, ad, ikon){
+    return '<button type="button" class="btn-' + (sekme === id ? 'vurgu' : 'secondary') + ' text-[13px]" onclick="odSekme(\'' + id + '\')"><i class="fa-solid ' + ikon + '"></i> ' + ad + '</button>';
+  };
+  const ust = '<div class="flex flex-wrap gap-2 mb-4">' + btn('dosya', '1. Öğretmen Dosyası Oluşturma', 'fa-folder-tree') + btn('kapak', '2. Dosya Kapağı Oluşturma', 'fa-book') + '</div>';
+  return ust + (sekme === 'kapak' ? renderDosyaKapaklari() : renderOgretmenDosyasi());
+}
+function odSekme(s){
+  if(!state.dosyaKapaklariAyar) state.dosyaKapaklariAyar = dosyaKapaklariVarsayilan();
+  state.dosyaKapaklariAyar.odSekme = s;
+  kaydet(); render({ scrollTop:true });
+}
+function renderOgretmenDosyasi(){
+  const o = odState();
+  if(o.adim === 'kapak') return renderOdKapakAdimi();
+  if(!o.kademe){
+    const tahmin = odKademeTahmin();
+    return '<div class="mb-4"><h1 class="panel-baslik">Öğretmen Dosyası Oluşturma</h1>'
+      + '<p class="text-[13px] mt-1" style="color:var(--metin-soft);">Dosyadaki maddeler ve mevzuat karekodları kademeye göre değişir. Önce kademenizi seçin.</p></div>'
+      + '<div class="evrak-panel p-4"><div class="font-semibold mb-3">Hangi kademede görev yapıyorsunuz?</div><div class="grid grid-cols-2 gap-2">'
+      + Object.keys(OD_KADEME_AD).map(function(k){ return '<button type="button" class="' + (k === tahmin ? 'btn-vurgu' : 'btn-secondary') + '" style="padding:14px;" onclick="odAyar(\'kademe\',\'' + k + '\')">' + OD_KADEME_AD[k] + (k === tahmin ? ' <span style="font-size:11px;opacity:.85;">(Kurum Bilgileri)</span>' : '') + '</button>'; }).join('')
+      + '</div></div>';
+  }
+  const liste = odListe();
+  const secili = liste.filter(function(m){ return odSeciliMi(m.id); });
+  const hazirSay = liste.filter(function(m){ const d = odDurum(m); return d === 'hazir' || d === 'tamam' || d === 'gerekYok'; }).length;
+  const yuzde = liste.length ? Math.round(hazirSay * 100 / liste.length) : 0;
+  const rol = function(k, ad){ return '<label class="flex items-center gap-2 text-[12.5px]" style="cursor:pointer;"><input type="checkbox" ' + (o[k] ? 'checked' : '') + ' onchange="odAyar(\'' + k + '\', this.checked)"> ' + ad + '</label>'; };
+  let govde = '', no = 0;
+  OD_BOLUMLER.forEach(function(b){
+    const ml = liste.filter(function(m){ return m.b === b.id; });
+    if(!ml.length) return;
+    govde += '<div class="od-bolum"><div class="od-bolum-bas" style="border-left-color:' + b.renk + ';"><span>' + escapeHtml(b.ad) + '</span>'
+      + '<button type="button" class="od-mini" onclick="odBolumSec(\'' + b.id + '\')">Bölümü seç / bırak</button></div>'
+      + ml.map(function(m){ no++; return odMaddeHtml(m, no); }).join('') + '</div>';
+  });
+  return `
+  <div class="mb-3">
+    <h1 class="panel-baslik">Öğretmen Dosyası Oluşturma</h1>
+    <p class="text-[13px] mt-1" style="color:var(--metin-soft);">Sıra bizim önerimizdir. Burada üretilen evraklar doğrudan, diğer modüllerdeki evraklar kayıtlı verinizden dosyaya eklenir; eksik olanı «Şimdi oluştur» ile hazırlayıp alttaki dönüş çubuğuyla buraya dönün. Yönetmelikler kâğıda basılmaz, karekodla güncel resmî metne bağlanır.</p>
+  </div>
+  <div class="evrak-panel p-4 mb-3">
+    <div class="flex flex-wrap items-end gap-3 mb-2">
+      <div><label class="form-label">Kademe</label><select class="form-input" onchange="odAyar('kademe', this.value)">${Object.keys(OD_KADEME_AD).map(function(k){ return '<option value="' + k + '"' + (o.kademe === k ? ' selected' : '') + '>' + OD_KADEME_AD[k] + '</option>'; }).join('')}</select></div>
+      <div class="flex flex-wrap gap-x-4 gap-y-1 pb-2">
+        ${rol('sinifOgr', o.kademe === 'okulOncesi' || o.kademe === 'ilkokul' ? 'Sınıf öğretmeniyim' : 'Sınıf rehber öğretmeniyim')}
+        ${rol('rehber', 'Sınıf rehberlik planı / raporu tutuyorum')}
+        ${rol('kulup', 'Kulüp danışmanıyım')}
+        ${rol('bep', 'BEP’li öğrencim var')}
+        ${rol('aday', 'Hazırlık eğitimindeyim (aday)')}
+      </div>
+    </div>
+    ${(state.subeler || []).length ? '<div class="text-[12px] mb-1 font-semibold">Dosyaya alınacak şubeler</div><div class="flex flex-wrap gap-2 mb-1">' + (state.subeler || []).map(function(s){ return '<label class="od-cip"><input type="checkbox" ' + (o.subeIdler.indexOf(s.id) >= 0 ? 'checked' : '') + ' onchange="odSubeSec(\'' + s.id + '\', this.checked)"> ' + escapeHtml(s.ad) + ' (' + (s.ogrenciler || []).length + ')</label>'; }).join('') + '</div>' : '<div class="text-[12px]" style="color:#92400E;">Öğrenci Havuzu’nda şube yok; sınıf listesi ve tutanaklar boş satırlarla basılır.</div>'}
+  </div>
+  <div class="evrak-panel p-3 mb-3 od-ozet">
+    <div class="flex items-center justify-between gap-2 flex-wrap">
+      <div class="text-[13px]"><b>${secili.length}</b> / ${liste.length} madde yazdırılacak · hazırlık <b>%${yuzde}</b></div>
+      <div class="flex gap-2 flex-wrap">
+        <button type="button" class="od-mini" onclick="odTopluSec('hepsi')">Tümünü seç</button>
+        <button type="button" class="od-mini" onclick="odTopluSec('hazir')">Hazır olanları seç</button>
+        <button type="button" class="od-mini" onclick="odTopluSec('hic')">Hiçbiri</button>
+      </div>
+    </div>
+    <div class="od-bar"><div style="width:${yuzde}%"></div></div>
+  </div>
+  ${govde}
+  <div class="od-alt-cubuk">
+    <button type="button" class="btn-vurgu" style="width:100%;justify-content:center;font-size:15px;padding:13px;" onclick="odOlusturBasla()"><i class="fa-solid fa-file-pdf"></i> Dosyayı oluştur (${secili.length} madde)</button>
+  </div>
+  ${OD_CSS_EKRAN}`;
+}
+function odMaddeHtml(m, no){
+  const o = odState();
+  const d = odDurum(m);
+  const da = OD_DURUM_AD[d] || OD_DURUM_AD.eksik;
+  const turEt = { burada:['Burada oluşturulur','#0f766e'], kisayol:['Modülde oluşturulur','#1d4ed8'], karekod:['Karekod','#334155'], dis:['Dış kaynak','#6b7280'] }[m.tur];
+  let dugmeler = '';
+  if(m.tur === 'kisayol') dugmeler += '<button type="button" class="od-btn od-git" onclick="odGit(\'' + m.id + '\')">Şimdi oluştur →</button>';
+  if(m.uret) dugmeler += '<button type="button" class="od-btn" onclick="odOnizle(\'' + m.id + '\')"><i class="fa-regular fa-eye"></i> Önizle</button>';
+  if(m.duzen) dugmeler += '<button type="button" class="od-btn" onclick="odDuzenAc(\'' + m.id + '\')"><i class="fa-solid fa-pen"></i> ' + (m.duzen === 'portre' ? 'Görsel yükle' : (m.duzen === 'mevzuat' ? 'Belgeleri seç' : 'Bilgileri doldur')) + '</button>';
+  const isaret = '<select class="od-durum-sec" onchange="odManuel(\'' + m.id + '\', this.value)" title="Durumu elle işaretle">'
+    + [['', 'Otomatik'], ['tamam', 'Tamamlandı'], ['eksik', 'Eksik'], ['gerekYok', 'Gerek yok']].map(function(x){ return '<option value="' + x[0] + '"' + ((o.manuel[m.id] || '') === x[0] ? ' selected' : '') + '>' + x[1] + '</option>'; }).join('') + '</select>';
+  return '<div class="od-madde' + (odSeciliMi(m.id) ? '' : ' kapali') + '" id="od-m-' + m.id + '">'
+    + '<label class="od-sec"><input type="checkbox" ' + (odSeciliMi(m.id) ? 'checked' : '') + ' onchange="odSec(\'' + m.id + '\', this.checked)"><span class="od-no">' + no + '</span></label>'
+    + '<div class="od-icerik"><div class="od-ad">' + escapeHtml(m.ad) + '</div>'
+    + (m.ac ? '<div class="od-ac">' + escapeHtml(m.ac) + '</div>' : '')
+    + '<div class="od-etiketler"><span class="od-et" style="color:' + turEt[1] + ';border-color:' + turEt[1] + '33;">' + turEt[0] + '</span>'
+    + '<span class="od-et" style="color:' + da[1] + ';background:' + da[2] + ';border-color:transparent;">' + da[0] + '</span>' + isaret + '</div>'
+    + (dugmeler ? '<div class="od-dugmeler">' + dugmeler + '</div>' : '')
+    + (o.acikDuzen === m.id ? odDuzenHtml(m) : '')
+    + '</div></div>';
+}
+function odAyar(k, v){ const o = odState(); o[k] = v; if(k === 'kademe') o.adim = ''; kaydet(); render({ scrollTop:false }); }
+function odSec(id, v){ const o = odState(); if(v) delete o.secimDisi[id]; else o.secimDisi[id] = true; kaydet(); render({ scrollTop:false }); }
+function odManuel(id, v){ const o = odState(); if(v) o.manuel[id] = v; else delete o.manuel[id]; kaydet(); render({ scrollTop:false }); }
+function odSubeSec(id, v){ const o = odState(); o.subeIdler = o.subeIdler.filter(function(x){ return x !== id; }); if(v) o.subeIdler.push(id); kaydet(); }
+function odBolumSec(b){
+  const o = odState();
+  const ml = odListe().filter(function(m){ return m.b === b; });
+  const hepsi = ml.every(function(m){ return odSeciliMi(m.id); });
+  ml.forEach(function(m){ if(hepsi) o.secimDisi[m.id] = true; else delete o.secimDisi[m.id]; });
+  kaydet(); render({ scrollTop:false });
+}
+function odTopluSec(t){
+  const o = odState();
+  odListe().forEach(function(m){
+    const d = odDurum(m);
+    const sec = t === 'hepsi' || (t === 'hazir' && (d === 'hazir' || d === 'tamam'));
+    if(sec) delete o.secimDisi[m.id]; else o.secimDisi[m.id] = true;
+  });
+  kaydet(); render({ scrollTop:false });
+}
+function odDuzenAc(id){ const o = odState(); o.acikDuzen = o.acikDuzen === id ? '' : id; kaydet(); render({ scrollTop:false }); setTimeout(function(){ const e = document.getElementById('od-m-' + id); if(e) e.scrollIntoView({ block:'start' }); }, 30); }
+const OD_TANITIM_ALAN = [
+  ['gorev','Görevi (ör. Sınıf Öğretmeni, Türkçe Öğretmeni)'],['kariyer','Kariyer basamağı (Öğretmen / Uzman Öğretmen / Başöğretmen)'],['kadro','Kadro durumu (kadrolu / sözleşmeli / ücretli)'],
+  ['mezuniyet','Mezun olduğu okul ve bölüm'],['mezunYil','Mezuniyet yılı'],['baslama','Mesleğe başlama yılı'],['okulBaslama','Bu okulda göreve başlama tarihi'],
+  ['telefon','Telefon (isteğe bağlı)'],['eposta','E-posta (isteğe bağlı)'],['nobet','Nöbet günü / yeri'],['ekGorev','Ek görevler (kulüp, komisyon, rehberlik vb.)'],
+  ['hizmetici','Katıldığı hizmet içi eğitimler / seminerler (her satıra bir tane)'],['hedef','Bu yılki mesleki gelişim hedefleri']
+];
+function odDuzenHtml(m){
+  const o = odState();
+  if(m.duzen === 'portre'){
+    return '<div class="od-duzen">' + (o.portre ? '<img src="' + o.portre + '" style="max-height:140px;border-radius:6px;margin-bottom:8px;">' : '<div class="text-[12px] mb-2" style="color:var(--metin-soft);">Henüz görsel yok. Telif sorunu olmayan, yüksek çözünürlüklü bir portre yükleyin.</div>')
+      + '<div class="flex gap-2"><button type="button" class="btn-secondary text-[12px]" onclick="odPortreYukle()"><i class="fa-solid fa-upload"></i> Görsel seç</button>' + (o.portre ? '<button type="button" class="btn-secondary text-[12px]" onclick="odState().portre=\'\';kaydet();render({scrollTop:false});">Kaldır</button>' : '') + '</div></div>';
+  }
+  if(m.duzen === 'mevzuat'){
+    return '<div class="od-duzen"><label class="flex items-center gap-2 text-[12.5px] mb-2"><input type="checkbox" ' + (o.ayar.mevzuatDizin ? 'checked' : '') + ' onchange="odState().ayar.mevzuatDizin=this.checked;kaydet();"> Kâğıt tasarrufu: karekodları tek sayfada dizin olarak bas (sayfada 6)</label>'
+      + odMevzuatListe().map(function(x){ return '<label class="flex items-start gap-2 text-[12.5px] py-1" style="border-bottom:1px dashed var(--cizgi);"><input type="checkbox" style="margin-top:3px;" ' + (o.mevzuatDisi[x.k] ? '' : 'checked') + ' onchange="odMevzuatSec(\'' + x.k + '\', this.checked)"><span><b>' + escapeHtml(x.ad) + '</b><br><span style="color:var(--metin-soft);font-size:11px;word-break:break-all;">' + escapeHtml(x.url) + '</span></span></label>'; }).join('')
+      + '<div class="text-[11px] mt-2" style="color:var(--metin-soft);">Bağlantılar ' + OD_KONTROL_TARIHI + ' tarihinde resmî kaynaklardan kontrol edilmiştir.</div></div>';
+  }
+  if(m.duzen === 'tanitim'){
+    const a = state.ayarlar || {};
+    return '<div class="od-duzen"><div class="text-[12px] mb-2" style="color:var(--metin-soft);">Ad: <b>' + escapeHtml(a.ogretmenAdi || '—') + '</b> · Branş: <b>' + escapeHtml(a.brans || '—') + '</b> · Okul: <b>' + escapeHtml(a.okulAdi || '—') + '</b> (Kurum / Öğretmen Bilgileri’nden)</div><div class="grid sm:grid-cols-2 gap-2">'
+      + OD_TANITIM_ALAN.map(function(f){ const uzun = f[0] === 'hizmetici' || f[0] === 'ekGorev' || f[0] === 'hedef';
+        return '<div class="' + (uzun ? 'sm:col-span-2' : '') + '"><label class="form-label">' + f[1] + '</label>' + (uzun ? '<textarea rows="3" class="form-input" onchange="odState().tanitim.' + f[0] + '=this.value;kaydet();">' + escapeHtml(o.tanitim[f[0]] || '') + '</textarea>' : '<input class="form-input" value="' + escapeHtml(o.tanitim[f[0]] || '') + '" onchange="odState().tanitim.' + f[0] + '=this.value;kaydet();">') + '</div>'; }).join('')
+      + '</div></div>';
+  }
+  return '';
+}
+function odMevzuatListe(){
+  const o = odState();
+  return OD_MEVZUAT.filter(function(x){ return (!x.kademe || x.kademe.indexOf(o.kademe) >= 0) && (!x.profil || o[x.profil]); });
+}
+function odMevzuatSec(k, v){ const o = odState(); if(v) delete o.mevzuatDisi[k]; else o.mevzuatDisi[k] = true; kaydet(); }
+function odPortreYukle(){
+  const inp = document.createElement('input');
+  inp.type = 'file'; inp.accept = 'image/*';
+  inp.onchange = function(e){
+    const f = e.target.files && e.target.files[0]; if(!f) return;
+    const r = new FileReader();
+    r.onload = function(){
+      const img = new Image();
+      img.onload = function(){
+        const k = Math.min(1, 1400 / Math.max(img.width, img.height));
+        const c = document.createElement('canvas'); c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        odState().portre = c.toDataURL('image/jpeg', 0.86);
+        kaydet(); render({ scrollTop:false }); bildirimGoster('Portre eklendi.');
+      };
+      img.src = r.result;
+    };
+    r.readAsDataURL(f);
+  };
+  inp.click();
+}
+
+/* ---------- Kısayol ve dönüş çubuğu ---------- */
+function odGit(id){
+  const m = OD_MADDELER.find(function(x){ return x.id === id; });
+  if(!m || !m.modul) return;
+  state.odDonus = { id:id, ad:m.ad };
+  kaydet();
+  gitModule(m.modul);
+}
+function odDon(){
+  const id = state.odDonus && state.odDonus.id;
+  state.odDonus = null;
+  if(!state.dosyaKapaklariAyar) state.dosyaKapaklariAyar = dosyaKapaklariVarsayilan();
+  state.dosyaKapaklariAyar.odSekme = 'dosya';
+  kaydet();
+  gitModule('dosyaKapaklari');
+  if(id) setTimeout(function(){ const e = document.getElementById('od-m-' + id); if(e){ e.scrollIntoView({ block:'center' }); e.classList.add('od-vurgu'); } }, 120);
+}
+function odDonusCubugu(){
+  let el = document.getElementById('od-donus');
+  const goster = state.odDonus && state.aktifModul !== 'dosyaKapaklari';
+  if(!goster){ if(el) el.remove(); return; }
+  if(!el){ el = document.createElement('div'); el.id = 'od-donus'; document.body.appendChild(el); }
+  el.innerHTML = '<button type="button" onclick="odDon()"><i class="fa-solid fa-arrow-left"></i> Öğretmen Dosyasına dön <span>· ' + escapeHtml(state.odDonus.ad || '') + '</span></button><button type="button" class="kapat" title="Kapat" onclick="state.odDonus=null;kaydet();odDonusCubugu();">✕</button>';
+}
+(function(){
+  const _r = render;
+  render = function(){ const s = _r.apply(this, arguments); try{ odDonusCubugu(); }catch(e){} return s; };
+})();
+
+/* ---------- Diğer modüllerin çıktısını yakala ---------- */
+function odYakala(fn){
+  let html = '';
+  const op = window.portalPrint, opdf = window.portalPdf, oa = window.alert, ob = window.bildirimGoster;
+  window.portalPrint = function(h){ html += (h || ''); };
+  window.portalPdf = function(h){ html += (h || ''); return Promise.resolve(); };
+  window.alert = function(){};
+  window.bildirimGoster = function(){};
+  try{ fn(); }catch(e){ console.warn('Öğretmen dosyası: yakalanamadı', e); }
+  finally{ window.portalPrint = op; window.portalPdf = opdf; window.alert = oa; window.bildirimGoster = ob; }
+  return html;
+}
+function odMaddeHtmlUret(m){
+  if(m.uret){ try{ return m.uret() || ''; }catch(e){ console.warn(e); return ''; } }
+  if(m.yakala) return odYakala(m.yakala);
+  return '';
+}
+function odOnizle(id){
+  const m = OD_MADDELER.find(function(x){ return x.id === id; });
+  const h = m ? odMaddeHtmlUret(m) : '';
+  if(!h){ bildirimGoster('Bu madde için içerik yok; önce bilgileri doldurun.', true); return; }
+  odOnizlemeGoster(h, m.ad);
+}
+function odOnizlemeGoster(h, baslik){
+  let ov = document.getElementById('od-onizleme');
+  if(ov) ov.remove();
+  ov = document.createElement('div');
+  ov.id = 'od-onizleme';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:9500;background:rgba(15,23,42,.72);display:flex;flex-direction:column;';
+  const olcek = Math.min(1, (window.innerWidth - 24) / 794);
+  ov.innerHTML = '<div style="display:flex;align-items:center;gap:8px;padding:10px 12px;background:#0f172a;color:#fff;"><b style="flex:1;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + escapeHtml(baslik || 'Önizleme') + '</b>'
+    + '<button type="button" id="od-onz-yaz" style="background:#fff;color:#0f172a;border:0;border-radius:8px;padding:7px 12px;font-weight:700;font-size:13px;">Yazdır</button>'
+    + '<button type="button" id="od-onz-kapat" style="background:#334155;color:#fff;border:0;border-radius:8px;padding:7px 12px;font-weight:700;font-size:13px;">Kapat ✕</button></div>'
+    + '<div style="flex:1;overflow:auto;padding:12px;"><div class="od-onz-ic" style="width:' + Math.round(794 * olcek) + 'px;margin:0 auto;"><div style="width:794px;transform:scale(' + olcek.toFixed(4) + ');transform-origin:top left;"></div></div></div>';
+  document.body.appendChild(ov);
+  const ic = ov.querySelector('.od-onz-ic > div');
+  ic.innerHTML = '<style>.od-onz-sayfa > .evrak-sayfa,.od-onz-sayfa > .dk-sayfa{background:#fff;margin:0 0 14px;box-shadow:0 2px 10px rgba(0,0,0,.35);}.od-onz-sayfa > .evrak-sayfa{width:210mm;min-height:297mm;padding:8mm;box-sizing:border-box;}.od-onz-sayfa > .evrak-sayfa.yatay{width:297mm;min-height:210mm;}</style><div class="od-onz-sayfa">' + h + '</div>';
+  setTimeout(function(){ const kut = ov.querySelector('.od-onz-ic'); kut.style.height = Math.ceil(ic.scrollHeight * olcek) + 'px'; kut.style.width = Math.round(ic.scrollWidth * olcek) + 'px'; }, 30);
+  ov.querySelector('#od-onz-kapat').onclick = function(){ ov.remove(); };
+  ov.querySelector('#od-onz-yaz').onclick = function(){ ov.remove(); portalPrint(h); };
+}
+
+/* ---------- Sayfa şablonları ---------- */
+const OD_SAYFA_CSS = `
+.odp{font-family:'Noto Sans',Arial,sans-serif;color:#111}
+.odp .bas{text-align:center;margin-bottom:5mm}
+.odp .bas .ok{font-size:10pt;font-weight:700;color:#334155;letter-spacing:.3px}
+.odp .bas h1{font-size:15pt;font-weight:800;margin:1.5mm 0 0;color:#0f172a}
+.odp .bas .al{font-size:9.5pt;color:#475569;margin-top:1mm}
+.odp table{width:100%;border-collapse:collapse;table-layout:fixed}
+.odp td,.odp th{border:.5pt solid #444;padding:1.3mm 2mm;font-size:9.5pt;vertical-align:middle}
+.odp th{background:#EEF2F7;font-weight:700;text-align:center;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.odp td.c{text-align:center}
+.odp .imza{display:flex;justify-content:space-around;margin-top:10mm;text-align:center;font-size:10pt}
+.odp .imza div{min-width:60mm}
+.odp .bos td{height:7.2mm}
+`;
+function odMeta(){ const a = state.ayarlar || {}; return { okul:a.okulAdi || '', ad:a.ogretmenAdi || '', brans:a.brans || '', yil:a.egitimOgretimYili || '', mudur:a.mudurAdi || '', unvan:a.okulMuduruUnvani || 'Okul Müdürü' }; }
+function odBaslik(baslik, alt){
+  const t = odMeta();
+  return '<div class="bas"><div class="ok">' + escapeHtml((t.okul || '').toLocaleUpperCase('tr-TR')) + '</div><h1>' + escapeHtml(baslik) + '</h1>' + (alt ? '<div class="al">' + alt + '</div>' : '') + '</div>';
+}
+function odSayfa(ic, yatay){ return '<div class="evrak-sayfa odp' + (yatay ? ' yatay' : '') + '"><style>' + OD_SAYFA_CSS + '</style>' + ic + '</div>'; }
+function odImza(sol, sag){
+  const t = odMeta();
+  return '<div class="imza"><div>' + (sol || ('<b>' + escapeHtml(t.ad || '……………………') + '</b><br>' + escapeHtml(t.brans ? t.brans + ' Öğretmeni' : 'Öğretmen'))) + '<div style="height:12mm"></div>İmza</div>'
+    + '<div>' + (sag || ('UYGUNDUR<br>…/…/20…<div style="height:4mm"></div><b>' + escapeHtml(t.mudur || '……………………') + '</b><br>' + escapeHtml(t.unvan))) + '<div style="height:8mm"></div>İmza</div></div>';
+}
+/* Türk Bayrağı — Türk Bayrağı Kanunu ölçüleri (G = genişlik) */
+function odBayrakSvg(gen){
+  const G = 200, L = 300;
+  const ax = G / 2, ar = G / 4, bx = ax + G / 16, br = 0.4 * G / 2;
+  const yx = bx + br + G / 3 + G / 8, yr = G / 8;
+  let p = '';
+  for(let i = 0; i < 10; i++){
+    const a = Math.PI + i * Math.PI / 5, r = i % 2 === 0 ? yr : yr * 0.382;
+    p += (i ? 'L' : 'M') + (yx + r * Math.cos(a)).toFixed(2) + ',' + (G / 2 + r * Math.sin(a)).toFixed(2);
+  }
+  return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + L + ' ' + G + '" style="width:' + gen + ';display:block;margin:0 auto;"><rect width="' + L + '" height="' + G + '" fill="#E30A17"/>'
+    + '<circle cx="' + ax + '" cy="' + G / 2 + '" r="' + ar + '" fill="#fff"/><circle cx="' + bx + '" cy="' + G / 2 + '" r="' + br + '" fill="#E30A17"/>'
+    + '<path d="' + p + 'Z" fill="#fff"/></svg>';
+}
+function odBayrakHtml(){
+  return '<div class="evrak-sayfa odp"><style>' + OD_SAYFA_CSS + '</style><div style="height:262mm;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12mm;">'
+    + '<div style="font-size:26pt;font-weight:800;letter-spacing:4px;color:#b91c1c;">TÜRK BAYRAĞI</div>'
+    + '<div style="width:180mm;box-shadow:0 0 0 .4mm #ddd;-webkit-print-color-adjust:exact;print-color-adjust:exact;">' + odBayrakSvg('180mm') + '</div>'
+    + '<div style="font-size:11pt;font-style:italic;color:#444;text-align:center;max-width:150mm;">«Bayrakları bayrak yapan üstündeki kandır. Toprak, uğrunda ölen varsa vatandır.»<br><span style="font-style:normal;font-size:10pt;">— Mithat Cemal Kuntay</span></div>'
+    + '</div></div>';
+}
+const OD_ISTIKLAL = [
+  ['Korkma, sönmez bu şafaklarda yüzen al sancak;','Sönmeden yurdumun üstünde tüten en son ocak.','O benim milletimin yıldızıdır, parlayacak;','O benimdir, o benim milletimindir ancak.'],
+  ['Çatma, kurban olayım, çehreni ey nazlı hilâl!','Kahraman ırkıma bir gül! Ne bu şiddet, bu celâl?','Sana olmaz dökülen kanlarımız sonra helâl...','Hakkıdır, Hakk’a tapan, milletimin istiklâl!'],
+  ['Ben ezelden beridir hür yaşadım, hür yaşarım.','Hangi çılgın bana zincir vuracakmış? Şaşarım!','Kükremiş sel gibiyim, bendimi çiğner, aşarım.','Yırtarım dağları, enginlere sığmam, taşarım.'],
+  ['Garbın âfâkını sarmışsa çelik zırhlı duvar,','Benim iman dolu göğsüm gibi serhaddim var.','Ulusun, korkma! Nasıl böyle bir imanı boğar,','«Medeniyet!» dediğin tek dişi kalmış canavar?'],
+  ['Arkadaş! Yurduma alçakları uğratma, sakın.','Siper et gövdeni, dursun bu hayâsızca akın.','Doğacaktır sana va’dettiği günler Hakk’ın...','Kim bilir, belki yarın, belki yarından da yakın.'],
+  ['Bastığın yerleri «toprak!» diyerek geçme, tanı:','Düşün altındaki binlerce kefensiz yatanı.','Sen şehit oğlusun, incitme, yazıktır, atanı:','Verme, dünyaları alsan da, bu cennet vatanı.'],
+  ['Kim bu cennet vatanın uğruna olmaz ki fedâ?','Şühedâ fışkıracak toprağı sıksan, şühedâ!','Cânı, cânânı, bütün varımı alsın da Hudâ,','Etmesin tek vatanımdan beni dünyada cüdâ.'],
+  ['Ruhumun senden İlâhî, şudur ancak emeli:','Değmesin mabedimin göğsüne nâmahrem eli.','Bu ezanlar -ki şahadetleri dinin temeli-','Ebedî yurdumun üstünde benim inlemeli.'],
+  ['O zaman vecd ile bin secde eder -varsa- taşım,','Her cerîhamdan, İlâhî, boşanıp kanlı yaşım,','Fışkırır ruh-ı mücerred gibi yerden na’şım;','O zaman yükselerek arşa değer belki başım.'],
+  ['Dalgalan sen de şafaklar gibi ey şanlı hilâl!','Olsun artık dökülen kanlarımın hepsi helâl.','Ebediyyen sana yok, ırkıma yok izmihlâl;','Hakkıdır, hür yaşamış bayrağımın hürriyet;','Hakkıdır, Hakk’a tapan milletimin istiklâl!']
+];
+function odIstiklalHtml(){
+  const k = OD_ISTIKLAL.map(function(kita){ return '<div style="break-inside:avoid;margin-bottom:3.2mm;">' + kita.map(function(s){ return '<div>' + escapeHtml(s) + '</div>'; }).join('') + '</div>'; });
+  return '<div class="evrak-sayfa odp"><style>' + OD_SAYFA_CSS + '</style>'
+    + '<div style="text-align:center;margin-bottom:5mm;">' + odBayrakSvg('34mm') + '<div style="font-size:21pt;font-weight:800;letter-spacing:5px;color:#b91c1c;margin-top:3mm;">İSTİKLÂL MARŞI</div></div>'
+    + '<div style="columns:2;column-gap:10mm;font-family:Georgia,\'Noto Serif\',serif;font-size:11pt;line-height:1.42;">' + k.join('') + '</div>'
+    + '<div style="text-align:right;font-weight:700;font-size:11.5pt;margin-top:2mm;">Mehmet Âkif ERSOY</div></div>';
+}
+function odHitabeHtml(){
+  const p = [
+    'Ey Türk gençliği! Birinci vazifen, Türk istiklâlini, Türk Cumhuriyetini, ilelebet muhafaza ve müdafaa etmektir.',
+    'Mevcudiyetinin ve istikbalinin yegâne temeli budur. Bu temel, senin en kıymetli hazinendir. İstikbalde dahi, seni bu hazineden mahrum etmek isteyecek dahilî ve haricî bedhahların olacaktır. Bir gün, istiklâl ve cumhuriyeti müdafaa mecburiyetine düşersen, vazifeye atılmak için, içinde bulunacağın vaziyetin imkân ve şeraitini düşünmeyeceksin! Bu imkân ve şerait, çok namüsait bir mahiyette tezahür edebilir. İstiklâl ve cumhuriyetine kastedecek düşmanlar, bütün dünyada emsali görülmemiş bir galibiyetin mümessili olabilirler. Cebren ve hile ile aziz vatanın bütün kaleleri zapt edilmiş, bütün tersanelerine girilmiş, bütün orduları dağıtılmış ve memleketin her köşesi bilfiil işgal edilmiş olabilir. Bütün bu şeraitten daha elîm ve daha vahim olmak üzere, memleketin dahilinde iktidara sahip olanlar gaflet ve dalâlet ve hatta hıyanet içinde bulunabilirler. Hatta bu iktidar sahipleri şahsî menfaatlerini, müstevlilerin siyasî emelleriyle tevhit edebilirler. Millet, fakr u zaruret içinde harap ve bîtap düşmüş olabilir.',
+    'Ey Türk istikbalinin evladı! İşte, bu ahval ve şerait içinde dahi vazifen, Türk istiklâl ve cumhuriyetini kurtarmaktır! Muhtaç olduğun kudret, damarlarındaki asil kanda mevcuttur!'
+  ];
+  return '<div class="evrak-sayfa odp"><style>' + OD_SAYFA_CSS + '</style><div style="padding:14mm 8mm 0;">'
+    + '<div style="text-align:center;font-size:21pt;font-weight:800;letter-spacing:4px;color:#b91c1c;margin-bottom:10mm;">GENÇLİĞE HİTABE</div>'
+    + p.map(function(x){ return '<p style="font-family:Georgia,\'Noto Serif\',serif;font-size:13pt;line-height:1.65;text-align:justify;text-indent:10mm;margin:0 0 5mm;">' + escapeHtml(x) + '</p>'; }).join('')
+    + '<div style="text-align:right;font-weight:700;font-size:12.5pt;margin-top:8mm;">Mustafa Kemal ATATÜRK<br><span style="font-weight:400;font-size:11pt;">20 Ekim 1927</span></div></div></div>';
+}
+function odPortreHtml(){
+  const o = odState();
+  if(!o.portre) return '';
+  return '<div class="evrak-sayfa odp"><div style="height:262mm;display:flex;flex-direction:column;align-items:center;justify-content:center;">'
+    + '<div style="border:2.5mm solid #b8935a;padding:3mm;box-shadow:inset 0 0 0 .5mm #7a5a26;"><img src="' + o.portre + '" style="display:block;max-width:160mm;max-height:210mm;object-fit:contain;"></div>'
+    + '<div style="margin-top:8mm;font-family:Georgia,\'Noto Serif\',serif;font-size:17pt;font-weight:700;letter-spacing:3px;">MUSTAFA KEMAL ATATÜRK</div>'
+    + '<div style="font-size:11pt;color:#555;margin-top:1mm;">(1881 – 1938)</div></div></div>';
+}
+function odTanitimHtml(){
+  const o = odState(), t = odMeta(), v = o.tanitim;
+  const sat = function(et, d){ return '<tr><td style="width:38%;background:#F6F7FA;font-weight:700;-webkit-print-color-adjust:exact;print-color-adjust:exact;">' + et + '</td><td>' + (d ? escapeHtml(d).replace(/\n/g, '<br>') : '') + '</td></tr>'; };
+  const subeler = odSubeler().map(function(s){ return s.ad; }).join(', ');
+  return odSayfa(odBaslik('ÖĞRETMEN TANITIM FORMU', escapeHtml(t.yil) + ' Eğitim-Öğretim Yılı')
+    + '<table>' + sat('Adı Soyadı', t.ad) + sat('Branşı', t.brans) + sat('Görevi', v.gorev) + sat('Kariyer basamağı', v.kariyer) + sat('Kadro durumu', v.kadro)
+    + sat('Görev yaptığı okul', t.okul) + sat('Kademe', OD_KADEME_AD[o.kademe] || '') + sat('Derse girdiği / sorumlu olduğu şubeler', subeler)
+    + sat('Mezun olduğu okul ve bölüm', v.mezuniyet) + sat('Mezuniyet yılı', v.mezunYil) + sat('Mesleğe başlama yılı', v.baslama) + sat('Bu okulda göreve başlama', v.okulBaslama)
+    + sat('Telefon', v.telefon) + sat('E-posta', v.eposta) + sat('Nöbet günü / yeri', v.nobet) + sat('Ek görevler', v.ekGorev)
+    + '</table>'
+    + '<div style="font-weight:700;margin:5mm 0 1.5mm;">Katıldığı hizmet içi eğitimler ve seminerler</div><div style="border:.5pt solid #444;min-height:28mm;padding:2mm;font-size:9.5pt;">' + (v.hizmetici ? escapeHtml(v.hizmetici).replace(/\n/g, '<br>') : '') + '</div>'
+    + '<div style="font-weight:700;margin:4mm 0 1.5mm;">Bu yılki mesleki gelişim hedefleri</div><div style="border:.5pt solid #444;min-height:22mm;padding:2mm;font-size:9.5pt;">' + (v.hedef ? escapeHtml(v.hedef).replace(/\n/g, '<br>') : '') + '</div>'
+    + odImza());
+}
+function odSaatlerHtml(){
+  const p = state.haftalikProgram || {};
+  if(typeof periyotSaatleri !== 'function' || !p.gunlukSaatSayisi) return '';
+  const per = periyotSaatleri(p);
+  const aralar = typeof araBilgileri === 'function' ? araBilgileri(p) : [];
+  let sat = '';
+  per.forEach(function(x, i){
+    sat += '<tr><td class="c"><b>' + (i + 1) + '. Ders</b></td><td class="c">' + x.baslangic + '</td><td class="c">' + x.bitis + '</td><td class="c">' + p.dersSuresi + ' dk</td></tr>';
+    const a = aralar[i];
+    if(a) sat += '<tr><td class="c" style="color:#555;">' + (a.ogleMi ? 'Öğle arası' : 'Teneffüs') + '</td><td class="c" style="color:#555;">' + x.bitis + '</td><td class="c" style="color:#555;">' + (per[i + 1] ? per[i + 1].baslangic : '') + '</td><td class="c" style="color:#555;">' + a.sure + ' dk</td></tr>';
+  });
+  return odSayfa(odBaslik('DERS GİRİŞ-ÇIKIŞ SAATLERİ', escapeHtml(odMeta().yil) + ' Eğitim-Öğretim Yılı')
+    + '<table style="max-width:150mm;margin:0 auto;"><tr><th>Ders / Ara</th><th>Giriş</th><th>Çıkış</th><th>Süre</th></tr>' + sat + '</table>'
+    + '<div style="text-align:center;font-size:9pt;color:#555;margin-top:3mm;">Saatler Haftalık Ders Programı ayarlarından hesaplanmıştır.</div>' + odImza());
+}
+function odMevzuatHtml(){
+  const o = odState();
+  const l = odMevzuatListe().filter(function(x){ return !o.mevzuatDisi[x.k]; });
+  if(!l.length) return '';
+  if(o.ayar.mevzuatDizin){
+    let h = '';
+    for(let i = 0; i < l.length; i += 6){
+      h += odSayfa(odBaslik('MEVZUAT VE ÖĞRETİM PROGRAMLARI', 'Karekodu telefonunuzun kamerasıyla okutun; güncel resmî metin açılır.')
+        + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6mm 8mm;">' + l.slice(i, i + 6).map(function(x){
+          return '<div style="border:.5pt solid #94a3b8;border-radius:3mm;padding:4mm;text-align:center;break-inside:avoid;">' + QRK.svg(x.url, { genislik:'42mm', stil:'margin:0 auto 2mm;' })
+            + '<div style="font-size:9.5pt;font-weight:700;line-height:1.25;">' + escapeHtml(x.ad) + '</div><div style="font-size:7pt;color:#555;word-break:break-all;margin-top:1mm;">' + escapeHtml(x.url) + '</div></div>';
+        }).join('') + '</div><div style="text-align:center;font-size:8.5pt;color:#555;margin-top:5mm;">Bağlantı kontrol tarihi: ' + OD_KONTROL_TARIHI + '</div>');
+    }
+    return h;
+  }
+  return l.map(function(x){
+    return '<div class="evrak-sayfa odp"><style>' + OD_SAYFA_CSS + '</style><div style="height:262mm;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 10mm;">'
+      + '<div style="font-size:10pt;font-weight:700;color:#475569;letter-spacing:1px;">MEVZUAT</div>'
+      + '<div style="font-size:18pt;font-weight:800;line-height:1.3;margin:3mm 0 4mm;color:#0f172a;">' + escapeHtml(x.ad) + '</div>'
+      + '<div style="font-size:10.5pt;color:#334155;max-width:150mm;line-height:1.5;margin-bottom:9mm;">' + escapeHtml(x.ac) + '</div>'
+      + QRK.svg(x.url, { genislik:'82mm' })
+      + '<div style="font-size:11pt;font-weight:700;margin-top:5mm;">Güncel metne ulaşmak için karekodu okutun</div>'
+      + '<div style="font-size:8pt;color:#555;word-break:break-all;max-width:160mm;margin-top:3mm;">' + escapeHtml(x.url) + '</div>'
+      + '<div style="font-size:8.5pt;color:#64748b;margin-top:5mm;">Bağlantı kontrol tarihi: ' + OD_KONTROL_TARIHI + ' · Mevzuat değişebilir; işlem öncesi güncel metni esas alın.</div>'
+      + '</div></div>';
+  }).join('');
+}
+function odSinifListesiHtml(){
+  const sb = odSubeler().filter(function(s){ return (s.ogrenciler || []).length; });
+  if(!sb.length) return '';
+  return sb.map(function(s){
+    const l = typeof ogrenciSiralaListe === 'function' ? ogrenciSiralaListe((s.ogrenciler || []).slice()) : (s.ogrenciler || []);
+    return odSayfa(odBaslik(String(s.ad).replace(/\s*[-–]\s*/, '/').toLocaleUpperCase('tr-TR') + ' SINIFI ÖĞRENCİ LİSTESİ', escapeHtml(odMeta().yil) + ' Eğitim-Öğretim Yılı · ' + l.length + ' öğrenci')
+      + '<table><tr><th style="width:9%">S.No</th><th style="width:13%">Okul No</th><th>Adı Soyadı</th><th style="width:11%">Cinsiyet</th><th style="width:11%"></th><th style="width:11%"></th><th style="width:11%"></th></tr>'
+      + l.map(function(o, i){ return '<tr><td class="c">' + (i + 1) + '</td><td class="c">' + escapeHtml(o.okulNo || '') + '</td><td>' + escapeHtml(o.adSoyad || '') + '</td><td class="c">' + escapeHtml((o.cinsiyet || '').slice(0, 1)) + '</td><td></td><td></td><td></td></tr>'; }).join('')
+      + '</table>' + odImza(undefined, ' '));
+  }).join('');
+}
+function odSokHtml(){
+  const sb = odSubeler();
+  const liste = sb.length ? sb : [{ ad:'……' }];
+  const gundem = ['Açılış ve yoklama','Bir önceki toplantı kararlarının gözden geçirilmesi','Şubenin akademik başarı durumu ve derslere göre değerlendirme','Devam-devamsızlık durumu','Öğrencilerin davranış, sosyal ve duygusal gelişimi; rehberlik ihtiyaçları','Desteğe ihtiyaç duyan, BEP’li ve özel yetenekli öğrenciler için alınacak tedbirler','Ortak ölçme-değerlendirme ve ödev uygulamaları','Veli iş birliği ve okul-aile ilişkileri','Dilek ve temenniler, kapanış'];
+  return liste.map(function(s){
+    return odSayfa(odBaslik('ŞUBE ÖĞRETMENLER KURULU TOPLANTI TUTANAĞI', escapeHtml(odMeta().yil) + ' Eğitim-Öğretim Yılı · ' + escapeHtml(String(s.ad).replace(/\s*[-–]\s*/, '/')) + ' Şubesi')
+      + '<table><tr><td style="width:25%;font-weight:700;">Dönem</td><td>☐ 1. Dönem &nbsp;&nbsp; ☐ 2. Dönem</td><td style="width:20%;font-weight:700;">Toplantı no</td><td style="width:15%"></td></tr><tr><td style="font-weight:700;">Tarih / saat</td><td>…/…/20… &nbsp; ……:……</td><td style="font-weight:700;">Yer</td><td></td></tr></table>'
+      + '<div style="font-weight:700;margin:4mm 0 1.5mm;">Gündem</div><ol style="margin:0;padding-left:6mm;font-size:9.5pt;line-height:1.45;">' + gundem.map(function(g){ return '<li>' + g + '</li>'; }).join('') + '</ol>'
+      + '<div style="font-weight:700;margin:4mm 0 1.5mm;">Görüşmeler ve alınan kararlar</div>' + '<div style="border:.5pt solid #444;">' + Array(9).join('<div style="border-bottom:.4pt dotted #888;height:7mm;"></div>') + '</div>'
+      + '<div style="font-weight:700;margin:4mm 0 1.5mm;">Katılan öğretmenler</div><table><tr><th style="width:8%">S.No</th><th style="width:30%">Branşı</th><th>Adı Soyadı</th><th style="width:20%">İmza</th></tr>'
+      + Array(9).join('x').split('x').map(function(_, i){ return '<tr class="bos"><td class="c">' + (i + 1) + '</td><td></td><td></td><td></td></tr>'; }).join('') + '</table>'
+      + odImza('<b>……………………</b><br>Sınıf Rehber Öğretmeni / Kurul Başkanı'));
+  }).join('');
+}
+function odYaziliTeslimHtml(){
+  const t = odMeta();
+  const sb = odSubeler();
+  const satir = [];
+  for(let i = 0; i < Math.max(12, sb.length * 2); i++){
+    const s = sb[Math.floor(i / 2)];
+    satir.push('<tr class="bos"><td class="c">' + (i + 1) + '</td><td>' + escapeHtml(t.brans) + '</td><td class="c">' + (s ? escapeHtml(s.ad) : '') + '</td><td class="c">' + (s ? (i % 2 + 1) + '. yazılı' : '') + '</td><td></td><td></td><td></td><td></td></tr>');
+  }
+  return odSayfa(odBaslik('YAZILI SINAV KÂĞITLARI VE CEVAP ANAHTARI TESLİM TUTANAĞI', escapeHtml(t.yil) + ' Eğitim-Öğretim Yılı · ' + escapeHtml(t.brans || ''))
+    + '<p style="font-size:9.5pt;line-height:1.5;margin:0 0 3mm;">Aşağıda bilgileri yazılı sınav kâğıtları, puanlanmış cevap anahtarı ve sınav soruları ile birlikte saklanmak üzere okul idaresine teslim edilmiştir.</p>'
+    + '<table><tr><th style="width:6%">S.No</th><th style="width:18%">Ders</th><th style="width:11%">Sınıf/Şube</th><th style="width:11%">Sınav</th><th style="width:13%">Sınav tarihi</th><th style="width:10%">Kâğıt sayısı</th><th style="width:13%">Teslim tarihi</th><th>Teslim alan / imza</th></tr>' + satir.join('') + '</table>'
+    + odImza(undefined, '<b>……………………</b><br>Müdür Yardımcısı (teslim alan)'));
+}
+function odProjeHtml(){
+  const t = odMeta();
+  const sb = odSubeler().filter(function(s){ return (s.ogrenciler || []).length; });
+  let h = '';
+  (sb.length ? sb : [{ ad:'……', ogrenciler:[] }]).forEach(function(s){
+    const l = typeof ogrenciSiralaListe === 'function' ? ogrenciSiralaListe((s.ogrenciler || []).slice()) : (s.ogrenciler || []);
+    const satir = (l.length ? l : Array(15).fill(null)).map(function(o, i){ return '<tr class="bos"><td class="c">' + (i + 1) + '</td><td class="c">' + escapeHtml(o ? o.okulNo || '' : '') + '</td><td>' + escapeHtml(o ? o.adSoyad || '' : '') + '</td><td></td><td></td><td></td><td></td></tr>'; }).join('');
+    h += odSayfa(odBaslik('PROJE ÖDEVİ DAĞITIM LİSTESİ', escapeHtml(t.yil) + ' · ' + escapeHtml(t.brans || '') + ' · ' + escapeHtml(String(s.ad).replace(/\s*[-–]\s*/, '/')) + ' Şubesi')
+      + '<table><tr><th style="width:6%">S.No</th><th style="width:9%">No</th><th style="width:24%">Adı Soyadı</th><th>Proje konusu</th><th style="width:11%">Veriliş</th><th style="width:11%">Teslim</th><th style="width:8%">Puan</th></tr>' + satir + '</table>' + odImza());
+  });
+  const olcut = [['Konuya uygunluk ve amaca ulaşma',15],['Araştırma ve kaynak kullanımı (kaynak gösterme)',20],['Bilgilerin doğruluğu ve içerik zenginliği',20],['Özgünlük ve yaratıcılık',15],['Düzen, yazım ve dil kullanımı',15],['Sunum ve zamanında teslim',15]];
+  h += odSayfa(odBaslik('PROJE ÖDEVİ DEĞERLENDİRME ÖLÇEĞİ', escapeHtml(t.yil) + ' · ' + escapeHtml(t.brans || ''))
+    + '<table><tr><td style="width:25%;font-weight:700;">Öğrencinin adı soyadı</td><td></td><td style="width:14%;font-weight:700;">Sınıf / No</td><td style="width:18%"></td></tr><tr><td style="font-weight:700;">Proje konusu</td><td colspan="3"></td></tr></table><div style="height:4mm"></div>'
+    + '<table><tr><th style="width:6%">S.No</th><th>Değerlendirme ölçütü</th><th style="width:14%">En yüksek puan</th><th style="width:14%">Alınan puan</th></tr>'
+    + olcut.map(function(x, i){ return '<tr style="height:10mm"><td class="c">' + (i + 1) + '</td><td>' + x[0] + '</td><td class="c">' + x[1] + '</td><td></td></tr>'; }).join('')
+    + '<tr><td></td><td style="font-weight:700;text-align:right;">TOPLAM</td><td class="c"><b>100</b></td><td></td></tr></table>'
+    + '<div style="font-weight:700;margin:5mm 0 1.5mm;">Öğretmen görüşü</div><div style="border:.5pt solid #444;">' + Array(5).join('<div style="border-bottom:.4pt dotted #888;height:7mm;"></div>') + '</div>' + odImza());
+  return h;
+}
+function odDersKesimHtml(){
+  const t = odMeta();
+  const sb = odSubeler();
+  const satir = [];
+  for(let i = 0; i < Math.max(10, sb.length); i++){
+    const s = sb[i];
+    satir.push('<tr class="bos"><td class="c">' + (i + 1) + '</td><td>' + escapeHtml(t.brans || '') + '</td><td class="c">' + (s ? escapeHtml(s.ad) : '') + '</td><td></td><td></td><td></td><td></td></tr>');
+  }
+  return odSayfa(odBaslik('DERS KESİM RAPORU', escapeHtml(t.yil) + ' Eğitim-Öğretim Yılı · ' + escapeHtml(t.ad || ''))
+    + '<table><tr><th style="width:6%">S.No</th><th style="width:20%">Ders</th><th style="width:12%">Sınıf/Şube</th><th style="width:12%">Planlanan ders saati</th><th style="width:12%">İşlenen ders saati</th><th style="width:12%">İşlenemeyen saat</th><th>Nedeni / telafi</th></tr>' + satir.join('') + '</table>'
+    + '<div style="font-weight:700;margin:5mm 0 1.5mm;">Yıllık planda işlenemeyen konular ve alınan tedbirler</div><div style="border:.5pt solid #444;">' + Array(7).join('<div style="border-bottom:.4pt dotted #888;height:7mm;"></div>') + '</div>'
+    + '<div style="font-weight:700;margin:4mm 0 1.5mm;">Gelecek yıl için öneriler</div><div style="border:.5pt solid #444;">' + Array(5).join('<div style="border-bottom:.4pt dotted #888;height:7mm;"></div>') + '</div>'
+    + odImza());
+}
+
+/* ---------- Oluşturma akışı: topla → kapak seç → PDF ---------- */
+let OD_TOPLANAN = null;
+function odOlusturBasla(){
+  const o = odState();
+  const sec = odListe().filter(function(m){ return odSeciliMi(m.id); });
+  if(!sec.length){ bildirimGoster('Önce en az bir madde seçin.', true); return; }
+  o.adim = 'kapak'; kaydet();
+  OD_TOPLANAN = null;
+  render({ scrollTop:true });
+  setTimeout(odTopla, 60);
+}
+function odTopla(){
+  const sec = odListe().filter(function(m){ return odSeciliMi(m.id); });
+  const parcalar = [], ayri = [], bos = [];
+  sec.forEach(function(m){
+    if(m.tur === 'dis'){ ayri.push(m); parcalar.push({ m:m, html:'', ayri:true }); return; }
+    const h = odMaddeHtmlUret(m);
+    if(!h){ (m.tur === 'kisayol' ? ayri : bos).push(m); parcalar.push({ m:m, html:'', ayri:m.tur === 'kisayol' }); return; }
+    parcalar.push({ m:m, html:h });
+  });
+  OD_TOPLANAN = { parcalar:parcalar, ayri:ayri, bos:bos };
+  const el = document.getElementById('od-toplama');
+  if(el) el.innerHTML = odToplamaOzetHtml();
+}
+function odToplamaOzetHtml(){
+  if(!OD_TOPLANAN) return '<div class="text-[13px]"><i class="fa-solid fa-spinner fa-spin"></i> Sayfalar hazırlanıyor…</div>';
+  const t = OD_TOPLANAN;
+  const dolu = t.parcalar.filter(function(p){ return p.html; }).length;
+  return '<div class="text-[13px]" style="color:#166534;"><i class="fa-solid fa-circle-check"></i> <b>' + dolu + '</b> madde dosyaya eklendi.</div>'
+    + (t.ayri.length ? '<div class="text-[12px] mt-2" style="color:#92400E;"><b>Ayrıca eklenecek (' + t.ayri.length + '):</b> ' + t.ayri.map(function(m){ return escapeHtml(m.ad); }).join(' · ') + '<br><span style="color:var(--metin-soft);">Bunlar kendi modüllerinden yazdırılır ya da dış kaynaktır; içindekilerde «ayrı çıktı» olarak yer alır.</span></div>' : '')
+    + (t.bos.length ? '<div class="text-[12px] mt-1" style="color:#B91C1C;"><b>Boş olduğu için atlandı:</b> ' + t.bos.map(function(m){ return escapeHtml(m.ad); }).join(' · ') + '</div>' : '');
+}
+const OD_FORMATLAR = [['klasik','Klasik'],['modern','Modern'],['renkli','Renkli'],['milli','Millî'],['kurumsal','Kurumsal'],['cocuk','Çocuk Dostu'],['geometrik','Geometrik'],['zarif','Zarif Çiçekli']];
+function odKapakSayfa(m, format, renk, bolumNo){
+  let sayfa = odKapakSayfaHam(m, format, renk, bolumNo);
+  if(bolumNo && (format === 'klasik' || format === 'modern' || format === 'renkli') && typeof dkNumaraRozet === 'function')
+    sayfa = sayfa.replace(/(<div class="dk-sayfa[^>]*>)/, '$1' + dkNumaraRozet(bolumNo, format === 'renkli' ? renk : '#1a2951'));
+  return sayfa;
+}
+function odKapakSayfaHam(m, format, renk, bolumNo){
+  const meta = dosyaKapakMetaGetir();
+  try{
+    if(format === 'klasik') return dosyaKapakKlasik(m, meta);
+    if(format === 'modern') return dosyaKapakModern(m, meta);
+    if(format === 'milli') return dosyaKapakMilli(m, meta, renk, bolumNo || 0);
+    if(format === 'kurumsal') return dosyaKapakKurumsal(m, meta, renk, bolumNo || 0);
+    if(format === 'cocuk') return dosyaKapakCocuk(m, meta, renk, bolumNo || 0);
+    if(format === 'geometrik') return dosyaKapakGeometrik(m, meta, renk, bolumNo || 0);
+    if(format === 'zarif') return dosyaKapakZarif(m, meta, renk, bolumNo || 0);
+    return dosyaKapakRenkli(m, meta, renk);
+  }catch(e){ console.warn(e); return ''; }
+}
+function odAnaKapakNesne(){
+  const a = odState().ayar;
+  return { anaKapak:true, ad:'Öğretmen Dosyası', ustBaslik:a.ust || 'TÜRKİYE YÜZYILI MAARİF MODELİ', anaBaslik:a.ana || 'ÖĞRETMEN', altBaslik:a.alt || 'DOSYASI' };
+}
+function renderOdKapakAdimi(){
+  const o = odState(), a = o.ayar;
+  const kart = function(f){
+    const sec = a.format === f[0];
+    const onz = odKapakSayfa(odAnaKapakNesne(), f[0], '#1a2951');
+    return '<div class="od-kapak-kart' + (sec ? ' secili' : '') + '" onclick="odKapakFormat(\'' + f[0] + '\')"><div class="od-kapak-onz"><div style="transform:scale(' + (130 / 793.7).toFixed(4) + ');transform-origin:top left;width:793.7px;">' + onz + '</div></div><div class="od-kapak-ad">' + (sec ? '✓ ' : '') + f[1] + '</div></div>';
+  };
+  return `
+  <div class="mb-3"><button type="button" class="btn-secondary text-[12px]" onclick="odState().adim='';kaydet();render({scrollTop:true});"><i class="fa-solid fa-arrow-left"></i> Madde listesine dön</button></div>
+  <h1 class="panel-baslik">Kapak türünü seçin</h1>
+  <div class="evrak-panel p-3 mb-3" id="od-toplama">${odToplamaOzetHtml()}</div>
+  <div class="evrak-panel p-4 mb-3">
+    <div class="od-kapak-grid">${OD_FORMATLAR.map(kart).join('')}</div>
+    <div class="grid sm:grid-cols-3 gap-2 mt-4">
+      <div><label class="form-label">Üst satır</label><input class="form-input" value="${escapeHtml(a.ust || 'TÜRKİYE YÜZYILI MAARİF MODELİ')}" onchange="odKapakYazi('ust', this.value)"></div>
+      <div><label class="form-label">Ana başlık</label><input class="form-input" value="${escapeHtml(a.ana || 'ÖĞRETMEN')}" onchange="odKapakYazi('ana', this.value)"></div>
+      <div><label class="form-label">Alt başlık</label><input class="form-input" value="${escapeHtml(a.alt || 'DOSYASI')}" onchange="odKapakYazi('alt', this.value)"></div>
+    </div>
+    <div class="text-[11.5px] mt-1" style="color:var(--metin-soft);">Okul, öğretmen adı, branş ve yıl Kurum / Öğretmen Bilgileri’nden gelir; logo seçimi «Dosya Kapağı Oluşturma» sekmesindeki ayarı kullanır.</div>
+    <div class="flex flex-wrap gap-x-5 gap-y-2 mt-3 text-[12.5px]">
+      <label class="flex items-center gap-2"><input type="checkbox" ${a.icindekiler ? 'checked' : ''} onchange="odState().ayar.icindekiler=this.checked;kaydet();"> İçindekiler sayfası</label>
+      <label class="flex items-center gap-2"><input type="checkbox" ${a.ayrac ? 'checked' : ''} onchange="odState().ayar.ayrac=this.checked;kaydet();"> Bölüm ayraç sayfaları (aynı kapak türünde)</label>
+    </div>
+  </div>
+  <div class="flex flex-wrap gap-2 mb-6">
+    <button type="button" class="btn-vurgu" id="od-pdf-btn" style="flex:1;justify-content:center;padding:13px;font-size:15px;" onclick="odPdfOlustur()"><i class="fa-solid fa-file-pdf"></i> PDF’i oluştur ve indir</button>
+    <button type="button" class="btn-secondary" style="padding:13px;" onclick="odYazdir()"><i class="fa-solid fa-print"></i> Yazdır</button>
+  </div>
+  ${OD_CSS_EKRAN}`;
+}
+function odKapakFormat(f){ odState().ayar.format = f; kaydet(); render({ scrollTop:false }); }
+function odKapakYazi(k, v){ odState().ayar[k] = v; kaydet(); render({ scrollTop:false }); }
+function odIcindekilerHtml(t){
+  let no = 0, sat = '';
+  OD_BOLUMLER.forEach(function(b){
+    const ml = t.parcalar.filter(function(p){ return p.m.b === b.id && (p.html || p.ayri); });
+    if(!ml.length) return;
+    sat += '<tr><td colspan="3" style="background:' + b.renk + ';color:#fff;font-weight:800;letter-spacing:.5px;-webkit-print-color-adjust:exact;print-color-adjust:exact;">' + escapeHtml(b.ad.toLocaleUpperCase('tr-TR')) + '</td></tr>';
+    ml.forEach(function(p){ no++; sat += '<tr><td class="c" style="width:10%;">' + no + '</td><td>' + escapeHtml(p.m.ad) + '</td><td style="width:24%;font-size:8.5pt;color:#555;">' + (p.html ? (p.m.tur === 'karekod' ? 'karekod' : '') : 'ayrı çıktı') + '</td></tr>'; });
+  });
+  return odSayfa(odBaslik('İÇİNDEKİLER', escapeHtml([odMeta().yil, odMeta().ad, odMeta().brans].filter(Boolean).join(' · '))) + '<table>' + sat + '</table>');
+}
+function odDosyaHtml(){
+  const o = odState(), a = o.ayar;
+  if(!OD_TOPLANAN) odTopla();
+  const t = OD_TOPLANAN;
+  const ayir = '<div class="pdf-page-break" style="page-break-after:always;break-after:page;"></div>';
+  /* Kapak/ayraç (.dk-sayfa) sonrasına sayfa sonu; evrak sayfaları kendi sonlarını taşır (çift kesme → boş sayfa olmasın) */
+  const p = [odKapakSayfa(odAnaKapakNesne(), a.format, '#1a2951') + ayir];
+  if(a.icindekiler) p.push(odIcindekilerHtml(t));
+  let bno = 0;
+  OD_BOLUMLER.forEach(function(b){
+    const ml = t.parcalar.filter(function(x){ return x.m.b === b.id && x.html; });
+    if(!ml.length) return;
+    bno++;
+    if(a.ayrac) p.push(odKapakSayfa({ ad:b.ad }, a.format, b.renk, bno) + ayir);
+    ml.forEach(function(x){ p.push(x.html); });
+  });
+  return p.filter(Boolean).join('');
+}
+async function odPdfOlustur(){
+  const html = odDosyaHtml();
+  const btn = document.getElementById('od-pdf-btn');
+  const eski = btn ? btn.innerHTML : '';
+  const ad = ('Ogretmen_Dosyasi_' + (odMeta().yil || '') + (odMeta().ad ? '_' + odMeta().ad : '')).replace(/[^\wçğıöşüÇĞİÖŞÜ-]+/g, '_') + '.pdf';
+  await pdfMotorKutuphaneYukle();
+  if(!portalPdfKutuphaneVarMi()){ bildirimGoster('PDF kütüphanesi yüklenemedi (internet gerekli); yazdırma penceresinden «PDF olarak kaydet» kullanın.', true); portalPrint(html); return; }
+  try{
+    if(btn){ btn.disabled = true; }
+    const pdf = await pdfMotorUret(html, function(i){ if(btn) btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sayfa ' + i + ' hazırlanıyor…'; });
+    pdf.save(ad);
+    bildirimGoster('Öğretmen dosyası indirildi: ' + ad);
+  }catch(e){
+    console.error(e);
+    alert('PDF oluşturulamadı. «Yazdır» ile PDF olarak kaydetmeyi deneyin.');
+  }finally{
+    if(btn){ btn.disabled = false; btn.innerHTML = eski; }
+  }
+}
+function odYazdir(){ portalPrint(odDosyaHtml()); }
+
+const OD_CSS_EKRAN = `<style>
+.od-bolum{margin-bottom:14px}
+.od-bolum-bas{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:800;font-size:13.5px;padding:8px 10px;border-left:5px solid;background:var(--panel,#fff);border-radius:8px;margin-bottom:6px;color:var(--metin)}
+.od-madde{display:flex;gap:10px;background:#fff;border:1px solid var(--cizgi);border-radius:10px;padding:10px 12px;margin-bottom:6px}
+.od-madde.kapali{opacity:.55}
+.od-madde.od-vurgu{box-shadow:0 0 0 3px var(--vurgu)}
+.od-sec{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer}
+.od-sec input{width:20px;height:20px}
+.od-no{font-size:11px;font-weight:800;color:var(--metin-soft)}
+.od-icerik{flex:1;min-width:0}
+.od-ad{font-weight:700;font-size:14px;line-height:1.3}
+.od-ac{font-size:12px;color:var(--metin-soft);margin-top:2px;line-height:1.4}
+.od-etiketler{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px}
+.od-et{font-size:10.5px;font-weight:700;border:1px solid;border-radius:999px;padding:2px 8px}
+.od-durum-sec{font-size:11px;border:1px solid var(--cizgi);border-radius:6px;padding:1px 4px;background:#fff;color:var(--metin-soft)}
+.od-dugmeler{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.od-btn{font-size:12px;font-weight:600;border:1px solid var(--cizgi-koyu);border-radius:8px;padding:6px 10px;background:#fff;color:var(--metin)}
+.od-btn.od-git{background:#1d4ed8;border-color:#1d4ed8;color:#fff}
+.od-mini{font-size:11.5px;border:1px solid var(--cizgi-koyu);border-radius:6px;padding:4px 9px;background:#fff;color:var(--metin);font-weight:600}
+.od-cip{display:inline-flex;align-items:center;gap:5px;font-size:12px;border:1px solid var(--cizgi-koyu);border-radius:999px;padding:4px 10px;background:#fff;cursor:pointer}
+.od-bar{height:6px;background:#e5e7eb;border-radius:4px;margin-top:8px;overflow:hidden}
+.od-bar div{height:100%;background:#16a34a}
+.od-duzen{margin-top:10px;padding:10px;border:1px dashed var(--cizgi-koyu);border-radius:8px;background:var(--zemin)}
+.od-alt-cubuk{position:sticky;bottom:8px;z-index:20;margin-top:10px}
+.od-kapak-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+.od-kapak-kart{cursor:pointer;border:2px solid var(--cizgi);border-radius:10px;padding:5px;background:#fff;text-align:center}
+.od-kapak-kart.secili{border-color:var(--vurgu);box-shadow:0 0 0 3px var(--vurgu-soft,#F1E3CE)}
+.od-kapak-onz{width:130px;height:184px;overflow:hidden;margin:0 auto;border-radius:4px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.od-kapak-ad{font-size:12.5px;font-weight:700;margin-top:5px}
+</style>`;
+/* Dönüş çubuğu stili (tüm modüllerde görünür) */
+(function(){
+  try{
+    const st = document.createElement('style');
+    st.textContent = '#od-donus{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:9000;display:flex;gap:6px;max-width:calc(100% - 24px)}'
+      + '#od-donus button{border:0;border-radius:999px;padding:11px 16px;font-size:13.5px;font-weight:700;background:#1d4ed8;color:#fff;box-shadow:0 6px 18px rgba(0,0,0,.25);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'
+      + '#od-donus button span{font-weight:500;opacity:.85}#od-donus button.kapat{padding:11px 13px;background:#334155}';
+    document.head.appendChild(st);
+  }catch(e){}
+})();
+
+
 function renderPanoHazirlama(){
   const o = PANO_OTURUM;
   const parcalar = panoParcalar(o.metin);
@@ -45824,7 +46802,7 @@ function renderDosyaKapaklari(){
 
   return ''
     + '<div class="mb-3">'
-    + '  <h2 class="panel-baslik text-[18px]">Dosya Kapakları</h2>'
+    + '  <h2 class="panel-baslik text-[18px]">Dosya Kapağı Oluşturma</h2>'
     + '  <p class="text-[12.5px] mt-1" style="color:var(--metin-soft);">Öğretmen dosyası için ayraç/kapak sayfaları — 8 formattan birini seçin, istediğiniz başlıkları işaretleyip yazdırın veya PDF indirin.</p>'
     + '</div>'
     + metaUyari
