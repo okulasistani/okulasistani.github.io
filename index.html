@@ -27,12 +27,15 @@ a{color:inherit}
 .marka-ico{width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.08);display:grid;place-items:center}
 .marka-ad{font-weight:800;font-size:16px;letter-spacing:.2px;line-height:1.1;text-align:left}
 .marka-ad small{display:block;font-weight:500;font-size:10.5px;opacity:.6;letter-spacing:.3px}
-.ust-nav{display:flex;gap:4px;margin-left:12px}
+.ust-nav{display:flex;gap:4px;margin-left:12px;flex:1 1 auto;min-width:0;overflow-x:auto;scrollbar-width:none}
+.ust-nav::-webkit-scrollbar{display:none}
 .ust-nav button{background:none;border:0;color:rgba(255,255,255,.72);padding:8px 12px;border-radius:8px;font-size:14px;font-weight:600;white-space:nowrap}
 .ust-nav button:hover{background:rgba(255,255,255,.08);color:#fff}
 .ust-nav button.aktif{background:rgba(255,255,255,.14);color:#fff}
 .ust-nav button .nokta{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;vertical-align:1px}
-.ust-sag{margin-left:auto;display:flex;gap:6px;align-items:center}
+.ust-sag{margin-left:auto;display:flex;gap:6px;align-items:center;flex-shrink:0}
+.tg-ust{display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 13px 0 9px;border-radius:9px;background:#229ED9;color:#fff;text-decoration:none;font-weight:700;font-size:13.5px;white-space:nowrap;box-shadow:0 2px 10px rgba(34,158,217,.35)}
+.tg-ust:hover{filter:brightness(1.08)}
 .ikon-btn{width:38px;height:38px;border-radius:9px;border:0;background:rgba(255,255,255,.08);color:#fff;display:grid;place-items:center}
 .ikon-btn:hover{background:rgba(255,255,255,.16)}
 .geri-btn{display:none}
@@ -159,10 +162,6 @@ body.uygulama-modu{overflow:hidden}
 .alt-bilgi{margin-top:40px;padding-top:18px;border-top:1px solid var(--cizgi);font-size:12.5px;color:var(--soluk);display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between}
 .alt-bilgi a{color:var(--idare);text-decoration:none}
 .alt-bilgi{align-items:center}
-.alt-bilgi .tg-btn{display:inline-flex;align-items:center;gap:10px;background:#229ED9;color:#fff;text-decoration:none;border-radius:12px;padding:10px 16px 10px 12px;box-shadow:0 4px 14px rgba(34,158,217,.35);transition:transform .12s,box-shadow .12s}
-.alt-bilgi .tg-btn:hover{text-decoration:none;transform:translateY(-1px);box-shadow:0 8px 20px rgba(34,158,217,.45)}
-.tg-btn b{display:block;font-size:14px;line-height:1.2}
-.tg-btn small{display:block;font-size:11.5px;opacity:.85;margin-top:1px}
 .alt-bilgi a:hover{text-decoration:underline}
 
 @media (max-width:760px){
@@ -177,7 +176,7 @@ body.uygulama-modu{overflow:hidden}
   .kart{min-height:0}
   .katalog-bas{padding:18px;border-radius:16px}
   .btn-beyaz{width:100%;justify-content:center}
-  .alt-bilgi .tg-btn{width:100%;justify-content:center}
+  .tg-ust{padding:0 10px 0 8px;font-size:12.5px;height:36px}
   .alt-cubuk{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fff;border-top:1px solid var(--cizgi);padding:6px 6px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -4px 16px rgba(20,33,61,.06)}
   .alt-cubuk button{flex:1;background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;border-radius:10px;font-size:11px;font-weight:600;color:var(--soluk)}
   .alt-cubuk button .ai{font-size:19px;line-height:1}
@@ -200,6 +199,10 @@ body.uygulama-modu{overflow:hidden}
   </button>
   <nav class="ust-nav" id="ust-nav" aria-label="Ana menü"></nav>
   <div class="ust-sag">
+    <a class="tg-ust" href="https://t.me/okulprogram" target="_blank" rel="noopener" title="Telegram'da bize ulaşın: duyurular, güncellemeler ve destek" aria-label="Telegram'da bize ulaşın">
+      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#fff"/><path d="M5.4 11.8l11.1-4.3c.5-.2 1 .1.8.9l-1.9 8.9c-.1.6-.5.8-1 .5l-2.9-2.1-1.4 1.3c-.2.2-.3.3-.6.3l.2-2.9 5.3-4.8c.2-.2 0-.3-.3-.1l-6.6 4.1-2.8-.9c-.6-.2-.6-.6.1-.9z" fill="#229ED9"/></svg>
+      <span>Telegram</span>
+    </a>
     <button class="ikon-btn" onclick="aramaOdakla()" title="Ara" aria-label="Ara">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
     </button>
@@ -253,10 +256,6 @@ body.uygulama-modu{overflow:hidden}
       <div class="alt-bilgi">
         <span>🔒 Tüm veriler yalnızca bu cihazda, tarayıcınızda saklanır. Düzenli olarak uygulamaların içindeki <b>Yedekle</b> düğmesini kullanın. Site kullanımı, çerez kullanılmadan ve kişisel bilgi toplanmadan anonim olarak sayılır.</span>
         <span>Mehmet Can Öztürk</span>
-        <a class="tg-btn" href="https://t.me/okulprogram" target="_blank" rel="noopener" title="Telegram'da Okul Asistanı">
-          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#fff"/><path d="M5.4 11.8l11.1-4.3c.5-.2 1 .1.8.9l-1.9 8.9c-.1.6-.5.8-1 .5l-2.9-2.1-1.4 1.3c-.2.2-.3.3-.6.3l.2-2.9 5.3-4.8c.2-.2 0-.3-.3-.1l-6.6 4.1-2.8-.9c-.6-.2-.6-.6.1-.9z" fill="#229ED9"/></svg>
-          <span><b>Telegram'da bize ulaşın</b><small>Duyurular, güncellemeler ve destek</small></span>
-        </a>
       </div>
     </div>
   </div>
@@ -630,7 +629,9 @@ function anaCiz() {
 function anaAra(v) {
   const q = v.trim();
   $('ana-icerik').style.display = q ? 'none' : '';
-  $('ana-sonuclar').innerHTML = q ? sonucHtml(ara(q), q, true) : '';
+  const sonuc = q ? ara(q) : [];
+  $('ana-sonuclar').innerHTML = q ? sonucHtml(sonuc, q, true) : '';
+  if (q && !sonuc.length) sonucsuzAramaBildir(q, 'tum');
 }
 function hizliAra(k) { const i = $('ana-arama'); i.value = k; anaAra(k); i.focus(); }
 
@@ -654,7 +655,7 @@ function katalogCiz() {
   $('kategori-cipler').innerHTML = `<button class="cip ${katalogKategori === 'hepsi' ? 'aktif' : ''}" onclick="kategoriSec('hepsi')">Tümü<span class="say">${top}</span></button>` +
     K.kategoriler.map((k, i) => `<button class="cip ${katalogKategori === i ? 'aktif' : ''}" onclick="kategoriSec(${i})">${kacis(k.ico)} ${kacis(k.ad)}<span class="say">${k.moduller.length}</span></button>`).join('');
   const q = $('katalog-arama').value.trim();
-  if (q) { $('katalog-liste').innerHTML = sonucHtml(ara(q, u.id), q, false); return; }
+  if (q) { const sonuc = ara(q, u.id); $('katalog-liste').innerHTML = sonucHtml(sonuc, q, false); if (!sonuc.length) sonucsuzAramaBildir(q, u.id); return; }
   $('katalog-liste').innerHTML = K.kategoriler.map((k, i) => {
     if (katalogKategori !== 'hepsi' && katalogKategori !== i) return '';
     return `<div class="kategori-bas"><span class="ico">${kacis(k.ico)}</span>${kacis(k.ad)}<span class="say">${k.moduller.length}</span></div>
@@ -726,6 +727,25 @@ if (sayacAktif) {
   document.head.appendChild(s);
 }
 function sayacGonder(v) { try { if (window.goatcounter && typeof window.goatcounter.count === 'function') window.goatcounter.count(v); } catch (e) {} }
+/* Sonuçsuz aramalar: kullanıcı yazmayı bitirince (1,5 sn) olay olarak sayılır.
+   Kişisel veri riskine karşı: 3–30 karakter, en fazla 4 kelime; rakam ağırlıklı
+   (TC no, telefon vb.) ya da e-posta benzeri metinler hiç gönderilmez. */
+let sonucsuzZaman = null;
+const sonucsuzGonderilen = new Set();
+function sonucsuzAramaBildir(q, kapsam) {
+  if (!sayacAktif) return;
+  clearTimeout(sonucsuzZaman);
+  sonucsuzZaman = setTimeout(() => {
+    const t = String(q).toLocaleLowerCase('tr').replace(/\s+/g, ' ').trim();
+    if (t.length < 3 || t.length > 30 || t.split(' ').length > 4) return;
+    if (/\d{4,}/.test(t) || (t.replace(/\D/g, '').length > t.length / 3) || /[@]/.test(t)) return;
+    const anahtar = kapsam + '|' + t;
+    if (sonucsuzGonderilen.has(anahtar)) return;
+    sonucsuzGonderilen.add(anahtar);
+    const v = { path: 'sonucsuz-arama/' + t, title: 'Sonuçsuz arama: ' + t + (kapsam !== 'tum' && UYG[kapsam] ? ' (' + UYG[kapsam].ad + ')' : ''), event: true };
+    if (window.goatcounter && typeof window.goatcounter.count === 'function') sayacGonder(v); else sayacKuyruk.push(v);
+  }, 1500);
+}
 function sayacSay(yol, baslik) {
   if (!sayacAktif || yol === sayacSon) return;
   sayacSon = yol;
