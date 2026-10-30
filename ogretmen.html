@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<title>ÖĞRETMEN ASİSTANI v2.2.7</title>
+<title>ÖĞRETMEN ASİSTANI v2.2.8</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Comic+Neue:wght@400;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700;800&family=Noto+Serif:wght@400;600;700&display=swap" rel="stylesheet">
@@ -593,7 +593,7 @@ button:has(.fa-print) i.fa-print{ color:#fff !important; }
         </div>
         <div class="flex-1 min-w-0">
           <div class="font-display font-semibold text-white text-[15.5px] leading-tight">Öğretmen Asistanı</div>
-          <div class="text-[10px] mt-0.5" style="color:rgba(247,243,234,.55);" id="sidebar-surum">v2.2.7</div>
+          <div class="text-[10px] mt-0.5" style="color:rgba(247,243,234,.55);" id="sidebar-surum">v2.2.8</div>
         </div>
         <button onclick="siteHaritasiAc()" class="p-1.5 shrink-0" style="color:rgba(247,243,234,.55);" title="Site Haritası"><i class="fa-solid fa-sitemap text-[15px]"></i></button><button type="button" onclick="turMenuAc()" class="tur-baslat-btn p-1.5 shrink-0" style="color:rgba(247,243,234,.55);" title="Tanıtımlar: programı ve modülleri adım adım tanıtır" aria-label="Tanıtımlar"><span style="font-size:16px;line-height:1;">🎓</span></button>
       </div>
@@ -686,10 +686,14 @@ button:has(.fa-print) i.fa-print{ color:#fff !important; }
 
 /* Depolama: sürüm değişince eski iskelet kalıntıları (eski checklist, eski
    şema alanları vb.) temizlenir; okul/öğretmen bilgisi ve öğrenci havuzu korunur. */
-const APP_VERSION = '2.2.7';
+const APP_VERSION = '2.2.8';
 /* Sürüm dizisi: 1.2.1, 1.2.2, 1.2.3 ... — her sürümde SURUM_NOTLARI güncellenir */
 const SURUM_GORUNTULEME_KEY = 'oa_surumPopupGosterim'; /* { version, count } */
 const SURUM_NOTLARI = {
+  '2.2.8': [
+    'Öğretmen Dosyası: Ünitelendirilmiş Yıllık Planlar programdan üretilmez, «Sadece kapak» maddesi oldu; seçiliyse seçtiğiniz kapak türünde kapak sayfası basılır, planınızı arkasına takarsınız',
+    'Kendi modülünden ayrıca yazdırılan ya da dış kaynaklı maddeler (zümre ve veli toplantısı tutanakları, not çizelgesi, sınav analizleri vb.) için de dosyada kapak sayfası basılır; içindekilerde «kapak» olarak görünür'
+  ],
   '2.2.7': [
     'YENİ: Dosya Kapakları modülü «Öğretmen Dosyası Oluşturma» oldu. 1. sekmede kademe (okul öncesi / ilkokul / ortaokul / lise) ve görevlerinize göre süzülen, 10 bölümlük sıralı madde listesi; her maddede hazır / eksik durumu ve hazırlık yüzdesi',
     'Burada üretilenler: Türk Bayrağı (kanundaki ölçülerle), İstiklal Marşı, Gençliğe Hitabe, Atatürk portresi (kendi görseliniz), öğretmen tanıtım formu, ders giriş-çıkış saatleri, sınıf listeleri, şube öğretmenler kurulu tutanağı, yazılı sınav teslim tutanağı, proje dağıtım listesi ve değerlendirme ölçeği, ders kesim raporu',
@@ -32677,7 +32681,7 @@ const OD_MADDELER = [
   { id:'saatler', b:'ogretmen', ad:'Ders Giriş-Çıkış Saatleri', ac:'Haftalık Ders Programı’ndaki başlangıç saati, ders ve teneffüs sürelerinden hesaplanır.', tur:'burada', uret:function(){ return odSaatlerHtml(); } },
   { id:'takvim', b:'ogretmen', ad:'Okul Çalışma Takvimi', tur:'kisayol', modul:'takvim', yakala:function(){ takvimYazdir(); }, hazir:function(){ return (state.takvim || []).length > 0; } },
   { id:'mevzuat', b:'mevzuat', ad:'Mevzuat Karekodları', ac:'Yönetmelik ve yönergeler kâğıda basılmaz; okutunca güncel resmî metni açan karekod sayfaları.', tur:'karekod', duzen:'mevzuat', uret:function(){ return odMevzuatHtml(); } },
-  { id:'yillik', b:'plan', ad:'Ünitelendirilmiş Yıllık Planlar', ac:'Ders Planı modülündeki «Müfredattan otomatik oluştur» paneliyle; çerçeve planlar için Mevzuat bölümündeki karekod.', tur:'kisayol', modul:'dersPlani', kademe:['ilkokul','ortaokul','lise'] },
+  { id:'yillik', b:'plan', ad:'Ünitelendirilmiş Yıllık Planlar', ac:'Yalnızca kapak sayfası basılır; yıllık planınızı bu kapağın arkasına takın. Çerçeve planlar için Mevzuat bölümündeki karekodu kullanabilirsiniz.', tur:'kapak', kademe:['ilkokul','ortaokul','lise'] },
   { id:'dersPlan', b:'plan', ad:'Ders Planları', tur:'kisayol', modul:'dersPlani', kademe:['ilkokul','ortaokul','lise'], yakala:function(){ odKayitlariYazdir('dersPlani'); }, hazir:function(){ return odKayitSay('dersPlani') > 0; } },
   { id:'aylikPlan', b:'plan', ad:'Aylık Plan ve Günlük Eğitim Akışları', tur:'kisayol', modul:'dersPlani', kademe:['okulOncesi'], yakala:function(){ odKayitlariYazdir('aylikPlan'); odKayitlariYazdir('gunlukAkis'); }, hazir:function(){ return odKayitSay('aylikPlan') + odKayitSay('gunlukAkis') > 0; } },
   { id:'iyep', b:'plan', ad:'İYEP Planı', tur:'kisayol', modul:'iyepPlani', kademe:['ilkokul'], yakala:function(){ iyepYazdir(); } },
@@ -32756,7 +32760,7 @@ function odDurum(m){
   if(o.manuel[m.id]) return o.manuel[m.id];
   if(m.tur === 'dis') return 'dis';
   if(m.hazir) return m.hazir(o) ? 'hazir' : 'eksik';
-  if(m.tur === 'burada' || m.tur === 'karekod') return 'hazir';
+  if(m.tur === 'burada' || m.tur === 'karekod' || m.tur === 'kapak') return 'hazir';
   return m.yakala ? 'hazir' : 'ayri';
 }
 const OD_DURUM_AD = { hazir:['Hazır','#166534','#DCFCE7'], eksik:['Eksik','#B91C1C','#FEE2E2'], gerekYok:['Gerek yok','#475569','#F1F5F9'], ayri:['Modülünden yazdırılır','#92400E','#FEF3C7'], dis:['Dış kaynak','#1E40AF','#DBEAFE'], tamam:['Tamamlandı','#166534','#DCFCE7'] };
@@ -32838,7 +32842,7 @@ function odMaddeHtml(m, no){
   const o = odState();
   const d = odDurum(m);
   const da = OD_DURUM_AD[d] || OD_DURUM_AD.eksik;
-  const turEt = { burada:['Burada oluşturulur','#0f766e'], kisayol:['Modülde oluşturulur','#1d4ed8'], karekod:['Karekod','#334155'], dis:['Dış kaynak','#6b7280'] }[m.tur];
+  const turEt = { burada:['Burada oluşturulur','#0f766e'], kisayol:['Modülde oluşturulur','#1d4ed8'], karekod:['Karekod','#334155'], kapak:['Sadece kapak','#7c3aed'], dis:['Dış kaynak','#6b7280'] }[m.tur];
   let dugmeler = '';
   if(m.tur === 'kisayol') dugmeler += '<button type="button" class="od-btn od-git" onclick="odGit(\'' + m.id + '\')">Şimdi oluştur →</button>';
   if(m.uret) dugmeler += '<button type="button" class="od-btn" onclick="odOnizle(\'' + m.id + '\')"><i class="fa-regular fa-eye"></i> Önizle</button>';
@@ -33228,6 +33232,7 @@ function odTopla(){
   const sec = odListe().filter(function(m){ return odSeciliMi(m.id); });
   const parcalar = [], ayri = [], bos = [];
   sec.forEach(function(m){
+    if(m.tur === 'kapak'){ parcalar.push({ m:m, html:'', kapak:true }); return; }
     if(m.tur === 'dis'){ ayri.push(m); parcalar.push({ m:m, html:'', ayri:true }); return; }
     const h = odMaddeHtmlUret(m);
     if(!h){ (m.tur === 'kisayol' ? ayri : bos).push(m); parcalar.push({ m:m, html:'', ayri:m.tur === 'kisayol' }); return; }
@@ -33241,8 +33246,9 @@ function odToplamaOzetHtml(){
   if(!OD_TOPLANAN) return '<div class="text-[13px]"><i class="fa-solid fa-spinner fa-spin"></i> Sayfalar hazırlanıyor…</div>';
   const t = OD_TOPLANAN;
   const dolu = t.parcalar.filter(function(p){ return p.html; }).length;
-  return '<div class="text-[13px]" style="color:#166534;"><i class="fa-solid fa-circle-check"></i> <b>' + dolu + '</b> madde dosyaya eklendi.</div>'
-    + (t.ayri.length ? '<div class="text-[12px] mt-2" style="color:#92400E;"><b>Ayrıca eklenecek (' + t.ayri.length + '):</b> ' + t.ayri.map(function(m){ return escapeHtml(m.ad); }).join(' · ') + '<br><span style="color:var(--metin-soft);">Bunlar kendi modüllerinden yazdırılır ya da dış kaynaktır; içindekilerde «ayrı çıktı» olarak yer alır.</span></div>' : '')
+  const kapakl = t.parcalar.filter(function(p){ return p.kapak || p.ayri; }).map(function(p){ return p.m; });
+  return '<div class="text-[13px]" style="color:#166534;"><i class="fa-solid fa-circle-check"></i> <b>' + dolu + '</b> madde içeriğiyle dosyaya eklendi.</div>'
+    + (kapakl.length ? '<div class="text-[12px] mt-2" style="color:#92400E;"><b>Yalnızca kapak sayfası basılacak (' + kapakl.length + '):</b> ' + kapakl.map(function(m){ return escapeHtml(m.ad); }).join(' · ') + '<br><span style="color:var(--metin-soft);">Bu maddelerin kendi çıktılarını (modülünden yazdırdığınız ya da e-Okul vb. belgeleri) ilgili kapağın arkasına takın.</span></div>' : '')
     + (t.bos.length ? '<div class="text-[12px] mt-1" style="color:#B91C1C;"><b>Boş olduğu için atlandı:</b> ' + t.bos.map(function(m){ return escapeHtml(m.ad); }).join(' · ') + '</div>' : '');
 }
 const OD_FORMATLAR = [['klasik','Klasik'],['modern','Modern'],['renkli','Renkli'],['milli','Millî'],['kurumsal','Kurumsal'],['cocuk','Çocuk Dostu'],['geometrik','Geometrik'],['zarif','Zarif Çiçekli']];
@@ -33304,10 +33310,10 @@ function odKapakYazi(k, v){ odState().ayar[k] = v; kaydet(); render({ scrollTop:
 function odIcindekilerHtml(t){
   let no = 0, sat = '';
   OD_BOLUMLER.forEach(function(b){
-    const ml = t.parcalar.filter(function(p){ return p.m.b === b.id && (p.html || p.ayri); });
+    const ml = t.parcalar.filter(function(p){ return p.m.b === b.id && (p.html || p.ayri || p.kapak); });
     if(!ml.length) return;
     sat += '<tr><td colspan="3" style="background:' + b.renk + ';color:#fff;font-weight:800;letter-spacing:.5px;-webkit-print-color-adjust:exact;print-color-adjust:exact;">' + escapeHtml(b.ad.toLocaleUpperCase('tr-TR')) + '</td></tr>';
-    ml.forEach(function(p){ no++; sat += '<tr><td class="c" style="width:10%;">' + no + '</td><td>' + escapeHtml(p.m.ad) + '</td><td style="width:24%;font-size:8.5pt;color:#555;">' + (p.html ? (p.m.tur === 'karekod' ? 'karekod' : '') : 'ayrı çıktı') + '</td></tr>'; });
+    ml.forEach(function(p){ no++; sat += '<tr><td class="c" style="width:10%;">' + no + '</td><td>' + escapeHtml(p.m.ad) + '</td><td style="width:24%;font-size:8.5pt;color:#555;">' + (p.html ? (p.m.tur === 'karekod' ? 'karekod' : '') : 'kapak') + '</td></tr>'; });
   });
   return odSayfa(odBaslik('İÇİNDEKİLER', escapeHtml([odMeta().yil, odMeta().ad, odMeta().brans].filter(Boolean).join(' · '))) + '<table>' + sat + '</table>');
 }
@@ -33321,11 +33327,11 @@ function odDosyaHtml(){
   if(a.icindekiler) p.push(odIcindekilerHtml(t));
   let bno = 0;
   OD_BOLUMLER.forEach(function(b){
-    const ml = t.parcalar.filter(function(x){ return x.m.b === b.id && x.html; });
+    const ml = t.parcalar.filter(function(x){ return x.m.b === b.id && (x.html || x.ayri || x.kapak); });
     if(!ml.length) return;
     bno++;
     if(a.ayrac) p.push(odKapakSayfa({ ad:b.ad }, a.format, b.renk, bno) + ayir);
-    ml.forEach(function(x){ p.push(x.html); });
+    ml.forEach(function(x){ p.push(x.html ? x.html : odKapakSayfa({ ad:x.m.ad }, a.format, b.renk, 0) + ayir); });
   });
   return p.filter(Boolean).join('');
 }
