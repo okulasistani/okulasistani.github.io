@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a3a34">
+<title>Doğrudan Temin Asistanı</title>
+<style>
+:root{--bg:#f3eee4;--paper:#fffdf9;--ink:#1d2a2c;--mut:#6b6f68;--line:#e3dccd;--pine:#0f5249;--pine2:#0a3a34;--pine3:#e2eee8;--amber:#d4862f;--amber2:#fbeed9;--ok:#2e7d4f;--warn:#b7791f;--err:#b33a3a;--r:14px;--sh:0 1px 2px rgba(20,30,25,.06),0 4px 14px rgba(20,30,25,.06)}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif;background:var(--bg);color:var(--ink);-webkit-tap-highlight-color:transparent}
+button{cursor:pointer;font:inherit}
+svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.top{position:sticky;top:0;z-index:30;color:#fff;display:flex;align-items:center;gap:10px;padding:9px 12px;min-height:58px;
+ background:var(--pine2) repeating-linear-gradient(135deg,rgba(255,255,255,.035) 0 2px,transparent 2px 9px)}
+.brand{display:flex;align-items:center;gap:10px;cursor:pointer;min-width:0}
+.brand .mark{width:36px;height:36px;color:var(--amber);stroke-width:1.6}
+.brand b{font-family:Georgia,"Times New Roman",serif;font-size:17px;letter-spacing:.2px;white-space:nowrap}
+.brand small{display:block;font-size:11.5px;opacity:.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:46vw}
+.top .sp{flex:1}
+.ibtn{border:0;background:rgba(255,255,255,.1);color:#fff;width:40px;height:40px;border-radius:11px;display:grid;place-items:center}
+.ibtn:active{background:rgba(255,255,255,.2)}
+.save{font-size:11.5px;opacity:.8;display:flex;align-items:center;gap:4px}
+.save svg{width:14px;height:14px}
+@media(max-width:480px){.save .st{display:none}.save svg{width:17px;height:17px}.top{gap:6px}.ibtn{width:38px;height:38px}}
+.wrap{max-width:880px;margin:0 auto;padding:14px 12px 110px}
+.steps{position:sticky;top:58px;z-index:20;background:var(--bg);display:flex;gap:6px;overflow-x:auto;padding:10px 12px;border-bottom:1px solid var(--line);scrollbar-width:none}
+.steps::-webkit-scrollbar{display:none}
+.chip{flex:none;display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:5px 12px 5px 5px;font-size:13.5px;color:var(--ink);font-weight:600}
+.chip .n{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--pine3);color:var(--pine);font-weight:800;font-size:12px}
+.chip .n svg{width:15px;height:15px}
+.chip.done .n{background:var(--ok);color:#fff}
+.chip.on{background:var(--pine);color:#fff;border-color:var(--pine)}
+.chip.on .n{background:var(--amber);color:#fff}
+.chip .bd{background:var(--err);color:#fff;border-radius:9px;font-size:11px;padding:1px 6px;margin-left:2px}
+.chip .bd.w{background:var(--warn)}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--sh);margin-bottom:14px}
+.card h2{margin:0 0 4px;font-size:17px;display:flex;align-items:center;gap:8px}
+.card h2 svg{color:var(--pine)}
+.card h3{margin:16px 0 8px;font-size:14.5px;color:var(--pine2)}
+.lead{color:var(--mut);font-size:13.5px;margin:0 0 14px}
+.grid{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:640px){.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}}
+.f{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--mut);min-width:0}
+.f>span{font-weight:600;color:#3d4744}
+.f small{font-size:12px}
+input,select,textarea{font:inherit;color:var(--ink);background:#fff;border:1px solid #d6cdb9;border-radius:10px;padding:9px 11px;min-height:44px;width:100%;min-width:0}
+textarea{min-height:76px;resize:vertical;line-height:1.4}
+input:focus,select:focus,textarea:focus{outline:2px solid rgba(15,82,73,.25);border-color:var(--pine)}
+input[inputmode=decimal]{text-align:right;font-variant-numeric:tabular-nums}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:11px;padding:9px 14px;font-weight:650;font-size:14px;min-height:44px}
+.btn:active{transform:translateY(1px)}
+.btn.p{background:var(--pine);border-color:var(--pine);color:#fff}
+.btn.a{background:var(--amber);border-color:var(--amber);color:#fff}
+.btn.g{background:transparent;border-color:transparent;color:var(--pine)}
+.btn.s{min-height:36px;padding:6px 10px;font-size:13px;border-radius:9px}
+.btn.d{color:var(--err)}
+.btn.w{width:100%}
+.btn[disabled]{opacity:.45}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row.end{justify-content:flex-end}
+.seg{display:inline-flex;background:var(--pine3);border-radius:12px;padding:4px;gap:4px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;padding:8px 16px;border-radius:9px;font-weight:650;color:var(--pine);min-height:38px}
+.seg button.on{background:#fff;box-shadow:var(--sh);color:var(--pine2)}
+.sw{display:flex;align-items:center;gap:12px;font-weight:600;font-size:14px;color:var(--ink);cursor:pointer;padding:4px 0}
+.sw input{appearance:none;-webkit-appearance:none;width:46px;min-width:46px;height:28px;min-height:28px;border-radius:20px;background:#d8d0bf;border:0;padding:0;position:relative;transition:.2s}
+.sw input::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:.2s}
+.sw input:checked{background:var(--pine)}
+.sw input:checked::after{left:21px}
+.sw small{display:block;font-weight:400;color:var(--mut);font-size:12.5px}
+.item{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px;background:#fff}
+.item .hd{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.item .hd .t{flex:1;font-weight:700;min-width:0}
+.nb{width:28px;height:28px;min-width:28px;border-radius:8px;display:grid;place-items:center;background:var(--amber2);color:#8a5418;font-weight:800;font-size:13px}
+.nb.k{background:var(--pine3);color:var(--pine)}
+.pr{display:grid;grid-template-columns:1fr 130px;gap:4px 10px;align-items:center;padding:7px 0;border-top:1px dashed var(--line)}
+.pr .pn{font-size:13.5px;font-weight:600;min-width:0}
+.pr .pn small{display:block;color:var(--mut);font-weight:400}
+.pr .pt{grid-column:2;text-align:right;font-size:12px;color:var(--mut);font-variant-numeric:tabular-nums}
+.tot{display:flex;justify-content:space-between;align-items:baseline;padding-top:9px;border-top:1px solid var(--line);margin-top:4px;font-weight:700}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th,.tbl td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.tbl th{font-size:12px;color:var(--mut);font-weight:700}
+.tbl .r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl tr.win td{background:#eef6f1}
+.scroll{overflow-x:auto}
+.big{font-size:24px;font-weight:800;color:var(--pine);font-variant-numeric:tabular-nums}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.kpi small{display:block;color:var(--mut);font-size:12px;font-weight:600}
+.kpi b{font-size:17px;font-variant-numeric:tabular-nums}
+.bar{height:9px;background:#ece5d6;border-radius:9px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:var(--ok);border-radius:9px}
+.bar i.w{background:var(--warn)}.bar i.e{background:var(--err)}
+.note{border-radius:12px;padding:10px 12px;font-size:13.5px;display:flex;gap:9px;align-items:flex-start;margin:8px 0}
+.note svg{width:18px;height:18px;margin-top:1px}
+.note.warn{background:#fdf3e1;color:#7a5512}.note.err{background:#fbe7e7;color:#8a2a2a}.note.ok{background:#e4f2ea;color:#1f5e3a}.note.info{background:var(--pine3);color:var(--pine2)}
+.note a{color:inherit;font-weight:700}
+.foot{position:fixed;left:0;right:0;bottom:0;z-index:25;background:rgba(243,238,228,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
+.foot .in{max-width:880px;margin:0 auto;display:flex;gap:10px;justify-content:space-between}
+.foot .btn{flex:1;max-width:220px}
+.hero{background:var(--pine) repeating-linear-gradient(135deg,rgba(255,255,255,.04) 0 2px,transparent 2px 10px);color:#fff;border-radius:18px;padding:20px 18px;margin-bottom:14px;position:relative;overflow:hidden}
+.hero h1{font-family:Georgia,"Times New Roman",serif;font-size:23px;margin:0 0 6px;font-weight:700}
+.hero p{margin:0 0 14px;opacity:.85;font-size:14px;max-width:520px}
+.hero .seal{position:absolute;right:-18px;top:-18px;width:130px;height:130px;color:rgba(212,134,47,.28);stroke-width:1.2}
+.dosya{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:14px;background:#fff;margin-bottom:10px;cursor:pointer}
+.dosya .ic{width:44px;height:44px;border-radius:12px;background:var(--pine3);color:var(--pine);display:grid;place-items:center;flex:none}
+.dosya .mid{flex:1;min-width:0}
+.dosya .mid b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.3;margin-bottom:2px}
+.dosya{flex-wrap:wrap;align-items:flex-start}.dosya .mid{flex:1 1 calc(100% - 60px)}.dosya .acts{display:flex;gap:2px;margin-left:auto;margin-top:-4px}.dosya .btn.s{padding:6px 8px;min-height:34px;font-size:12.5px}
+.dosya .mid small{color:var(--mut);font-size:12.5px}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px;background:var(--amber2);color:#8a5418;margin-right:4px}
+.tag.h{background:#e4ecf6;color:#2c4d78}
+.empty{text-align:center;color:var(--mut);padding:26px 10px}
+.empty svg{width:42px;height:42px;color:#c2b8a3}
+.dl{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:12px;background:#fff;margin-bottom:8px}
+.dl input[type=checkbox]{width:22px;min-width:22px;height:22px;min-height:22px;accent-color:var(--pine)}
+.dl .mid{flex:1;min-width:0;font-weight:600;font-size:14px}
+.dl .mid small{display:block;color:var(--mut);font-weight:400;font-size:12px}
+.mk{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px dashed var(--line);font-size:13.5px}
+.mk .tx{flex:1}
+.mk button{width:40px;height:36px;border-radius:9px;border:1px solid var(--line);background:#fff;font-weight:800;font-size:16px}
+.mk button.p{background:#e4f2ea;color:var(--ok);border-color:#b9dcc6}
+.mk button.m{background:#fbe7e7;color:var(--err);border-color:#efc3c3}
+.mk button.s{background:#eef0f1;color:#55606a}
+.tl{position:relative;padding-left:26px}
+.tl::before{content:"";position:absolute;left:10px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl .st{position:relative;margin-bottom:14px}
+.tl .st::before{content:attr(data-n);position:absolute;left:-26px;top:0;width:22px;height:22px;border-radius:50%;background:var(--pine);color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center}
+.tl .st b{display:block}
+.tl .st span{color:var(--mut);font-size:13.5px}
+.modal{position:fixed;inset:0;z-index:50;background:#2b3330;display:flex;flex-direction:column}
+.mbar{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--pine2);color:#fff;min-height:56px}
+.mbar .btn.mb{background:rgba(255,255,255,.12);border-color:transparent;color:#fff}
+@media(max-width:480px){.mbar b{font-size:13px}.mbar .btn.mb .mbt{display:none}.mbar .mbt{display:none}.mbar .btn.s{padding:6px 8px;gap:5px}}
+.mbar b{flex:1;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mhint{background:#3a4440;color:#d9e2de;font-size:12px;text-align:center;padding:6px 10px}
+.mbody{flex:1;overflow:auto;padding:14px 8px 40px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;opacity:0;transition:.25s;z-index:60;pointer-events:none;max-width:90vw;text-align:center}
+.toast.on{opacity:1;transform:translateX(-50%)}
+.mut{color:var(--mut)}
+.right{text-align:right}
+details.more{border-top:1px solid var(--line);margin-top:14px;padding-top:6px}
+details.more summary{cursor:pointer;font-weight:700;color:var(--pine);padding:8px 0;list-style:none;display:flex;align-items:center;gap:6px}
+details.more summary::-webkit-details-marker{display:none}
+details.more[open] summary svg{transform:rotate(90deg)}
+.hidden{display:none!important}
+.row>.f,.grow{flex:1}
+/* etiket yanında form */
+.yanform .grid,.grid.yanform{gap:8px}
+.grid.yanform .f{display:grid;grid-template-columns:minmax(104px,36%) 1fr;align-items:center;gap:3px 10px}
+.yanform .f{display:grid;grid-template-columns:minmax(104px,36%) 1fr;align-items:center;gap:3px 10px}
+.yanform .f>span{font-size:13px;line-height:1.25}
+.yanform .f small{grid-column:2}
+@media(min-width:760px){.yanform .grid{grid-template-columns:1fr 1fr;column-gap:20px}}
+/* satır listeleri */
+.sat{display:grid;gap:5px;align-items:center;margin-bottom:5px}
+.sat input,.sat select{min-height:40px;padding:7px 8px;font-size:14px;border-radius:8px}
+.sat select{padding-right:2px}
+.sat.bas{font-size:11.5px;font-weight:700;color:var(--mut);margin-bottom:3px;padding:0 2px}
+.c-kalem{grid-template-columns:26px minmax(0,1.6fr) minmax(0,1.1fr) 62px 112px 30px}
+.c-kom{grid-template-columns:22px minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr) 30px}
+.c-pers{grid-template-columns:22px minmax(0,1.3fr) minmax(0,1fr) 30px}
+.sat .sn{width:24px;height:30px;border:0;background:none;color:var(--mut);font-weight:800;font-size:12.5px;padding:0;text-align:center}
+.sat button.sn{background:var(--pine3);color:var(--pine);border-radius:7px}
+.xb{width:30px;height:34px;border:0;background:none;border-radius:8px;display:grid;place-items:center;color:var(--mut);padding:0}
+.xb.d{color:var(--err)} .xb svg{width:17px;height:17px} .xb[disabled]{opacity:.3}
+.kal{border-bottom:1px dashed var(--line);padding-bottom:5px;margin-bottom:5px}
+.kmenu{display:flex;gap:6px;flex-wrap:wrap;margin:2px 0 6px 31px}
+.tkw{position:relative;margin:0 0 2px 31px}
+.kal .tk{min-height:76px;width:100%;font-size:13.5px;padding-bottom:30px}
+.tko{position:absolute;right:6px;bottom:7px;display:flex;align-items:center;gap:4px;border:1px solid #efd9b5;background:var(--amber2);color:#8a5418;border-radius:8px;padding:3px 9px;font-size:12px;font-weight:700}
+.tko svg{width:14px;height:14px}
+@media(max-width:560px){
+ .sat.bas.c-kalem,.sat.bas.c-kom{display:none}
+ .c-kalem{grid-template-columns:26px minmax(0,1fr) 58px 104px 28px;grid-template-areas:"sn ad ad ad xb" ". oz mk br .";row-gap:5px}
+ .c-kalem>:nth-child(1){grid-area:sn}.c-kalem>:nth-child(2){grid-area:ad;font-weight:600}.c-kalem>:nth-child(3){grid-area:oz}.c-kalem>:nth-child(4){grid-area:mk}.c-kalem>:nth-child(5){grid-area:br}.c-kalem>:nth-child(6){grid-area:xb}
+ .c-kom{grid-template-columns:22px minmax(0,1fr) minmax(0,1fr) 28px;grid-template-areas:"sn ad ad xb" ". un gv .";row-gap:5px}
+ .c-kom>:nth-child(1){grid-area:sn}.c-kom>:nth-child(2){grid-area:ad;font-weight:600}.c-kom>:nth-child(3){grid-area:un}.c-kom>:nth-child(4){grid-area:gv}.c-kom>:nth-child(5){grid-area:xb}
+ .c-kom{border-bottom:1px dashed var(--line);padding-bottom:6px;margin-bottom:6px}
+ .item{padding:10px}
+ .kmenu{margin-left:31px}
+ .sat input,.sat select{font-size:14px;padding:7px 7px}
+}
+.dosya .ic .dno{font-size:11px;line-height:1.15;text-align:center;font-weight:800}
+.dosya.ars{background:#faf8f3}.dosya.ars .ic{background:#ece6d8;color:#6b5f45}
+svg.i.xs{width:13px;height:13px;vertical-align:-2px}
+details.card>summary{list-style:none;cursor:pointer;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h2{margin:0;flex:1}
+.kdz{display:flex;align-items:center;gap:5px;color:var(--pine);font-weight:700;font-size:13px}
+details[open] .kdz,details[open] .ksum{display:none}
+.ksum{width:100%;font-size:13px;color:var(--mut);order:3}
+.cnt{background:var(--pine3);color:var(--pine);border-radius:9px;font-size:12px;padding:1px 8px;font-weight:800}
+.antet{margin-top:12px;border:1px dashed #cfc5ae;border-radius:10px;padding:10px;text-align:center;font:600 13px/1.35 "Times New Roman",Georgia,serif;background:#fff}
+.antet:empty{display:none}
+.lock{display:flex;align-items:center;gap:10px;background:#efe9db;border:1px solid #ddd2b8;color:#5b4f33;border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:13.5px}
+.lock{flex-wrap:wrap}.lock .tx{flex:1 1 220px}
+.sheet-bg{position:fixed;inset:0;background:rgba(10,20,18,.45);z-index:55}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:56;background:var(--paper);border-radius:18px 18px 0 0;padding:14px 14px calc(18px + env(safe-area-inset-bottom));max-width:620px;margin:0 auto;box-shadow:0 -8px 30px rgba(0,0,0,.2)}
+.sh-h{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:16px}.sh-h b{flex:1}.sh-h svg{color:var(--pine)}
+.opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px;margin-top:8px;color:var(--ink)}
+.opt svg{color:var(--amber);margin-top:2px}.opt b{display:block;font-size:14.5px}.opt small{display:block;color:var(--mut);font-size:12.5px;margin-top:2px}
+/* ===== BELGE SAYFALARI ===== */
+.page{background:#fff;color:#000;width:210mm;min-height:297mm;padding:14mm 14mm 12mm;font:11pt/1.35 "Times New Roman","Liberation Serif","Noto Serif",Georgia,serif;box-shadow:0 6px 24px rgba(0,0,0,.35);flex:none;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page.yatay{width:297mm;min-height:210mm;padding:10mm}
+.page *{box-sizing:border-box}
+.page .dh{text-align:center;font-weight:bold;line-height:1.3;margin-bottom:10px}
+.page .ttl{text-align:center;font-weight:bold;font-size:12.5pt;margin:10px 0 8px}
+.page .mkm{text-align:center;font-weight:bold;margin:14px 0 2px}
+.page .sx{display:flex;justify-content:space-between;gap:10px}
+.page .meta{margin:2px 0}
+.page .meta b{display:inline-block;min-width:44px}
+.page p{margin:6px 0}
+.page p.prg{text-indent:1.25cm;text-align:justify}
+.page table.t{width:100%;border-collapse:collapse;margin:6px 0}
+.page .t th,.page .t td{border:1px solid #000;padding:2.5px 5px;font-size:10pt;vertical-align:middle}
+.page .t th{background:#efefef;font-weight:bold;text-align:center}
+.page.yatay .t th,.page.yatay .t td{font-size:9pt;padding:2px 4px}
+.page .t .r{text-align:right;white-space:nowrap}
+.page .t .c{text-align:center}
+.page .t tr.tp td{font-weight:bold}
+.page .kv>tbody>tr>td:first-child{width:44%;font-weight:bold}
+.page .imzlar{display:grid;gap:8px;margin-top:16px;text-align:center}
+.page .n1{grid-template-columns:1fr}.page .n2{grid-template-columns:1fr 1fr}.page .n3{grid-template-columns:1fr 1fr 1fr}.page .n4{grid-template-columns:repeat(4,1fr)}.page .n5{grid-template-columns:repeat(5,1fr)}
+.page .imz{break-inside:avoid}
+.page .imz .u{font-weight:bold}
+.page .imz .ad{margin-top:26px}
+.page.sik{font-size:10.5pt;line-height:1.28}.page.sik .t td,.page.sik .t th{font-size:9.5pt;padding:2px 4px}.page.sik .imzlar{margin-top:8px}.page.sik .imz .ad{margin-top:20px}.page.sik .ttl{margin:6px 0}
+.page .imz.sag{width:46%;margin-left:auto}
+.page .olur{text-align:center;width:50%;margin:14px auto 0}
+.page .olur .o{font-weight:bold;letter-spacing:2px}
+.page .sm{font-size:9pt}
+.page .xs{font-size:8.5pt}
+.page .box{border:1px solid #000;padding:6px 8px;min-height:60px}
+.page .dots{border-bottom:1px dotted #000;height:20px}
+.page .two{display:grid;grid-template-columns:1.1fr 1fr;gap:14px;align-items:start}
+.page .ek{text-align:right;font-weight:bold}
+.page .muted{color:#444}
+#print-root{display:none}
+.eby{align-items:stretch;background:var(--bg)}.ebw{max-width:760px;width:100%;margin:0 auto}
+.eb{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:10px}
+.eb-h{display:flex;align-items:center;gap:8px;margin-bottom:8px}.eb-h b{flex:1;font-size:14.5px}
+.eb-v{background:#fff;border:1px solid var(--line);border-radius:9px;padding:9px 11px;font-size:14px}
+.eb-alt{margin-top:8px;font-size:13px;display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.eb-i{display:flex;gap:10px;padding:3px 0}.eb-i small{min-width:110px;color:var(--mut);font-weight:700}
+.page.eg{width:auto;min-height:0;padding:12px 14px;box-shadow:none;border:1px solid var(--line);border-radius:9px;font-size:11pt;overflow-x:auto}
+.cb{position:relative;min-width:0}.cb>input{padding-right:30px!important;width:100%}
+.cbt{position:absolute;right:2px;top:50%;transform:translateY(-50%);width:28px;height:34px;border:0;background:none;color:var(--pine);display:grid;place-items:center;padding:0;border-radius:7px}
+.cbt svg{width:17px;height:17px}.cbt:active{background:var(--pine3)}
+#cbPop{position:fixed;z-index:70;background:#fff;border:1px solid #cfc5ae;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.18);max-height:280px;overflow-y:auto;min-width:180px;padding:4px}
+#cbPop button{display:block;width:100%;text-align:left;border:0;background:none;padding:10px 12px;border-radius:8px;font-size:15px;color:var(--ink)}
+#cbPop button small{display:block;color:var(--mut);font-size:12px}
+#cbPop button.on{background:var(--pine3);font-weight:700}
+#cbPop .ip{font-size:12px;color:var(--mut);padding:8px 12px 6px;border-bottom:1px solid var(--line);margin-bottom:4px}
+#render-host{position:fixed;left:-30000px;top:0;pointer-events:none}
+#render-host .page{box-shadow:none;margin:0}
+@page{size:A4 portrait;margin:12mm 13mm}
+@page yatay{size:A4 landscape;margin:9mm}
+@media print{
+ body{background:#fff}
+ body>*:not(#print-root){display:none!important}
+ #print-root{display:block}
+ #print-root .page{width:auto;min-height:0;padding:0;margin:0;box-shadow:none;zoom:1!important;break-after:page;page-break-after:always}
+ #print-root .page:last-child{break-after:auto;page-break-after:auto}
+ #print-root .page.yatay{page:yatay}
+}
+</style>
+</head>
+<body>
+<header class="top" id="top"></header>
+<nav class="steps hidden" id="steps"></nav>
+<main class="wrap" id="app"></main>
+<div class="foot hidden" id="foot"></div>
+<div id="modal"></div>
+<div id="print-root"></div>
+<div id="render-host" aria-hidden="true"></div>
+<div id="cbPop" class="hidden"></div>
+<div class="toast" id="toast"></div>
+<input type="file" id="fileIn" accept=".json,application/json" class="hidden">
+<script>
+'use strict';
+/* ================= YARDIMCILAR ================= */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const r2=n=>Math.round((Number(n)+Number.EPSILON)*100)/100;
+const trUp=s=>String(s??'').toLocaleUpperCase('tr-TR');
+function num(v){
+  if(v===null||v===undefined) return 0;
+  if(typeof v==='number') return isFinite(v)?v:0;
+  let s=String(v).trim().replace(/\s|₺|TL/gi,'');
+  if(!s) return 0;
+  if(s.includes(',')) s=s.replace(/\./g,'').replace(',','.');
+  else { const d=(s.match(/\./g)||[]).length; if(d>1 || (d===1 && /^\d{1,3}\.\d{3}$/.test(s))) s=s.replace(/\./g,''); }
+  const n=parseFloat(s); return isFinite(n)?n:0;
+}
+const tl=n=>r2(n).toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const tlx=n=>tl(n)+' ₺';
+const mq=n=>{n=num(n);return n.toLocaleString('tr-TR',{maximumFractionDigits:3});};
+function fd(iso,bos){ if(!iso) return bos===undefined?'…../…../20…':bos; const [y,m,d]=iso.split('-'); return `${d}.${m}.${y}`; }
+function gunFark(a,b){ if(!a||!b) return null; return Math.round((new Date(b)-new Date(a))/864e5); }
+function yaziyla(n){
+  n=r2(Math.abs(n)); const lira=Math.floor(n), kr=Math.round((n-lira)*100);
+  const b=['','Bir','İki','Üç','Dört','Beş','Altı','Yedi','Sekiz','Dokuz'], o=['','On','Yirmi','Otuz','Kırk','Elli','Altmış','Yetmiş','Seksen','Doksan'];
+  const uc=x=>{const y=Math.floor(x/100),on=Math.floor(x%100/10),bi=x%10;return (y?(y===1?'':b[y])+'Yüz':'')+o[on]+b[bi];};
+  const say=x=>{ if(x===0) return 'Sıfır'; const g=['','Bin','Milyon','Milyar','Trilyon']; let s='',i=0; while(x>0){const p=x%1000; if(p){let t=uc(p); if(i===1&&p===1) t=''; s=t+g[i]+s;} x=Math.floor(x/1000); i++;} return s; };
+  return say(lira)+'TürkLirası'+(kr?say(kr)+'Kuruş':'');
+}
+function yonelme(s){ // "... Müdürlüğü" -> "... MÜDÜRLÜĞÜNE"
+  s=trUp(String(s||'').trim()); if(!s) return '';
+  const last=s.slice(-1), unl='AEIİOÖUÜ'; const vs=[...s].filter(c=>unl.includes(c)); const lv=vs.length?vs[vs.length-1]:'E';
+  const v='AIOU'.includes(lv)?'A':'E';
+  return s+(unl.includes(last)?'N'+v:v);
+}
+
+/* ================= SİMGELER ================= */
+const IC={
+ muhur:'<circle cx="12" cy="12" r="9.2"/><circle cx="12" cy="12" r="6.4" stroke-dasharray="1.4 1.9"/><path d="M9.2 12.3l1.9 1.9 3.8-4"/>',
+ dosya:'<path d="M3 7.5A1.5 1.5 0 0 1 4.5 6H9l2 2h8.5A1.5 1.5 0 0 1 21 9.5v8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/><path d="M3 11h18"/>',
+ genel:'<path d="M9 3.8h6v3H9z"/><path d="M7.2 5.3H5.5v15.2h13V5.3h-1.7"/><path d="M8.5 11h7M8.5 14.5h7M8.5 18h4"/>',
+ kalem:'<path d="M9.5 6.5h10.5M9.5 12h10.5M9.5 17.5h10.5"/><rect x="4" y="5" width="3" height="3" rx=".8"/><rect x="4" y="10.5" width="3" height="3" rx=".8"/><rect x="4" y="16" width="3" height="3" rx=".8"/>',
+ komisyon:'<circle cx="12" cy="8" r="2.6"/><circle cx="5.5" cy="10" r="2"/><circle cx="18.5" cy="10" r="2"/><path d="M7.5 19.5a4.5 4.5 0 0 1 9 0M2.5 18.5a3 3 0 0 1 4.7-2.5M21.5 18.5a3 3 0 0 0-4.7-2.5"/>',
+ terazi:'<path d="M12 4v16M8 20h8M5 7.5h14M12 4.2v3.3"/><path d="M5 7.5L2.6 13a2.6 2.6 0 0 0 4.8 0zM19 7.5L16.6 13a2.6 2.6 0 0 0 4.8 0z"/>',
+ teklif:'<rect x="3.5" y="6.5" width="17" height="12" rx="1.5"/><path d="M4 7.5l8 5.8 8-5.8"/><path d="M15.5 3.5l3 3"/>',
+ takvim:'<rect x="4" y="5.5" width="16" height="14.5" rx="1.8"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/><path d="M8 13.5h2M14 13.5h2M8 16.8h2"/>',
+ kabul:'<path d="M9.3 3.8h5.4l-.9 6.4h-3.6z"/><path d="M8 3.8h8"/><path d="M5 13.2a1.5 1.5 0 0 1 1.5-1.5h11a1.5 1.5 0 0 1 1.5 1.5V16H5z"/><path d="M6.5 20h11"/>',
+ odeme:'<rect x="3" y="6.5" width="18" height="11" rx="1.6"/><circle cx="12" cy="12" r="2.6"/><path d="M6.3 9.8v4.4M17.7 9.8v4.4"/>',
+ belge:'<path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4M9 12h6M9 15.5h6"/>',
+ kontrol:'<path d="M12 3l7 3v5c0 4.6-3 8-7 10-4-2-7-5.4-7-10V6z"/><path d="M9 12l2.1 2.1L15.2 10"/>',
+ yazici:'<path d="M7 9V4h10v5"/><path d="M7 16H4.8a1.3 1.3 0 0 1-1.3-1.3v-4.4A1.3 1.3 0 0 1 4.8 9h14.4a1.3 1.3 0 0 1 1.3 1.3v4.4a1.3 1.3 0 0 1-1.3 1.3H17"/><path d="M7 13.5h10V20H7z"/>',
+ indir:'<path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 19.5h14"/>',
+ yukle:'<path d="M12 15V4M7.5 8.5L12 4l4.5 4.5M5 19.5h14"/>',
+ ayar:'<path d="M4 7h8.5M17.5 7H20M4 17h2.5M11.5 17H20"/><circle cx="15" cy="7" r="2.4"/><circle cx="9" cy="17" r="2.4"/>',
+ arti:'<path d="M12 5v14M5 12h14"/>',
+ cop:'<path d="M5 7h14M9.5 7V4.8h5V7M7 7l1 12.8h8L17 7M10.4 10.5v6M13.6 10.5v6"/>',
+ kopya:'<rect x="8" y="8" width="11.5" height="12" rx="1.5"/><path d="M5 15.5V5.5A1.5 1.5 0 0 1 6.5 4H15"/>',
+ geri:'<path d="M14.5 5.5L8 12l6.5 6.5"/>',
+ ileri:'<path d="M9.5 5.5L16 12l-6.5 6.5"/>',
+ yukari:'<path d="M6 14.5l6-6 6 6"/>',
+ asagi:'<path d="M6 9.5l6 6 6-6"/>',
+ uyari:'<path d="M12 4.2l8.7 15.3H3.3z"/><path d="M12 10v4.3M12 17.2v.1"/>',
+ tamam:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+ bilgi:'<circle cx="12" cy="12" r="8.6"/><path d="M12 11v5.5M12 7.7v.1"/>',
+ rehber:'<circle cx="6" cy="5.8" r="2"/><circle cx="18" cy="18.2" r="2"/><path d="M8 5.8h7.5a3.1 3.1 0 0 1 0 6.2h-7a3.1 3.1 0 0 0 0 6.2H16"/>',
+ word:'<path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4"/><path d="M8.6 11l1.3 6 2.1-4.6 2.1 4.6 1.3-6"/>',
+ pdf:'<path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4"/><path d="M8.5 17.5v-5h1.6a1.4 1.4 0 0 1 0 2.8H8.5M13 12.5v5h1a2.5 2.5 0 0 0 0-5z"/>',
+ ebys:'<path d="M4 7.5h9M10 4.5l3 3-3 3"/><path d="M8 11.5V19a1.5 1.5 0 0 0 1.5 1.5h9A1.5 1.5 0 0 0 20 19V6a1.5 1.5 0 0 0-1.5-1.5H16"/><path d="M11.5 15h5M11.5 17.8h3"/>',
+ ara:'<circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/>',
+ goz:'<path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.8"/>',
+ kapat:'<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>',
+ kurum:'<path d="M3 20.5h18M4 9.5h16L12 4z"/><path d="M6 9.5v8.5M10 9.5v8.5M14 9.5v8.5M18 9.5v8.5M4.5 18h15"/>',
+ ev:'<path d="M4 11.2L12 4.5l8 6.7"/><path d="M6 9.8V20h4.5v-5.5h3V20H18V9.8"/>',
+ tablo:'<rect x="4" y="5" width="16" height="14" rx="1.5"/><path d="M4 10h16M4 14.5h16M10 5v14"/>',
+ kisi:'<circle cx="12" cy="8.5" r="3.3"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/>',
+ sihir:'<path d="M5 19L15.5 8.5M14 5l1 2 2 1-2 1-1 2-1-2-2-1 2-1zM19 12l.7 1.3L21 14l-1.3.7L19 16l-.7-1.3L17 14l1.3-.7z"/>',
+ ok:'<path d="M9 6l6 6-6 6"/>',
+ arsiv:'<rect x="3.5" y="4.5" width="17" height="4" rx="1"/><path d="M5 8.5v10a1.5 1.5 0 0 0 1.5 1.5h11a1.5 1.5 0 0 0 1.5-1.5v-10M10 12.5h4"/>',
+ geriAl:'<path d="M8.5 7L4.5 11l4 4"/><path d="M4.5 11H14a5.5 5.5 0 0 1 0 11h-2" transform="translate(0 -2)"/>',
+ kilit:'<rect x="5" y="10.5" width="14" height="10" rx="1.6"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>',
+ aktar:'<path d="M4 8h13M13.5 4.5L17 8l-3.5 3.5M20 16H7M10.5 12.5L7 16l3.5 3.5"/>'
+};
+const ic=(n,c='')=>`<svg class="i ${c}" viewBox="0 0 24 24" aria-hidden="true">${IC[n]||''}</svg>`;
+
+/* ================= İL / İLÇE (81 il, 973 ilçe — kaynak: turkey-neighbourhoods v4.0.3, MIT) ================= */
+const ILLER={"Adana":["Aladağ","Ceyhan","Çukurova","Feke","İmamoğlu","Karaisalı","Karataş","Kozan","Pozantı","Saimbeyli","Sarıçam","Seyhan","Tufanbeyli","Yumurtalık","Yüreğir"],"Adıyaman":["Besni","Çelikhan","Gerger","Gölbaşı","Kahta","Merkez","Samsat","Sincik","Tut"],"Afyonkarahisar":["Başmakçı","Bayat","Bolvadin","Çay","Çobanlar","Dazkırı","Dinar","Emirdağ","Evciler","Hocalar","İhsaniye","İscehisar","Kızılören","Merkez","Sandıklı","Sinanpaşa","Sultandağı","Şuhut"],"Ağrı":["Diyadin","Doğubayazıt","Eleşkirt","Hamur","Merkez","Patnos","Taşlıçay","Tutak"],"Aksaray":["Ağaçören","Eskil","Gülağaç","Güzelyurt","Merkez","Ortaköy","Sarıyahşi","Sultanhanı"],"Amasya":["Göynücek","Gümüşhacıköy","Hamamözü","Merkez","Merzifon","Suluova","Taşova"],"Ankara":["Akyurt","Altındağ","Ayaş","Bala","Beypazarı","Çamlıdere","Çankaya","Çubuk","Elmadağ","Etimesgut","Evren","Gölbaşı","Güdül","Haymana","Kahramankazan","Kalecik","Keçiören","Kızılcahamam","Mamak","Nallıhan","Polatlı","Pursaklar","Sincan","Şereflikoçhisar","Yenimahalle"],"Antalya":["Akseki","Aksu","Alanya","Demre","Döşemealtı","Elmalı","Finike","Gazipaşa","Gündoğmuş","İbradı","Kaş","Kemer","Kepez","Konyaaltı","Korkuteli","Kumluca","Manavgat","Muratpaşa","Serik"],"Ardahan":["Çıldır","Damal","Göle","Hanak","Merkez","Posof"],"Artvin":["Ardanuç","Arhavi","Borçka","Hopa","Kemalpaşa","Merkez","Murgul","Şavşat","Yusufeli"],"Aydın":["Bozdoğan","Buharkent","Çine","Didim","Efeler","Germencik","İncirliova","Karacasu","Karpuzlu","Koçarlı","Köşk","Kuşadası","Kuyucak","Nazilli","Söke","Sultanhisar","Yenipazar"],"Balıkesir":["Altıeylül","Ayvalık","Balya","Bandırma","Bigadiç","Burhaniye","Dursunbey","Edremit","Erdek","Gömeç","Gönen","Havran","İvrindi","Karesi","Kepsut","Manyas","Marmara","Savaştepe","Sındırgı","Susurluk"],"Bartın":["Amasra","Kurucaşile","Merkez","Ulus"],"Batman":["Beşiri","Gercüş","Hasankeyf","Kozluk","Merkez","Sason"],"Bayburt":["Aydıntepe","Demirözü","Merkez"],"Bilecik":["Bozüyük","Gölpazarı","İnhisar","Merkez","Osmaneli","Pazaryeri","Söğüt","Yenipazar"],"Bingöl":["Adaklı","Genç","Karlıova","Kiğı","Merkez","Solhan","Yayladere","Yedisu"],"Bitlis":["Adilcevaz","Ahlat","Güroymak","Hizan","Merkez","Mutki","Tatvan"],"Bolu":["Dörtdivan","Gerede","Göynük","Kıbrıscık","Mengen","Merkez","Mudurnu","Seben","Yeniçağa"],"Burdur":["Ağlasun","Altınyayla","Bucak","Çavdır","Çeltikçi","Gölhisar","Karamanlı","Kemer","Merkez","Tefenni","Yeşilova"],"Bursa":["Büyükorhan","Gemlik","Gürsu","Harmancık","İnegöl","İznik","Karacabey","Keles","Kestel","Mudanya","Mustafakemalpaşa","Nilüfer","Orhaneli","Orhangazi","Osmangazi","Yenişehir","Yıldırım"],"Çanakkale":["Ayvacık","Bayramiç","Biga","Bozcaada","Çan","Eceabat","Ezine","Gelibolu","Gökçeada","Lapseki","Merkez","Yenice"],"Çankırı":["Atkaracalar","Bayramören","Çerkeş","Eldivan","Ilgaz","Kızılırmak","Korgun","Kurşunlu","Merkez","Orta","Şabanözü","Yapraklı"],"Çorum":["Alaca","Bayat","Boğazkale","Dodurga","İskilip","Kargı","Laçin","Mecitözü","Merkez","Oğuzlar","Ortaköy","Osmancık","Sungurlu","Uğurludağ"],"Denizli":["Acıpayam","Babadağ","Baklan","Bekilli","Beyağaç","Bozkurt","Buldan","Çal","Çameli","Çardak","Çivril","Güney","Honaz","Kale","Merkezefendi","Pamukkale","Sarayköy","Serinhisar","Tavas"],"Diyarbakır":["Bağlar","Bismil","Çermik","Çınar","Çüngüş","Dicle","Eğil","Ergani","Hani","Hazro","Kayapınar","Kocaköy","Kulp","Lice","Silvan","Sur","Yenişehir"],"Düzce":["Akçakoca","Cumayeri","Çilimli","Gölyaka","Gümüşova","Kaynaşlı","Merkez","Yığılca"],"Edirne":["Enez","Havsa","İpsala","Keşan","Lalapaşa","Meriç","Merkez","Süloğlu","Uzunköprü"],"Elazığ":["Ağın","Alacakaya","Arıcak","Baskil","Karakoçan","Keban","Kovancılar","Maden","Merkez","Palu","Sivrice"],"Erzincan":["Çayırlı","İliç","Kemah","Kemaliye","Merkez","Otlukbeli","Refahiye","Tercan","Üzümlü"],"Erzurum":["Aşkale","Aziziye","Çat","Hınıs","Horasan","İspir","Karaçoban","Karayazı","Köprüköy","Narman","Oltu","Olur","Palandöken","Pasinler","Pazaryolu","Şenkaya","Tekman","Tortum","Uzundere","Yakutiye"],"Eskişehir":["Alpu","Beylikova","Çifteler","Günyüzü","Han","İnönü","Mahmudiye","Mihalgazi","Mihalıççık","Odunpazarı","Sarıcakaya","Seyitgazi","Sivrihisar","Tepebaşı"],"Gaziantep":["Araban","İslahiye","Karkamış","Nizip","Nurdağı","Oğuzeli","Şahinbey","Şehitkamil","Yavuzeli"],"Giresun":["Alucra","Bulancak","Çamoluk","Çanakçı","Dereli","Doğankent","Espiye","Eynesil","Görele","Güce","Keşap","Merkez","Piraziz","Şebinkarahisar","Tirebolu","Yağlıdere"],"Gümüşhane":["Kelkit","Köse","Kürtün","Merkez","Şiran","Torul"],"Hakkari":["Çukurca","Derecik","Merkez","Şemdinli","Yüksekova"],"Hatay":["Altınözü","Antakya","Arsuz","Belen","Defne","Dörtyol","Erzin","Hassa","İskenderun","Kırıkhan","Kumlu","Payas","Reyhanlı","Samandağ","Yayladağı"],"Iğdır":["Aralık","Karakoyunlu","Merkez","Tuzluca"],"Isparta":["Aksu","Atabey","Eğirdir","Gelendost","Gönen","Keçiborlu","Merkez","Senirkent","Sütçüler","Şarkikaraağaç","Uluborlu","Yalvaç","Yenişarbademli"],"İstanbul":["Adalar","Arnavutköy","Ataşehir","Avcılar","Bağcılar","Bahçelievler","Bakırköy","Başakşehir","Bayrampaşa","Beşiktaş","Beykoz","Beylikdüzü","Beyoğlu","Büyükçekmece","Çatalca","Çekmeköy","Esenler","Esenyurt","Eyüpsultan","Fatih","Gaziosmanpaşa","Güngören","Kadıköy","Kağıthane","Kartal","Küçükçekmece","Maltepe","Pendik","Sancaktepe","Sarıyer","Silivri","Sultanbeyli","Sultangazi","Şile","Şişli","Tuzla","Ümraniye","Üsküdar","Zeytinburnu"],"İzmir":["Aliağa","Balçova","Bayındır","Bayraklı","Bergama","Beydağ","Bornova","Buca","Çeşme","Çiğli","Dikili","Foça","Gaziemir","Güzelbahçe","Karabağlar","Karaburun","Karşıyaka","Kemalpaşa","Kınık","Kiraz","Konak","Menderes","Menemen","Narlıdere","Ödemiş","Seferihisar","Selçuk","Tire","Torbalı","Urla"],"Kahramanmaraş":["Afşin","Andırın","Çağlayancerit","Dulkadiroğlu","Ekinözü","Elbistan","Göksun","Nurhak","Onikişubat","Pazarcık","Türkoğlu"],"Karabük":["Eflani","Eskipazar","Merkez","Ovacık","Safranbolu","Yenice"],"Karaman":["Ayrancı","Başyayla","Ermenek","Kazımkarabekir","Merkez","Sarıveliler"],"Kars":["Akyaka","Arpaçay","Digor","Kağızman","Merkez","Sarıkamış","Selim","Susuz"],"Kastamonu":["Abana","Ağlı","Araç","Azdavay","Bozkurt","Cide","Çatalzeytin","Daday","Devrekani","Doğanyurt","Hanönü","İhsangazi","İnebolu","Küre","Merkez","Pınarbaşı","Seydiler","Şenpazar","Taşköprü","Tosya"],"Kayseri":["Akkışla","Bünyan","Develi","Felahiye","Hacılar","İncesu","Kocasinan","Melikgazi","Özvatan","Pınarbaşı","Sarıoğlan","Sarız","Talas","Tomarza","Yahyalı","Yeşilhisar"],"Kırıkkale":["Bahşılı","Balışeyh","Çelebi","Delice","Karakeçili","Keskin","Merkez","Sulakyurt","Yahşihan"],"Kırklareli":["Babaeski","Demirköy","Kofçaz","Lüleburgaz","Merkez","Pehlivanköy","Pınarhisar","Vize"],"Kırşehir":["Akçakent","Akpınar","Boztepe","Çiçekdağı","Kaman","Merkez","Mucur"],"Kilis":["Elbeyli","Merkez","Musabeyli","Polateli"],"Kocaeli":["Başiskele","Çayırova","Darıca","Derince","Dilovası","Gebze","Gölcük","İzmit","Kandıra","Karamürsel","Kartepe","Körfez"],"Konya":["Ahırlı","Akören","Akşehir","Altınekin","Beyşehir","Bozkır","Cihanbeyli","Çeltik","Çumra","Derbent","Derebucak","Doğanhisar","Emirgazi","Ereğli","Güneysınır","Hadim","Halkapınar","Hüyük","Ilgın","Kadınhanı","Karapınar","Karatay","Kulu","Meram","Sarayönü","Selçuklu","Seydişehir","Taşkent","Tuzlukçu","Yalıhüyük","Yunak"],"Kütahya":["Altıntaş","Aslanapa","Çavdarhisar","Domaniç","Dumlupınar","Emet","Gediz","Hisarcık","Merkez","Pazarlar","Simav","Şaphane","Tavşanlı"],"Malatya":["Akçadağ","Arapgir","Arguvan","Battalgazi","Darende","Doğanşehir","Doğanyol","Hekimhan","Kale","Kuluncak","Pütürge","Yazıhan","Yeşilyurt"],"Manisa":["Ahmetli","Akhisar","Alaşehir","Demirci","Gölmarmara","Gördes","Kırkağaç","Köprübaşı","Kula","Salihli","Sarıgöl","Saruhanlı","Selendi","Soma","Şehzadeler","Turgutlu","Yunusemre"],"Mardin":["Artuklu","Dargeçit","Derik","Kızıltepe","Mazıdağı","Midyat","Nusaybin","Ömerli","Savur","Yeşilli"],"Mersin":["Akdeniz","Anamur","Aydıncık","Bozyazı","Çamlıyayla","Erdemli","Gülnar","Mezitli","Mut","Silifke","Tarsus","Toroslar","Yenişehir"],"Muğla":["Bodrum","Dalaman","Datça","Fethiye","Kavaklıdere","Köyceğiz","Marmaris","Menteşe","Milas","Ortaca","Seydikemer","Ula","Yatağan"],"Muş":["Bulanık","Hasköy","Korkut","Malazgirt","Merkez","Varto"],"Nevşehir":["Acıgöl","Avanos","Derinkuyu","Gülşehir","Hacıbektaş","Kozaklı","Merkez","Ürgüp"],"Niğde":["Altunhisar","Bor","Çamardı","Çiftlik","Merkez","Ulukışla"],"Ordu":["Akkuş","Altınordu","Aybastı","Çamaş","Çatalpınar","Çaybaşı","Fatsa","Gölköy","Gülyalı","Gürgentepe","İkizce","Kabadüz","Kabataş","Korgan","Kumru","Mesudiye","Perşembe","Ulubey","Ünye"],"Osmaniye":["Bahçe","Düziçi","Hasanbeyli","Kadirli","Merkez","Sumbas","Toprakkale"],"Rize":["Ardeşen","Çamlıhemşin","Çayeli","Derepazarı","Fındıklı","Güneysu","Hemşin","İkizdere","İyidere","Kalkandere","Merkez","Pazar"],"Sakarya":["Adapazarı","Akyazı","Arifiye","Erenler","Ferizli","Geyve","Hendek","Karapürçek","Karasu","Kaynarca","Kocaali","Pamukova","Sapanca","Serdivan","Söğütlü","Taraklı"],"Samsun":["Alaçam","Asarcık","Atakum","Ayvacık","Bafra","Canik","Çarşamba","Havza","İlkadım","Kavak","Ladik","Salıpazarı","Tekkeköy","Terme","Vezirköprü","Yakakent","19 Mayıs"],"Siirt":["Baykan","Eruh","Kurtalan","Merkez","Pervari","Şirvan","Tillo"],"Sinop":["Ayancık","Boyabat","Dikmen","Durağan","Erfelek","Gerze","Merkez","Saraydüzü","Türkeli"],"Sivas":["Akıncılar","Altınyayla","Divriği","Doğanşar","Gemerek","Gölova","Gürün","Hafik","İmranlı","Kangal","Koyulhisar","Merkez","Suşehri","Şarkışla","Ulaş","Yıldızeli","Zara"],"Şanlıurfa":["Akçakale","Birecik","Bozova","Ceylanpınar","Eyyübiye","Halfeti","Haliliye","Harran","Hilvan","Karaköprü","Siverek","Suruç","Viranşehir"],"Şırnak":["Beytüşşebap","Cizre","Güçlükonak","İdil","Merkez","Silopi","Uludere"],"Tekirdağ":["Çerkezköy","Çorlu","Ergene","Hayrabolu","Kapaklı","Malkara","Marmaraereğlisi","Muratlı","Saray","Süleymanpaşa","Şarköy"],"Tokat":["Almus","Artova","Başçiftlik","Erbaa","Merkez","Niksar","Pazar","Reşadiye","Sulusaray","Turhal","Yeşilyurt","Zile"],"Trabzon":["Akçaabat","Araklı","Arsin","Beşikdüzü","Çarşıbaşı","Çaykara","Dernekpazarı","Düzköy","Hayrat","Köprübaşı","Maçka","Of","Ortahisar","Sürmene","Şalpazarı","Tonya","Vakfıkebir","Yomra"],"Tunceli":["Çemişgezek","Hozat","Mazgirt","Merkez","Nazımiye","Ovacık","Pertek","Pülümür"],"Uşak":["Banaz","Eşme","Karahallı","Merkez","Sivaslı","Ulubey"],"Van":["Bahçesaray","Başkale","Çaldıran","Çatak","Edremit","Erciş","Gevaş","Gürpınar","İpekyolu","Muradiye","Özalp","Saray","Tuşba"],"Yalova":["Altınova","Armutlu","Çınarcık","Çiftlikköy","Merkez","Termal"],"Yozgat":["Akdağmadeni","Aydıncık","Boğazlıyan","Çandır","Çayıralan","Çekerek","Kadışehri","Merkez","Saraykent","Sarıkaya","Sorgun","Şefaatli","Yenifakılı","Yerköy"],"Zonguldak":["Alaplı","Çaycuma","Devrek","Ereğli","Gökçebey","Kilimli","Kozlu","Merkez"]};
+const BUYUKSEHIR=new Set(["Adana", "Ankara", "Antalya", "Aydın", "Balıkesir", "Bursa", "Denizli", "Diyarbakır", "Erzurum", "Eskişehir", "Gaziantep", "Hatay", "İstanbul", "İzmir", "Kahramanmaraş", "Kayseri", "Kocaeli", "Konya", "Malatya", "Manisa", "Mardin", "Mersin", "Muğla", "Ordu", "Sakarya", "Samsun", "Şanlıurfa", "Tekirdağ", "Trabzon", "Van"]);
+
+/* ================= VERİ ================= */
+const KEY='dogrudanTeminAsistani.v1';
+let DB, memOnly=false, view='home', step=0, saveT=null, dirty=false;
+const BIRIMLER=['Adet','Paket','Kutu','Koli','Bidon','Şişe','Torba','Çuval','Top','Rulo','Deste','Düzine','Çift','Takım','Set','Kg','Gram','Ton','Litre','Metre','m²','m³','Gün','Ay','Saat','Hizmet','Sefer','Kişi'];
+const USULLER=['22/a','22/b','22/c','22/d','22/e','22/f','22/g','22/ğ','22/h','22/ı'];
+const DOSYA_KOD={ihtiyac:'934.01',komisyon:'934.01.99',fiyat:'934.01.03',onay:'934.01.02',harcama:'934.01.99'};
+
+function yeniKurum(){return{il:'',ilce:'',ust1:'T.C.',ust2:'',ust3:'',okul:'',okulEk:'Müdürlüğü',adres:'',kurumKodu:'',kurumsalKod:'',muhasebe:'',
+ harcamaAd:'',harcamaUnvan:'Okul Müdürü',gercekAd:'',gercekUnvan:'Müdür Yardımcısı',
+ limitTur:'diger',limitB:'1.021.827',limitD:'340.391',limitYil:'2026',kod:{...DOSYA_KOD},personel:[]};}
+const bosKalem=()=>({ad:'',ozellik:'',miktar:'',birim:'Adet',teknik:'',kabul:''});
+const firma=()=>({ad:'',vkn:'',adres:'',tel:'',fiyat:[]});
+const uye=()=>({ad:'',unvan:'',gorev:'Komisyon Üyesi'});
+const uyeler=()=>[uye(),uye(),uye()];
+function yeniAlim(){return{
+ id:uid(),olusturma:Date.now(),guncel:Date.now(),yil:new Date().getFullYear(),no:0,arsiv:false,arsivTarih:null,kurumSnap:null,
+ ad:'',tur:'mal',dtNo:'',usul:'22/d',kdv:'20',odenek:'',butce:'',yatirimNo:'',
+ avans:'Verilmeyecektir',ilan:'Yapılmayacaktır',dokuman:'—',fiyatFarki:'Ödenmeyecektir',sozlesme:'Düzenlenmeyecektir',yeterlik:'Aranmayacaktır',aciklama:'',
+ teknikVar:false,
+ sart:{sure:'10 (on) gün',parti:'1 (tek) parti',nakliye:'Satıcıya aittir',standart:'TSE / CE',ozel:'',diger:''},
+ kalemler:[bosKalem()],
+ kom:{tek:false,ym:uyeler(),pa:uyeler(),mk:uyeler()},
+ ymF:[firma(),firma(),firma()],paF:[firma(),firma(),firma()],kazanan:'oto',
+ tarih:{ihtiyac:'',komisyon:'',fiyat:'',ym:'',onay:'',teklif:'',piyasa:'',muayene:'',harcama:'',teslim:''},
+ sayi:{ihtiyac:'',komisyon:'',fiyat:'',onay:'',harcama:''},
+ kabul:{kararNo:'',sure:''},
+ hak:{no:'1',onceki:'',fiyatFarki:'',gelirV:'0',damga:true,damgaOran:'9,48',tevkifat:'0',sgk:'',makine:'',gecikme:'',avans:'',teminat:''},
+ odeme:{hys:'',hko:'',formSira:'',torba:'',tutar:'',teslimEdenAd:'',teslimEdenUnvan:''},
+ omkl:{},teslimBelge:null,belge:{doldur:false},secili:{}
+};}
+const isObj=v=>v&&typeof v==='object'&&!Array.isArray(v);
+function merge(def,val){ if(val===undefined||val===null) return def; if(isObj(def)&&isObj(val)){const o={...def}; for(const k in val) o[k]=merge(def[k],val[k]); return o;} return val; }
+function normAlim(a){
+  const x=merge(yeniAlim(),a);
+  x.kalemler=(x.kalemler||[]).map(k=>({...bosKalem(),...k})); if(!x.kalemler.length) x.kalemler=[bosKalem()];
+  x.ymF=(x.ymF||[]).map(f=>({...firma(),...f,fiyat:f.fiyat||[]}));
+  x.paF=(x.paF||[]).map(f=>({...firma(),...f,fiyat:f.fiyat||[]}));
+  ['ym','pa','mk'].forEach(k=>{x.kom[k]=(x.kom[k]||[]).map(u=>({...uye(),...u})); if(!x.kom[k].length) x.kom[k]=[uye()];});
+  return x;
+}
+function load(){
+  let raw=null;
+  try{ raw=localStorage.getItem(KEY); localStorage.setItem(KEY+'.t','1'); localStorage.removeItem(KEY+'.t'); }catch(e){ memOnly=true; }
+  try{ DB=raw?JSON.parse(raw):null; }catch(e){ DB=null; }
+  if(!DB||!DB.kurum) DB={ver:1,kurum:yeniKurum(),alimlar:[],aktif:null};
+  DB.kurum=merge(yeniKurum(),DB.kurum); DB.kurum.kod=merge({...DOSYA_KOD},DB.kurum.kod);
+  DB.alimlar=(DB.alimlar||[]).map(normAlim);
+  [...DB.alimlar].sort((x,y)=>x.olusturma-y.olusturma).forEach(a=>{ if(!a.yil) a.yil=new Date(a.olusturma).getFullYear(); if(!+a.no) a.no=siradakiNo(a.yil); });
+}
+function flush(){ if(!saveT) return; clearTimeout(saveT); saveT=null; if(memOnly) return; try{ localStorage.setItem(KEY,JSON.stringify(DB)); dirty=false; }catch(e){} }
+window.addEventListener('pagehide',flush); document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='hidden') flush(); });
+function save(){ dirty=true; clearTimeout(saveT); setSave('…'); saveT=setTimeout(()=>{ saveT=null;
+  if(memOnly){ setSave('mem'); return; }
+  try{ localStorage.setItem(KEY,JSON.stringify(DB)); dirty=false; setSave('ok'); }catch(e){ memOnly=true; setSave('mem'); toast('Tarayıcı kaydı yapılamadı. Lütfen yedek dosyası alın.'); }
+},350); }
+function setSave(s){ const el=$('#saveSt'); if(!el) return;
+  el.innerHTML = s==='ok'?ic('tamam')+'<span class="st">Kaydedildi</span>' : s==='mem'?ic('uyari')+'<span class="st">Yedek alın</span>' : ic('yukle')+'<span class="st">Kaydediliyor…</span>'; el.title=s==='ok'?'Kaydedildi':s==='mem'?'Tarayıcı kaydı yok — yedek alın':'Kaydediliyor'; }
+const cur=()=>DB.alimlar.find(x=>x.id===DB.aktif);
+function kur(){ const a=cur(); return (view==='alim'&&a&&a.arsiv&&a.kurumSnap)?a.kurumSnap:DB.kurum; }
+function antet(k){ const il=String(k.il||'').trim(), ilce=String(k.ilce||'').trim(), merkez=!ilce||/^merkez$/i.test(ilce);
+  const u2=k.ust2||(merkez?(il?trUp(il)+' VALİLİĞİ':''):trUp(ilce)+' KAYMAKAMLIĞI');
+  const u3=k.ust3||(merkez?(il?'İl Milli Eğitim Müdürlüğü':''):'İlçe Milli Eğitim Müdürlüğü');
+  return [k.ust1,u2,u3,k.okul].filter(x=>String(x||'').trim()); }
+const dosyaNo=a=>`${a.yil}/${a.no}`;
+const dosyaEt=a=>`${dosyaNo(a)} ${a.ad||'Adsız alım dosyası'}`;
+function siradakiNo(yil){ return DB.alimlar.filter(x=>+x.yil===+yil).reduce((m,x)=>Math.max(m,+x.no||0),0)+1; }
+function numarala(a){ a.yil=new Date().getFullYear(); a.no=siradakiNo(a.yil); return a; }
+function touch(){ const a=cur(); if(a) a.guncel=Date.now(); save(); }
+function rootOf(p){ return p[0]==='k'?DB.kurum:cur(); }
+function getVal(p){ let o=rootOf(p); for(const k of p.slice(2).split('.')){ if(o==null) return ''; o=o[k]; } return o??''; }
+function setVal(p,v){ let o=rootOf(p); const ks=p.slice(2).split('.'); for(let i=0;i<ks.length-1;i++){ if(o[ks[i]]==null) o[ks[i]]=/^\d+$/.test(ks[i+1])?[]:{}; o=o[ks[i]]; } o[ks[ks.length-1]]=v; }
+
+/* ================= HESAP ================= */
+const komPA=a=>a.kom.tek?a.kom.ym:a.kom.pa;
+const usulMetin=a=>`4734 Sayılı Kamu İhale Kanunu'nun ${a.usul} Maddesi`;
+const okulTam=()=>`${kur().okul} ${kur().okulEk||''}`.trim();
+function tevOran(s){ if(!s||s==='0') return 0; const [p,q]=String(s).split('/'); return num(p)/num(q||10); }
+function limitDeger(){ const k=kur(); return num(k.limitTur==='buyuksehir'?k.limitB:k.limitD); }
+function hesap(a){
+  const K=a.kalemler.map((k,i)=>({...k,i,m:num(k.miktar)})).filter(k=>String(k.ad).trim());
+  const fp=(f,k)=>num(f.fiyat[k.i]);
+  const ymK=K.map(k=>{ const fs=a.ymF.map(f=>fp(f,k)).filter(v=>v>0); const bf=fs.length?r2(fs.reduce((s,v)=>s+v,0)/fs.length):0; return {...k,n:fs.length,bf,toplam:r2(bf*k.m)}; });
+  const ymToplam=r2(ymK.reduce((s,k)=>s+k.toplam,0));
+  const ymFT=a.ymF.map(f=>r2(K.reduce((s,k)=>s+r2(fp(f,k)*k.m),0)));
+  const paT=a.paF.map((f,fi)=>({fi,ad:f.ad,tam:K.length>0&&K.every(k=>fp(f,k)>0),bos:K.every(k=>!fp(f,k)),top:r2(K.reduce((s,k)=>s+r2(fp(f,k)*k.m),0))}));
+  const aday=paT.filter(t=>t.tam);
+  let kaz=-1, esit=false, oto=true;
+  if(a.kazanan!=='oto' && a.paF[+a.kazanan]){ kaz=+a.kazanan; oto=false; }
+  else if(aday.length){ const mn=Math.min(...aday.map(t=>t.top)); const m=aday.filter(t=>t.top===mn); kaz=m[0].fi; esit=m.length>1; }
+  const kf=kaz>=0?a.paF[kaz]:null;
+  const kK=K.map(k=>{ const b=kf?fp(kf,k):0; const km=String(k.kabul).trim()===''?k.m:num(k.kabul); return {...k,bf:b,toplam:r2(b*k.m),kabulM:km,kalan:r2(k.m-km),kabulT:r2(b*km)}; });
+  const kazTop=r2(kK.reduce((s,k)=>s+k.toplam,0));
+  const kabulTop=r2(kK.reduce((s,k)=>s+k.kabulT,0));
+  const kdv=num(a.kdv)/100, h=a.hak;
+  const A=kabulTop, B=num(h.fiyatFarki), C=r2(A+B), D=num(h.onceki), E=r2(C-D), F=r2(E*kdv), G=r2(E+F);
+  const ks={a:r2(E*num(h.gelirV)/100), b:h.damga?r2(E*num(h.damgaOran)/1000):0, c:r2(F*tevOran(h.tevkifat)), d:num(h.sgk), e:num(h.makine), f:num(h.gecikme), g:num(h.avans), h:num(h.teminat)};
+  const H=r2(Object.values(ks).reduce((s,v)=>s+v,0));
+  return {K,ymK,ymToplam,ymFT,paT,aday,kaz,kf,esit,oto,kK,kazTop,kabulTop,kdv,hak:{A,B,C,D,E,F,G,ks,H,net:r2(G-H)},
+    limit:limitDeger(),gun:gunFark(a.tarih.ihtiyac,a.tarih.muayene),odenekKdvli:r2(ymToplam*(1+kdv))};
+}
+const TARIH_SIRA=[['ihtiyac','İhtiyaç Listesi'],['komisyon','Komisyon Onayı'],['fiyat','Fiyat Araştırma Formu'],['ym','Yaklaşık Maliyet Cetveli'],['onay','Onay Belgesi'],['teklif','Teklif Mektubu'],['piyasa','Piyasa Araştırma Tutanağı'],['muayene','Muayene / Kabul'],['teslim','Ödeme Belgesi Teslimi']];
+function kontrol(a){
+  const h=hesap(a), L=[], k=kur();
+  const add=(lvl,msg,st)=>L.push({lvl,msg,st});
+  if(!k.okul||!k.harcamaAd||!k.gercekAd) add('err','Kurum bilgileri eksik (okul adı, harcama yetkilisi veya gerçekleştirme görevlisi).','kurum');
+  if(!k.kurumKodu) add('warn','DETSİS numarası girilmedi; evrak sayılarında kullanılır.','kurum');
+  else if(!/^\d{8}$/.test(String(k.kurumKodu).trim())) add('warn',`DETSİS numarası (${k.kurumKodu}) 8 haneli bir sayı görünmüyor; kontrol edin.`,'kurum');
+  const eksikNo=['ihtiyac','komisyon','fiyat','onay','harcama'].filter(x=>/-$/.test(String(a.sayi[x]||'').trim())).length;
+  if(eksikNo) add('warn',`${eksikNo} belgenin sayısında EBYS evrak numarası eksik (sayı “-” ile bitiyor).`,5);
+  if(!String(a.ad).trim()) add('err','İşin adı girilmedi.',0);
+  if(DB.alimlar.some(x=>x!==a&&+x.yil===+a.yil&&+x.no===+a.no)) add('warn',`${dosyaNo(a)} numarası başka bir dosyada da kullanılıyor.`,0);
+  if(!h.K.length) add('err','En az bir kalem girilmeli.',1);
+  h.K.forEach(x=>{ if(!(x.m>0)) add('err',`“${x.ad}” kaleminin miktarı girilmedi.`,1); });
+  if(a.teknikVar && h.K.some(x=>!String(x.teknik).trim())) add('warn','Teknik şartname düzenlenecek ama bazı kalemlerin teknik özelliği boş.',1);
+  const kn={ym:a.kom.tek?'Yaklaşık maliyet ve satın alma komisyonu':'Yaklaşık maliyet komisyonu',pa:'Piyasa araştırma komisyonu',mk:'Muayene ve kabul komisyonu'};
+  (a.kom.tek?['ym','mk']:['ym','pa','mk']).forEach(t=>{ if(a.kom[t].some(u=>!u.ad.trim())) add('warn',`${kn[t]}: boş üye adı var.`,2); });
+  const mkN=a.kom.mk.filter(u=>u.ad.trim()).length; if(mkN && (mkN<3||mkN%2===0)) add('warn','Muayene ve kabul komisyonu en az 3 ve tek sayıda üyeden oluşmalıdır.',2);
+  if(h.K.length){
+    if(h.ymToplam<=0) add('err','Yaklaşık maliyet için fiyat girilmedi.',3);
+    else { const az=h.ymK.filter(x=>x.n<3); if(az.length) add('warn',`${az.length} kalemde 3'ten az fiyat var; yaklaşık maliyet eldeki fiyatların ortalamasıyla hesaplandı.`,3); }
+    if(a.usul==='22/d' && h.limit>0 && h.ymToplam>h.limit) add('err',`Yaklaşık maliyet (${tlx(h.ymToplam)}) 22/d limitini (${tlx(h.limit)}) aşıyor.`,3);
+    if(num(a.odenek)>0 && h.ymToplam>0 && num(a.odenek)<h.odenekKdvli) add('warn',`Kullanılabilir ödenek (${tlx(num(a.odenek))}) KDV dahil yaklaşık maliyetin (${tlx(h.odenekKdvli)}) altında.`,0);
+    if(!num(a.odenek)) add('warn','Kullanılabilir ödenek girilmedi.',0);
+    const yarim=h.paT.filter(t=>!t.tam&&!t.bos); if(yarim.length) add('warn',`${yarim.length} teklif eksik fiyatlı; değerlendirmeye alınmadı.`,4);
+    if(h.kaz<0) add('err','Değerlendirilebilir (tüm kalemleri fiyatlı) teklif yok.',4);
+    else {
+      if(!String(h.kf.ad).trim()) add('err','Seçilen firmanın adı boş.',4);
+      if(h.esit) add('warn','En düşük teklifler eşit; ilk sıradaki firma seçildi. Gerekirse elle seçin.',4);
+      if(!h.oto && h.aday.length && h.kazTop>Math.min(...h.aday.map(t=>t.top))) add('warn','Elle seçilen firma en düşük teklif sahibi değil; gerekçeyi Onay/Tutanak açıklamasına yazın.',4);
+      if(h.ymToplam>0 && h.kazTop>h.ymToplam) add('warn','Kabul edilen teklif yaklaşık maliyetin üzerinde.',4);
+      if(h.aday.length<3) add('warn',`Değerlendirilen teklif sayısı ${h.aday.length}.`,4);
+    }
+  }
+  let onceki=null;
+  TARIH_SIRA.forEach(([key,ad])=>{ const t=a.tarih[key]; if(!t){ add('warn',`${ad} tarihi girilmedi.`,5); return; } if(onceki&&t<onceki.t) add('err',`${ad} tarihi, ${onceki.ad} tarihinden önce olamaz.`,5); onceki={t,ad}; });
+  h.kK.forEach(x=>{ if(x.kabulM>x.m) add('err',`“${x.ad}”: kabul edilen miktar sipariş miktarını aşıyor.`,6); if(x.kabulM<0) add('err',`“${x.ad}”: kabul miktarı negatif olamaz.`,6); });
+  if(!a.kabul.kararNo) add('warn','Muayene/kabul karar (tutanak) numarası girilmedi.',6);
+  return L;
+}
+function ilerleme(a){
+  const h=hesap(a), t=Object.values(a.tarih);
+  const s=[!!String(a.ad).trim(), h.K.length>0&&h.K.every(k=>k.m>0),
+    (a.kom.tek?['ym','mk']:['ym','pa','mk']).every(x=>a.kom[x].every(u=>u.ad.trim())),
+    h.ymToplam>0, h.kaz>=0, t.every(Boolean), !!a.kabul.kararNo];
+  return s;
+}
+
+/* ================= ÜST BAR / ADIMLAR ================= */
+const STEPS=[['Genel','genel'],['Kalemler','kalem'],['Komisyonlar','komisyon'],['Yaklaşık Maliyet','terazi'],['Teklifler','teklif'],['Tarih & Sayı','takvim'],['Kabul & Ödeme','kabul'],['Belgeler','belge'],['Kontrol','kontrol']];
+function renderTop(){
+  const a=cur();
+  const sub = view==='alim'&&a ? dosyaEt(a)+(a.arsiv?' · Arşiv':'') : view==='kurum'?'Ayarlar': view==='rehber'?'İş akışı rehberi':'Mal ve hizmet alımları · 4734 / 22';
+  $('#top').innerHTML=`<div class="brand" data-act="home">${ic('muhur','mark')}<div><b>Doğrudan Temin</b><small>${esc(sub)}</small></div></div><div class="sp"></div>
+  <span class="save" id="saveSt"></span>
+  ${view!=='home'?`<button class="ibtn" data-act="home" title="Ana sayfa">${ic('ev')}</button>`:''}
+  <button class="ibtn" data-act="rehber" title="İş akışı rehberi">${ic('rehber')}</button>
+  <button class="ibtn" data-act="kurum" title="Ayarlar">${ic('ayar')}</button>`;
+  setSave(memOnly?'mem':(dirty?'…':'ok'));
+}
+function renderSteps(){
+  const el=$('#steps'), a=cur();
+  if(view!=='alim'||!a){ el.classList.add('hidden'); return; }
+  el.classList.remove('hidden');
+  const pr=ilerleme(a), L=kontrol(a), e=L.filter(x=>x.lvl==='err').length, w=L.filter(x=>x.lvl==='warn').length;
+  el.innerHTML=STEPS.map(([ad,i],n)=>{
+    const done=n<7&&pr[n]; let bd='';
+    if(n===8&&(e||w)) bd=`<span class="bd ${e?'':'w'}">${e||w}</span>`;
+    return `<button class="chip ${n===step?'on':''} ${done&&n!==step?'done':''}" data-act="step" data-i="${n}"><span class="n">${done&&n!==step?ic('tamam'):ic(i)}</span>${ad}${bd}</button>`;
+  }).join('');
+  const on=el.querySelector('.chip.on'); if(on&&renderSteps.son!==step){ renderSteps.son=step; el.scrollLeft=Math.max(0,on.offsetLeft-el.clientWidth/2+on.offsetWidth/2); }
+}
+function renderFoot(){
+  const el=$('#foot');
+  if(view!=='alim'){ el.classList.add('hidden'); return; }
+  el.classList.remove('hidden');
+  el.innerHTML=`<div class="in"><button class="btn" data-act="prev" ${step===0?'disabled':''}>${ic('geri')}Geri</button>
+  ${step<STEPS.length-1?`<button class="btn p" data-act="next">${STEPS[step+1][0]}${ic('ileri')}</button>`:`<button class="btn p" data-act="home">${ic('dosya')}Dosyalar</button>`}</div>`;
+}
+
+/* ================= FORM ELEMANLARI ================= */
+function fld(label,p,o={}){
+  const v=getVal(p);
+  const sec=SECK[o.list]||'';
+  const at=`data-b="${p}" ${o.rr?'data-rr="1"':''} ${o.num?'inputmode="decimal"':''} ${sec?`data-sec="${sec}" autocomplete="off"`:''} ${o.unvan?`data-unvan="${o.unvan}"`:''} placeholder="${esc(o.ph||'')}"`;
+  const inp = o.area?`<textarea ${at}>${esc(v)}</textarea>`:`<input ${at} type="${o.type||'text'}" value="${esc(v)}">`; const inp2=sec?`<div class="cb">${inp}<button type="button" class="cbt" data-act="cbAc" tabindex="-1" aria-label="Listeden seç">${ic('asagi')}</button></div>`:inp;
+  return `<label class="f ${o.cls||''}">${label?`<span>${label}</span>`:''}${inp2}${o.hint?`<small>${o.hint}</small>`:''}</label>`;
+}
+const SECK={dlBirim:'birim',dlUnvan:'unvan',dlPers:'pers'};
+function hk(p,o={}){ const sec=SECK[o.list]; const i=hk0(p,o,sec); return sec?`<div class="cb">${i}<button type="button" class="cbt" data-act="cbAc" tabindex="-1" aria-label="Listeden seç">${ic('asagi')}</button></div>`:i; }
+function hk0(p,o,sec){ return `<input data-b="${p}" value="${esc(getVal(p))}" ${o.num?'inputmode="decimal"':''} ${sec?`data-sec="${sec}" autocomplete="off"`:''} ${o.unvan?`data-unvan="${o.unvan}"`:''} ${o.rr?'data-rr="1"':''} placeholder="${esc(o.ph||'')}" aria-label="${esc(o.ph||'')}">`; }
+function hs(p,opts){ const v=String(getVal(p)); return `<select data-b="${p}">${opts.map(x=>{const [val,t]=Array.isArray(x)?x:[x,x];return `<option value="${esc(val)}" ${val===v?'selected':''}>${esc(t)}</option>`;}).join('')}</select>`; }
+function sel(label,p,opts,o={}){
+  const v=String(getVal(p));
+  return `<label class="f ${o.cls||''}">${label?`<span>${label}</span>`:''}<select data-b="${p}" ${o.rr?'data-rr="1"':''}>${opts.map(x=>{const [val,t]=Array.isArray(x)?x:[x,x];return `<option value="${esc(val)}" ${String(val)===v?'selected':''}>${esc(t)}</option>`;}).join('')}</select>${o.hint?`<small>${o.hint}</small>`:''}</label>`;
+}
+function chk(label,p,o={}){ return `<label class="sw"><input type="checkbox" data-b="${p}" ${o.rr?'data-rr="1"':''} ${getVal(p)?'checked':''}><span>${label}${o.hint?`<small>${o.hint}</small>`:''}</span></label>`; }
+function seg(p,opts){ const v=String(getVal(p)); return `<div class="seg">${opts.map(([val,t])=>`<button data-act="set" data-p="${p}" data-v="${esc(val)}" class="${String(val)===v?'on':''}">${t}</button>`).join('')}</div>`; }
+const note=(lvl,msg)=>`<div class="note ${lvl}">${ic(lvl==='ok'?'tamam':lvl==='info'?'bilgi':'uyari')}<div>${msg}</div></div>`;
+function datalists(){ return ''; }
+const UNVANLAR=['Okul Müdürü','Müdür Başyardımcısı','Müdür Yardımcısı','Öğretmen','Memur','Şef','V.H.K.İ.','Bilgisayar İşletmeni','Teknisyen','Hizmetli'];
+function secenekler(t){ const P=DB.kurum.personel||[];
+  if(t==='birim') return BIRIMLER.map(x=>({v:x}));
+  if(t==='unvan') return [...new Set([...UNVANLAR,...P.map(x=>String(x.unvan||'').trim()).filter(Boolean)])].map(x=>({v:x}));
+  if(t==='pers') return P.filter(x=>String(x.ad).trim()).map(x=>({v:x.ad,alt:x.unvan}));
+  return []; }
+
+/* ================= ANA SAYFA ================= */
+function dosyaKart(a){
+  const h=hesap(a), pr=ilerleme(a), y=Math.round(pr.filter(Boolean).length/pr.length*100);
+  return `<div class="dosya ${a.arsiv?'ars':''}" data-act="open" data-id="${a.id}"><div class="ic">${ic(a.arsiv?'arsiv':a.tur==='hizmet'?'kabul':'kalem')}</div>
+   <div class="mid"><b>${esc(dosyaEt(a))}</b>
+   <small><span class="tag ${a.tur==='hizmet'?'h':''}">${a.tur==='hizmet'?'Hizmet':'Mal'}</span>${h.K.length} kalem · YM ${tlx(h.ymToplam)}${h.kf&&h.kf.ad?' · '+esc(h.kf.ad):''}</small>
+   ${a.arsiv?`<small style="display:block">${ic('arsiv','xs')} Arşiv: ${new Date(a.arsivTarih).toLocaleDateString('tr-TR')}</small>`:`<div class="bar"><i style="width:${y}%"></i></div>`}</div>
+   <div class="acts">${a.arsiv?`<button class="btn s g" data-act="arsivCik" data-id="${a.id}" title="Arşivden çıkar">${ic('geriAl')}Arşivden çıkar</button><button class="btn s g" data-act="dup" data-id="${a.id}" title="Kopyasını oluştur">${ic('kopya')}Kopyala</button>`
+     :`<button class="btn s g" data-act="arsivle" data-id="${a.id}" title="Arşive kaldır">${ic('arsiv')}Arşivle</button><button class="btn s g" data-act="dup" data-id="${a.id}" title="Kopyasını oluştur">${ic('kopya')}Kopyala</button>`}
+   <button class="btn s g d" data-act="del" data-id="${a.id}" title="Sil">${ic('cop')}</button></div></div>`;
+}
+function vHome(){
+  const k=DB.kurum, eksik=!k.okul||!k.kurumKodu||!k.harcamaAd||!k.gercekAd;
+  const sira=(x,y)=>(y.yil-x.yil)||(x.no-y.no);
+  const aktif=DB.alimlar.filter(a=>!a.arsiv).sort(sira), ars=DB.alimlar.filter(a=>a.arsiv).sort(sira);
+  const ant=antet(k);
+  return `${memOnly?note('warn','Bu açılışta tarayıcı kaydı kullanılamıyor (dosya yerel olarak açılmış olabilir). Çalışmanızı kaybetmemek için işiniz bitince <b>Yedek al</b> ile JSON dosyası indirin, sonra <b>Yedekten yükle</b> ile geri açın.'):''}
+  <section class="hero">${ic('muhur','seal')}
+   <h1>Doğrudan Temin Asistanı</h1>
+   <p>İhtiyaç listesinden ödeme belgesine kadar tüm doğrudan temin evrakını tek dosyadan, hesaplarıyla birlikte hazırlayın.</p>
+   <div class="row"><button class="btn a" data-act="new">${ic('arti')}Yeni alım dosyası</button>
+   ${!DB.alimlar.length?`<button class="btn" data-act="demo">${ic('sihir')}Örnek dosya</button>`:''}</div>
+  </section>
+  ${datalists()}
+  <div class="card"><div class="row" style="flex-wrap:nowrap;align-items:flex-start"><h2 style="flex:1">${ic('kurum')}Kurum bilgileri</h2><button class="btn s" data-act="kurum">${ic('ayar')}Ayarlar</button></div>
+   ${eksik?note('info','Antet, imza blokları ve evrak sayılarında kullanılacak kurum bilgilerini <b>Ayarlar</b> sayfasından bir kez girin.')+`<button class="btn a" data-act="kurum">${ic('kurum')}Kurum bilgilerini gir</button>`
+    :`<div class="ksum">${ant.map(esc).join(' · ')}<br>DETSİS no ${esc(k.kurumKodu)} · Harcama yetkilisi ${esc(k.harcamaAd)} · Gerçekleştirme görevlisi ${esc(k.gercekAd)}</div>`}
+  </div>
+  <div class="card"><h2>${ic('dosya')}Alım dosyaları</h2><p class="lead" style="margin:2px 0 10px">Yeni dosya numarası: ${new Date().getFullYear()}/${siradakiNo(new Date().getFullYear())}</p>
+   ${aktif.length?aktif.map(dosyaKart).join(''):`<div class="empty">${ic('dosya')}<div>${ars.length?'Devam eden alım dosyası yok.':'Henüz alım dosyası yok.'}</div></div>`}
+  </div>
+  <details class="card" ${DB.arsivAcik?'open':''} id="arsivK"><summary><h2>${ic('arsiv')}Arşiv <span class="cnt">${ars.length}</span></h2></summary>
+   <p class="lead" style="margin-top:8px">Biten alımlar burada saklanır. Arşivdeki dosya, kaldırıldığı andaki kurum bilgileriyle birlikte eksiksiz açılır ve tüm belgeleri yeniden yazdırılabilir; değişiklik için arşivden çıkarılmalıdır.</p>
+   ${ars.length?ars.map(dosyaKart).join(''):`<div class="empty" style="padding:12px">Arşivde dosya yok.</div>`}
+  </details>
+  <div class="card"><h2>${ic('indir')}Yedekleme</h2>
+   <p class="lead">Veriler yalnızca bu cihazdaki tarayıcıda tutulur. Başka cihaza taşımak veya güvenceye almak için yedek dosyası kullanın (arşiv dahil).</p>
+   <div class="row"><button class="btn" data-act="backup">${ic('indir')}Yedek al</button><button class="btn" data-act="restore">${ic('yukle')}Yedekten yükle</button>
+   ${DB.alimlar.length?`<button class="btn g" data-act="demo">${ic('sihir')}Örnek dosya ekle</button>`:''}</div>
+  </div>`;
+}
+
+/* ================= KURUM ================= */
+function ilSec(k){ return sel('İl','k:il',[['','İl seçin'],...Object.keys(ILLER)],{rr:1}); }
+function ilceSec(k){ const L=ILLER[k.il]||[], v=String(k.ilce||'');
+  const op=L.length?[['','İlçe seçin'],...L.map(x=>[x,x==='Merkez'?'Merkez (il merkezi)':x])]:[['','Önce il seçin']];
+  if(v&&!L.includes(v)) op.push([v,v+' (listede yok)']);
+  return sel('İlçe','k:ilce',op,{rr:1,hint:k.il&&!BUYUKSEHIR.has(k.il)?'İl merkezindeki kurumlar için “Merkez” seçin.':''}); }
+function muhOneri(k){ const il=String(k.il||'').trim(), ilce=String(k.ilce||'').trim(); if(!il) return '';
+  return (!ilce||ilce==='Merkez')?trUp(il)+' DEFTERDARLIĞI MUHASEBE MÜDÜRLÜĞÜ':trUp(ilce)+' MALMÜDÜRLÜĞÜ'; }
+function vKurum(){
+  const k=DB.kurum;
+  return `${datalists()}<div class="yanform">
+  <div class="card"><h2>${ic('kurum')}Kurum</h2><p class="lead">Tüm alım dosyalarında ortak kullanılır.</p>
+  <div class="grid">${ilSec(k)}${ilceSec(k)}
+  ${fld('Kurum adı','k:okul',{ph:'Atatürk Anadolu Lisesi'})}${fld('Adın devamı','k:okulEk',{ph:'Müdürlüğü'})}
+  <div class="f"><span>DETSİS no</span><div class="row" style="flex-wrap:nowrap;gap:6px"><input data-b="k:kurumKodu" style="flex:1;min-width:0;letter-spacing:.5px" inputmode="numeric" value="${esc(k.kurumKodu)}" placeholder="12345678"><button class="btn s a" data-act="detsis" style="white-space:nowrap;flex:none" title="DETSİS'te ara">${ic('ara')}Ara</button></div>
+  <small>EBYS evrak sayısındaki kurum numarası. Butona basınca kurum adı kopyalanır ve detsis.gov.tr açılır; arama kutusuna yapıştırıp çıkan numarayı buraya yazın.</small></div>
+  ${fld('Adres','k:adres',{ph:'Teslim yeri'})}</div></div>
+  <div class="card"><h2>${ic('kisi')}Yetkililer</h2>
+  <div class="grid">${fld('Harcama yetkilisi','k:harcamaAd',{ph:'Ad SOYAD'})}${fld('Unvanı','k:harcamaUnvan',{list:'dlUnvan'})}
+  ${fld('Gerçekleştirme görevlisi','k:gercekAd',{ph:'Ad SOYAD'})}${fld('Unvanı','k:gercekUnvan',{list:'dlUnvan'})}</div></div>
+  <div class="card"><h2>${ic('belge')}Belge anteti</h2><p class="lead">İl ve ilçeden otomatik oluşur (ilçe → KAYMAKAMLIĞI / İlçe MEM, merkez → VALİLİĞİ / İl MEM). Farklı yazılması gerekiyorsa satırı elle doldurun.</p>
+  <div class="grid">${fld('1. satır','k:ust1',{ph:'T.C.'})}${fld('2. satır','k:ust2',{ph:'Otomatik: '+(antet({...k,ust2:''})[1]||'—')})}${fld('3. satır','k:ust3',{ph:'Otomatik: '+(antet({...k,ust3:''})[2]||'—')})}</div>
+  <div class="antet" data-live="antet"></div></div>
+  <div class="card"><h2>${ic('odeme')}Muhasebe</h2>
+  <div class="grid">${fld('Kurumsal kod','k:kurumsalKod',{ph:'13.01.32.62.285'})}${fld('Muhasebe birimi','k:muhasebe',{ph:muhOneri(k)||'KADİRLİ MALMÜDÜRLÜĞÜ'})}</div>${!k.muhasebe&&muhOneri(k)?`<button class="btn s g" data-act="muhYaz" style="margin-top:6px">${ic('sihir')}“${esc(muhOneri(k))}” yaz</button>`:''}</div>
+  <div class="card"><h2>${ic('tablo')}Evrak dosya kodları</h2>
+  <div class="grid">${fld('İhtiyaç listesi','k:kod.ihtiyac')}${fld('Komisyon onayı','k:kod.komisyon')}${fld('Fiyat araştırması','k:kod.fiyat')}${fld('Onay belgesi','k:kod.onay')}${fld('Harcama talimatı','k:kod.harcama')}</div></div>
+  <div class="card"><h2>${ic('terazi')}22/d parasal limiti</h2><p class="lead">KDV hariç yaklaşık maliyet bu limitle karşılaştırılır. Limitler her yıl Kamu İhale Tebliği ile güncellenir.</p>
+  <div style="margin-bottom:10px">${seg('k:limitTur',[['diger','Diğer idareler'],['buyuksehir','Büyükşehir içi']])}</div>
+  <div class="grid">${fld('Diğer idareler (₺)','k:limitD',{num:1})}${fld('Büyükşehir (₺)','k:limitB',{num:1})}${fld('Geçerli yıl','k:limitYil')}</div></div>
+  </div>
+  <div class="card"><h2>${ic('komisyon')}Personel listesi</h2><p class="lead">Komisyon üyesi yazarken öneri olarak çıkar, unvanı kendiliğinden doldurur.</p>
+  ${(k.personel||[]).length?`<div class="sat bas c-pers"><span>#</span><span>Adı soyadı</span><span>Unvanı</span><span></span></div>`:''}
+  ${(k.personel||[]).map((p,i)=>`<div class="sat c-pers"><span class="sn">${i+1}</span>${hk(`k:personel.${i}.ad`,{ph:'Ad SOYAD'})}${hk(`k:personel.${i}.unvan`,{ph:'Unvanı',list:'dlUnvan'})}<button class="xb d" data-act="delPers" data-i="${i}" title="Sil">${ic('kapat')}</button></div>`).join('')}
+  <button class="btn s" data-act="addPers" style="margin-top:6px">${ic('arti')}Personel ekle</button></div>
+  <div class="row end"><button class="btn p" data-act="home">${ic('tamam')}Tamam</button></div>`;
+}
+
+/* ================= REHBER ================= */
+function vRehber(){
+  const s=[
+   ['İhtiyacın tespiti','İstenen mal/hizmetin gerçekten satın alınması gerekip gerekmediği değerlendirilir; tutarın 22/d parasal limitinin altında kalıp kalmadığına bakılır.'],
+   ['İhtiyaç listesi','Alınacak kalemler listelenip harcama yetkilisinin OLUR’una sunulur. → İhtiyaç Listesi'],
+   ['Komisyonların görevlendirilmesi','Fiyat araştırması/yaklaşık maliyet, piyasa araştırması/satın alma ve muayene-kabul görevlileri onaylanır. → Komisyon Görevlendirme Onayı'],
+   ['Yaklaşık maliyet','En az üç kişi/firmadan fiyat alınır, ortalaması ile hesap cetveli düzenlenir. → Fiyat Araştırma Formu, Yaklaşık Maliyet Hesap Cetveli'],
+   ['Onay belgesi','Yaklaşık maliyet, ödenek ve alım usulü ile birlikte harcama yetkilisinin onayına sunulur. → Onay Belgesi, Harcama Talimatı'],
+   ['Teklif toplama','Onaydan sonra piyasadan yazılı teklifler alınır. → Teklif Mektubu (+ varsa Teknik Şartname)'],
+   ['Piyasa araştırma tutanağı','Teklifler karşılaştırılır, uygun teklif sahibinden alım kararı tutanağa bağlanır. → Piyasa Fiyat Araştırma Tutanağı'],
+   ['Teslim ve muayene-kabul','Teslim edilen mal/hizmet komisyonca incelenir, uygunsa kabul edilir; yüklenici faturasını düzenler. → Muayene ve Kabul Kararı / Hizmet Kabul Tutanağı'],
+   ['Taşınır kaydı','Mal alımlarında taşınır işlem fişi düzenlenir (KBS/MEBBİS).'],
+   ['Ödeme','Ödeme emri ve ekleri hazırlanır, gerçekleştirme görevlisi ve harcama yetkilisince imzalanıp muhasebe birimine teslim edilir. → Ön Mali Kontrol Listesi, Hakediş (hizmet), Teslim Tutanağı']];
+  return `<div class="card"><h2>${ic('rehber')}Doğrudan temin iş akışı</h2><p class="lead">Uygulamadaki adımlar bu sırayı izler. Her aşamada üretilen belge “→” ile belirtilmiştir.</p>
+  <div class="tl">${s.map((x,i)=>`<div class="st" data-n="${i+1}"><b>${x[0]}</b><span>${esc(x[1])}</span></div>`).join('')}</div></div>
+  ${note('info','Belge metinleri genel uygulamaya göre hazırlanmıştır; kurumunuzun veya muhasebe biriminizin istediği farklı ifadeler varsa önizleme ekranında yazdırmadan önce metni doğrudan düzeltebilirsiniz.')}
+  <div class="row end"><button class="btn p" data-act="home">${ic('geri')}Dosyalara dön</button></div>`;
+}
+
+/* ================= ADIM 1: GENEL ================= */
+function sGenel(a){
+  const tek=a.teknikVar;
+  return `<div class="card"><h2>${ic('genel')}Alımın genel bilgileri</h2><p class="lead">Bu bilgiler tüm belgelerde ortak kullanılır.</p>
+  <div class="grid" style="margin-bottom:8px">${fld('Dosya yılı','a:yil',{num:1,rr:1})}${fld('Dosya sıra no','a:no',{num:1,rr:1})}</div>
+  <div class="grid" style="margin-bottom:8px">${fld('İşin adı','a:ad',{ph:'Temizlik Malzemesi Alımı',rr:1})}
+  <div class="f"><span>Alım türü</span>${seg('a:tur',[['mal','Mal alımı'],['hizmet','Hizmet alımı']])}</div></div>
+  <div class="grid g2" style="margin-top:8px">${sel('Alım usulü (dayanak)','a:usul',USULLER.map(u=>[u,'4734 / '+u]),{rr:1})}${fld('Doğrudan temin numarası','a:dtNo',{ph:'EKAP DT numarası (varsa)'})}
+  ${fld('Kullanılabilir ödenek (KDV dahil, ₺)','a:odenek',{num:1})}${fld('Bütçe tertibi','a:butce',{ph:'Ör. 52.01.31.62 – 09.2.1.00 – 2 – 03.2'})}
+  ${fld('KDV oranı (%)','a:kdv',{num:1,hint:'Ödenek kontrolü ve hakediş/tahakkuk hesaplarında kullanılır.'})}${fld('Yatırım proje numarası','a:yatirimNo',{ph:'Varsa'})}</div>
+  <details class="more"><summary>${ic('ok')}Onay belgesindeki diğer satırlar</summary><div class="grid g2">
+  ${fld('Avans','a:avans')}${fld('İlanın şekli ve adedi','a:ilan')}${fld('Ön yeterlik / doküman bedeli','a:dokuman')}${fld('Fiyat farkı','a:fiyatFarki')}
+  ${sel('Sözleşme','a:sozlesme',['Düzenlenmeyecektir','Düzenlenecektir'])}${fld('Yeterlik kriterleri','a:yeterlik')}</div>
+  ${fld('Diğer açıklamalar','a:aciklama',{area:1,ph:'Onay belgesinin “Diğer Açıklamalar” bölümüne yazılır.'})}
+  <p class="mut" style="font-size:12.5px">Şartname satırı, Kalemler adımındaki “Teknik şartname” seçimine göre otomatik yazılır (${tek?'Düzenlenecektir':'Düzenlenmeyecektir'}).</p></details>
+  <details class="more"><summary>${ic('ok')}Teklif formlarındaki “Diğer şartlar”</summary><div class="grid g2">
+  ${fld('Teslim süresi','a:sart.sure')}${fld('Teslim edilecek parti miktarı','a:sart.parti')}${fld('Nakliye ve sigorta','a:sart.nakliye')}${fld('Uyulması gereken standartlar','a:sart.standart')}
+  ${fld('Diğer özel şartlar','a:sart.ozel')}${fld('Diğer hususlar','a:sart.diger')}</div></details></div>`;
+}
+
+/* ================= ADIM 2: KALEMLER ================= */
+function sKalem(a){
+  const n=a.kalemler.length;
+  return `${datalists()}<div class="card"><h2>${ic('kalem')}${a.tur==='hizmet'?'Hizmet kalemleri':'İhtiyaç listesi'}</h2>
+  <p class="lead">Her satır bir kalem. Burada yapılan değişiklikler fiyat, kabul ve tüm belge tablolarına kendiliğinden yansır. Satır numarasına dokunarak sırasını değiştirebilirsiniz.</p>
+  ${chk('Teknik şartname düzenlenecek','a:teknikVar',{rr:1,hint:'Açıkken her kalemin altına teknik özellik kutusu eklenir.'})}
+  ${a.teknikVar?`<button class="btn s" data-act="tkTumu" style="margin-top:6px">${ic('sihir')}Boş olanların hepsine örnek yaz</button>`:''}
+  <div class="kl" style="margin-top:12px"><div class="sat bas c-kalem"><span>#</span><span>Adı</span><span>Özelliği</span><span>Miktar</span><span>Birim</span><span></span></div>
+  ${a.kalemler.map((k,i)=>`<div class="kal" data-i="${i}"><div class="sat c-kalem"><button class="sn" data-act="kMenu" data-i="${i}" title="Sırala">${i+1}</button>
+   ${hk(`a:kalemler.${i}.ad`,{ph:'Adı'})}${hk(`a:kalemler.${i}.ozellik`,{ph:'Özelliği'})}${hk(`a:kalemler.${i}.miktar`,{ph:'0',num:1})}${hk(`a:kalemler.${i}.birim`,{ph:'Birim',list:'dlBirim'})}
+   <button class="xb d" data-act="kDel" data-i="${i}" title="Sil">${ic('kapat')}</button></div>
+   <div class="kmenu hidden" id="km${i}"><button class="btn s" data-act="kUp" data-i="${i}" ${i===0?'disabled':''}>${ic('yukari')}Yukarı</button><button class="btn s" data-act="kDown" data-i="${i}" ${i===n-1?'disabled':''}>${ic('asagi')}Aşağı</button><button class="btn s" data-act="kIns" data-i="${i}">${ic('arti')}Altına satır ekle</button></div>
+   ${a.teknikVar?`<div class="tkw"><textarea class="tk" data-b="a:kalemler.${i}.teknik" placeholder="${esc((k.ad||'Bu kalem')+' için teknik özellikler — hazır metin için “Örnek”e dokunun')}" rows="3">${esc(k.teknik)}</textarea><button type="button" class="tko" data-act="tkOrnek" data-i="${i}" title="Örnek teknik özellik ekle">${ic('sihir')}Örnek</button></div>`:''}</div>`).join('')}</div>
+  <div class="row" style="margin-top:10px"><button class="btn p" data-act="kAdd">${ic('arti')}Satır ekle</button><button class="btn" data-act="kBulkShow">${ic('kalem')}Toplu yapıştır</button></div>
+  <div id="bulk" class="hidden" style="margin-top:12px">${note('info','Her satıra bir kalem yazın: <b>Ad ; Miktar ; Birim ; Özellik</b> (noktalı virgül veya sekme ile). Excel’den kopyalanan sütunlar da olur.')}
+  <textarea id="bulkTx" rows="6" placeholder="Sıvı Sabun ; 50 ; Litre ; 5 lt bidon&#10;Tuvalet Kağıdı ; 40 ; Paket ; 32'li"></textarea>
+  <div class="row end" style="margin-top:8px"><button class="btn p s" data-act="kBulk">${ic('tamam')}Ekle</button></div></div></div>`;
+}
+
+/* ================= ADIM 3: KOMİSYONLAR ================= */
+function komBlok(a,t,baslik,acik){
+  const L=a.kom[t];
+  return `<div class="item"><div class="hd">${ic('komisyon')}<span class="t">${baslik}</span></div><p class="lead" style="margin-top:-6px">${acik}</p>
+  ${t==='pa'?`<button class="btn s a" data-act="copyKom" style="margin-bottom:10px">${ic('aktar')}Fiyat araştırma komisyonundaki kişileri aktar</button>`:''}
+  <div class="sat bas c-kom"><span>#</span><span>Adı soyadı</span><span>Unvanı</span><span>Görevi</span><span></span></div>
+  ${L.map((u,i)=>`<div class="sat c-kom"><span class="sn">${i+1}</span>${hk(`a:kom.${t}.${i}.ad`,{list:'dlPers',unvan:`a:kom.${t}.${i}.unvan`,ph:'Ad SOYAD'})}${hk(`a:kom.${t}.${i}.unvan`,{list:'dlUnvan',ph:'Unvanı'})}
+   ${hs(`a:kom.${t}.${i}.gorev`,[['Komisyon Başkanı','Başkan'],['Komisyon Üyesi','Üye'],['Görevli','Görevli']])}<button class="xb d" data-act="uDel" data-t="${t}" data-i="${i}" ${L.length<2?'disabled':''} title="Sil">${ic('kapat')}</button></div>`).join('')}
+  <button class="btn s" data-act="uAdd" data-t="${t}" style="margin-top:6px">${ic('arti')}Üye ekle</button></div>`;
+}
+function sKom(a){
+  return `${datalists()}<div class="card"><h2>${ic('komisyon')}Komisyonlar</h2>
+  <p class="lead">Adlar yazılırken personel listesinden öneri gelir. Her komisyonun üyeleri ilgili belgelerin imza bloklarına yerleşir.</p>
+  ${chk('Yaklaşık maliyet ve satın alma tek komisyon','a:kom.tek',{rr:1,hint:'Açıkken fiyat araştırması ile piyasa araştırması/satın alma işlerini aynı komisyon yürütür.'})}
+  <div style="margin-top:12px">
+  ${komBlok(a,'ym',a.kom.tek?'Yaklaşık Maliyet Tespit ve Satın Alma Komisyonu':'Fiyat Araştırma ve Yaklaşık Maliyet Tespit Komisyonu','Fiyat Araştırma Formu, Yaklaşık Maliyet Cetveli'+(a.kom.tek?', Onay Belgesi, Teklif Mektubu, Piyasa Tutanağı':''))}
+  ${a.kom.tek?'':komBlok(a,'pa','Piyasa Araştırması ve Satın Alma Komisyonu','Onay Belgesi (görevliler), Teklif Mektubu, Piyasa Fiyat Araştırma Tutanağı')}
+  ${komBlok(a,'mk','Muayene ve Kabul Komisyonu','Muayene ve Kabul Kararı / Hizmet İşleri Kabul Tutanağı — en az 3, tek sayıda üye')}</div></div>`;
+}
+
+/* ================= ADIM 4-5: FİYATLAR ================= */
+function firmaKart(a,l,fi,h){
+  const f=a[l][fi], pa=l==='paF';
+  return `<div class="item"><div class="hd"><span class="nb">${fi+1}</span><span class="t">${esc(f.ad||(fi+1)+'. kişi / firma')}</span>
+   <button class="btn s g d" data-act="fDel" data-l="${l}" data-i="${fi}" ${a[l].length<2?'disabled':''}>${ic('cop')}</button></div>
+   <div class="grid g2 yanform">${fld('Adı / ticaret unvanı',`a:${l}.${fi}.ad`,{rr:1})}${fld('VKN / TCKN',`a:${l}.${fi}.vkn`,{ph:pa?'':'MYS dosyası için'})}
+   ${pa?fld('Adresi',`a:${l}.${fi}.adres`)+fld('Telefon',`a:${l}.${fi}.tel`):''}</div>
+   <div style="margin-top:10px">${h.K.length?h.K.map(k=>`<div class="pr"><div class="pn">${esc(k.ad)}<small>${mq(k.m)} ${esc(k.birim)} · birim fiyat (KDV hariç)</small></div>
+     <input inputmode="decimal" data-b="a:${l}.${fi}.fiyat.${k.i}" value="${esc(f.fiyat[k.i]??'')}" placeholder="0,00">
+     <div class="pt" data-live="line" data-l="${l}" data-fi="${fi}" data-ki="${k.i}"></div></div>`).join(''):note('warn','Önce kalem ekleyin.')}
+   <div class="tot"><span>Toplam</span><span data-live="ftop" data-l="${l}" data-fi="${fi}"></span></div></div></div>`;
+}
+function sYM(a){
+  const h=hesap(a);
+  return `<div class="card"><h2>${ic('terazi')}Yaklaşık maliyet fiyatları</h2>
+  <p class="lead">Fiyat araştırmasında alınan birim fiyatları (KDV hariç) girin. Her kalem için birim yaklaşık maliyet, fiyat girilen kişi/firmaların aritmetik ortalamasıdır.</p>
+  ${a.ymF.map((f,i)=>firmaKart(a,'ymF',i,h)).join('')}
+  <div class="row"><button class="btn" data-act="fAdd" data-l="ymF">${ic('arti')}Kişi / firma ekle</button>
+  <button class="btn" data-act="mys">${ic('tablo')}MYS dosyası indir</button></div></div>
+  <div class="card"><h2>${ic('tablo')}Hesap özeti</h2><div data-live="ymOzet"></div></div>`;
+}
+function sTeklif(a){
+  const h=hesap(a);
+  return `<div class="card"><h2>${ic('teklif')}Piyasa araştırması teklifleri</h2>
+  <p class="lead">Onaydan sonra alınan yazılı teklifler. Tüm kalemlere fiyat veren teklifler değerlendirilir; en düşük toplam teklif sahibi kendiliğinden seçilir.</p>
+  <div class="item" style="background:var(--amber2);border-color:#efd9b5"><div class="hd">${ic('aktar')}<span class="t">Yaklaşık maliyetten çek</span></div>
+  <p class="lead" style="margin-top:-6px">İsteğe bağlıdır. Yaklaşık maliyet adımındaki kişi/firmalar teklif listesine kopyalanır; sonra gerçek tekliflere göre düzeltebilirsiniz.</p>
+  <div class="row"><button class="btn s a" data-act="copyYM" data-m="tam">${ic('aktar')}Firmaları ve fiyatları çek</button><button class="btn s" data-act="copyYM" data-m="ad">Yalnız firma adlarını çek</button></div></div>
+  ${a.paF.map((f,i)=>firmaKart(a,'paF',i,h)).join('')}
+  <button class="btn" data-act="fAdd" data-l="paF">${ic('arti')}Teklif ekle</button></div>
+  <div class="card"><h2>${ic('kontrol')}Değerlendirme</h2>
+  ${sel('Alım yapılacak kişi / firma','a:kazanan',[['oto','Otomatik — en düşük geçerli teklif'],...a.paF.map((f,i)=>[String(i),`${i+1}. ${f.ad||'Adsız'}`])],{rr:1})}
+  <div data-live="paOzet" style="margin-top:12px"></div></div>`;
+}
+
+/* ================= ADIM 6: TARİH & SAYI ================= */
+function sTarih(a){
+  const k=kur(), sayili={ihtiyac:1,komisyon:1,fiyat:1,onay:1};
+  const satir=(key,ad)=>`<div class="item"><div class="hd">${ic('takvim')}<span class="t">${ad}</span>${EBYS_DOCS[key]?`<button class="btn s a" data-act="ebys" data-d="${key}">${ic('ebys')}EBYS</button>`:''}</div><div class="grid">
+   ${fld('Tarih',`a:tarih.${key}`,{type:'date',rr:1})}${sayili[key]?fld('Sayı',`a:sayi.${key}`,{ph:`E-${k.kurumKodu||'DETSİS'}-${k.kod[key]}-…`}):''}</div></div>`;
+  const L=kontrol(a).filter(x=>x.st===5&&x.lvl==='err');
+  return `<div class="card"><h2>${ic('takvim')}Belge tarihleri ve sayıları</h2>
+  <p class="lead">Tarihlerin iş akışı sırasına uygunluğu denetlenir. Sayılar EBYS biçimindedir (E-DETSİS no-dosya kodu-evrak no); evrak numarasını EBYS’de imzadan sonra verilen numarayla tamamlayın.</p>
+  <div class="row" style="margin-bottom:12px"><button class="btn s" data-act="autoSayi">${ic('sihir')}Boş sayılara E-DETSİS-kod öneki yaz</button></div>
+  ${L.map(x=>note('err',x.msg)).join('')}
+  ${TARIH_SIRA.slice(0,8).map(([key,ad])=>satir(key,ad)).join('')}
+  <div class="item"><div class="hd">${ic('odeme')}<span class="t">Harcama Talimatı</span></div><div class="grid g2">${fld('Tarih','a:tarih.harcama',{type:'date'})}${fld('Sayı','a:sayi.harcama',{ph:`E-${k.kurumKodu||'DETSİS'}-${k.kod.harcama}-…`})}</div></div>
+  ${satir('teslim','Ödeme Belgesi Teslim Tutanağı')}</div>`;
+}
+
+/* ================= ADIM 7: KABUL & ÖDEME ================= */
+const OMKL=[
+ ['1','Merkezi Yönetim Harcama Belgeleri Yönetmeliğinde belirtilen bilgileri içerecek şekilde düzenlenmiş ve harcama yetkilisi tarafından imzalanmış onay belgesi'],
+ ['1-a','Alımı yapan idarenin adı'],['1-b','Belge tarih ve sayısı'],['1-c','İşin adı, tanımı ve niteliği'],['1-ç','İşin miktarı'],['1-d','Yaklaşık maliyet'],
+ ['1-e','Kullanılabilir ödenek miktarı'],['1-f','Bütçe tertibi'],['1-g','Avans verilecekse şartları'],['1-ğ','Alım usulü (4734 sayılı Kanunun 22. maddesinin ilgili bendi)'],
+ ['1-h','Fiyat farkı ödenecekse dayanağı karar'],['1-ı','Alım ile ilgili diğer açıklamalar'],['1-i','İmza ve tarih'],
+ ['2','Piyasa fiyat araştırması tutanağı veya komisyon kararı'],['3','Sözleşme yapılması halinde sözleşme'],
+ ['4','Sözleşme yapılması halinde damga vergisinin yatırıldığına ilişkin alındının onaylı örneği veya tahsil edildiğine ilişkin harcama birimince onaylı yazı'],
+ ['5','Fatura'],['6','Muayene ve kabul komisyonu tutanağı; kabul işleminin idarece yapılması halinde idarece düzenlenmiş belge'],
+ ['7','Mal, malzeme, demirbaş, makine, teçhizat ve taşıt alımlarında taşınır işlem fişi'],['8','Mevzuatta belirlenen tutarı aşan ödemelerde vergi borcu sorgulaması'],
+ ['9','Hesap dilekçesi'],['10','Bedelin bir defadan fazla tahakkuk ettirilmesi halinde iki adet tahakkuk dosyası'],['11','İlgili mevzuatı gereği ödeme emri belgesine eklenecek diğer belgeler']];
+function omklOto(a,key){
+  const soz=a.sozlesme==='Düzenlenecektir';
+  const m={'1-f':a.butce?'+':'-','1-g':/verilmeyecek/i.test(a.avans)?'/':'+','1-h':/ödenmeyecek/i.test(a.fiyatFarki)?'/':'+','1-ı':a.aciklama?'+':'/',
+   '3':soz?'+':'/','4':soz?'+':'/','7':a.tur==='mal'?'+':'/','9':'/','10':'/','11':'/'};
+  return m[key]||'+';
+}
+const omklM=(a,key)=>a.omkl[key]||omklOto(a,key);
+function teslimOto(a){
+  return a.tur==='mal'
+   ?[['Ödeme Emri Belgesi',1],['Taşınır İşlem Fişi',1],['Fatura',1],['Vergi Borcu Sorgulaması',1],['Muayene ve Kabul Komisyonu Kararı',1],['Piyasa Fiyat Araştırma Tutanağı',1],['Onay Belgesi',1],['Yaklaşık Maliyet Hesap Cetveli',1]]
+   :[['Ödeme Emri Belgesi',1],['Fatura',1],['Vergi Borcu Sorgulaması',1],['Hizmet İşleri Kabul Tutanağı',1],['Hakediş Raporu',1],['Piyasa Fiyat Araştırma Tutanağı',1],['Onay Belgesi',1],['Yaklaşık Maliyet Hesap Cetveli',1]];
+}
+const teslimListe=a=>a.teslimBelge||teslimOto(a);
+function sKabul(a){
+  const h=hesap(a), hz=a.tur==='hizmet';
+  return `<div class="card"><h2>${ic('kabul')}${hz?'Hizmet kabulü':'Muayene ve kabul'}</h2>
+  ${h.kf?note('info',`Yüklenici: <b>${esc(h.kf.ad||'—')}</b> · Sözleşme tutarı ${tlx(h.kazTop)} (KDV hariç)`):note('warn','Önce Teklifler adımında geçerli bir teklif belirlenmeli.')}
+  <div class="grid g2">${fld(hz?'Tutanak no':'Karar no','a:kabul.kararNo',{ph:'2026/1'})}${hz?fld('Hizmetin süresi','a:kabul.sure',{ph:'1 gün'}):''}</div>
+  <h3>Kabul edilen miktarlar</h3><p class="lead">Boş bırakılırsa sipariş miktarının tamamı kabul edilmiş sayılır.</p>
+  ${h.kK.map(k=>`<div class="pr"><div class="pn">${esc(k.ad)}<small>Sipariş: ${mq(k.m)} ${esc(k.birim)} · ${tlx(k.bf)}</small></div>
+   <input inputmode="decimal" data-b="a:kalemler.${k.i}.kabul" value="${esc(k.kabul)}" placeholder="${mq(k.m)}"><div class="pt" data-live="kalan" data-ki="${k.i}"></div></div>`).join('')}
+  <div class="tot"><span>Kabul edilen tutar (KDV hariç)</span><span data-live="kabulTop"></span></div></div>
+  <div class="card"><h2>${ic('odeme')}Tahakkuk${hz?' ve hakediş':''}</h2>
+  <div class="grid g2">${fld('Hakediş no','a:hak.no')}${fld('Önceki hakedişlerin toplamı (₺)','a:hak.onceki',{num:1})}
+  ${fld('Fiyat farkı tutarı (₺)','a:hak.fiyatFarki',{num:1})}${fld('Gelir / kurumlar vergisi (%)','a:hak.gelirV',{num:1})}
+  ${sel('KDV tevkifatı','a:hak.tevkifat',[['0','Yok'],['2/10','2/10'],['3/10','3/10'],['4/10','4/10'],['5/10','5/10'],['7/10','7/10'],['9/10','9/10'],['10/10','Tamamı']])}
+  ${fld('Damga vergisi (binde)','a:hak.damgaOran',{num:1})}</div>
+  <div style="margin-top:8px">${chk('Damga vergisi kesilsin','a:hak.damga')}</div>
+  <details class="more"><summary>${ic('ok')}Diğer kesinti ve mahsuplar</summary><div class="grid g2">
+  ${fld('SGK kesintisi (₺)','a:hak.sgk',{num:1})}${fld('İdare makine kiraları (₺)','a:hak.makine',{num:1})}${fld('Gecikme cezası (₺)','a:hak.gecikme',{num:1})}${fld('Avans mahsubu (₺)','a:hak.avans',{num:1})}${fld('Fiyat farkı teminat kesintisi (₺)','a:hak.teminat',{num:1})}</div></details>
+  <div data-live="hakOzet" style="margin-top:12px"></div></div>
+  <div class="card"><h2>${ic('belge')}Ödeme belgeleri</h2>
+  <div class="grid g2">${fld('Tahakkuk işlem no (HYS)','a:odeme.hys',{ph:'HYS-2026-…'})}${fld('Hesap kontrol otomasyonu kayıt no','a:odeme.hko')}
+  ${fld('Teslim tutanağı form sıra no','a:odeme.formSira')}${fld('Torba numarası','a:odeme.torba')}
+  ${fld('Bütçe gideri tutarı (₺)','a:odeme.tutar',{num:1,ph:'Boşsa tahakkuk tutarı',hint:'Boş bırakılırsa tahakkuk tutarı (KDV dahil) yazılır.'})}
+  ${fld('Belgeleri teslim eden','a:odeme.teslimEdenAd',{ph:kur().gercekAd||'Ad SOYAD'})}${fld('Teslim edenin unvanı','a:odeme.teslimEdenUnvan',{ph:kur().gercekUnvan})}</div>
+  <h3>Teslim edilen belgeler</h3>
+  ${teslimListe(a).map((b,i)=>a.teslimBelge?`<div class="row" style="margin-bottom:6px;flex-wrap:nowrap">${fld('',`a:teslimBelge.${i}.0`)}<div style="width:80px">${fld('',`a:teslimBelge.${i}.1`,{num:1})}</div><button class="btn s g d" data-act="tbDel" data-i="${i}">${ic('cop')}</button></div>`:`<div class="mk"><span class="tx">${esc(b[0])}</span><b>${b[1]}</b></div>`).join('')}
+  <div class="row" style="margin-top:8px">${a.teslimBelge?`<button class="btn s" data-act="tbAdd">${ic('arti')}Belge ekle</button><button class="btn s g" data-act="tbOto">Otomatik listeye dön</button>`:`<button class="btn s" data-act="tbEdit">${ic('ayar')}Listeyi düzenle</button>`}</div></div>
+  <div class="card"><h2>${ic('kontrol')}Ön mali kontrol listesi</h2><p class="lead">İşaretler girilen bilgilere göre önerilir; dokunarak değiştirin. (+) Var · (−) Yok · (/) Gerek yok</p>
+  ${OMKL.map(([key,t])=>{const m=omklM(a,key);return `<div class="mk"><b style="width:30px">${key}</b><span class="tx">${esc(t)}</span><button data-act="omkl" data-k="${key}" class="${m==='+'?'p':m==='-'?'m':'s'}">${m==='-'?'−':m}</button></div>`;}).join('')}
+  <div class="row" style="margin-top:8px"><button class="btn s g" data-act="omklOto">Önerilen işaretlere dön</button></div></div>`;
+}
+
+/* ================= ADIM 8: BELGELER ================= */
+const DOCS=[
+ {id:'ihtiyac',ad:'İhtiyaç Listesi',f:dIhtiyac},
+ {id:'komisyon',ad:'Komisyon Görevlendirme Onayı',f:dKomisyon},
+ {id:'fiyat',ad:'Fiyat Araştırma Formu',alt:'Yaklaşık maliyet için — her kişi/firmaya bir sayfa',f:dFiyat},
+ {id:'ym',ad:'Yaklaşık Maliyet Hesap Cetveli',alt:'Yatay sayfa',f:dYM},
+ {id:'onay',ad:'Onay Belgesi',f:dOnay},
+ {id:'harcama',ad:'Harcama Talimatı',f:dHarcama},
+ {id:'teknik',ad:'Teknik Şartname',cond:a=>a.teknikVar,f:dTeknik},
+ {id:'teklif',ad:'Teklif Mektubu',alt:'Her teklif sahibine bir sayfa',f:dTeklif},
+ {id:'piyasa',ad:'Piyasa Fiyat Araştırma Tutanağı',alt:'Yatay sayfa',f:dPiyasa},
+ {id:'muayene',ad:'Muayene ve Kabul Komisyonu Kararı',cond:a=>a.tur==='mal',f:dMuayene},
+ {id:'hizmetKabul',ad:'Hizmet İşleri Kabul Tutanağı',cond:a=>a.tur==='hizmet',f:dHizmet},
+ {id:'hakedis',ad:'Hakediş Raporu',cond:a=>a.tur==='hizmet',f:dHakedis},
+ {id:'omkl',ad:'Ön Mali Kontrol Listesi',f:dOmkl},
+ {id:'teslim',ad:'Ödeme Belgesi Teslim Tutanağı',f:dTeslim}];
+const docsOf=a=>DOCS.filter(d=>!d.cond||d.cond(a));
+const secili=(a,d)=>a.secili[d.id]!==false;
+function sBelge(a){
+  const L=kontrol(a), e=L.filter(x=>x.lvl==='err').length;
+  const ds=docsOf(a);
+  return `<div class="card"><h2>${ic('belge')}Belgeler</h2>
+  <p class="lead">Önizlemede metni doğrudan düzeltebilirsiniz; düzeltmeler oradan alınan çıktıya (Yazdır, Word, PDF) uygulanır.</p>
+  ${e?note('err',`${e} hata var. Belgeler yine de üretilir ama önce <a href="#" data-act="step" data-i="8">Kontrol</a> adımına bakmanız önerilir.`):''}
+  ${chk('Teklif formlarına fiyatları da yaz','a:belge.doldur',{hint:'Kapalıyken fiyat sütunları boş çıkar, teklif sahibi kendisi doldurur.'})}
+  <div style="margin-top:12px">${ds.map((d,i)=>`<div class="dl"><input type="checkbox" data-b="a:secili.${d.id}" ${secili(a,d)?'checked':''}><span class="nb">${i+1}</span>
+   <div class="mid">${d.ad}${d.alt?`<small>${d.alt}</small>`:''}</div>${EBYS_DOCS[d.id]?`<button class="btn s a" data-act="ebys" data-d="${d.id}" title="EBYS’ye aktar">${ic('ebys')}EBYS</button>`:''}<button class="btn s" data-act="pv" data-d="${d.id}">${ic('goz')}Aç</button></div>`).join('')}</div>
+  <h3 style="margin-top:14px">Seçilen belgeler</h3>
+  <div class="row"><button class="btn p" data-act="printSel">${ic('yazici')}Yazdır</button><button class="btn" data-act="wordSel">${ic('word')}Word indir</button><button class="btn" data-act="pdfSel">${ic('pdf')}PDF indir</button><button class="btn" data-act="pvSel">${ic('goz')}Önizle</button></div>
+  <p class="mut" style="font-size:12.5px;margin:8px 0 0">Word dosyası düzenlenebilir. PDF doğrudan indirilir; en keskin yazı kalitesi için Yazdır → “PDF olarak kaydet” yolu da kullanılabilir.</p>
+  <div class="row" style="margin-top:6px">
+  <button class="btn g" data-act="selAll">Tümünü seç</button><button class="btn g" data-act="selNone">Hiçbiri</button></div></div>
+  ${a.arsiv?'':`<div class="card"><h2>${ic('arsiv')}Alım tamamlandı mı?</h2><p class="lead">Ödeme belgeleri teslim edildiyse dosyayı arşive kaldırın. Arşivde tüm bilgileri ve belgeleriyle saklanır, istediğinizde açıp yeniden yazdırabilirsiniz.</p><button class="btn a" data-act="arsivle">${ic('arsiv')}Dosyayı arşive kaldır</button></div>`}`;
+}
+function sKontrol(a){
+  const L=kontrol(a), ad=['Genel','Kalemler','Komisyonlar','Yaklaşık Maliyet','Teklifler','Tarih & Sayı','Kabul & Ödeme'];
+  const lnk=x=>x.st==='kurum'?` <a href="#" data-act="kurum">Ayarlar ›</a>`:` <a href="#" data-act="step" data-i="${x.st}">${ad[x.st]} ›</a>`;
+  return `<div class="card"><h2>${ic('kontrol')}Dosya kontrolü</h2><p class="lead">Mevzuat ve tutarlılık denetimi. Hatalar belge üretimini engellemez ama dosyada eksik bırakmamanız önerilir.</p>
+  ${L.length?L.map(x=>note(x.lvl,esc(x.msg)+lnk(x))).join(''):note('ok','Dosyada eksik veya tutarsızlık görünmüyor.')}
+  ${a.arsiv?'':`<div class="row" style="margin-top:12px"><button class="btn a" data-act="arsivle">${ic('arsiv')}Dosyayı arşive kaldır</button></div>`}</div>`;
+}
+
+/* ================= CANLI HESAP ALANLARI ================= */
+const LIVE={
+ line(a,el,h){ const f=a[el.dataset.l][+el.dataset.fi], k=h.K.find(x=>x.i===+el.dataset.ki); const v=k?r2(num(f.fiyat[k.i])*k.m):0; return v?tlx(v):''; },
+ ftop(a,el,h){ const l=el.dataset.l, fi=+el.dataset.fi; if(l==='ymF') return tlx(h.ymFT[fi]||0); const t=h.paT[fi]; return tlx(t.top)+(t.tam?'':t.bos?'':' · eksik'); },
+ ymOzet(a,el,h){
+   if(!h.K.length) return note('warn','Kalem yok.');
+   const lim=h.limit, pc=lim?Math.min(100,h.ymToplam/lim*100):0, od=num(a.odenek);
+   return `<div class="kpis"><div class="kpi"><small>Yaklaşık maliyet (KDV hariç)</small><b>${tlx(h.ymToplam)}</b></div><div class="kpi"><small>KDV dahil (%${mq(a.kdv)})</small><b>${tlx(h.odenekKdvli)}</b></div></div>
+   ${a.usul==='22/d'&&lim?`<div style="margin-top:12px;font-size:13px"><div class="row" style="justify-content:space-between"><span>22/d limiti (${esc(kur().limitYil)})</span><b>%${pc.toFixed(1)} · ${tlx(lim)}</b></div><div class="bar"><i class="${pc>=100?'e':pc>80?'w':''}" style="width:${pc}%"></i></div></div>`:''}
+   ${od&&h.ymToplam?(od<h.odenekKdvli?note('warn',`Ödenek (${tlx(od)}) KDV dahil yaklaşık maliyeti karşılamıyor.`):note('ok',`Ödenek yeterli. Kalan: ${tlx(od-h.odenekKdvli)}`)):''}
+   <div class="scroll" style="margin-top:10px"><table class="tbl"><tr><th>Kalem</th><th class="r">Fiyat</th><th class="r">Birim YM</th><th class="r">Toplam</th></tr>
+   ${h.ymK.map(k=>`<tr><td>${esc(k.ad)}<br><small class="mut">${mq(k.m)} ${esc(k.birim)}</small></td><td class="r" style="color:${k.n<3?'var(--warn)':'inherit'}">${k.n}</td><td class="r">${tl(k.bf)}</td><td class="r">${tl(k.toplam)}</td></tr>`).join('')}
+   <tr><td colspan="3"><b>Toplam</b></td><td class="r"><b>${tl(h.ymToplam)}</b></td></tr></table></div>`; },
+ paOzet(a,el,h){
+   if(!h.K.length) return note('warn','Kalem yok.');
+   const sir=[...h.paT].sort((x,y)=>(y.tam-x.tam)||(x.top-y.top));
+   return `<div class="scroll"><table class="tbl"><tr><th>#</th><th>Teklif sahibi</th><th class="r">Toplam</th><th>Durum</th></tr>
+   ${sir.map(t=>`<tr class="${t.fi===h.kaz?'win':''}"><td>${t.fi+1}</td><td>${esc(t.ad||'Adsız')}</td><td class="r">${t.bos?'—':tl(t.top)}</td><td>${t.fi===h.kaz?'<b style="color:var(--ok)">Seçildi</b>':t.tam?'Geçerli':t.bos?'Boş':'<span style="color:var(--warn)">Eksik</span>'}</td></tr>`).join('')}</table></div>
+   ${h.kf?`<div class="kpis" style="margin-top:12px"><div class="kpi"><small>Alım yapılacak</small><b>${esc(h.kf.ad||'Adsız')}</b></div><div class="kpi"><small>Teklif (KDV hariç)</small><b>${tlx(h.kazTop)}</b></div></div>
+   ${h.ymToplam?`<p class="mut" style="font-size:13px;margin:8px 0 0">Yaklaşık maliyete oranı: %${(h.kazTop/h.ymToplam*100).toFixed(1)}</p>`:''}${h.esit?note('warn','Eşit en düşük teklif var; ilk sıradaki seçildi.'):''}`:note('warn','Tüm kalemlere fiyat veren teklif yok.')}`; },
+ kalan(a,el,h){ const k=h.kK.find(x=>x.i===+el.dataset.ki); if(!k) return ''; return k.kalan?`<span style="color:${k.kalan<0?'var(--err)':'var(--warn)'}">Kalan ${mq(k.kalan)}</span>`:'Tamamı'; },
+ kabulTop(a,el,h){ return tlx(h.kabulTop); },
+ antet(){ const L=antet(DB.kurum); return L.length?'<div class="mut" style="font:600 11px system-ui;margin-bottom:4px">Belge anteti önizlemesi</div>'+L.map(esc).join('<br>'):''; },
+ hakOzet(a,el,h){ const H=h.hak, r=(l,v,b)=>`<tr><td>${b?'<b>'+l+'</b>':l}</td><td class="r">${b?'<b>'+tl(v)+'</b>':tl(v)}</td></tr>`;
+   return `<table class="tbl">${r('A · Yapılan iş tutarı',H.A)}${H.B?r('B · Fiyat farkı',H.B):''}${H.D?r('D · Önceki hakedişler',H.D):''}${r('E · Bu hakediş tutarı',H.E)}${r('F · KDV',H.F)}${r('G · Tahakkuk tutarı',H.G,1)}${r('H · Kesintiler',H.H)}${r('Yükleniciye ödenecek',H.net,1)}</table>`; }
+};
+function refreshCalc(){ const els=$$('[data-live]'); if(!els.length) return; const a=cur(); if(!a){ els.forEach(el=>{ if(el.dataset.live==='antet') el.innerHTML=LIVE.antet(); }); return; } const h=hesap(a); els.forEach(el=>{ const f=LIVE[el.dataset.live]; if(f) el.innerHTML=f(a,el,h); }); }
+
+/* ================= BELGE YARDIMCILARI ================= */
+function dHead(){ const k=kur(); return `<div class="dh e-x">${antet(k).map(x=>`<div>${esc(x)}</div>`).join('')}</div>`; }
+const sayiOf=(a,key)=>{ const v=String(a.sayi[key]||'').trim(); return !v?'…………………':/-$/.test(v)?v+'…………':v; };
+function sxMeta(a,key,konu){ return `<div class="e-x"><div class="sx"><div class="meta"><b>Sayı</b>: ${esc(sayiOf(a,key))}</div><div>${fd(a.tarih[key])}</div></div><div class="meta"><b>Konu</b>: ${esc(konu)}</div></div>`; }
+function imz(u,ad,unvan,ek){ return `<div class="imz"><div class="u">${u||'&nbsp;'}</div><div class="ad">${esc(ad)||'……………………'}</div><div>${esc(unvan)}</div>${ek?`<div>${ek}</div>`:''}</div>`; }
+function imzKom(L,tarih){ const n=Math.min(L.length,5); return `<div class="imzlar e-x n${n}">${L.map(u=>imz(esc(u.gorev),u.ad,u.unvan,tarih?fd(tarih,''):'')).join('')}</div>`; }
+function olur(a,tarihKey,etiket='İhale (Harcama) Yetkilisi'){ const k=kur(); return `<div class="olur e-x"><div class="o">OLUR</div><div>${fd(a.tarih[tarihKey])}</div><div class="ad" style="margin-top:30px">${esc(k.harcamaAd)||'……………………'}</div><div>${esc(k.harcamaUnvan)}</div><div class="sm">${etiket}</div></div>`; }
+const gercek=()=>{const k=kur(); return imz('',k.gercekAd,k.gercekUnvan);};
+const malHiz=a=>a.tur==='hizmet'?'hizmet':'mal/malzeme';
+function kalemTablo(h,o={}){
+  const fy=o.fiyat;
+  return `<table class="t"><tr><th style="width:34px">Sıra No</th><th>${o.hz?'Hizmetin':'Mal/Malzemenin'} Adı</th><th>Özelliği</th><th style="width:58px">Miktarı</th><th style="width:58px">Ölçü Birimi</th>${fy?'<th style="width:84px">Birim Fiyatı (KDV Hariç)</th><th style="width:92px">Tutarı (KDV Hariç)</th>':''}</tr>
+  ${h.K.map((k,n)=>{ const b=fy?num(fy[k.i]):0; return `<tr><td class="c">${n+1}</td><td>${esc(k.ad)}</td><td>${esc(k.ozellik)}</td><td class="c">${mq(k.m)}</td><td class="c">${esc(k.birim)}</td>${fy?`<td class="r">${o.dolu&&b?tl(b):''}</td><td class="r">${o.dolu&&b?tl(r2(b*k.m)):''}</td>`:''}</tr>`; }).join('')}
+  ${fy?`<tr class="tp"><td colspan="6" class="r">KDV Hariç Toplam Teklif Edilen Fiyat</td><td class="r">${o.dolu&&o.top?tl(o.top):''}</td></tr>`:''}</table>`;
+}
+function digerSartlar(a,teklif){
+  const s=a.sart;
+  return `<div class="two" style="margin-top:8px"><table class="t sm"><tr><th colspan="2">DİĞER ŞARTLAR</th></tr>
+  <tr><td>Teslim süresi</td><td>${esc(s.sure)}</td></tr><tr><td>Teslim edilecek parti miktarı</td><td>${esc(s.parti)}</td></tr>
+  <tr><td>Nakliye ve sigortanın kime ait olduğu</td><td>${esc(s.nakliye)}</td></tr><tr><td>Uyulması gereken standartlar</td><td>${esc(s.standart)}</td></tr>
+  <tr><td>Teknik şartname</td><td>${a.teknikVar?'Ekte verilmiştir':'Yoktur'}</td></tr><tr><td>Diğer özel şartlar</td><td>${esc(s.ozel)}</td></tr><tr><td>Diğer hususlar</td><td>${esc(s.diger)}</td></tr></table>
+  <div class="sm"><div style="margin-bottom:6px"><b>Tarih</b>: ${teklif&&teklif.tarih?fd(teklif.tarih):'…../…../20…'}</div><div>Adı Soyadı / Ticaret Unvanı, İmza, Kaşe, Açık Adres, Telefon</div>
+  ${teklif&&teklif.ad?`<div style="margin-top:6px;font-weight:bold">${esc(teklif.ad)}</div>`:''}<div class="dots"></div><div class="dots"></div><div class="dots"></div><div class="dots"></div></div></div>`;
+}
+
+/* ================= BELGELER ================= */
+function dIhtiyac(a,h){
+  const hz=a.tur==='hizmet';
+  return [{html:`${dHead()}${sxMeta(a,'ihtiyac',a.ad)}<div class="mkm e-x">${esc(yonelme(okulTam()))}</div><div class="sm e-x" style="text-align:center">(İhale / Harcama Yetkilisi)</div>
+  <div class="ttl">${hz?'HİZMET':'MAL/MALZEME'} İHTİYAÇ LİSTESİ</div>${kalemTablo(h,{hz})}
+  <p class="prg">Müdürlüğümüzün ihtiyacı olan ${hz?'hizmet':'mal/malzeme'} yukarıda çıkarılmış olup ${esc(usulMetin(a))} gereğince Doğrudan Temin yoluyla ${hz?'alınması':'satın alınması'} için uygun görüldüğü takdirde OLUR’larınıza arz ederim.</p>
+  <div class="imz sag e-x" style="margin-top:14px;text-align:center">${gercek()}</div>${olur(a,'ihtiyac')}`}];
+}
+function komTablo(baslik,L){ return `<div style="font-weight:bold;margin-top:10px">${baslik}</div><table class="t"><tr><th style="width:40px">Sıra No</th><th>Adı Soyadı</th><th>Unvanı</th><th>Görevi</th></tr>${L.map((u,i)=>`<tr><td class="c">${i+1}</td><td>${esc(u.ad)}</td><td>${esc(u.unvan)}</td><td>${esc(u.gorev)}</td></tr>`).join('')}</table>`; }
+function dKomisyon(a){
+  const hz=a.tur==='hizmet', mh=malHiz(a), tek=a.kom.tek;
+  const m3= hz?'yapılan hizmeti kontrol ederek kabul işlemlerini yapmak ve tutanağa bağlamak üzere <b>Muayene ve Kabul Komisyonu</b>'
+             :'teslim edilen mal/malzemenin özellik ve miktarlarını kontrol ederek teslim almak, tutanağa bağlamak ve Taşınır İşlem Fişine aktarılmasını sağlamak üzere <b>Muayene ve Kabul Komisyonu</b>';
+  const md= tek?`1) Her türlü fiyat araştırmasını yaparak yaklaşık maliyet cetvelini hazırlamak, Onay Belgesinin düzenlenmesinden sonra yazılı teklifleri alarak değerlendirmek ve alımı sonuçlandırarak onaya sunmak üzere <b>Yaklaşık Maliyet Tespit ve Satın Alma Komisyonu</b>, 2) ${m3}`
+     :`1) Her türlü fiyat araştırmasını yapmak ve yaklaşık maliyet cetvelini hazırlayarak onaya sunmak üzere <b>Fiyat Araştırma ve Yaklaşık Maliyet Tespit Komisyonu</b>, 2) Onay Belgesinin düzenlenmesinden sonra yazılı teklifleri alarak değerlendirmek ve alımı sonuçlandırarak onaya sunmak üzere <b>Piyasa Araştırması ve Satın Alma Komisyonu</b>, 3) ${m3}`;
+  return [{sik:true,html:`${dHead()}${sxMeta(a,'komisyon',tek?'Yaklaşık Maliyet ve Satın Alma ile Muayene ve Kabul Komisyonu Onayı':'Yaklaşık Maliyet, Piyasa Araştırması ve Muayene Kabul Komisyonu Onayı')}
+  <div class="mkm e-x">${esc(yonelme(okulTam()))}</div><div class="sm e-x" style="text-align:center">(İhale / Harcama Yetkilisi)</div>
+  <p class="prg" style="margin-top:12px">${esc(a.ad)} işine ait ihtiyaç listesi onayı ekte sunulmuştur. Söz konusu ${mh} ${esc(usulMetin(a))} gereğince Doğrudan Temin usulü ile ${hz?'alınacağından':'satın alınacağından'}; ${md} oluşturulması Müdürlüğümüzce uygun görülmektedir. Makamınızca da uygun görüldüğü takdirde OLUR’larınıza arz ederim.</p>
+  <div class="imz sag e-x" style="text-align:center">${gercek()}</div>${olur(a,'komisyon')}
+  ${komTablo(tek?'Yaklaşık Maliyet Tespit ve Satın Alma Komisyonu':'Fiyat Araştırma ve Yaklaşık Maliyet Tespit Komisyonu',a.kom.ym)}
+  ${tek?'':komTablo('Piyasa Araştırması ve Satın Alma Komisyonu',a.kom.pa)}${komTablo('Muayene ve Kabul Komisyonu',a.kom.mk)}`}];
+}
+function dFiyat(a,h){
+  const hz=a.tur==='hizmet', dolu=a.belge.doldur;
+  const fs=a.ymF.filter(f=>f.ad.trim()); const L=fs.length?fs:[null];
+  return L.map(f=>{ const fi=f?a.ymF.indexOf(f):-1;
+    return {sik:true,html:`${dHead()}${sxMeta(a,'fiyat','Fiyat Araştırması')}<div class="e-x" style="margin:10px 0 6px"><b>İLGİLİ KİŞİ / FİRMA</b>: ${f?esc(f.ad):'……………………………………………'}</div>
+    <p class="prg">${esc(a.ad)} işine ait aşağıda cinsi, özellikleri ve miktarları yazılı ${hz?'hizmetler':'mallar'} ${esc(usulMetin(a))} gereğince Doğrudan Temin usulüyle ${hz?'alınacağından':'satın alınacağından'} yaklaşık maliyetin tespiti için piyasa araştırması yapılmaktadır. Birim fiyatlarının ve tutarlarının KDV hariç olarak bildirilmesini rica ederiz.</p>
+    ${imzKom(a.kom.ym)}<div class="ttl" style="font-size:11pt">SATIN ALINACAK ${hz?'HİZMET':'MAL/MALZEME'} LİSTESİ</div>
+    ${kalemTablo(h,{hz,fiyat:f?f.fiyat:[],dolu:dolu&&f,top:f?h.ymFT[fi]:0})}
+    <p class="prg">Yukarıda belirtilen ${hz?'hizmetin':'mal/malzemenin'} birim ve toplam fiyatı günün şartlarına göre belirlenmiş olup belirtilen fiyatlar üzerinden vermeyi teklif ediyorum. Arz olunur.</p>
+    ${digerSartlar(a,f?{ad:f.ad}:null)}`}; });
+}
+function firmaKolon(fs,K,o){ // yaklaşık maliyet / piyasa tabloları
+  return {th1:fs.map(f=>`<th colspan="2">${esc(f.ad||'—')}</th>`).join(''),th2:fs.map(()=>'<th>Birim F.</th><th>Toplam</th>').join(''),
+   td:k=>fs.map(f=>{const b=num(f.fiyat[k.i]);return `<td class="r">${b?tl(b):''}</td><td class="r">${b?tl(r2(b*k.m)):''}</td>`;}).join('')};
+}
+function dYM(a,h){
+  const fs=a.ymF.filter(f=>f.ad.trim()||h.K.some(k=>num(f.fiyat[k.i])>0)), c=firmaKolon(fs,h.K);
+  return [{yatay:true,html:`<div class="ttl" style="margin-top:0">YAKLAŞIK MALİYET HESAP CETVELİ</div>
+  <table class="t kv" style="width:70%"><tr><td>İdarenin Adı</td><td>${esc(trUp(okulTam()))}</td></tr>${a.dtNo?`<tr><td>Doğrudan Temin Numarası</td><td>${esc(a.dtNo)}</td></tr>`:''}<tr><td>İşin Konusu</td><td>${esc(a.ad)}</td></tr><tr><td>Düzenleme Tarihi</td><td>${fd(a.tarih.ym)}</td></tr></table>
+  <table class="t"><tr><th rowspan="2" style="width:30px">Sıra No</th><th rowspan="2">Yaklaşık Maliyeti Hesaplanan ${a.tur==='hizmet'?'Hizmet':'Mal'}</th><th rowspan="2">Miktarı</th><th rowspan="2">Birimi</th>${c.th1}<th colspan="2">İdarece Tespit Edilen Yaklaşık Maliyet</th></tr>
+  <tr>${c.th2}<th>Birim F.</th><th>Toplam</th></tr>
+  ${h.ymK.map((k,n)=>`<tr><td class="c">${n+1}</td><td>${esc(k.ad)}${k.ozellik?` <span class="muted">(${esc(k.ozellik)})</span>`:''}</td><td class="c">${mq(k.m)}</td><td class="c">${esc(k.birim)}</td>${c.td(k)}<td class="r">${tl(k.bf)}</td><td class="r">${tl(k.toplam)}</td></tr>`).join('')}
+  <tr class="tp"><td colspan="4" class="r">TOPLAM</td>${fs.map(f=>`<td></td><td class="r">${tl(h.ymFT[a.ymF.indexOf(f)])}</td>`).join('')}<td></td><td class="r">${tl(h.ymToplam)}</td></tr></table>
+  <p class="prg sm">İdaremizce ihtiyaç duyulan ve satın alınması düşünülen yukarıda cinsi, özellikleri ve miktarları yazılı ${a.tur==='hizmet'?'hizmetlerin':'malların'} 4734 Sayılı Kamu İhale Kanunu’nun 9 uncu maddesi gereğince yaklaşık maliyetinin tespitine esas olmak üzere ilgili kişi, kurum ve firmalardan fiyat araştırması yapılmış, sonuçlar yukarıdaki tabloda gösterilmiştir. Birim yaklaşık maliyet, fiyat bildirenlerin aritmetik ortalamasıdır.</p>
+  <p class="prg sm">Yapılan fiyat araştırması neticesinde yaklaşık maliyet KDV hariç <b>${tlx(h.ymToplam)}</b> (${yaziyla(h.ymToplam)}) olarak tespit edilmiş ve iş bu hesap cetveli tarafımızca düzenlenerek imza altına alınmıştır.</p>
+  ${imzKom(a.kom.ym,a.tarih.ym)}`}];
+}
+function dOnay(a,h){
+  const k=kur(), P=komPA(a), r=(l,v)=>`<tr><td>${l}</td><td>${v}</td></tr>`;
+  return [{html:`${dHead()}<div class="ttl">ONAY BELGESİ</div><table class="t kv">
+  ${r('Doğrudan Temini Yapan İdarenin Adı',esc(okulTam()))}${r('Belge Tarih ve Sayısı',`${fd(a.tarih.onay)} — ${esc(sayiOf(a,'onay'))}`)}
+  ${a.dtNo?r('Doğrudan Temin Numarası',esc(a.dtNo)):''}${r('İşin Tanımı',a.tur==='hizmet'?'Hizmet Alımı':'Mal Alımı')}${r('İşin Niteliği',esc(a.ad))}
+  ${r('İşin Miktarı',`${h.K.length} kalem — ekli listede gösterilmiştir`)}${r('Yaklaşık Maliyet (KDV Hariç)',tlx(h.ymToplam))}
+  ${r('Kullanılabilir Ödenek Tutarı (KDV Dahil)',num(a.odenek)?tlx(num(a.odenek)):'')}${r('Yatırım Proje Numarası (Varsa)',esc(a.yatirimNo)||'—')}
+  ${r('Bütçe Tertibi',esc(a.butce))}${r('Avans Verilecekse Şartları',esc(a.avans))}${r('Alım Usulü',esc(usulMetin(a)))}
+  ${r('İlanın Şekli ve Adedi',esc(a.ilan))}${r('Ön Yeterlik / İhale Dokümanı Satış Bedeli',esc(a.dokuman))}${r('Fiyat Farkı Ödenecekse Dayanağı',esc(a.fiyatFarki))}
+  ${r('Sözleşme Düzenlenip Düzenlenmeyeceği',esc(a.sozlesme))}${r('Şartname Düzenlenip Düzenlenmeyeceği',a.teknikVar?'Düzenlenecektir':'Düzenlenmeyecektir')}
+  ${r('Yeterlik Kriterleri Aranıp Aranmayacağı',esc(a.yeterlik))}
+  <tr><td>Doğrudan temin usulü ile alımda piyasa fiyat araştırması yapmak üzere görevlendirilecek kişi/kişiler</td><td style="padding:0"><table class="t" style="margin:0;border:0">
+   <tr><th>Adı Soyadı</th><th>Görevi</th><th>Unvanı</th></tr>${P.map(u=>`<tr><td>${esc(u.ad)}</td><td>${esc(u.gorev)}</td><td>${esc(u.unvan)}</td></tr>`).join('')}</table></td></tr>
+  ${r('Diğer Açıklamalar',esc(a.aciklama))}</table>
+  <div class="ttl e-x" style="font-size:11pt">ONAY</div>
+  <div class="imzlar n2 e-x"><div class="imz"><p class="sm" style="text-align:justify;margin:0 0 6px">Yukarıda belirtilen ${malHiz(a)} alımı için ilgililerin görevlendirilmeleri hususunu onaylarınıza arz ederim.</p><div>${fd(a.tarih.onay)}</div><div class="ad">${esc(k.gercekAd)||'……………………'}</div><div>${esc(k.gercekUnvan)}</div><div class="sm">Gerçekleştirme Görevlisi</div></div>
+  <div class="imz"><div class="u">UYGUNDUR</div><div>${fd(a.tarih.onay)}</div><div class="ad">${esc(k.harcamaAd)||'……………………'}</div><div>${esc(k.harcamaUnvan)}</div><div class="sm">İhale (Harcama) Yetkilisi</div></div></div>
+  <p class="sm e-x" style="margin-top:16px"><b>Ek:</b> Yaklaşık Maliyet Hesap Cetveli</p>`}];
+}
+function dTeklif(a,h){
+  const hz=a.tur==='hizmet', dolu=a.belge.doldur, P=komPA(a);
+  const fs=a.paF.filter(f=>f.ad.trim()); const L=fs.length?fs:[null];
+  return L.map(f=>{ const fi=f?a.paF.indexOf(f):-1, t=fi>=0?h.paT[fi]:null;
+   const r=(l,v)=>`<tr><td style="width:46%">${l}</td><td>${v?esc(v):''}</td></tr>`;
+   return {sik:true,html:`${dHead()}<div class="sx"><div></div><div>${fd(a.tarih.teklif)}</div></div><div class="meta"><b>Konu</b>: ${esc(a.ad)}</div>
+   <div class="ttl">TEKLİF MEKTUBU</div>
+   <p class="prg">İdaremiz tarafından ${esc(a.ad)} işine ait aşağıda cinsi, özellikleri ve miktarları yazılı ${hz?'hizmetler':'mallar'} ${esc(usulMetin(a))} gereğince Doğrudan Temin usulüyle ${hz?'alınacaktır':'satın alınacaktır'}. İlgilenmeniz halinde; teklifin KDV hariç olarak sunulması, teklif edilen toplam bedelin rakam ve yazı ile birbirine uygun olarak yazılması, üzerinde kazıntı, silinti ve düzeltme yapılmaması, teklif mektubunun ad, soyad ve ticaret unvanı yazılmak suretiyle kaşelenmesi ve imzalanması zorunlu olup bu şartları taşımayan teklifler değerlendirmeye alınmayacaktır.</p>
+   <table class="t sm">${r('Teklif sahibinin adı soyadı / ticaret unvanı, uyruğu',f&&f.ad)}${r('Açık tebligat adresi',f&&f.adres)}${r('Bağlı olduğu vergi dairesi ve vergi numarası',f&&f.vkn)}${r('Telefon ve faks numarası',f&&f.tel)}${r('E-posta adresi (varsa)','')}</table>
+   ${imzKom(P)}<div class="ttl" style="font-size:11pt">SATIN ALINACAK ${hz?'HİZMET':'MAL/MALZEME'} LİSTESİ</div>
+   ${kalemTablo(h,{hz,fiyat:f?f.fiyat:[],dolu:dolu&&f,top:t?t.top:0})}
+   <p class="prg">Yukarıda belirtilen ve İdarenizce satın alınacak olan ${hz?'hizmetlerin':'malların'} cinsi, özellikleri, miktarı ve diğer şartlarını okudum. KDV hariç toplam ${dolu&&t&&t.top?`<b>${tlx(t.top)} (${yaziyla(t.top)})</b>`:'…………………………………………………… (rakam ve yazı ile)'} bedelle vermeyi kabul ve taahhüt ediyorum / ediyoruz.</p>
+   ${digerSartlar(a,f?{ad:f.ad}:null)}`}; });
+}
+function dPiyasa(a,h){
+  const P=komPA(a), fs=a.paF.filter(f=>f.ad.trim()||h.K.some(k=>num(f.fiyat[k.i])>0)), c=firmaKolon(fs,h.K), kf=h.kf;
+  return [{yatay:true,html:`<div class="ttl" style="margin-top:0">PİYASA FİYAT ARAŞTIRMA TUTANAĞI</div>
+  <table class="t kv" style="width:78%"><tr><td>İdarenin Adı</td><td>${esc(trUp(okulTam()))}</td></tr>${a.dtNo?`<tr><td>Doğrudan Temin Numarası</td><td>${esc(a.dtNo)}</td></tr>`:''}
+  <tr><td>Yapılan İşin / Mal / Hizmetin Adı, Niteliği</td><td>${esc(a.ad)}</td></tr><tr><td>Alım ve Görevlendirme Onay Belgesi Tarih ve Sayısı</td><td>${fd(a.tarih.onay)} — ${esc(sayiOf(a,'onay'))}</td></tr></table>
+  <table class="t"><tr><th rowspan="2" style="width:30px">Sıra No</th><th rowspan="2">${a.tur==='hizmet'?'Hizmetin':'Malın'} Adı</th><th rowspan="2">Miktarı</th><th rowspan="2">Birimi</th>${c.th1}</tr><tr>${c.th2}</tr>
+  ${h.K.map((k,n)=>`<tr><td class="c">${n+1}</td><td>${esc(k.ad)}</td><td class="c">${mq(k.m)}</td><td class="c">${esc(k.birim)}</td>${c.td(k)}</tr>`).join('')}
+  <tr class="tp"><td colspan="4" class="r">TOPLAM TEKLİF</td>${fs.map(f=>{const t=h.paT[a.paF.indexOf(f)];return `<td></td><td class="r">${t.bos?'':tl(t.top)}</td>`;}).join('')}</tr></table>
+  <table class="t"><tr><th colspan="3">Teklifi Uygun Görülen Kişi / Firma</th></tr><tr><th>Adı</th><th>Adresi</th><th style="width:28%">Teklif Ettiği Fiyat (KDV Hariç)</th></tr>
+  <tr><td>${kf?esc(kf.ad):''}</td><td>${kf?esc(kf.adres):''}</td><td class="r">${kf?tlx(h.kazTop):''}</td></tr><tr><td colspan="3" class="c">Tümünün bu kişi/firmadan alımı uygun görülmüştür.</td></tr></table>
+  <p class="prg sm">4734 Sayılı Kamu İhale Kanunu’nun 22 nci maddesi uyarınca Doğrudan Temin usulüyle yapılacak alıma ilişkin yapılan piyasa araştırmasında kişi/firmalarca teklif edilen fiyatlar tarafımızca değerlendirilerek yukarıda adı ve adresi belirtilen kişi/firmadan alım yapılması uygun görülmüştür.${!h.oto?' '+esc(a.aciklama):''}</p>
+  <div class="sm" style="text-align:right">${fd(a.tarih.piyasa)}</div>${imzKom(P)}`}];
+}
+function dMuayene(a,h){
+  const k=h.kf;
+  return [{html:`${dHead()}<table class="t kv"><tr><td>İdarenin Adı</td><td>${esc(trUp(okulTam()))}</td></tr><tr><td>İşin Adı / Niteliği</td><td>${esc(a.ad)}</td></tr>
+  <tr><td>Yüklenici</td><td>${k?esc(k.ad):''}</td></tr><tr><td>Karar Tarihi</td><td>${fd(a.tarih.muayene)}</td></tr><tr><td>Karar No</td><td>${esc(a.kabul.kararNo)}</td></tr></table>
+  <div class="ttl">MUAYENE VE KABUL KOMİSYONU KARARI</div>
+  <table class="t"><tr><th style="width:30px">Sıra No</th><th>Mal/Malzeme Adı</th><th>Miktarı</th><th>Ölçü Birimi</th><th>Birim Fiyatı</th><th>Toplam Fiyat (KDV Hariç)</th><th>Kabul Edilen Miktar</th><th>Kalan</th></tr>
+  ${h.kK.map((x,n)=>`<tr><td class="c">${n+1}</td><td>${esc(x.ad)}</td><td class="c">${mq(x.m)}</td><td class="c">${esc(x.birim)}</td><td class="r">${tl(x.bf)}</td><td class="r">${tl(x.toplam)}</td><td class="c">${mq(x.kabulM)}</td><td class="c">${mq(x.kalan)}</td></tr>`).join('')}
+  <tr class="tp"><td colspan="5" class="r">Toplam (KDV Hariç)</td><td class="r">${tl(h.kazTop)}</td><td colspan="2"></td></tr></table>
+  <p class="prg">İhale yetkilisince görevlendirilmemiz nedeniyle ${esc(a.ad)} işine ait yukarıda cinsi, miktarı ve tutarı belirtilen mal/malzemenin teslim esaslarına göre kontrolü yapılmış, alınmasında herhangi bir sakınca bulunmadığı tarafımızdan tespit edilerek ${h.kK.some(x=>x.kalan)?'kabul edilen miktarlar üzerinden ':''}teslim alınmış ve iş bu karar tanzim ve imza edilmiştir.</p>
+  <div class="ttl" style="font-size:11pt">MUAYENE VE KABUL KOMİSYONU</div>${imzKom(a.kom.mk,a.tarih.muayene)}`}];
+}
+function dHizmet(a,h){
+  const k=h.kf, M=a.kom.mk, r=(l,v)=>`<tr><td>${l}</td><td>${v}</td></tr>`;
+  return [{html:`${dHead()}<div class="ttl">HİZMET İŞLERİ KABUL TUTANAĞI</div><table class="t kv">
+  ${r('Tutanak No',esc(a.kabul.kararNo))}${r('İşin Adı',esc(a.ad))}${r('Hizmeti Yapanın Adı Soyadı / Unvanı',k?esc(k.ad):'')}${r('Tarihi',fd(a.tarih.muayene))}
+  ${r('Yaklaşık Maliyeti',tlx(h.ymToplam))}${r('Sözleşme Bedeli (KDV Hariç)',tlx(h.kazTop))}${r('Hizmetin Süresi',esc(a.kabul.sure))}${r('Hizmet Alımının Bitiş Tarihi',fd(a.tarih.muayene))}</table>
+  <p class="prg" style="margin-top:12px">${k?esc(k.ad):'……………'} ile ${esc(okulTam())} arasında yapılan ${esc(a.ad)} işi nedeniyle; ${M.map(u=>`${esc(u.gorev)} ${esc(u.ad)}`).join(', ')} olmak üzere teşkil edilen Muayene ve Kabul Komisyonumuz tarafından inceleme yapılmıştır. Yapılan işin hizmet alımının gerekçelerine uygun olduğu ve kabule engel olabilecek eksik, kusur ve arızaların bulunmadığı görülmüştür.</p>
+  <p class="prg">Kabul bakımından inceleme işlemlerinin yapılması görevi Komisyonumuza verilmiş bulunan söz konusu işin kabulünün yapılması Komisyonumuzca uygun görülmüştür. İş bu Kabul Tutanağı 2 (iki) nüsha olarak düzenlenmiştir.</p>
+  <div class="ttl" style="font-size:11pt">MUAYENE VE KABUL KOMİSYONU</div>${imzKom(M)}
+  <div style="margin-top:20px" class="sx"><div></div><div class="imz" style="text-align:center;width:46%"><div>Kabul Tutanağının Onay Tarihi: ${fd(a.tarih.muayene)}</div><div class="u" style="margin-top:6px">Harcama Yetkilisi</div><div class="ad">${esc(kur().harcamaAd)||'……………………'}</div><div>${esc(kur().harcamaUnvan)}</div></div></div>`}];
+}
+function dHakedis(a,h){
+  const H=h.hak, K=h.hak.ks, k=kur(), r=(l,ad,v,b)=>`<tr${b?' class="tp"':''}><td class="c" style="width:30px">${l}</td><td>${ad}</td><td class="r" style="width:120px">${v===null?'':tl(v)}</td></tr>`;
+  return [{html:`<div class="ttl" style="margin-top:0">HAKEDİŞ RAPORU</div>
+  <div class="sx"><div><b>Kurumu</b>: ${esc(okulTam())}</div><div><b>Hakediş No</b>: ${esc(a.hak.no)}</div></div>
+  <div style="margin:6px 0"><b>${fd(a.tarih.muayene)}</b> tarihine kadar yapılan hizmetin — ${esc(a.ad)}</div>
+  <table class="t">${r('A','Sözleşme fiyatları ile yapılan hizmet tutarı',H.A)}${r('B','Fiyat farkı tutarı',H.B)}${r('C','Toplam tutar (A + B)',H.C,1)}
+  ${r('D','Bir önceki hakedişin toplam tutarı',H.D)}${r('E','Bu hakedişin tutarı (C − D)',H.E,1)}${r('F',`KDV (E × %${mq(a.kdv)})`,H.F)}${r('G','Tahakkuk tutarı (E + F)',H.G,1)}
+  <tr><td></td><td colspan="2"><b>KESİNTİLER VE MAHSUPLAR</b></td></tr>
+  ${r('','a) Gelir / kurumlar vergisi (E × %'+mq(a.hak.gelirV)+')',K.a)}${r('','b) Damga vergisi (E × ‰'+esc(a.hak.damgaOran)+')',K.b)}${r('','c) KDV tevkifatı (F × '+(a.hak.tevkifat==='0'?'—':esc(a.hak.tevkifat))+')',K.c)}
+  ${r('','d) Sosyal Sigortalar Kurumu kesintisi',K.d)}${r('','e) İdare makinesi kiraları',K.e)}${r('','f) Gecikme cezası',K.f)}${r('','g) Avans mahsubu',K.g)}${r('','h) Bu hakedişle ödenen fiyat farkı teminat kesintisi',K.h)}
+  ${r('H','Kesintiler ve mahsuplar toplamı',H.H,1)}${r('','Yükleniciye ödenecek tutar (G − H)',H.net,1)}</table>
+  <div class="imzlar n2" style="margin-top:20px">${imz('YÜKLENİCİ',h.kf?h.kf.ad:'','')}<div>${imz('DÜZENLEYEN',k.gercekAd,k.gercekUnvan,fd(a.tarih.muayene))}<div style="margin-top:18px">${imz('ONAYLAYAN',k.harcamaAd,k.harcamaUnvan)}</div></div></div>`}];
+}
+function dTeknik(a,h){
+  const k=kur(), s=(n,b,body)=>`<div style="margin-top:8px"><b>${n}. ${b}</b></div>${body}`;
+  return [{html:`<div class="dh">${esc(trUp(okulTam()))}</div><div class="ttl">TEKNİK ŞARTNAME</div>
+  ${s(1,'Giriş, Amaç ve Kapsam',`<p class="prg">İdaremiz bünyesinde ${esc(a.ad)} kapsamında aşağıda belirtilen özelliklerde ${a.tur==='hizmet'?'hizmet alımı':'mal alımı'} yapılacaktır. Alımda idaremizin ihtiyaçlarının tam, kaliteli, talebi karşılar nitelikte${a.tur==='mal'?', sıfır ve kullanılmamış ürünlerden':''} karşılanması ana kriterdir.</p>`)}
+  ${s(2,'Tanımlar',`<p class="prg">İşbu şartnamede geçen kısaltmalar, metin içerisinde açıkça başka anlamda kullanıldığı belirtilmedikçe aşağıdaki anlamlara gelir.</p><table class="t sm"><tr><td style="width:25%">İdare</td><td>${esc(okulTam())}</td></tr><tr><td>Firma</td><td>İş için fiyat teklifi veren gerçek veya tüzel kişi</td></tr></table>`)}
+  ${s(3,'Tekliflerin Sunulması',`<p class="sm" style="margin:4px 0 0 1cm">a) Zarfın üzerine isteklinin adı, soyadı veya ticaret unvanı ile tebligata esas açık adresi yazılır.<br>b) Zarfın yapıştırılan yeri istekli tarafından imzalanır, mühürlenir veya kaşelenir.<br>c) Bu şekilde sunulmayan; kazıntı, silinti bulunan, imzasız veya kaşesiz teklifler değerlendirmeye alınmaz.</p>`)}
+  ${s(4,'Alım Konusu İş',`<p style="margin-left:1cm">İşin adı: ${esc(a.ad)}</p>`)}
+  ${s(5,'Genel Koşullar',`<p class="sm" style="margin:4px 0 0 1cm">• Teklif edilen ürün/hizmetin özellikleri en az bu şartnamede belirtilen özelliklerde olmalıdır.<br>• Firmalar garanti sürelerini tekliflerinde ayrıca ve açıkça belirtir.<br>• Teslim tarihine ilişkin bilgi teklifte mutlaka bildirilir.<br>• İdare tarafından numune istenmesi halinde firma numune sağlar. Nakliye, sigorta ve benzeri tüm giderler ile vergiler firmaya aittir.<br>• Şartnamedeki kalemlerin tümüne teklif verilir; ayrı, parçalı ve alternatif teklif verilemez.<br>• Firma, teklifinde belirttiği fiyat dışında hiçbir ad altında bedel talep edemez.<br>• Bu dokümandan doğan damga vergisi firmaya aittir.</p>`)}
+  <table class="t" style="margin-top:8px"><tr><th style="width:34px">Sıra No</th><th style="width:30%">${a.tur==='hizmet'?'Hizmetin':'Mal/Malzemenin'} Adı</th><th>Teknik Özellikleri</th></tr>
+  ${h.K.map((x,n)=>`<tr><td class="c">${n+1}</td><td>${esc(x.ad)}</td><td class="sm">${esc(x.teknik).replace(/\n/g,'<br>')}</td></tr>`).join('')}</table>
+  ${s(6,'Garanti, Destek ve Servis',`<p class="prg sm">Sorunların giderilme süresinin 7 (yedi) takvim gününü aşması ve idarenin ihtarına rağmen sorunun devam etmesi halinde gecikilen her takvim günü için firmaya mevzuattaki cezai işlem uygulanır.</p>`)}
+  ${s(7,'Teslimat Şartları',`<p class="sm" style="margin:4px 0 0 1cm">7.1 Teslim yeri: ${esc(k.adres||okulTam())}<br>7.2 Mallar/hizmetler belirtilen tarih, yer ve şekilde teslim edilir.<br>7.3 Teslimat, muayene ve kabul komisyonunca sayım ve kalite kontrolü yapıldıktan sonra gerçekleşmiş sayılır.</p>`)}
+  <div class="imzlar n2">${imz('FİRMA / KAŞE','','İmza')}${imz(fd(a.tarih.ihtiyac),k.harcamaAd,k.harcamaUnvan)}</div>`}];
+}
+function dHarcama(a,h){
+  const k=kur(), gr=[k.gercekAd&&`${k.gercekAd} (${k.gercekUnvan})`].filter(Boolean).join(', '), r=(l,v)=>`<tr><td>${l}</td><td>${v}</td></tr>`;
+  return [{html:`<div class="ek">Ek-1</div><div class="ttl">HARCAMA TALİMATI</div>
+  <div class="sx"><div><b>Sayı</b>: ${esc(sayiOf(a,'harcama'))}</div><div><b>Tarih</b>: ${fd(a.tarih.harcama)}</div></div>
+  <div style="margin:8px 0"><b>Harcama talebinde bulunan birim</b>: ${esc(okulTam())}</div>
+  <table class="t kv"><tr><th colspan="2">YAPILACAK HARCAMANIN</th></tr>
+  ${r('Gerekçesi ve Hukuki Dayanağı',esc(usulMetin(a)))}${r('Konusu / Nev’i / Niteliği',esc(a.ad))}${r('Miktarı',`${h.K.length} kalem`)}
+  ${r('Gerçekleştirme Süresi',h.gun!==null?`${h.gun} gün`:esc(a.sart.sure))}${r('Gerçekleştirme Usulü',`Doğrudan Temin — ${esc(a.usul)}`)}${r('Yaklaşık Maliyet (KDV Hariç)',tlx(h.ymToplam))}
+  ${r('Kullanılabilir Ödenek Tutarı',num(a.odenek)?tlx(num(a.odenek)):'')}${r('Ödeneğin Bütçe Tertibi',esc(a.butce))}${r('Gerçekleştirme Görevlileri',esc(gr))}</table>
+  <div style="margin-top:8px"><b>AÇIKLAMALAR</b>:</div><div class="box">${esc(a.aciklama)}</div>
+  <div class="imzlar n2" style="margin-top:18px"><div class="imz"><p class="sm" style="margin:0 0 6px">Yukarıda belirtilen ${a.tur==='hizmet'?'hizmetin':'mal/malzemenin'} alımının gerçekleştirilmesi uygundur.</p><div class="u">Teklif Eden Yetkili</div><div class="ad">${esc(k.gercekAd)||'……………………'}</div><div>${esc(k.gercekUnvan)}</div></div>
+  <div class="imz"><div class="u" style="letter-spacing:2px">OLUR</div><div>${fd(a.tarih.harcama)}</div><div class="ad">${esc(k.harcamaAd)||'……………………'}</div><div>${esc(k.harcamaUnvan)}</div><div class="sm">Harcama Yetkilisi*</div></div></div>
+  <p class="xs" style="margin-top:22px">* Bu sütun, yönetim kurulu, komisyon veya komite kararlarıyla yapılan harcamalarda kurul, komisyon, komite üyelerinin imzalarını kapsayacak şekilde düzenlenecektir.</p>`}];
+}
+function dOmkl(a){
+  const k=kur();
+  return [{html:`<div class="ttl" style="margin-top:0">ÖN MALİ KONTROL LİSTESİ</div><div class="ttl" style="margin-top:0;font-size:11pt">DOĞRUDAN TEMİN (${esc(trUp(a.usul))})</div>
+  <table class="t kv sm"><tr><th colspan="2">A — Harcama Birimi Kontrol Alanı</th></tr><tr><td>Ödemenin geldiği birim</td><td>${esc(okulTam())}</td></tr>
+  <tr><td>Tahakkuk işlem numarası</td><td>${esc(a.odeme.hys)}</td></tr><tr><td>Hesap kontrol otomasyonu kayıt numarası</td><td>${esc(a.odeme.hko)}</td></tr><tr><td>İşin adı</td><td>${esc(a.ad)}</td></tr></table>
+  <table class="t sm"><tr><th style="width:36px">No</th><th>Belge / Bilgi</th><th style="width:44px">Durum</th></tr>
+  ${OMKL.map(([key,t])=>{const m=omklM(a,key);return `<tr><td class="c">${key}</td><td${key.includes('-')?' style="padding-left:14px"':''}>${esc(t)}</td><td class="c"><b>${m==='-'?'−':m}</b></td></tr>`;}).join('')}</table>
+  <p class="sm" style="text-align:justify">Ödenek kontrolünün yapıldığını, (+) işaretli belgelerin doğru ve eksiksiz olarak oluşturulduğunu ve (/) işaretli belgelerin bu ödeme için gerekli olmadığını beyan ederim.</p>
+  <div class="imzlar n2"><div></div>${imz('Gerçekleştirme Görevlisi',k.gercekAd,k.gercekUnvan,'İmza')}</div>
+  <p class="xs" style="margin-top:14px">Var: (+) &nbsp;&nbsp; Yok: (−) &nbsp;&nbsp; Gerek yok: (/)<br>Taşınır Mal Yönetmeliğine göre taşınır işlem fişi düzenlenmeyecek hallerde taşınır işlem fişi eklenmez.<br>Taahhüt dosyası düzenlenen ödemelerde, taahhüt dosyasında yer alan belgeler ikinci ve sonraki ödemelerde ödeme belgesine eklenmez.</p>`}];
+}
+function dTeslim(a,h){
+  const k=kur(), B=teslimListe(a).filter(b=>String(b[0]).trim()), kod=String(k.kurumsalKod||'').split(/[.\s-]+/).filter(Boolean);
+  const tutar=num(a.odeme.tutar)||h.hak.G, adet=B.reduce((s,b)=>s+num(b[1]),0);
+  return [{html:`<div class="ek">EK-1</div><div class="ttl">ÖDEME BELGESİ VE EKİ BELGELER TESLİM / TESELLÜM TUTANAĞI</div>
+  <table class="t sm"><tr><td style="width:24%"><b>Harcama Birimi Kurumsal Kod</b></td><td>${kod.length?kod.map(esc).join(' &nbsp;|&nbsp; '):''}</td><td style="width:18%"><b>Muhasebe Birimi</b></td><td>${esc(k.muhasebe)}</td></tr>
+  <tr><td><b>Harcama Birimi</b></td><td>${esc(trUp(okulTam()))}</td><td><b>Düzenleme Tarihi</b></td><td>${fd(a.tarih.teslim)}</td></tr>
+  <tr><td><b>Form Sıra No</b></td><td>${esc(a.odeme.formSira)}</td><td><b>Torba Numarası**</b></td><td>${esc(a.odeme.torba)}</td></tr></table>
+  <table class="t sm"><tr><th colspan="3">Ödeme Emri Belgesi</th><th colspan="2">Eki Belge</th><th colspan="2">Hak Sahibi</th><th rowspan="2">Bütçe Gideri Tutarı</th></tr>
+  <tr><th>Tahakkuk İşlem No</th><th>Yevmiye Tarihi**</th><th>Yevmiye No**</th><th>Kanıtlayıcı Belge Türü*</th><th>Adedi</th><th>Adı Soyadı / Unvanı</th><th>TCKN / VKN</th></tr>
+  ${B.map((b,i)=>`<tr><td>${i===0?esc(a.odeme.hys):''}</td><td></td><td></td><td>${esc(b[0])}</td><td class="c">${esc(b[1])}</td><td>${i===0&&h.kf?esc(h.kf.ad):''}</td><td>${i===0&&h.kf?esc(h.kf.vkn):''}</td><td class="r">${i===0?tl(tutar):''}</td></tr>`).join('')}</table>
+  <p class="sm" style="text-align:justify">Yukarıda hak sahibi ve alacak tutarı gösterilen toplam 1 (bir) adet tahakkuk evrakı ve buna ait toplam ${mq(adet)} adet belge ve ekleri teslim alınmıştır. …../…../20…  Teslim saati: ……:……</p>
+  <div class="imzlar n2">${imz('TESLİM EDEN',a.odeme.teslimEdenAd||k.gercekAd,a.odeme.teslimEdenUnvan||k.gercekUnvan,'İmza')}${imz('TESLİM ALAN','','Adı Soyadı','İmza')}</div>
+  <p class="xs" style="margin-top:18px">* Merkezi Yönetim Harcama Belgeleri Yönetmeliğindeki belgenin adı yazılacaktır.<br>** Bu bölümler muhasebe birimince muhasebeleştirme işlemi tamamlandıktan sonra doldurulacaktır; torba numarası olarak evrakın konulduğu torbanın numarası yazılır.</p>`}];
+}
+
+/* ================= ÖNİZLEME & YAZDIRMA ================= */
+function sayfalar(a,ids){ const h=hesap(a); let out=[]; docsOf(a).filter(d=>ids.includes(d.id)).forEach(d=>{ d.f(a,h).forEach(p=>out.push(`<div class="page ${p.yatay?'yatay':''} ${p.sik?'sik':''}" data-doc="${d.id}">${p.html}</div>`)); }); return out.join(''); }
+function onizle(ids,baslik){
+  const a=cur(); if(!ids.length){ toast('Belge seçilmedi.'); return; }
+  $('#modal').innerHTML=`<div class="modal"><div class="mbar"><button class="ibtn" data-act="pvClose">${ic('kapat')}</button><b>${esc(baslik)}</b>
+  ${ids.length===1&&EBYS_DOCS[ids[0]]?`<button class="btn s mb" data-act="ebys" data-d="${ids[0]}" title="EBYS’ye aktar">${ic('ebys')}<span class="mbt">EBYS</span></button>`:''}<button class="btn s mb" data-act="pvWord" title="Word (.docx) indir">${ic('word')}Word</button><button class="btn s mb" data-act="pvPdf" title="PDF indir">${ic('pdf')}PDF</button><button class="btn a s" data-act="pvPrint" title="Yazdır">${ic('yazici')}<span class="mbt">Yazdır</span></button></div><div class="mhint">Metne dokunarak düzeltme yapabilirsiniz; düzeltmeler yalnızca bu çıktıya uygulanır.</div>
+  <div class="mbody" id="pvBody">${sayfalar(a,ids)}</div></div>`;
+  $$('#pvBody .page').forEach(p=>p.contentEditable='true');
+  olcekle(); document.body.style.overflow='hidden';
+}
+function olcekle(){ const b=$('#pvBody'); if(!b) return; const w=b.clientWidth-16; $$('.page',b).forEach(p=>{ p.style.zoom=''; const pw=p.offsetWidth; p.style.zoom=Math.min(1,w/pw); }); }
+function yazdir(html){
+  const pr=$('#print-root'); pr.innerHTML=html; $$('.page',pr).forEach(p=>{p.removeAttribute('contenteditable');p.style.zoom='';});
+  setTimeout(()=>{ window.print(); },60);
+}
+window.addEventListener('afterprint',()=>{ $('#print-root').innerHTML=''; });
+window.addEventListener('resize',()=>olcekle());
+
+/* ================= MYS XLSX ================= */
+const CRC=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0;}return t;})();
+function crc32(u){let c=0xFFFFFFFF;for(let i=0;i<u.length;i++)c=CRC[(c^u[i])&255]^(c>>>8);return (c^0xFFFFFFFF)>>>0;}
+function zipla(files,mime){
+  const en=new TextEncoder(), parts=[], cen=[]; let off=0;
+  files.forEach(f=>{ const nm=en.encode(f.name), d=typeof f.data==='string'?en.encode(f.data):f.data, c=crc32(d);
+    const lh=new DataView(new ArrayBuffer(30)); lh.setUint32(0,0x04034b50,true); lh.setUint16(4,20,true); lh.setUint16(6,0x0800,true); lh.setUint16(8,0,true); lh.setUint16(10,0,true); lh.setUint16(12,0x21,true); lh.setUint32(14,c,true); lh.setUint32(18,d.length,true); lh.setUint32(22,d.length,true); lh.setUint16(26,nm.length,true); lh.setUint16(28,0,true);
+    parts.push(new Uint8Array(lh.buffer),nm,d);
+    const ch=new DataView(new ArrayBuffer(46)); ch.setUint32(0,0x02014b50,true); ch.setUint16(4,20,true); ch.setUint16(6,20,true); ch.setUint16(8,0x0800,true); ch.setUint16(10,0,true); ch.setUint16(12,0,true); ch.setUint16(14,0x21,true); ch.setUint32(16,c,true); ch.setUint32(20,d.length,true); ch.setUint32(24,d.length,true); ch.setUint16(28,nm.length,true); ch.setUint32(42,off,true);
+    cen.push(new Uint8Array(ch.buffer),nm); off+=30+nm.length+d.length; });
+  const cs=cen.reduce((s,x)=>s+x.length,0), e=new DataView(new ArrayBuffer(22)); e.setUint32(0,0x06054b50,true); e.setUint16(8,files.length,true); e.setUint16(10,files.length,true); e.setUint32(12,cs,true); e.setUint32(16,off,true);
+  return new Blob([...parts,...cen,new Uint8Array(e.buffer)],{type:mime||'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+}
+const xesc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function xlsx(rows,sheet){
+  const col=i=>{let s='';i++;while(i){const m=(i-1)%26;s=String.fromCharCode(65+m)+s;i=Math.floor((i-1)/26);}return s;};
+  const body=rows.map((r,ri)=>`<row r="${ri+1}">${r.map((v,ci)=>{ if(v===''||v==null) return ''; const ref=col(ci)+(ri+1); return typeof v==='number'?`<c r="${ref}"><v>${v}</v></c>`:`<c r="${ref}" t="inlineStr"><is><t xml:space="preserve">${xesc(v)}</t></is></c>`; }).join('')}</row>`).join('');
+  return zipla([
+   {name:'[Content_Types].xml',data:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>'},
+   {name:'_rels/.rels',data:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'},
+   {name:'xl/workbook.xml',data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="${xesc(sheet)}" sheetId="1" r:id="rId1"/></sheets></workbook>`},
+   {name:'xl/_rels/workbook.xml.rels',data:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/></Relationships>'},
+   {name:'xl/worksheets/sheet1.xml',data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>${body}</sheetData></worksheet>`}]);
+}
+function kopyala(t){ // kullanıcı dokunuşu içinde eşzamanlı kopyalama
+  let ok=false;
+  try{ const x=document.createElement('textarea'); x.value=t; x.setAttribute('readonly',''); x.style.cssText='position:fixed;top:0;left:0;opacity:0'; document.body.appendChild(x); x.focus(); x.select(); x.setSelectionRange(0,t.length); ok=document.execCommand('copy'); x.remove(); }catch(e){}
+  if(!ok&&navigator.clipboard&&window.isSecureContext){ navigator.clipboard.writeText(t).catch(()=>{}); ok=true; }
+  return ok;
+}
+function indir(blob,ad){ const u=URL.createObjectURL(blob), l=document.createElement('a'); l.href=u; l.download=ad; document.body.appendChild(l); l.click(); setTimeout(()=>{URL.revokeObjectURL(u);l.remove();},1500); }
+const dosyaAdi=s=>String(s||'dosya').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/ı/g,'i').replace(/İ/g,'I').replace(/[^\w]+/g,'_').replace(/^_|_$/g,'').slice(0,50)||'dosya';
+function mysIndir(){
+  const a=cur(), h=hesap(a);
+  if(!h.K.length){ toast('Kalem yok.'); return; }
+  const fs=a.ymF.filter(f=>h.K.some(k=>num(f.fiyat[k.i])>0));
+  const rows=[['Ürün Adı','Miktar','Ölçü Birimi','Ürün No','Model','Marka','Birim Tutar','Firma VKN/TCKN']];
+  h.K.forEach(k=>{ rows.push([k.ad,k.m,'ADET_BIRIM','','','','','']); fs.forEach(f=>{ const b=num(f.fiyat[k.i]); if(b>0) rows.push(['','','','','','',b,String(f.vkn||'')]); }); });
+  indir(xlsx(rows,'Mys_yukle'),`MYS_${a.yil}-${a.no}_${dosyaAdi(a.ad)}.xlsx`);
+  if(fs.some(f=>!String(f.vkn).trim())) toast('Bazı firmaların VKN/TCKN bilgisi boş.'); else toast('MYS dosyası indirildi.');
+}
+
+/* ================= WORD (.docx) & PDF DIŞA AKTARMA ================= */
+function hostHazirla(src){
+  const h=$('#render-host'); h.innerHTML='';
+  if(typeof src==='string') h.innerHTML=src;
+  else src.forEach(p=>{ const c=p.cloneNode(true); c.removeAttribute('contenteditable'); c.style.zoom=''; h.appendChild(c); });
+  return $$('.page',h);
+}
+const xe=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const CS=el=>getComputedStyle(el);
+const pf=v=>parseFloat(v)||0;
+function icKutu(el){ const r=el.getBoundingClientRect(), c=CS(el); return {l:r.left+pf(c.paddingLeft)+pf(c.borderLeftWidth), r:r.right-pf(c.paddingRight)-pf(c.borderRightWidth)}; }
+const INL=new Set(['inline','inline-block','inline-flex']);
+function satirIci(n){ if(n.nodeType!==1) return true; if(n.tagName==='BR') return true; const d=CS(n).display; if(d==='none') return true; return INL.has(d)&&[...n.childNodes].every(satirIci); }
+function duzenMi(el){ const c=CS(el); return c.display==='grid'||c.display==='inline-grid'||(c.display==='flex'&&!c.flexDirection.startsWith('column')); }
+function cerceveli(el){ const c=CS(el); return ['Top','Right','Bottom','Left'].every(k=>c['border'+k+'Style']!=='none'&&pf(c['border'+k+'Width'])>0); }
+function wRun(t,c){ const px=pf(c.fontSize)||14.67, sz=Math.round(px*1.5); const b=pf(c.fontWeight)>=600||c.fontWeight==='bold';
+  return `<w:r><w:rPr>${b?'<w:b/><w:bCs/>':''}${c.fontStyle==='italic'?'<w:i/>':''}<w:sz w:val="${sz}"/><w:szCs w:val="${sz}"/></w:rPr><w:t xml:space="preserve">${xe(t)}</w:t></w:r>`; }
+function wRuns(nodes){
+  const seg=[]; const gez=n=>{ if(n.nodeType===3){ const t=n.textContent.replace(/\s+/g,' '); if(t) seg.push({t,c:CS(n.parentElement)}); }
+    else if(n.nodeType===1){ if(n.tagName==='BR'){ seg.push({br:1}); return; } if(CS(n).display==='none') return; n.childNodes.forEach(gez); } };
+  nodes.forEach(gez);
+  while(seg.length&&seg[0].t!==undefined&&!seg[0].t.trim()) seg.shift();
+  while(seg.length&&seg[seg.length-1].t!==undefined&&!seg[seg.length-1].t.trim()) seg.pop();
+  if(seg.length&&seg[0].t) seg[0].t=seg[0].t.replace(/^ /,''); const L=seg[seg.length-1]; if(L&&L.t) L.t=L.t.replace(/ $/,'');
+  return seg.map(s=>s.br?'<w:r><w:br/></w:r>':wRun(s.t,s.c)).join('');
+}
+function wPara(el,nodes,ctx){
+  const c=CS(el), r=el.getBoundingClientRect(), K=ctx.K;
+  let runs=wRuns(nodes); const bos=!runs;
+  let bdr='';
+  if(bos&&c.borderBottomStyle==='dotted'){ const n=Math.max(10,Math.floor((r.width-pf(c.paddingLeft)-pf(c.paddingRight))/3.6)); runs=`<w:r><w:rPr><w:sz w:val="20"/></w:rPr><w:t>${'.'.repeat(n)}</w:t></w:r>`; return `<w:p><w:pPr><w:spacing w:before="160" w:after="0"/></w:pPr>${runs}</w:p>`; }
+  if(c.borderBottomStyle!=='none'&&pf(c.borderBottomWidth)>0&&c.borderTopStyle==='none') bdr=`<w:pBdr><w:bottom w:val="${c.borderBottomStyle==='dotted'?'dotted':'single'}" w:sz="4" w:space="1" w:color="000000"/></w:pBdr>`;
+  const fs=pf(c.fontSize)||14.67, lh=c.lineHeight==='normal'?1.2:pf(c.lineHeight)/fs;
+  const once=Math.round(pf(c.marginTop)*15)+(bos&&bdr?240:0), sonra=Math.round(pf(c.marginBottom)*15);
+  const il=Math.max(0,Math.round((r.left+pf(c.paddingLeft)-ctx.box.l)*K)), ir=Math.max(0,Math.round((ctx.box.r-(r.right-pf(c.paddingRight)))*K)), fl=Math.round(pf(c.textIndent)*K);
+  const jc={center:'center',right:'right',end:'right',justify:'both','-webkit-center':'center'}[c.textAlign];
+  const ppr=`${bdr}<w:spacing w:before="${once}" w:after="${sonra}" w:line="${Math.round(240*lh/1.17)}" w:lineRule="auto"/>${il||ir||fl?`<w:ind w:left="${il}" w:right="${ir}"${fl>0?` w:firstLine="${fl}"`:''}/>`:''}${jc?`<w:jc w:val="${jc}"/>`:''}<w:rPr><w:sz w:val="${Math.round(fs*1.5)}"/></w:rPr>`;
+  return `<w:p><w:pPr>${ppr}</w:pPr>${runs}</w:p>`;
+}
+function wBlocks(el,ctx){
+  const c=CS(el); if(c.display==='none') return '';
+  if(el.tagName==='TABLE') return wTablo(el,ctx);
+  const kok=el.classList.contains('page')||el===ctx.ic;
+  if(!kok&&duzenMi(el)&&el.children.length) return wDuzen(el,ctx);
+  if(!kok&&!/^T[DH]$/.test(el.tagName)&&cerceveli(el)) return wKutu(el,ctx);
+  const ch=[...el.childNodes];
+  if(ch.every(satirIci)) return wPara(el,ch,ctx);
+  let out='', grp=[];
+  const bosal=()=>{ if(grp.some(n=>n.nodeType===1||n.textContent.trim())) out+=wPara(el,grp,ctx); grp=[]; };
+  ch.forEach(n=>{ if(satirIci(n)) grp.push(n); else { bosal(); out+=wBlocks(n,{...ctx,ic:null}); } });
+  bosal(); return out;
+}
+function sinirlar(xs){ const a=[...xs].sort((p,q)=>p-q), B=[]; a.forEach(x=>{ if(!B.length||x-B[B.length-1]>1.5) B.push(x); }); return B; }
+const yakin=(B,x)=>{ let bi=0,bd=1e9; B.forEach((b,i)=>{ const d=Math.abs(b-x); if(d<bd){bd=d;bi=i;} }); return bi; };
+function hucreIcerik(el,ctx){ let x=wBlocks(el,{...ctx,box:icKutu(el),ic:el}); if(!x||!/<\/w:p>$/.test(x)) x+='<w:p><w:pPr><w:spacing w:before="0" w:after="0"/></w:pPr></w:p>'; return x; }
+function tblXml(B,satirlar,ctx,o){
+  const K=ctx.K, cols=B.slice(1).map((x,i)=>Math.max(20,Math.round((x-B[i])*K))), top=cols.reduce((s,v)=>s+v,0);
+  const ind=Math.round((B[0]-ctx.box.l)*K);
+  const kn=o.cerceve?'<w:tblBorders><w:top w:val="single" w:sz="4" w:color="000000"/><w:left w:val="single" w:sz="4" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:color="000000"/><w:right w:val="single" w:sz="4" w:color="000000"/><w:insideH w:val="single" w:sz="4" w:color="000000"/><w:insideV w:val="single" w:sz="4" w:color="000000"/></w:tblBorders>'
+    :'<w:tblBorders><w:top w:val="nil"/><w:left w:val="nil"/><w:bottom w:val="nil"/><w:right w:val="nil"/><w:insideH w:val="nil"/><w:insideV w:val="nil"/></w:tblBorders>';
+  const mar=o.cerceve?'<w:tblCellMar><w:top w:w="15" w:type="dxa"/><w:left w:w="60" w:type="dxa"/><w:bottom w:w="15" w:type="dxa"/><w:right w:w="60" w:type="dxa"/></w:tblCellMar>':'<w:tblCellMar><w:top w:w="0" w:type="dxa"/><w:left w:w="0" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="0" w:type="dxa"/></w:tblCellMar>';
+  let x=`<w:tbl><w:tblPr><w:tblW w:w="${top}" w:type="dxa"/>${ind>0?`<w:tblInd w:w="${ind}" w:type="dxa"/>`:''}${kn}<w:tblLayout w:type="fixed"/>${mar}</w:tblPr><w:tblGrid>${cols.map(w=>`<w:gridCol w:w="${w}"/>`).join('')}</w:tblGrid>`;
+  satirlar.forEach(cells=>{
+    const tam=[]; let p=0; cells.sort((a,b)=>a.s-b.s).forEach(c=>{ if(c.s>p) tam.push({s:p,e:c.s,bos:1}); if(c.e>c.s){ tam.push(c); p=c.e; } }); if(p<cols.length) tam.push({s:p,e:cols.length,bos:1});
+    x+=`<w:tr><w:trPr><w:cantSplit/></w:trPr>`+tam.map(c=>{ const w=cols.slice(c.s,c.e).reduce((s,v)=>s+v,0);
+      const tcpr=`<w:tcW w:w="${w}" w:type="dxa"/>${c.e-c.s>1?`<w:gridSpan w:val="${c.e-c.s}"/>`:''}${c.vm==='r'?'<w:vMerge w:val="restart"/>':c.vm==='c'?'<w:vMerge/>':''}${c.bos&&o.cerceve===false?'':''}${c.fill?`<w:shd w:val="clear" w:color="auto" w:fill="${c.fill}"/>`:''}<w:vAlign w:val="${c.va||'top'}"/>`;
+      return `<w:tc><w:tcPr>${tcpr}</w:tcPr>${c.xml||'<w:p><w:pPr><w:spacing w:before="0" w:after="0"/></w:pPr></w:p>'}</w:tc>`; }).join('')+`</w:tr>`;
+  });
+  return x+'</w:tbl><w:p><w:pPr><w:spacing w:before="0" w:after="0" w:line="120" w:lineRule="auto"/><w:rPr><w:sz w:val="4"/></w:rPr></w:pPr></w:p>';
+}
+function renkHex(s){ const m=String(s).match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?/); if(!m||(m[4]!==undefined&&+m[4]<0.05)) return ''; const h=[m[1],m[2],m[3]].map(v=>(+v).toString(16).padStart(2,'0')).join('').toUpperCase(); return h==='FFFFFF'?'':h; }
+function wTablo(t,ctx){
+  const tr=t.getBoundingClientRect(), xs=[tr.left,tr.right];
+  const rows=[...t.rows].filter(r=>CS(r).display!=='none');
+  rows.forEach(r=>[...r.cells].forEach(c=>{ const b=c.getBoundingClientRect(); xs.push(b.left,b.right); }));
+  const B=sinirlar(xs); let tasi=[]; const satirlar=[];
+  const cerceve=rows.some(r=>[...r.cells].some(c=>CS(c).borderTopStyle!=='none'&&pf(CS(c).borderTopWidth)>0));
+  rows.forEach(r=>{
+    const cells=[...r.cells].map(c=>{ const b=c.getBoundingClientRect(), s=yakin(B,b.left), e=yakin(B,b.right), cs=CS(c);
+      return {s,e,rs:c.rowSpan||1,vm:(c.rowSpan||1)>1?'r':null,va:cs.verticalAlign==='middle'?'center':cs.verticalAlign==='bottom'?'bottom':'top',fill:renkHex(cs.backgroundColor),xml:hucreIcerik(c,ctx)}; });
+    tasi.forEach(k=>cells.push({s:k.s,e:k.e,vm:'c'}));
+    tasi=tasi.map(k=>({...k,kal:k.kal-1})).filter(k=>k.kal>0);
+    cells.filter(c=>c.rs>1).forEach(c=>tasi.push({s:c.s,e:c.e,kal:c.rs-1}));
+    satirlar.push(cells);
+  });
+  return tblXml(B,satirlar,ctx,{cerceve});
+}
+function wDuzen(el,ctx){
+  const kids=[...el.children].filter(k=>CS(k).display!=='none'&&k.getBoundingClientRect().width>0);
+  if(!kids.length) return '';
+  const kb=icKutu(el), xs=[kb.l,kb.r]; kids.forEach(k=>{ const b=k.getBoundingClientRect(); xs.push(b.left,b.right); });
+  const B=sinirlar(xs); const gr=[];
+  kids.map(k=>({k,b:k.getBoundingClientRect()})).sort((x,y)=>x.b.top-y.b.top).forEach(({k,b})=>{ const g=gr[gr.length-1];
+    if(g&&b.top<g.alt-2){ g.k.push(k); g.alt=Math.max(g.alt,b.bottom); } else gr.push({t:b.top,alt:b.bottom,k:[k]}); });
+  const satirlar=gr.map(g=>g.k.map(k=>{ const b=k.getBoundingClientRect(); return {s:yakin(B,b.left),e:yakin(B,b.right),va:'top',xml:hucreIcerik(k,ctx)}; }));
+  return tblXml(B,satirlar,ctx,{cerceve:false});
+}
+function wKutu(el,ctx){ const b=el.getBoundingClientRect(), B=[b.left,b.right]; return tblXml(B,[[{s:0,e:1,va:'top',xml:hucreIcerik(el,ctx)}]],ctx,{cerceve:true}); }
+function docxYap(pages){
+  let body='';
+  pages.forEach((pg,i)=>{
+    const yatay=pg.classList.contains('yatay');
+    const sec=yatay?'<w:sectPr><w:pgSz w:w="16838" w:h="11906" w:orient="landscape"/><w:pgMar w:top="510" w:right="510" w:bottom="510" w:left="510" w:header="0" w:footer="0" w:gutter="0"/></w:sectPr>'
+      :'<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="680" w:right="737" w:bottom="680" w:left="737" w:header="0" w:footer="0" w:gutter="0"/></w:sectPr>';
+    const box=icKutu(pg), K=(yatay?16838-1020:11906-1474)/(box.r-box.l);
+    body+=wBlocks(pg,{box,K});
+    body+= i<pages.length-1?`<w:p><w:pPr><w:spacing w:before="0" w:after="0"/>${sec}</w:pPr></w:p>`:sec;
+  });
+  const ns='xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"';
+  return zipla([
+   {name:'[Content_Types].xml',data:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/><Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/></Types>'},
+   {name:'_rels/.rels',data:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/></Relationships>'},
+   {name:'docProps/core.xml',data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>Doğrudan Temin Belgeleri</dc:title><dc:creator>Doğrudan Temin Asistanı</dc:creator><dcterms:created xsi:type="dcterms:W3CDTF">${new Date().toISOString().slice(0,19)}Z</dcterms:created></cp:coreProperties>`},
+   {name:'word/_rels/document.xml.rels',data:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>'},
+   {name:'word/styles.xml',data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles ${ns}><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:eastAsia="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="22"/><w:szCs w:val="22"/><w:lang w:val="tr-TR" w:eastAsia="tr-TR" w:bidi="ar-SA"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="0" w:line="240" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults><w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/><w:qFormat/></w:style><w:style w:type="table" w:default="1" w:styleId="TableNormal"><w:name w:val="Normal Table"/><w:tblPr><w:tblInd w:w="0" w:type="dxa"/><w:tblCellMar><w:top w:w="0" w:type="dxa"/><w:left w:w="108" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="108" w:type="dxa"/></w:tblCellMar></w:tblPr></w:style></w:styles>`},
+   {name:'word/document.xml',data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document ${ns}><w:body>${body}</w:body></w:document>`}],
+   'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+}
+/* --- PDF: sayfalar görüntüye çevrilip PDF içine yerleştirilir (kütüphanesiz) --- */
+async function sayfaJpeg(pg,olcek){
+  const w=Math.ceil(pg.offsetWidth), h=Math.ceil(pg.offsetHeight);
+  const kap=document.createElement('div'), st=document.createElement('style');
+  st.textContent=$('style').textContent+'\n.page{box-shadow:none!important;margin:0!important;zoom:1!important}';
+  kap.appendChild(st); kap.appendChild(pg.cloneNode(true));
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><foreignObject x="0" y="0" width="${w}" height="${h}">${new XMLSerializer().serializeToString(kap)}</foreignObject></svg>`;
+  const img=new Image(); img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg); await img.decode();
+  const cv=document.createElement('canvas'); cv.width=Math.round(w*olcek); cv.height=Math.round(h*olcek);
+  const g=cv.getContext('2d'); g.fillStyle='#fff'; g.fillRect(0,0,cv.width,cv.height); g.drawImage(img,0,0,cv.width,cv.height);
+  const blob=await new Promise(r=>cv.toBlob(r,'image/jpeg',0.85)); cv.width=cv.height=1;
+  return {data:new Uint8Array(await blob.arrayBuffer()),w:Math.round(w*olcek),h:Math.round(h*olcek),yatay:pg.classList.contains('yatay')};
+}
+function pdfYap(imgs){
+  const en=new TextEncoder(), parca=[], ofs=[]; let pos=0;
+  const yaz=x=>{ const b=typeof x==='string'?en.encode(x):x; parca.push(b); pos+=b.length; };
+  const nesne=(n,...x)=>{ ofs[n]=pos; yaz(`${n} 0 obj\n`); x.forEach(yaz); yaz('\nendobj\n'); };
+  yaz(new Uint8Array([37,80,68,70,45,49,46,52,10,37,226,227,207,211,10]));
+  const N=imgs.length, kids=imgs.map((_,i)=>`${3+i*3} 0 R`).join(' ');
+  nesne(1,'<< /Type /Catalog /Pages 2 0 R >>');
+  nesne(2,`<< /Type /Pages /Kids [${kids}] /Count ${N} >>`);
+  imgs.forEach((im,i)=>{ const p=3+i*3, W=im.yatay?841.89:595.28, H=im.yatay?595.28:841.89, s=Math.min(W/im.w,H/im.h), dw=im.w*s, dh=im.h*s;
+    const icerik=`q ${dw.toFixed(2)} 0 0 ${dh.toFixed(2)} ${((W-dw)/2).toFixed(2)} ${(H-dh).toFixed(2)} cm /Im0 Do Q`;
+    nesne(p,`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W} ${H}] /Resources << /XObject << /Im0 ${p+2} 0 R >> >> /Contents ${p+1} 0 R >>`);
+    nesne(p+1,`<< /Length ${icerik.length} >>\nstream\n${icerik}\nendstream`);
+    nesne(p+2,`<< /Type /XObject /Subtype /Image /Width ${im.w} /Height ${im.h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${im.data.length} >>\nstream\n`,im.data,'\nendstream'); });
+  const xr=pos, son=2+N*3;
+  yaz(`xref\n0 ${son+1}\n0000000000 65535 f \n`+Array.from({length:son},(_,i)=>String(ofs[i+1]).padStart(10,'0')+' 00000 n \n').join(''));
+  yaz(`trailer\n<< /Size ${son+1} /Root 1 0 R /Info << /Producer (Dogrudan Temin Asistani) >> >>\nstartxref\n${xr}\n%%EOF\n`);
+  return new Blob(parca,{type:'application/pdf'});
+}
+let disaMesgul=false;
+function belgeAdi(a,ids){ const d=ids.length===1?DOCS.find(x=>x.id===ids[0]):null; return `${a.yil}-${a.no}_${dosyaAdi(a.ad)}_${d?dosyaAdi(d.ad):'Belgeler'}`; }
+function wordIndir(kaynak,ad){ if(disaMesgul) return; disaMesgul=true;
+  try{ const pages=hostHazirla(kaynak); if(!pages.length){ toast('Belge yok.'); return; } indir(docxYap(pages),ad+'.docx'); toast('Word dosyası indirildi.'); }
+  catch(e){ console.error(e); alert('Word dosyası oluşturulamadı: '+e.message); }
+  finally{ $('#render-host').innerHTML=''; disaMesgul=false; } }
+async function pdfIndir(kaynak,ad){ if(disaMesgul) return; disaMesgul=true;
+  try{ const pages=hostHazirla(kaynak); if(!pages.length){ toast('Belge yok.'); return; } const L=[];
+    for(let i=0;i<pages.length;i++){ toast(`PDF hazırlanıyor… ${i+1}/${pages.length}`); L.push(await sayfaJpeg(pages[i],2.2)); }
+    indir(pdfYap(L),ad+'.pdf'); toast('PDF indirildi.'); }
+  catch(e){ console.error(e); alert('PDF oluşturulamadı. Yazdır → “PDF olarak kaydet” yolunu kullanabilirsiniz.\n\n'+e.message); }
+  finally{ $('#render-host').innerHTML=''; disaMesgul=false; } }
+
+/* ================= EBYS'YE AKTARMA ================= */
+const EBYS_DOCS={ihtiyac:'İhtiyaç Listesi',komisyon:'Komisyon Görevlendirme Onayı',fiyat:'Fiyat Araştırma Formu',onay:'Onay Belgesi'};
+function ebysVeri(a,id){
+  const h=hesap(a), k=kur(), G={ad:k.gercekAd,unvan:k.gercekUnvan,rol:'İmzalayan'}, HY={ad:k.harcamaAd,unvan:k.harcamaUnvan,rol:'Olur (onaylayan)'};
+  const makam=yonelme(okulTam());
+  let html='', v={konu:'',muhatap:makam,dag:[],imza:[],ekler:[],not:''};
+  if(id==='ihtiyac'){ html=dIhtiyac(a,h)[0].html; v.konu=a.ad; v.imza=[G,HY]; v.not='Belge “OLUR” yazısı olarak hazırlanır; olur onayı harcama yetkilisine verilir.'; }
+  if(id==='komisyon'){ html=dKomisyon(a,h)[0].html; v.konu=a.kom.tek?'Yaklaşık Maliyet ve Satın Alma ile Muayene ve Kabul Komisyonu Onayı':'Yaklaşık Maliyet, Piyasa Araştırması ve Muayene Kabul Komisyonu Onayı'; v.imza=[G,HY]; v.ekler=['İhtiyaç Listesi']; v.not='Belge “OLUR” yazısı olarak hazırlanır; komisyon tabloları metnin içindedir.'; }
+  if(id==='fiyat'){ html=dFiyat({...a,ymF:[],belge:{doldur:false}},h)[0].html; v.konu='Fiyat Araştırması'; v.muhatap='İlgili Kişi / Firma'; v.dag=a.ymF.filter(f=>f.ad.trim()).map(f=>f.ad);
+    v.imza=a.kom.ym.filter(u=>u.ad.trim()).map(u=>({ad:u.ad,unvan:u.unvan,rol:u.gorev})); v.not='Fiyat bildirilecek kişi/firmalar dağıtıma eklenir. Komisyon üyeleri imzacı (veya parafçı) olarak eklenir.'; }
+  if(id==='onay'){ html=dOnay(a,h)[0].html; v.konu=`${a.ad} Onay Belgesi`; v.imza=[G,HY]; v.ekler=['Yaklaşık Maliyet Hesap Cetveli']; v.not='Gerçekleştirme görevlisi imzalar, harcama yetkilisi “Uygundur” onayını verir.'; }
+  const t=document.createElement('div'); t.innerHTML=html; t.querySelectorAll('.e-x').forEach(x=>x.remove());
+  v.govde=t.innerHTML.trim(); return v;
+}
+function zenginKopyala(el){
+  const sel=window.getSelection(), r=document.createRange(); r.selectNodeContents(el); sel.removeAllRanges(); sel.addRange(r);
+  let ok=false; try{ ok=document.execCommand('copy'); }catch(e){}
+  sel.removeAllRanges();
+  if(!ok&&window.ClipboardItem&&navigator.clipboard&&window.isSecureContext){ try{ navigator.clipboard.write([new ClipboardItem({'text/html':new Blob([el.innerHTML],{type:'text/html'}),'text/plain':new Blob([el.innerText],{type:'text/plain'})})]); ok=true; }catch(e){} }
+  return ok;
+}
+function ebysAc(id){
+  const a=cur(), v=ebysVeri(a,id), k=kur();
+  const kp=(t,key)=>`<button class="btn s" data-act="ebysKopya" data-k="${key}">${ic('kopya')}Kopyala</button>`;
+  const alan=(no,bas,icerik,key,ek='')=>`<div class="eb"><div class="eb-h"><span class="nb">${no}</span><b>${bas}</b>${key?kp(icerik,key):''}</div>${ek}</div>`;
+  ebysAc.v=v; ebysAc.id=id;
+  $('#modal').innerHTML=`<div class="modal"><div class="mbar"><button class="ibtn" data-act="pvClose">${ic('kapat')}</button><b>EBYS’ye aktar · ${esc(EBYS_DOCS[id])}</b></div>
+  <div class="mbody eby"><div class="ebw">
+  ${note('info','EBYS’de yeni evrak oluştururken alanları sırayla doldurun. Antet, sayı, tarih ve imza blokları EBYS tarafından otomatik eklendiği için metne dahil edilmedi.')}
+  ${alan(1,'Konu',v.konu,'konu',`<div class="eb-v">${esc(v.konu)}</div>`)}
+  ${alan(2,v.dag.length?'Muhatap / Dağıtım':'Muhatap (makam)',v.muhatap,'muhatap',`<div class="eb-v">${esc(v.muhatap)}</div>${v.dag.length?`<div class="eb-alt"><small>Dağıtım:</small> ${v.dag.map(esc).join(' · ')} <button class="btn s g" data-act="ebysKopya" data-k="dag">${ic('kopya')}Dağıtımı kopyala</button></div>`:''}`)}
+  ${alan(3,'Metin',null,'govde',`<p class="mut" style="font-size:12.5px;margin:0 0 8px">Tablolarıyla birlikte kopyalanır; EBYS metin alanına yapıştırın. İsterseniz yapıştırmadan önce burada düzeltebilirsiniz.</p><div class="page eg" id="ebysGovde" contenteditable="true">${v.govde}</div>
+    <div class="row" style="margin-top:8px"><button class="btn s" data-act="ebysWord">${ic('word')}Metni Word olarak indir</button></div>`)}
+  ${alan(4,'İmza ve onay',null,null,`<div class="eb-v">${v.imza.map(u=>`<div class="eb-i"><small>${esc(u.rol)}</small><span>${esc(u.ad)||'—'} · ${esc(u.unvan)}</span></div>`).join('')}</div><p class="mut" style="font-size:12.5px;margin:6px 0 0">${esc(v.not)}</p>`)}
+  ${v.ekler.length?alan(5,'Ekler',null,'ekler',`<div class="eb-v">${v.ekler.map((e,i)=>`${i+1}- ${esc(e)}`).join('<br>')}</div>`):''}
+  ${alan(v.ekler.length?6:5,'EBYS’den gelen sayı ve tarih',null,null,`<p class="mut" style="font-size:12.5px;margin:0 0 8px">Evrak imzalanınca EBYS’nin verdiği sayıyı ve tarihi buraya girin; uygulamadaki tüm belgelere işlenir.</p>
+    <div class="grid yanform">${fld('Sayı',`a:sayi.${id}`,{ph:`E-${k.kurumKodu||'DETSİS'}-${k.kod[id]}-…`})}${fld('Tarih',`a:tarih.${id}`,{type:'date'})}</div>`)}
+  </div></div></div>`;
+  document.body.style.overflow='hidden';
+  if(kilitli()) $$('#modal input').forEach(x=>x.disabled=true);
+}
+
+/* ================= TEKNİK ŞARTNAME ÖRNEKLERİ ================= */
+const TK_ORNEK=[
+ [/sıvı sabun|el sabunu|sabun/,['Ürün sıvı el sabunu olup cildi tahriş etmeyen, dermatolojik olarak test edilmiş formülde olmalıdır.','Kolay köpürmeli, kolay durulanmalı; cildi kurutmamalı ve alerjik reaksiyona yol açmamalıdır.','Gliserin veya benzeri nemlendirici içermeli, pH değeri cilde uygun (5,5–7) olmalıdır.','Ambalaj üzerinde üretici, içerik, üretim ve son kullanma tarihi ile Sağlık Bakanlığı / kozmetik ürün bildirim bilgileri bulunmalıdır.']],
+ [/tuvalet kağıdı|tuvalet kagidi/,['Ürün %100 selüloz hamurundan üretilmiş, en az 2 katlı olmalıdır.','Ruloları beyaz, yumuşak, toz bırakmayan ve suda kolay çözünen yapıda olmalıdır.','Paket içindeki rulo sayısı ve rulo uzunluğu ambalaj üzerinde belirtilmelidir.','Ürün nem almayacak şekilde sağlam ambalajlı teslim edilmelidir.']],
+ [/kağıt havlu|kagit havlu|z katlı|havlu/,['Ürün %100 selüloz hamurundan üretilmiş, en az 2 katlı olmalıdır.','Su emiciliği yüksek olmalı, ıslandığında dağılmamalı ve tüy/toz bırakmamalıdır.','Rulo veya Z katlı yapı, kullanılan dispenserlere uygun ölçüde olmalıdır.','Paket içeriği (rulo/yaprak sayısı) ambalaj üzerinde belirtilmelidir.']],
+ [/peçete/,['Ürün %100 selüloz hamurundan üretilmiş, beyaz ve yumuşak dokulu olmalıdır.','Yaprak ölçüsü ve paket içindeki adet ambalaj üzerinde belirtilmelidir.','Hijyenik, kapalı ambalajda teslim edilmelidir.']],
+ [/çamaşır suyu|camasir suyu/,['Ürün sodyum hipoklorit esaslı olup aktif klor oranı ambalaj üzerinde belirtilmelidir.','Biyosidal ürün ruhsatı bulunmalı, ruhsat numarası etikette yer almalıdır.','Kapak çocuk emniyetli ve sızdırmaz olmalıdır.','Etikette kullanım talimatı, güvenlik uyarıları ve son kullanma tarihi bulunmalıdır.']],
+ [/yüzey temizleyici|yuzey temizleyici|genel temizlik|yer temizleyici/,['Ürün sert yüzeylerde (zemin, fayans, mermer, PVC) kullanıma uygun sıvı temizleyici olmalıdır.','Kalıntı ve iz bırakmamalı, yüzeylere zarar vermemelidir.','Etikette içerik, kullanım ve seyreltme oranı ile güvenlik uyarıları bulunmalıdır.','Kapak sızdırmaz olmalı, ürün son kullanma tarihine en az 1 yıl kala teslim edilmelidir.']],
+ [/cam temizleyici|cam sil/,['Ürün cam, ayna ve parlak yüzeylerde iz bırakmadan temizlik yapmalıdır.','Tetikli sprey başlıklı ambalajda olmalı, başlık sızdırmamalıdır.','Etikette içerik ve güvenlik uyarıları bulunmalıdır.']],
+ [/bulaşık/,['Ürün elde bulaşık yıkamaya uygun, cildi tahriş etmeyen formülde olmalıdır.','Yağ çözücü etkisi yüksek olmalı, kolay durulanmalı ve koku bırakmamalıdır.','Etikette içerik, üretim ve son kullanma tarihi bulunmalıdır.']],
+ [/kireç|kirec|tuz ruhu|banyo temizleyici/,['Ürün kireç ve pas lekelerini çözmeye uygun olmalı, seramik ve armatürlere zarar vermemelidir.','Biyosidal veya ilgili ürün belgesi bulunmalıdır.','Kapak çocuk emniyetli olmalı, etikette güvenlik uyarıları yer almalıdır.']],
+ [/dezenfektan|antiseptik|kolonya/,['Ürün alkol bazlı olup alkol oranı en az %70 olmalıdır.','Sağlık Bakanlığı ruhsatı / bildirimi bulunmalı, numarası etikette yer almalıdır.','Cildi kurutmayan, hızlı buharlaşan formülde olmalıdır.','Son kullanma tarihine en az 1 yıl kala teslim edilmelidir.']],
+ [/çöp torba|cop torba|çöp poşet|cop poset/,['Ürün yırtılmaya karşı dayanıklı, sızdırmaz polietilen malzemeden üretilmiş olmalıdır.','Ölçüsü (en × boy) ve kalınlığı (mikron) ambalaj üzerinde belirtilmelidir.','Büzgülü veya bağlama uçlu olmalı, rulo/paket halinde teslim edilmelidir.']],
+ [/paspas|mop/,['Ürün pamuklu veya mikrofiber, yüksek su emme kapasiteli olmalıdır.','Kullanılan paspas aparatlarına uyumlu bağlantıya sahip olmalıdır.','Yıkanabilir, tüy bırakmayan ve dikiş yerleri sağlam olmalıdır.']],
+ [/eldiven/,['Ürün nitril / lateks / vinil malzemeden, tek kullanımlık ve pudrasız olmalıdır.','Beden ölçüsü (S, M, L, XL) belirtilmeli, kutu içi adet ambalajda yazılı olmalıdır.','İlgili TS EN standartlarına uygun ve CE işaretli olmalıdır.']],
+ [/süpürge|supurge|faraş|faras|fırça|firca/,['Ürün sağlam gövdeli, kırılmaya karşı dayanıklı malzemeden üretilmiş olmalıdır.','Sap bağlantısı sağlam olmalı, kullanım sırasında gevşememelidir.','Kıl/fırça kısmı dökülmeyecek şekilde sabitlenmiş olmalıdır.']],
+ [/fotokopi|a4 kağıt|a4 kagit|a3 kağıt|kağıt|kagit/,['Ürün 80 g/m² ağırlıkta, beyaz, 1. hamur fotokopi kâğıdı olmalıdır.','Fotokopi makinesi, lazer ve mürekkep püskürtmeli yazıcılarda sıkışma yapmadan kullanılabilmelidir.','Topu 500 yaprak olmalı; koliler nem almayacak şekilde ambalajlanmalıdır.','Kâğıt ölçüleri TS EN ISO 216 standardına uygun olmalıdır.']],
+ [/toner|kartuş|kartus|mürekkep|murekkep/,['Ürün idarede kullanılan yazıcı/fotokopi makinesinin marka ve modeline tam uyumlu olmalıdır.','Orijinal veya orijinal kalitesinde olmalı, sayfa verimi (baskı kapasitesi) belirtilmelidir.','Kullanım sırasında akma, lekelenme veya cihaza zarar verme durumunda yüklenici ürünü değiştirmekle yükümlüdür.','Ambalajı açılmamış, üretim tarihi yeni olmalıdır.']],
+ [/tahta kalemi|board kalemi|beyaz tahta|markör|marker/,['Ürün beyaz yazı tahtasına uygun, kolay silinebilir ve iz bırakmayan mürekkepli olmalıdır.','Mürekkebi kokusuz veya düşük kokulu ve toksik olmayan yapıda olmalıdır.','Renk dağılımı (siyah, mavi, kırmızı, yeşil) idarenin talebine göre olmalıdır.']],
+ [/tükenmez|tukenmez|kurşun kalem|kursun kalem|kalem/,['Ürün akıcı yazan, yazım sırasında kesilme ve akıntı yapmayan özellikte olmalıdır.','Gövdesi kırılmaya karşı dayanıklı olmalı, uç kalınlığı belirtilmelidir.','Kutu/paket içi adet ambalaj üzerinde yazılı olmalıdır.']],
+ [/klasör|klasor|dosya|telli/,['Ürün sağlam, kolay yıpranmayan malzemeden üretilmiş olmalıdır.','Ölçüsü A4 evrak koymaya uygun olmalı, sırt genişliği (dar/geniş) belirtilmelidir.','Mekanizma veya tel kısmı sağlam olmalı, evrakı yırtmadan tutmalıdır.']],
+ [/zımba|zimba|delgeç|delgec/,['Ürün metal gövdeli, en az belirtilen sayfa kapasitesinde zımbalama/delme yapabilmelidir.','Kullanılacak tel/zımba ölçüsü ürün üzerinde veya ambalajda belirtilmelidir.']],
+ [/bant|koli bandı|yapıştırıcı|yapistirici|silikon/,['Ürün yapışma gücü yüksek, kullanım sırasında kopmayan özellikte olmalıdır.','Ölçüleri (en × uzunluk) ambalaj üzerinde belirtilmelidir.','Toksik madde içermemeli, son kullanma tarihi (varsa) belirtilmelidir.']],
+ [/ampul|led|aydınlatma|aydinlatma|armatür|armatur|floresan/,['Ürün LED teknolojili olmalı; güç (W), ışık akısı (lümen) ve renk sıcaklığı (K) belirtilmelidir.','Enerji verimlilik sınıfı ve ömrü (saat) ambalaj üzerinde yer almalıdır.','CE işaretli ve ilgili TS EN standartlarına uygun olmalıdır.','En az 2 yıl garantili olmalıdır.']],
+ [/priz|uzatma|grup priz|kablo/,['Ürün topraklı, aşırı akım korumalı ve çocuk korumalı olmalıdır.','Kablo uzunluğu ve kesiti belirtilmeli, TSE/CE belgeli olmalıdır.','En az 2 yıl garantili olmalıdır.']],
+ [/pil/,['Ürün alkalin olmalı, tipi (AA, AAA vb.) ve voltajı belirtilmelidir.','Son kullanma tarihine en az 3 yıl kala teslim edilmelidir.','Ambalajı açılmamış ve sızıntısız olmalıdır.']],
+ [/bilgisayar|dizüstü|dizustu|laptop|masaüstü|masaustu/,['İşlemci, bellek (RAM), depolama (SSD) kapasitesi ve ekran özellikleri teklifte açıkça belirtilmelidir.','Lisanslı işletim sistemi yüklü olarak teslim edilmelidir.','Klavye Türkçe Q, cihaz CE işaretli ve en az 2 yıl garantili olmalıdır.','Garanti süresince Türkiye genelinde yetkili servis desteği bulunmalıdır.']],
+ [/yazıcı|yazici|printer/,['Ürün lazer/mürekkep püskürtmeli yazıcı olup baskı hızı (sayfa/dk) ve çözünürlüğü belirtilmelidir.','Ağ (Ethernet/Wi-Fi) ve USB bağlantısı olmalı, çift taraflı baskı desteklemelidir.','İlk kurulum toneri/kartuşu ile birlikte teslim edilmeli, en az 2 yıl garantili olmalıdır.']],
+ [/fare|mouse|klavye/,['Ürün USB veya kablosuz bağlantılı, tak-çalıştır özellikte olmalıdır.','Klavye Türkçe Q düzeninde olmalıdır.','En az 2 yıl garantili ve CE işaretli olmalıdır.']],
+ [/projeksiyon|projektör|projektor/,['Cihazın parlaklığı (ANSI lümen), çözünürlüğü ve kontrast oranı teklifte belirtilmelidir.','HDMI ve VGA girişleri bulunmalı, uzaktan kumandalı olmalıdır.','Lamba/ışık kaynağı ömrü belirtilmeli, en az 2 yıl garantili olmalıdır.']],
+ [/usb bellek|flash bellek|bellek/,['Kapasitesi ve USB sürümü (3.0 / 3.2) belirtilmelidir.','Okuma/yazma hızları ambalajda yazılı olmalı, en az 2 yıl garantili olmalıdır.']],
+ [/masa/,['Ürünün ölçüleri (en × boy × yükseklik) ve malzemesi (tabla, ayak) belirtilmelidir.','Tabla kenarları PVC bantla kaplı, köşeleri yuvarlatılmış olmalıdır.','Ayaklar sağlam ve dengeli olmalı, zemini çizmeyen pabuçlu olmalıdır.','En az 2 yıl garantili olmalı ve kurulumu yükleniciye ait olmalıdır.']],
+ [/sandalye|koltuk|tabure/,['Ürünün oturak ve sırt malzemesi (plastik, ahşap, döşemeli) ile iskelet malzemesi belirtilmelidir.','Ergonomik yapıda, devrilmeye karşı dengeli ve sağlam olmalıdır.','Ayak uçlarında zemini çizmeyen pabuçlar bulunmalıdır.','En az 2 yıl garantili olmalıdır.']],
+ [/dolap|kitaplık|kitaplik|raf/,['Ürünün ölçüleri, raf sayısı ve gövde malzemesi belirtilmelidir.','Kapaklı ise kilitli olmalı, menteşeler sağlam olmalıdır.','Montajı yükleniciye ait olmalı, devrilmeye karşı sabitlenebilir olmalıdır.']],
+ [/sıra|ogrenci masasi|öğrenci masası/,['Ürün öğrenci kullanımına uygun ölçülerde, ergonomik ve sağlam olmalıdır.','Tabla ve oturak malzemesi ile metal aksamın boya türü (elektrostatik toz boya) belirtilmelidir.','Keskin kenar ve köşe bulunmamalıdır. En az 2 yıl garantili olmalıdır.']],
+ [/boya|astar|vernik/,['Ürün iç/dış cephe kullanımına uygun su bazlı boya olmalı; rengi ve ambalaj hacmi belirtilmelidir.','Kokusu düşük, silinebilir ve küf/mantar önleyici özellikte olmalıdır.','TSE belgeli olmalı, üretim ve son kullanma tarihi etikette yer almalıdır.']],
+ [/damacana|içme suyu|icme suyu|su /,['Ürün Sağlık Bakanlığı izinli kaynak suyu / içme suyu olmalıdır.','Damacanalar temiz, sızdırmaz ve kapakları mühürlü olmalıdır.','Etikette dolum ve son tüketim tarihi bulunmalıdır.']],
+ [/ilk yardım|ilkyardım|ecza|sargı|yara bandı/,['Ürün İlk Yardım Yönetmeliğine uygun içerikte olmalı, malzeme listesi ambalajda yer almalıdır.','Steril malzemeler kapalı ambalajda ve son kullanma tarihli olmalıdır.']],
+ [/yangın|yangin|söndürücü|sondurucu/,['Ürün TS EN 3 standardına uygun, kuru kimyevi tozlu/CO₂’li ve belirtilen kapasitede olmalıdır.','Basınç göstergeli olmalı, dolum tarihi ve son kontrol tarihi etiket üzerinde bulunmalıdır.','Duvar askı aparatı ile teslim edilmelidir.']]
+];
+function teknikOrnek(k){
+  const ad=String(k.ad||'').trim(), oz=String(k.ozellik||'').trim(), m=num(k.miktar), b=String(k.birim||'').trim();
+  const s=(' '+ad+' '+oz+' ').toLocaleLowerCase('tr-TR');
+  const hit=TK_ORNEK.find(([re])=>re.test(s));
+  const L=[];
+  if(oz) L.push(`Ürün “${oz}” özelliğinde olmalıdır.`);
+  if(hit) L.push(...hit[1]);
+  else L.push('Ürün birinci kalite, sağlam ve hasarsız olmalıdır; dayanıklı tüketim malı ise yeni ve kullanılmamış olmalıdır.','Ürünün marka, model ve teknik özellikleri teklifte açıkça belirtilmelidir.','İlgili TSE / CE / TS EN standartlarına uygun olmalı, gerekli belgeleri bulunmalıdır.');
+  L.push('Ürün orijinal ambalajında, üzerinde üretici ve ürün bilgileri bulunacak şekilde teslim edilmelidir.');
+  if(m>0) L.push(`Toplam ${mq(m)} ${b} olarak idarenin göstereceği yere teslim edilecektir.`);
+  L.push('Şartnameye uymayan veya kusurlu çıkan ürünler yüklenici tarafından bedelsiz olarak değiştirilecektir.');
+  return L.map((x,i)=>`${i+1}. ${x}`).join('\n');
+}
+
+/* ================= ÖRNEK ================= */
+function ornek(){
+  const k=DB.kurum;
+  if(!k.okul){ Object.assign(k,{il:'Isparta',ilce:'Eğirdir',limitTur:'diger',okul:'Örnek Anadolu Lisesi',adres:'Cumhuriyet Mah. Okul Sok. No:1',kurumKodu:'12345678',kurumsalKod:'13.01.32.62.285',muhasebe:'EĞİRDİR MALMÜDÜRLÜĞÜ',harcamaAd:'Hasan DEMİR',gercekAd:'Elif KARA'});
+    k.personel=[{ad:'Elif KARA',unvan:'Müdür Yardımcısı'},{ad:'Murat ŞAHİN',unvan:'Müdür Yardımcısı'},{ad:'Zeynep AKIN',unvan:'Öğretmen'},{ad:'Ali ÇELİK',unvan:'Öğretmen'},{ad:'Fatma YURT',unvan:'Öğretmen'}]; }
+  const a=numarala(yeniAlim()); const y=new Date().getFullYear(), d=(m,g)=>`${y}-${String(m).padStart(2,'0')}-${String(g).padStart(2,'0')}`;
+  Object.assign(a,{ad:'Temizlik Malzemesi Alımı',odenek:'60000',butce:'52.01.31.62 - 09.2.1.00 - 2 - 03.2'});
+  a.kalemler=[{...bosKalem(),ad:'Sıvı Sabun',ozellik:'5 lt bidon',miktar:'40',birim:'Bidon'},{...bosKalem(),ad:'Tuvalet Kağıdı',ozellik:'32\'li paket',miktar:'50',birim:'Paket'},{...bosKalem(),ad:'Yüzey Temizleyici',ozellik:'2,5 lt',miktar:'30',birim:'Adet'},{...bosKalem(),ad:'Çamaşır Suyu',ozellik:'4 lt',miktar:'30',birim:'Adet'}];
+  const u=(ad,unvan,g='Komisyon Üyesi')=>({ad,unvan,gorev:g});
+  a.kom.ym=[u('Elif KARA','Müdür Yardımcısı'),u('Zeynep AKIN','Öğretmen'),u('Ali ÇELİK','Öğretmen')];
+  a.kom.pa=[u('Murat ŞAHİN','Müdür Yardımcısı'),u('Zeynep AKIN','Öğretmen'),u('Fatma YURT','Öğretmen')];
+  a.kom.mk=[u('Murat ŞAHİN','Müdür Yardımcısı','Komisyon Başkanı'),u('Ali ÇELİK','Öğretmen'),u('Fatma YURT','Öğretmen')];
+  a.ymF=[{...firma(),ad:'Yıldız Temizlik Ltd. Şti.',vkn:'1111111111',fiyat:['420','310','95','88']},{...firma(),ad:'Ekin Kırtasiye ve Temizlik',vkn:'2222222222',fiyat:['445','295','99','85']},{...firma(),ad:'Deniz Toptan Gıda ve Temizlik',vkn:'3333333333',fiyat:['430','320','92','90']}];
+  a.paF=[{...firma(),ad:'Yıldız Temizlik Ltd. Şti.',vkn:'1111111111',adres:'Sanayi Cad. No:12',tel:'0 (328) 000 00 01',fiyat:['410','300','92','86']},{...firma(),ad:'Ekin Kırtasiye ve Temizlik',vkn:'2222222222',adres:'Atatürk Cad. No:45',fiyat:['440','298','97','84']},{...firma(),ad:'Deniz Toptan Gıda ve Temizlik',vkn:'3333333333',adres:'Hal Yolu No:3',fiyat:['425','315','95','89']}];
+  a.tarih={ihtiyac:d(10,5),komisyon:d(10,5),fiyat:d(10,6),ym:d(10,7),onay:d(10,7),teklif:d(10,8),piyasa:d(10,9),muayene:d(10,14),harcama:d(10,7),teslim:d(10,16)};
+  a.kabul.kararNo=`${y}/1`;
+  DB.alimlar.push(a); DB.aktif=a.id; autoSayi(a); view='alim'; step=0; save(); render(); toast('Örnek dosya oluşturuldu.');
+}
+function autoSayi(a){ const k=kur(); ['ihtiyac','komisyon','fiyat','onay','harcama'].forEach(key=>{ if(!a.sayi[key]) a.sayi[key]=`E-${k.kurumKodu||'……'}-${k.kod[key]}-`; }); }
+
+/* ================= RENDER ================= */
+let rendering=false;
+function render(){ if(rendering) return; rendering=true; try{ render_(); } finally{ rendering=false; } }
+function render_(){
+  const a=cur(); if(view==='alim'&&!a) view='home';
+  renderTop(); renderSteps(); renderFoot();
+  let html='';
+  if(view==='home') html=vHome(); else if(view==='kurum') html=vKurum(); else if(view==='rehber') html=vRehber();
+  else html=(a.arsiv?`<div class="lock">${ic('kilit')}<span class="tx"><b>Arşivdeki dosya</b> · ${new Date(a.arsivTarih).toLocaleDateString('tr-TR')} tarihinde kaldırıldı. Bilgiler salt okunur; belgeler arşivlendiği andaki kurum bilgileriyle üretilir.</span><div class="row" style="gap:6px"><button class="btn s a" data-act="dup">${ic('kopya')}Kopyasını oluştur</button><button class="btn s" data-act="arsivCik">${ic('geriAl')}Arşivden çıkar</button></div></div>`:'')
+    +`<div class="${[0,5,6].includes(step)?'yanform':''}">${[sGenel,sKalem,sKom,sYM,sTeklif,sTarih,sKabul,sBelge,sKontrol][step](a)}</div>`;
+  $('#app').innerHTML=html; refreshCalc();
+  if(view==='alim'&&a.arsiv){ $$('#app input,#app select,#app textarea').forEach(el=>{ if(!SERBEST.test(el.dataset.b||'')) el.disabled=true; }); $$('#app [data-act]').forEach(b=>{ if(DEGISTIR.has(b.dataset.act)) b.disabled=true; }); $$('#bulk').forEach(x=>x.remove()); }
+}
+function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('on'); clearTimeout(toast.t); toast.t=setTimeout(()=>t.classList.remove('on'),2600); }
+function gitStep(i){ step=Math.max(0,Math.min(STEPS.length-1,i)); render(); window.scrollTo({top:0}); }
+
+/* ================= OLAYLAR ================= */
+const SERBEST=/^a:(secili|belge)\./;
+const DEGISTIR=new Set(['kAdd','kDel','kUp','kDown','kMenu','kIns','tkOrnek','tkTumu','cbAc','cbSec','kBulkShow','kBulk','uAdd','uDel','fAdd','fDel','copyYM','copyKom','autoSayi','omkl','omklOto','tbEdit','tbOto','tbAdd','tbDel','set','arsivle']);
+const kilitli=()=>view==='alim'&&cur()&&cur().arsiv;
+document.addEventListener('input',e=>{
+  const el=e.target; if(!el.dataset||!el.dataset.b) return;
+  if(kilitli()&&el.dataset.b.startsWith('a:')&&!SERBEST.test(el.dataset.b)) return;
+  setVal(el.dataset.b, el.type==='checkbox'?el.checked:el.value);
+  touch(); if(!el.dataset.rr) refreshCalc();
+});
+document.addEventListener('change',e=>{
+  const el=e.target; if(!el.dataset) return;
+  if(el.dataset.unvan){ const p=(DB.kurum.personel||[]).find(x=>x.ad.trim().toLocaleLowerCase('tr')===el.value.trim().toLocaleLowerCase('tr'));
+    if(p&&!getVal(el.dataset.unvan)){ setVal(el.dataset.unvan,p.unvan); const t=$(`[data-b="${el.dataset.unvan}"]`); if(t) t.value=p.unvan; save(); } }
+  if(rendering) return;
+  if(el.dataset.b==='k:il'){ const k=DB.kurum, L=ILLER[k.il]||[]; if(k.ilce&&!L.includes(k.ilce)) k.ilce='';
+    if(k.il){ const t=BUYUKSEHIR.has(k.il)?'buyuksehir':'diger'; if(k.limitTur!==t){ k.limitTur=t; toast(`22/d limiti “${t==='buyuksehir'?'Büyükşehir sınırları içi':'Diğer idareler'}” olarak ayarlandı.`); } } save(); }
+  if(el.dataset.rr){ const y=window.scrollY; render(); window.scrollTo(0,y); }
+  else if(el.dataset.b) renderSteps();
+});
+const ACT={
+ home(){ view='home'; render(); window.scrollTo(0,0); }, kurum(){ view='kurum'; render(); window.scrollTo(0,0); }, rehber(){ view='rehber'; render(); window.scrollTo(0,0); },
+ new(){ const a=numarala(yeniAlim()); DB.alimlar.push(a); DB.aktif=a.id; view='alim'; step=0; save(); render(); },
+ open(el){ DB.aktif=el.dataset.id; view='alim'; step=0; save(); render(); window.scrollTo(0,0); },
+ dup(el){ const s=DB.alimlar.find(x=>x.id===(el.dataset.id||DB.aktif)); const n=new Date().getFullYear()+'/'+siradakiNo(new Date().getFullYear());
+   $('#modal').innerHTML=`<div class="sheet-bg" data-act="sheetKapat"></div><div class="sheet"><div class="sh-h">${ic('kopya')}<b>Kopyasını oluştur</b><button class="xb" data-act="sheetKapat">${ic('kapat')}</button></div>
+   <p class="lead"><b>${esc(dosyaEt(s))}</b> dosyasından <b>${n}</b> numaralı yeni bir dosya oluşturulacak. Yeni dosya düzenlenebilir olur ve güncel kurum bilgilerini kullanır.</p>
+   <button class="opt" data-act="dupYap" data-id="${s.id}" data-m="tam">${ic('kopya')}<span><b>Her şeyiyle kopyala</b><small>Kalemler, komisyonlar, firmalar, fiyatlar, tarihler, sayılar ve kabul bilgileri aynen aktarılır.</small></span></button>
+   <button class="opt" data-act="dupYap" data-id="${s.id}" data-m="yeni">${ic('sihir')}<span><b>Yeni alım için kopyala</b><small>Kalemler, komisyonlar, firmalar ve fiyatlar aktarılır; tarihler, evrak sayıları, kabul miktarları ve ödeme bilgileri boş başlar.</small></span></button></div>`; },
+ sheetKapat(){ $('#modal').innerHTML=''; },
+ dupYap(el){ const s=DB.alimlar.find(x=>x.id===el.dataset.id); const c=normAlim(JSON.parse(JSON.stringify(s))); const t=yeniAlim();
+   c.id=uid(); c.olusturma=c.guncel=Date.now(); c.arsiv=false; c.arsivTarih=null; c.kurumSnap=null; numarala(c);
+   if(el.dataset.m==='yeni'){ c.tarih=t.tarih; c.sayi=t.sayi; c.kabul=t.kabul; c.odeme=t.odeme; c.hak={...t.hak,gelirV:c.hak.gelirV,damga:c.hak.damga,damgaOran:c.hak.damgaOran,tevkifat:c.hak.tevkifat}; c.omkl={}; c.kalemler.forEach(k=>k.kabul=''); c.dtNo=''; }
+   DB.alimlar.push(c); DB.aktif=c.id; view='alim'; step=0; $('#modal').innerHTML=''; save(); render(); window.scrollTo(0,0); toast(`${dosyaNo(c)} numaralı kopya oluşturuldu.`); },
+ del(el){ const s=DB.alimlar.find(x=>x.id===el.dataset.id); if(!confirm(`“${s.ad||'Adsız alım dosyası'}” silinsin mi? Bu işlem geri alınamaz.`)) return; DB.alimlar=DB.alimlar.filter(x=>x!==s); if(DB.aktif===s.id) DB.aktif=null; save(); render(); },
+ demo(){ ornek(); },
+ step(el){ view='alim'; gitStep(+el.dataset.i); }, next(){ gitStep(step+1); }, prev(){ gitStep(step-1); },
+ set(el){ setVal(el.dataset.p,el.dataset.v); touch(); const y=window.scrollY; render(); window.scrollTo(0,y); },
+ kAdd(){ const a=cur(); a.kalemler.push(bosKalem()); touch(); render(); const L=$$('[data-b$=".ad"][data-b^="a:kalemler"]'); if(L.length){ L[L.length-1].focus(); L[L.length-1].scrollIntoView({block:'center'}); } },
+ kDel(el){ const a=cur(), i=+el.dataset.i; if(String(a.kalemler[i].ad).trim()&&!confirm(`“${a.kalemler[i].ad}” kalemi ve girilmiş fiyatları silinsin mi?`)) return; a.kalemler.splice(i,1); [...a.ymF,...a.paF].forEach(f=>f.fiyat.splice(i,1)); if(!a.kalemler.length) a.kalemler.push(bosKalem()); touch(); render(); },
+ kUp(el){ kTasi(+el.dataset.i,-1); }, kDown(el){ kTasi(+el.dataset.i,1); },
+ kMenu(el){ const m=$('#km'+el.dataset.i); if(m) m.classList.toggle('hidden'); },
+ kIns(el){ const a=cur(), i=+el.dataset.i+1; a.kalemler.splice(i,0,bosKalem()); [...a.ymF,...a.paF].forEach(f=>{ while(f.fiyat.length<i) f.fiyat.push(''); f.fiyat.splice(i,0,''); }); touch(); render(); const x=$(`[data-b="a:kalemler.${i}.ad"]`); if(x) x.focus(); },
+ kBulkShow(){ $('#bulk').classList.toggle('hidden'); const t=$('#bulkTx'); if(t) t.focus(); },
+ kBulk(){ const a=cur(), tx=$('#bulkTx').value; let n=0;
+   tx.split(/\r?\n/).map(s=>s.trim()).filter(Boolean).forEach(s=>{ const p=s.split(/\t|;|\|/).map(x=>x.trim()); if(!p[0]) return; const k={...bosKalem(),ad:p[0],miktar:p[1]||'',birim:p[2]||'Adet',ozellik:p[3]||''}; const bos=a.kalemler.findIndex(x=>!String(x.ad).trim()&&!x.miktar); if(bos>=0&&bos===a.kalemler.length-1) a.kalemler[bos]=k; else a.kalemler.push(k); n++; });
+   touch(); render(); toast(`${n} kalem eklendi.`); },
+ uAdd(el){ cur().kom[el.dataset.t].push(uye()); touch(); render(); },
+ uDel(el){ const L=cur().kom[el.dataset.t]; if(L.length>1) L.splice(+el.dataset.i,1); touch(); render(); },
+ fAdd(el){ cur()[el.dataset.l].push(firma()); touch(); render(); },
+ fDel(el){ const L=cur()[el.dataset.l], f=L[+el.dataset.i]; if((f.ad||f.fiyat.some(Boolean))&&!confirm(`“${f.ad||'Bu kayıt'}” silinsin mi?`)) return; L.splice(+el.dataset.i,1); const a=cur(); if(el.dataset.l==='paF'&&a.kazanan!=='oto') a.kazanan='oto'; touch(); render(); },
+ copyYM(el){ const a=cur(), tam=el.dataset.m==='tam', kay=a.ymF.filter(f=>f.ad.trim()||f.fiyat.some(Boolean));
+   if(!kay.length){ toast('Yaklaşık maliyet adımında firma yok.'); return; }
+   if(a.paF.some(f=>f.ad||f.fiyat.some(Boolean))&&!confirm(`Mevcut teklif listesi, yaklaşık maliyet firmaları${tam?' ve fiyatlarıyla':'yla'} değiştirilsin mi?`)) return;
+   a.paF=kay.map(f=>{ const e=a.paF.find(x=>x.ad&&x.ad===f.ad)||{}; return {...firma(),ad:f.ad,vkn:f.vkn||e.vkn||'',adres:e.adres||'',tel:e.tel||'',fiyat:tam?[...f.fiyat]:[]}; });
+   a.kazanan='oto'; touch(); render(); toast(tam?'Firmalar ve fiyatlar çekildi. Gerçek tekliflere göre düzeltin.':'Firma adları çekildi. Teklif fiyatlarını girin.'); },
+ copyKom(){ const a=cur(); if(a.kom.pa.some(u=>u.ad.trim())&&!confirm('Piyasa araştırması ve satın alma komisyonu, fiyat araştırma komisyonundaki kişilerle değiştirilsin mi?')) return; a.kom.pa=a.kom.ym.map(u=>({...u})); touch(); render(); toast('Komisyon üyeleri aktarıldı.'); },
+ arsivle(el){ const a=el.dataset.id?DB.alimlar.find(x=>x.id===el.dataset.id):cur(); const e=kontrol(a).filter(x=>x.lvl==='err').length;
+   if(!confirm(`“${dosyaEt(a)}” arşive kaldırılsın mı?${e?`\n\nDosyada ${e} hata görünüyor.`:''}\n\nArşivdeki dosya salt okunur olur; kurum bilgileri bu anki haliyle dosyaya kaydedilir.`)) return;
+   a.arsiv=true; a.arsivTarih=Date.now(); a.kurumSnap=JSON.parse(JSON.stringify(DB.kurum)); save(); view='home'; render(); window.scrollTo(0,0); toast('Dosya arşive kaldırıldı.'); },
+ arsivCik(el){ const a=el.dataset.id?DB.alimlar.find(x=>x.id===el.dataset.id):cur(); if(!confirm(`“${dosyaEt(a)}” arşivden çıkarılsın mı? Belgeler artık güncel kurum bilgileriyle üretilir.`)) return;
+   a.arsiv=false; a.arsivTarih=null; a.kurumSnap=null; save(); render(); toast('Dosya arşivden çıkarıldı.'); },
+ autoSayi(){ autoSayi(cur()); touch(); render(); },
+ omkl(el){ const a=cur(), k=el.dataset.k, m=omklM(a,k), nx={'+':'-','-':'/','/':'+'}[m]; a.omkl[k]=nx; touch(); const y=window.scrollY; render(); window.scrollTo(0,y); },
+ omklOto(){ cur().omkl={}; touch(); render(); },
+ tbEdit(){ const a=cur(); a.teslimBelge=teslimOto(a).map(x=>[...x]); touch(); render(); }, tbOto(){ cur().teslimBelge=null; touch(); render(); },
+ tbAdd(){ cur().teslimBelge.push(['',1]); touch(); render(); }, tbDel(el){ cur().teslimBelge.splice(+el.dataset.i,1); touch(); render(); },
+ addPers(){ DB.kurum.personel.push({ad:'',unvan:''}); save(); render(); }, delPers(el){ DB.kurum.personel.splice(+el.dataset.i,1); save(); render(); },
+ pv(el){ const d=DOCS.find(x=>x.id===el.dataset.d); onizle([d.id],d.ad); },
+ pvSel(){ const a=cur(); onizle(docsOf(a).filter(d=>secili(a,d)).map(d=>d.id),'Seçilen belgeler'); },
+ printSel(){ const a=cur(), ids=docsOf(a).filter(d=>secili(a,d)).map(d=>d.id); if(!ids.length){ toast('Belge seçilmedi.'); return; } yazdir(sayfalar(a,ids)); },
+ pvPrint(){ yazdir($('#pvBody').innerHTML); },
+ ebys(el){ ebysAc(el.dataset.d); },
+ tkOrnek(el){ const a=cur(), i=+el.dataset.i, k=a.kalemler[i], t=$(`[data-b="a:kalemler.${i}.teknik"]`);
+   if(!String(k.ad).trim()){ toast('Önce kalemin adını yazın.'); return; }
+   if(String(k.teknik).trim()&&!confirm('Bu kalemin teknik özellik metni, örnek metinle değiştirilsin mi?')) return;
+   k.teknik=teknikOrnek(k); if(t){ t.value=k.teknik; t.style.height='auto'; t.style.height=Math.min(320,t.scrollHeight+4)+'px'; t.focus(); t.setSelectionRange(t.value.length,t.value.length); }
+   touch(); toast('Örnek eklendi; dilediğiniz gibi düzenleyin.'); },
+ tkTumu(){ const a=cur(); let n=0; a.kalemler.forEach(k=>{ if(String(k.ad).trim()&&!String(k.teknik).trim()){ k.teknik=teknikOrnek(k); n++; } }); touch(); const y=window.scrollY; render(); window.scrollTo(0,y); toast(n?`${n} kaleme örnek teknik özellik yazıldı.`:'Boş teknik özellik kutusu yok.'); },
+ cbAc(el){ const inp=el.parentElement.querySelector('input'); const pop=$('#cbPop');
+   if(!pop.classList.contains('hidden')&&CB.inp===inp){ cbKapat(); return; }
+   const L=secenekler(inp.dataset.sec), v=inp.value.trim();
+   pop.innerHTML=`<div class="ip">Listeden seçin veya kutuya kendiniz yazın</div>`+(L.length?L.map((o,i)=>`<button data-act="cbSec" data-i="${i}" class="${o.v===v?'on':''}">${esc(o.v)}${o.alt?`<small>${esc(o.alt)}</small>`:''}</button>`).join(''):`<div class="ip" style="border:0">Liste boş. ${inp.dataset.sec==='pers'?'Personeli Ayarlar sayfasından ekleyebilirsiniz.':''}</div>`);
+   CB.inp=inp; CB.L=L; CB.t=Date.now(); pop.classList.remove('hidden');
+   const r=inp.getBoundingClientRect(), w=Math.max(r.width,200), h=Math.min(280,pop.scrollHeight);
+   let left=Math.min(r.left,window.innerWidth-w-8), top=r.bottom+4; if(top+h>window.innerHeight-70) top=Math.max(8,r.top-h-4);
+   Object.assign(pop.style,{left:Math.max(8,left)+'px',top:top+'px',width:w+'px'});
+   const on=pop.querySelector('.on'); if(on) on.scrollIntoView({block:'nearest'}); },
+ cbSec(el){ const inp=CB.inp, o=CB.L[+el.dataset.i]; cbKapat(); if(!inp||!o) return; inp.value=o.v;
+   inp.dispatchEvent(new Event('input',{bubbles:true})); inp.dispatchEvent(new Event('change',{bubbles:true})); },
+ ebysKopya(el){ const v=ebysAc.v, key=el.dataset.k; let ok;
+   if(key==='govde') ok=zenginKopyala($('#ebysGovde'));
+   else ok=kopyala(key==='konu'?v.konu:key==='muhatap'?v.muhatap:key==='dag'?v.dag.join('\n'):v.ekler.map((e,i)=>`${i+1}- ${e}`).join('\n'));
+   toast(ok?({govde:'Metin tablolarıyla kopyalandı. EBYS metin alanına yapıştırın.',konu:'Konu kopyalandı.',muhatap:'Muhatap kopyalandı.',dag:'Dağıtım listesi kopyalandı.',ekler:'Ekler kopyalandı.'}[key]):'Kopyalanamadı; metni seçip elle kopyalayın.'); },
+ ebysWord(){ const a=cur(); wordIndir(`<div class="page" data-doc="${ebysAc.id}">${$('#ebysGovde').innerHTML}</div>`,`${a.yil}-${a.no}_${dosyaAdi(a.ad)}_${dosyaAdi(EBYS_DOCS[ebysAc.id])}_EBYS`); },
+ pvWord(){ const a=cur(); wordIndir($$('#pvBody .page'),belgeAdi(a,[...new Set($$('#pvBody .page').map(p=>p.dataset.doc))])); },
+ pvPdf(){ const a=cur(); pdfIndir($$('#pvBody .page'),belgeAdi(a,[...new Set($$('#pvBody .page').map(p=>p.dataset.doc))])); },
+ wordSel(){ const a=cur(), ids=docsOf(a).filter(d=>secili(a,d)).map(d=>d.id); if(!ids.length){ toast('Belge seçilmedi.'); return; } wordIndir(sayfalar(a,ids),belgeAdi(a,ids)); },
+ pdfSel(){ const a=cur(), ids=docsOf(a).filter(d=>secili(a,d)).map(d=>d.id); if(!ids.length){ toast('Belge seçilmedi.'); return; } pdfIndir(sayfalar(a,ids),belgeAdi(a,ids)); },
+ pvClose(){ $('#modal').innerHTML=''; document.body.style.overflow=''; if(view==='alim'){ const y=window.scrollY; render(); window.scrollTo(0,y); } },
+ selAll(){ const a=cur(); docsOf(a).forEach(d=>a.secili[d.id]=true); touch(); render(); }, selNone(){ const a=cur(); docsOf(a).forEach(d=>a.secili[d.id]=false); touch(); render(); },
+ mys(){ mysIndir(); },
+ muhYaz(){ DB.kurum.muhasebe=muhOneri(DB.kurum); save(); const y=window.scrollY; render(); window.scrollTo(0,y); },
+ detsis(){ const ad=String(DB.kurum.okul||'').trim(); const ok=ad?kopyala(ad):false;
+   const l=document.createElement('a'); l.href='https://www.detsis.gov.tr/'; l.target='_blank'; l.rel='noopener'; document.body.appendChild(l); l.click(); l.remove();
+   toast(!ad?'Kurum adı boş; DETSİS’te adı elle arayın.':ok?`“${ad}” kopyalandı. DETSİS’te arama kutusuna yapıştırın.`:'Kurum adını DETSİS arama kutusuna yazın.'); },
+ backup(){ const t=new Date(), s=`${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,'0')}-${String(t.getDate()).padStart(2,'0')}`; indir(new Blob([JSON.stringify({uygulama:'dogrudan-temin',ver:1,tarih:Date.now(),veri:DB},null,1)],{type:'application/json'}),`dogrudan_temin_yedek_${s}.json`); dirty=false; toast('Yedek indirildi.'); },
+ restore(){ $('#fileIn').value=''; $('#fileIn').click(); }
+};
+const CB={inp:null,L:[],t:0};
+function cbKapat(){ const p=$('#cbPop'); p.classList.add('hidden'); p.innerHTML=''; CB.inp=null; }
+document.addEventListener('pointerdown',e=>{ if(!e.target.closest('#cbPop,.cbt')) cbKapat(); },true);
+window.addEventListener('scroll',e=>{ if(CB.inp&&e.target!==$('#cbPop')&&Date.now()-(CB.t||0)>500) cbKapat(); },true);
+function kTasi(i,d){ const a=cur(), j=i+d; if(j<0||j>=a.kalemler.length) return; const sw=L=>{const t=L[i];L[i]=L[j];L[j]=t;}; sw(a.kalemler); [...a.ymF,...a.paF].forEach(f=>{ for(let x=f.fiyat.length;x<=Math.max(i,j);x++) f.fiyat[x]=f.fiyat[x]??''; sw(f.fiyat); }); touch(); render(); }
+document.addEventListener('click',e=>{
+  const el=e.target.closest('[data-act]'); if(!el) return;
+  if(el.tagName==='A') e.preventDefault();
+  const f=ACT[el.dataset.act]; if(!f) return;
+  if(kilitli()&&DEGISTIR.has(el.dataset.act)&&!(el.dataset.act==='set'&&String(el.dataset.p).startsWith('k:'))){ toast('Arşivdeki dosya salt okunur. Önce arşivden çıkarın.'); return; }
+
+  e.stopPropagation(); f(el);
+});
+$('#fileIn').addEventListener('change',e=>{
+  const f=e.target.files[0]; if(!f) return; const r=new FileReader();
+  r.onload=()=>{ try{ const j=JSON.parse(r.result); const v=j.veri||j; if(!v.kurum||!Array.isArray(v.alimlar)) throw 0;
+    const mevcut=DB.alimlar.length; let mod='yaz';
+    if(mevcut&&!confirm(`Yedekte ${v.alimlar.length} dosya var.\n\nTAMAM: Bu cihazdaki verilerin yerine yükle\nİPTAL: Mevcut dosyalara ekle`)) mod='ekle';
+    if(mod==='yaz'){ DB={ver:1,kurum:merge(yeniKurum(),v.kurum),alimlar:v.alimlar.map(normAlim),aktif:null}; DB.kurum.kod=merge({...DOSYA_KOD},DB.kurum.kod); }
+    else { const ids=new Set(DB.alimlar.map(x=>x.id)); v.alimlar.map(normAlim).forEach(x=>{ if(ids.has(x.id)) x.id=uid(); DB.alimlar.push(x); }); if(!DB.kurum.okul) DB.kurum=merge(yeniKurum(),v.kurum); }
+    view='home'; save(); dirty=false; render(); toast('Yedek yüklendi.');
+  }catch(err){ alert('Dosya okunamadı. Bu uygulamanın yedek dosyasını seçtiğinizden emin olun.'); } };
+  r.readAsText(f,'utf-8');
+});
+document.addEventListener('toggle',e=>{ if(e.target.id==='arsivK'){ DB.arsivAcik=e.target.open; } },true);
+window.addEventListener('beforeunload',e=>{ if(memOnly&&dirty&&DB.alimlar.length){ e.preventDefault(); e.returnValue=''; } });
+
+load();
+if(DB.aktif&&cur()) view='alim';
+render();
+</script>
+</body>
+</html>

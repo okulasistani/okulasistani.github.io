@@ -38,5 +38,18 @@
     "renk": "#0e7490",
     "tur": "standart",
     "aciklama": "e-Okul gelişim raporu PDF'ini öğrencilere ayırır, arkalı önlü baskıya hazırlar"
+  },
+  {
+    "id": "dogrudantemin",
+    "ad": "Doğrudan Temin Asistanı",
+    "kisaAd": "Temin",
+    "dosya": "dogrudan-temin.html",
+    "ico": "🛒",
+    "renk": "#9a3412",
+    "tur": "standart",
+    "aciklama": "Doğrudan temin işlem dosyası: ihtiyaç listesi, piyasa araştırması, onay ve evrak seti",
+    "depoOnekleri": [
+      "dogrudanTeminAsistani"
+    ]
   }
 ]
