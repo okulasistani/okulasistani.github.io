@@ -710,11 +710,11 @@ function modulCalistir(appId, id) {
 }
 
 /* =====================================================================
-   4b) ZİYARET SAYACI (GoatCounter) — yalnızca Vercel ve Netlify adreslerinde
+   4b) ZİYARET SAYACI (GoatCounter) — okul-asistani.com.tr, Vercel ve Netlify adreslerinde
    Çerez kullanmaz, kişisel veri toplamaz. Sayaç adresi engelliyse
    (ör. bazı kurum ağları) site etkilenmez, yalnızca sayım yapılmaz.
    ===================================================================== */
-const SAYAC = { hostlar: ['okul-asistani.vercel.app', 'okulasistanigithubio.vercel.app', 'okul-asistani.netlify.app'], adres: 'https://okulasistani.goatcounter.com/count' };
+const SAYAC = { hostlar: ['okul-asistani.com.tr', 'www.okul-asistani.com.tr', 'okul-asistani.vercel.app', 'okulasistanigithubio.vercel.app', 'okul-asistani.netlify.app'], adres: 'https://okulasistani.goatcounter.com/count' };
 const sayacAktif = SAYAC.hostlar.indexOf(location.hostname) >= 0;
 const sayacKuyruk = [];
 let sayacSon = '';
@@ -992,6 +992,37 @@ async function topluGeriYukle(y) {
   }
 }
 
+/* =====================================================================
+   7) ADRES DUYURUSU — yalnızca eski adreslerde (github.io, vercel.app, netlify.app…)
+   Veriler adrese bağlı olduğu için otomatik yönlendirme yapılmaz; kullanıcıya
+   önce yedek alıp yeni adreste geri yüklemesi hatırlatılır.
+   ===================================================================== */
+const YENI_ADRES = 'okul-asistani.com.tr';
+const K_ADRES_POPUP = 'okulAsistani_adresPopup';
+function adresDuyurusu() {
+  const h = location.hostname;
+  if (!h || h === YENI_ADRES || h === 'www.' + YENI_ADRES || h === 'localhost' || h === '127.0.0.1') return;
+  try { if (sessionStorage.getItem(K_ADRES_POPUP)) return; } catch (e) {}
+  const ertele = () => { try { sessionStorage.setItem(K_ADRES_POPUP, '1'); } catch (e) {} modalKapat(); $('modal').onclick = (e) => { if (e.target === $('modal')) modalKapat(); }; };
+  modalAc('📢 Adresimiz değişti',
+    `<p style="margin:0 0 12px">Okul Asistanı artık yeni ve kalıcı adresinde:</p>
+     <a href="https://${YENI_ADRES}/" style="display:block;text-align:center;font-size:21px;font-weight:800;color:#fff;background:var(--lacivert);border-radius:14px;padding:16px 12px;margin:0 0 16px;text-decoration:none;word-break:break-all">🌐 ${YENI_ADRES}</a>
+     <p style="margin:0 0 8px"><b>Verilerinizi yeni adrese taşımak için:</b></p>
+     <ol style="margin:0 0 12px;padding-left:20px;line-height:1.6">
+       <li>Aşağıdaki <b>“Yedeğimi indir”</b> düğmesine basın. Tüm uygulamaların verisi tek dosyaya iner.</li>
+       <li><b>Yeni adrese gidin.</b></li>
+       <li>Yeni adreste ana sayfadaki <b>Toplu Yedek → Yedekten Geri Yükle</b> ile indirdiğiniz dosyayı seçin.</li>
+     </ol>
+     <div class="uyari" style="background:#fff6e0;border-color:#f0d48a;color:#6b4e00">Verileriniz bu cihazda <b>bu adrese</b> kayıtlıdır. Yedeği taşımazsanız yeni adreste görünmez. Hiç veri girmediyseniz doğrudan yeni adrese geçebilirsiniz. Bu eski adres bir süre daha çalışmaya devam edecek.</div>`,
+    [
+      { ad: 'Daha sonra', tik: ertele },
+      { ad: '⬇️ Yedeğimi indir', sinif: 'btn-hayalet', tik: async function () { const b = this; await topluYedekAl(); b.textContent = '✓ Yedek indirildi'; } },
+      { ad: 'Yeni adrese git →', sinif: 'btn-dolu', tik: () => { location.href = 'https://' + YENI_ADRES + '/'; } }
+    ]);
+  /* boşluğa tıklayınca da "daha sonra" sayılsın */
+  $('modal').onclick = (e) => { if (e.target === $('modal')) ertele(); };
+}
+
 /* ---------- başlat ---------- */
 katalogBaslat();
 dizinKur();
@@ -999,6 +1030,7 @@ menuleriCiz();
 window.addEventListener('hashchange', () => yonlendir());
 yonlendir();
 /* Arka plan tazeleme: sayfa çizildikten sonra, kullanıcıyı bekletmeden */
+setTimeout(adresDuyurusu, 700);
 setTimeout(async () => {
   await uygulamaListesiniTazele();
   katalogBaslat(); dizinKur();

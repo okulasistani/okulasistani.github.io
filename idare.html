@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İdare Asistanı 7.1.4 — MEB Yönetim Portalı & Resmi Evrak</title>
+    <title>İdare Asistanı 7.1.9 — MEB Yönetim Portalı & Resmi Evrak</title>
     <!-- Tailwind CSS -->
     
 <style id="critical-offline-css">
@@ -418,6 +418,8 @@ return this.parent.children[i-1]},XMLNode.prototype.next=function(){var i;if(i=t
             #nakil-print-container { transform: none !important; position: static !important; width: 100% !important; max-width: none !important; min-height: 0 !important; }
         }
 
+        /* Kantin EK-1 formunda dokun-yaz alanlarının noktalı yer tutucuları çıktıda görünmez */
+        @media print { .k1-bos { visibility: hidden !important; } }
         /* İşçi İşlemleri modülü: ekran ve tüm belgeleri Times New Roman */
         #tab-imzaCizelgesi, #tab-imzaCizelgesi :is(input, select, textarea, button, p, span, div, td, th, h3, h4, label, li, b, strong), .isci-tnr, .isci-tnr * { font-family: 'Times New Roman', Times, serif !important; }
         /* Ekran Görünümü için A4 Dijital Kağıt Efekti */
@@ -785,7 +787,7 @@ tailwind.config = {
             <p id="son-yedek-bilgi" class="text-[9px] text-center text-slate-500"></p>
         </div>
         <div class="px-2.5 py-2 border-t border-slate-800 text-center flex-shrink-0">
-            <p class="text-[9px] text-slate-500 truncate">Mehmet Can Öztürk-Cuma Çetinkaya <span class="text-slate-400 font-normal" style="cursor:pointer;text-decoration:underline dotted" title="Yenilikleri göster" onclick="portalSurumPopupGoster(true)">· v<span id="portal-surum-etiket">7.1.4</span></span></p>
+            <p class="text-[9px] text-slate-500 truncate">Mehmet Can Öztürk-Cuma Çetinkaya <span class="text-slate-400 font-normal" style="cursor:pointer;text-decoration:underline dotted" title="Yenilikleri göster" onclick="portalSurumPopupGoster(true)">· v<span id="portal-surum-etiket">7.1.9</span></span></p>
             <p class="text-[9px] text-slate-400 font-semibold mt-1 uppercase tracking-wide">İletişim</p>
             <div class="flex items-center justify-center gap-2 flex-wrap text-[9px] text-slate-500 mt-0.5">
                 <a href="mailto:cann201921@gmail.com" class="text-sky-400 hover:text-sky-300 underline" title="E-posta gönder"><i class="fa-solid fa-envelope mr-0.5"></i>cann201921@gmail.com</a>
@@ -7357,7 +7359,8 @@ window.DERGI = {
                 { harf: "v", konu: "Hizmet içi eğitim ihtiyaçlarının belirlenmesi", yorum: "Öğretmen ve idarecilerin ÖBA üzerinden «Eğitim Kurumlarında Kişisel Verilerin Korunması Eğitimi Kursu» ile «Bilgi Güvenliği Farkındalık Eğitimi Kursu»nu tamamlamaları zorunlu kılındı; dijital materyal ve TYMM mahalli seminer talepleri de listelendi.", aciklama: "MEB Bilgi İşlem GM talimatı: Tüm idareci ve öğretmenlerin ÖBA’daki KVKK ve bilgi güvenliği kurslarını eğitim yılı başında tamamlaması sağlanır; katılım listesi idarece izlenir. Ek mahalli HİE ihtiyaçları zümre önerisiyle toplanır." },
                 { harf: "y", konu: "Mezunların izlenmesi", yorum: "4. sınıftan mezun olan öğrencilerin ortaöğretime geçiş başarılarının zümre bazında izleneceği belirtildi.", aciklama: "Mezun öğrencilerin ortaöğretime uyum süreci, imkanlar ölçüsünde rehber öğretmen tarafından izlenir." },
                 { harf: "z", konu: "İş sağlığı ve güvenliği ile ilgili hususlar", yorum: "Okul binasındaki merdiven kaymaz bantlarının, priz koruyucularının yenilenmesine ve yangın söndürme tüplerinin bakımının yapılmasına karar verildi.", aciklama: "İş sağlığı ve güvenliği kurulu, tespit edilen riskleri aylık olarak değerlendirip idareye raporlar." },
-                { harf: "aa", konu: "Denetim ve rehberlik çalışmaları", yorum: "Ders defterlerinin zamanında doldurulması ve müfredat kazanımları ile uyumlu yazılmasının okul idaresince periyodik denetleneceği belirtildi.", aciklama: "Denetim bulguları idare tarafından ilgili öğretmenle paylaşılarak gelişim odaklı geri bildirim verilir." }
+                { harf: "aa", konu: "Denetim ve rehberlik çalışmaları", yorum: "Ders defterlerinin zamanında doldurulması ve müfredat kazanımları ile uyumlu yazılmasının okul idaresince periyodik denetleneceği belirtildi.", aciklama: "Denetim bulguları idare tarafından ilgili öğretmenle paylaşılarak gelişim odaklı geri bildirim verilir." },
+                { harf: "ab", konu: "Yapay zekâ uygulamalarının etik kullanımı, Okul Yapay Zekâ Etiği Ekibi ve YAZEK etik beyan süreci", yorum: "Millî Eğitim Bakanlığı Yapay Zekâ Uygulamaları Etik Kurulu Yönergesi hakkında bilgi verildi. Yönergenin 13. maddesi gereğince okul müdürü başkanlığında Okul Yapay Zekâ Etiği Ekibinin oluşturulmasına; eğitim-öğretim süreçlerinde yapay zekâ uygulaması gerçekleştirecek öğretmenlerin Yapay Zekâ Uygulamaları Etik Beyan Sistemi (YAZEK) üzerinden Etik Beyan Formunu doldurmasına (md. 15); yapay zekâ araçlarında öğrencilere ait kişisel verilerin 6698 sayılı Kişisel Verilerin Korunması Kanunu’na aykırı şekilde paylaşılmamasına; etik ihlal bildirimlerinin okul müdürlüğüne yapılmasına ve Okul Yapay Zekâ Etiği Ekibince 15 gün içinde karara bağlanmasına (md. 16) karar verildi.", aciklama: "Dayanak: MEB Yapay Zekâ Uygulamaları Etik Kurulu Yönergesi (md. 13, 14, 15, 16); 6698 sayılı KVKK; Eğitimde Yapay Zekâ Uygulamaları Etik Kılavuzu." }
             ],
             iki_donem_basi: [],
             yil_sonu: []
@@ -7391,6 +7394,16 @@ window.DERGI = {
                 });
             });
             bm._refakat709 = true; try { saveAllData(); } catch (e) {}
+        };
+        window.boardYzGoc = function() {
+            var bm = state.boardMeetings; if (!bm || !bm.data || bm._yz715) return;
+            ['sene_basi', 'iki_donem_basi', 'yil_sonu'].forEach(function(d) {
+                var L = bm.data[d]; if (!Array.isArray(L) || L.some(function(it) { return /yapay zek/i.test(it.konu || ''); })) return;
+                var t = (BOARD_AGENDA_TEMPLATES[d] || []).find(function(it) { return /yapay zek/i.test(it.konu || ''); }); if (!t) return;
+                var kullanilan = L.map(function(it) { return it.harf; }), harf = ['ab', 'ac', 'ad', 'ae', 'af'].find(function(h) { return kullanilan.indexOf(h) < 0; }) || String(L.length + 1);
+                L.push({ harf: harf, konu: t.konu, yorum: t.yorum, aciklama: t.aciklama });
+            });
+            bm._yz715 = true; try { saveAllData(); } catch (e) {}
         };
 
         state.boardMeetings.data = JSON.parse(JSON.stringify(BOARD_AGENDA_TEMPLATES));
@@ -8028,6 +8041,7 @@ window.boardSetKademe = function(kademe) {
             { id: 546, ad: 'Maarifin Kalbinde Oyun Okul Yürütme Komisyonu', grup: 'Sosyal Etkinlik, Değerler ve Proje', kd: ['oo', 'ilk', 'orta'], temel: ['oo', 'ilk', 'orta'], dayanak: 'TEGM “Maarifin Kalbinde Oyun” çalışması; Türkiye Oyun Politika Belgesi ve Eylem Planı (16.09.2026)', roller: ['Başkan (Okul Müdürü)', 'Müdür Yardımcısı', 'Rehber Öğretmen', 'Sınıf Düzeyi Temsilcisi Öğretmen 1', 'Sınıf Düzeyi Temsilcisi Öğretmen 2', 'Sınıf Düzeyi Temsilcisi Öğretmen 3', 'Beden Eğitimi / Oyun ve Fiziki Etkinlikler Öğretmeni', 'Okul-Aile Birliği Temsilcisi', 'Öğrenci Temsilcisi'] },
             { id: 547, ad: 'Okul Güvenliği Yönetim Ekibi', grup: 'Güvenlik, Sağlık, Afet ve Çevre', kd: T4, temel: T4, dayanak: 'İçişleri Bakanlığı Okul ve Çevresi Güvenlik Tedbirleri Genelgesi (24.04.2026); Eğitim Süreçlerinin Güvenliği İş Birliği Protokolü', roller: ['Başkan (Okul Müdürü)', 'Müdür Yardımcısı', 'Rehber Öğretmen', 'Öğretmen Temsilcisi 1', 'Öğretmen Temsilcisi 2', 'Okul-Aile Birliği Temsilcisi', 'Öğrenci Temsilcisi', 'Okul Kolluk / Güvenli Eğitim Koordinasyon Görevlisi', 'Özel Güvenlik Görevlisi (varsa)'] },
             { id: 548, ad: 'Yaşam Becerileri Okul Yürütme Komisyonu', grup: 'Sosyal Etkinlik, Değerler ve Proje', kd: ['ilk', 'orta'], dayanak: 'TEGM Temel Eğitimde Yaşam Becerileri Uygulama Kılavuzu (2025)', roller: ['Başkan (Okul Müdürü)', 'Müdür Yardımcısı', 'Öğretmen Üye 1 (Sınıf Öğr. / Şube Rehber Öğr.)', 'Öğretmen Üye 2 (Sınıf Öğr. / Şube Rehber Öğr.)', 'Psikolojik Danışman / Rehber Öğretmen'] },
+            { id: 549, ad: 'Okul Yapay Zekâ Etiği Ekibi', grup: 'Yönetim ve Öğretim', kd: T4, temel: T4, dayanak: 'MEB Yapay Zekâ Uygulamaları Etik Kurulu Yönergesi md. 13; Eğitimde Yapay Zekâ Uygulamaları Etik Kılavuzu 3.1 (müdür başkanlığında üç üye + sekretarya)', roller: ['Başkan (Okul Müdürü)', 'Üye (Müdür Yardımcısı)', 'Üye (YEĞİTEK Okul Sorumlusu / BT Öğretmeni)', 'Üye (Rehber Öğretmen)', 'Sekretarya (Memur / Büro Personeli veya Ekip Üyesi)'] },
             { id: 545, ad: 'Personel Başarı / Ödül Teklif Komisyonu', grup: 'Yönetim ve Öğretim', kd: T4, dayanak: 'MEB Personeli Ödül Yönergesi', roller: ['Başkan (Okul Müdürü)', 'Müdür Yardımcısı', 'Öğretmen Üye'] }
         ];
         /* Kütüphanenin tamamı: hazır kurullar (varsayılan rollerle) + ek kurullar */
@@ -8985,6 +8999,86 @@ window.boardSetKademe = function(kademe) {
                             c.p('Sosyal Etkinlikler Kurulu, yukarıda bilgileri yer alan etkinliği Eğitim Kurumları Sosyal Etkinlikler Yönetmeliğinde belirtilen amaç ve ilkeler, öğrencilerin yaş ve gelişim düzeyi, güvenlik tedbirleri ve veli izinleri yönünden incelemiş; ' + cumle + ' karar vermiştir.') +
                             (b.sart ? '<p style="margin:6px 0"><b>Şartlar / Gerekçe:</b> ' + E(b.sart) + '</p>' : '') + satirlar.join('');
                     } },
+                /* ---------- YAPAY ZEKÂ ETİĞİ (MEB Yapay Zekâ Uygulamaları Etik Kurulu Yönergesi) ---------- */
+                yzEkipOlur: { grup: 'teblig', ad: 'Okul Yapay Zekâ Etiği Ekibi Oluşturma Oluru', alan: [{ k: 'sayi', l: 'Sayı' }, { k: 'tarih', l: 'Tarih', ph: 'gg.aa.yyyy' }],
+                    not: 'Ekip üyeleri Kurul ve Komisyonlar → “Okul Yapay Zekâ Etiği Ekibi” atamalarından gelir (Yönerge md. 13: okul müdürü başkanlığında en az üç üye).',
+                    arac: '<button type="button" onclick="ebYzEkipGit()" class="px-3 py-1.5 rounded-lg bg-white border border-indigo-300 text-indigo-700 text-xs font-bold">👥 Ekip üyelerini ata / düzenle →</button>',
+                    ciz: function(b, c) {
+                        var ek = yzEkip();
+                        return c.antet() + c.ust(b, 'Okul Yapay Zekâ Etiği Ekibi') + c.muhatap('MÜDÜRLÜK MAKAMINA') +
+                            c.p('Millî Eğitim Bakanlığı Yapay Zekâ Uygulamaları Etik Kurulu Yönergesi’nin 13. maddesi ve Eğitimde Yapay Zekâ Uygulamaları Etik Kılavuzu’nun 3.1. maddesi gereğince, okulumuzda gerçekleştirilen yapay zekâ uygulamalarının Yönerge ve Kılavuz doğrultusunda yürütülmesini sağlamak üzere ' + c.d(c.yil) + ' eğitim-öğretim yılında okul müdürü başkanlığında aşağıda adı yazılı personelden oluşan Okul Yapay Zekâ Etiği Ekibinin kurulmasını ve ekip sekretaryasının belirlenmesini olurlarınıza arz ederim.') +
+                            c.tablo(['S.N.', 'Ekipteki Görevi', 'Adı Soyadı', 'Unvanı'], ek.map(function(x, i) { return [String(i + 1), E(x.rol), E(x.ad), E(x.unvan)]; }), ['7%', '33%', '30%', '30%'], ek.length ? 0 : 3) +
+                            '<p style="font-weight:bold;margin:8px 0 2px">Ekibin Görevleri (Yönerge md. 13/2)</p>' +
+                            c.madde(['Okulda yürütülen yapay zekâ uygulamalarının Yönerge hükümlerine ve Kılavuz’a, etik ilkelere uygun biçimde yürütülmesini sağlamak.', 'Öğretmenlere yapay zekânın etik kullanımı konusunda rehberlik etmek, uygulama süreçlerinde destek sunmak ve okul genelinde farkındalık oluşturmak.', 'Yapay zekâ uygulamalarına ilişkin etik ihlal bildirimlerini en geç 15 gün içinde Kılavuz EK-1 Etik İhlal Durumu Değerlendirme Formu doğrultusunda incelemek, değerlendirmek ve karara bağlamak.', 'Etik ihlal tespiti hâlinde uygulamanın durdurulmasını sağlamak ve gerekli süreçleri başlatmak üzere raporlama yapmak.', 'Beyan edilen bir uygulamada bariz bir risk (KVKK’ye aykırı veri toplama, güvenlik açığı vb.) tespit edildiğinde öğretmene “Uygulamayı Başlatmayın/Durdurun” uyarısında bulunmak ve durumu incelemeye almak.']) +
+                            '<p style="font-weight:bold;margin:8px 0 2px">Sekretaryanın Görevleri (Kılavuz 3.1.2.2)</p>' +
+                            c.madde(['Etik beyan formlarını YAZEK üzerinden görüntülemek.', 'Okula dilekçe ile yapılan etik ihlal başvurularını YAZEK’e işlemek, varsa ilgili beyan ile eşleştirmek.', 'Ekibin kararlarını en geç 15 gün içinde sisteme girmek ve ilgilileri bilgilendirmek; itiraz süreçlerini takip etmek.']) +
+                            c.olur() + c.tebellug(ek.map(function(x) { return { name: x.ad, title: x.rol }; }).filter(function(x) { return x.name; }), 4);
+                    } },
+                yzTeblig: { grup: 'teblig', ad: 'Yapay Zekâ Uygulamaları Etik Beyan (YAZEK) Bilgilendirme Tebliği', tablolu: true, alan: [{ k: 'ek', l: 'Okula özgü ek açıklama (isteğe bağlı)', t: 'uzun' }, { k: 'sayi', l: 'Sayı' }, { k: 'tarih', l: 'Tarih', ph: 'gg.aa.yyyy' }],
+                    ciz: function(b, c) {
+                        var ek = yzEkip().filter(function(x) { return x.ad; });
+                        return c.antet() + c.ust(b, 'Yapay Zekâ Uygulamaları ve Etik Beyan') + c.muhatap('ÖĞRETMENLERE') +
+                            c.p('Millî Eğitim Bakanlığı Yapay Zekâ Uygulamaları Etik Kurulu Yönergesi; Bakanlığımızın eğitim, öğretim ve yönetim süreçlerindeki tüm yapay zekâ uygulamalarını ve bu süreçlerde yer alan tüm kullanıcıları kapsamaktadır. Yönerge ve Eğitimde Yapay Zekâ Uygulamaları Etik Kılavuzu çerçevesinde aşağıdaki hususlara uyulması gerekmektedir.') +
+                            c.madde([
+                                'Eğitim-öğretim süreçlerinde yapay zekâ uygulaması gerçekleştirecek öğretmenler, uygulamadan önce <b>Yapay Zekâ Uygulamaları Etik Beyan Sistemi (YAZEK)</b> üzerinden (https://yazek.meb.gov.tr) Etik Beyan Formunu doldurur (Yönerge md. 15; Kılavuz 4.1). Uygulamaya başlamak için ayrıca onay alınması gerekmez; form nihaî olarak onaylandıktan sonra değiştirilemez ve silinemez.',
+                                'Formda; okul, sınıf düzeyi, ders, şube, uygulamanın kapsamı, kullanılacak yapay zekâ aracı ve uygulamaya ilişkin açıklama girilir; uygulamanın etik ilkelere uygun yürütüleceği beyan edilir (Kılavuz 4.1.2).',
+                                'Yapay zekâ uygulamalarında; nitelikli değer üreten, insan haklarını gözeten, millî ve manevi değerlere dayalı, kapsayıcı ve erişilebilir, gizlilik, güvenlik ve mahremiyet esaslarına uygun, sürdürülebilir, karar süreçleri açık ve izlenebilir olma ilkeleri gözetilir (md. 14/1).',
+                                'Kişisel verilerin işlenmesi ve korunmasına ilişkin tüm süreçlerde 6698 sayılı Kişisel Verilerin Korunması Kanunu’na tam uyum zorunludur (md. 14/2). Öğrencilere ait ad-soyad, T.C. kimlik numarası, fotoğraf, ses ve görüntü kaydı, sağlık bilgisi ile not ve değerlendirme bilgileri yapay zekâ araçlarına aktarılmaz.',
+                                'Etik ilkelere aykırı her türlü kullanım ve uygulama etik ihlal olarak kabul edilir (md. 14/3).',
+                                'Yapay zekâ uygulamalarına ilişkin etik ihlal bildirimleri okul müdürlüğüne yapılır; Okul Yapay Zekâ Etiği Ekibi bildirimi 15 gün içinde inceleyerek karara bağlar. Bu karara karşı İl/İlçe Yapay Zekâ Uygulamaları Etik Kuruluna itiraz edilebilir (md. 16).',
+                                'Yapay zekâ araçlarının etik ve eğitsel amaçlara uygun kullanımı konusunda Okul Yapay Zekâ Etiği Ekibinden rehberlik ve destek alınabilir (md. 13/2-b).'
+                            ].concat(b.ek ? [E(b.ek)] : [])) +
+                            '<p style="font-weight:bold;margin:8px 0 2px">Etik Beyan Formunun Doldurulmasına İlişkin Örnek Durumlar (Kılavuz Tablo 1)</p>' +
+                            c.tablo(['Kullanım Alanı', 'Örnek Durumlar', 'Beyan'], [
+                                ['A) Öğrenci etkileşimi', 'Öğrencilerin ders kapsamında YZ ile soru-cevap yapması, YZ ile görsel/müzik vb. üretmesi; öğretmenin akıllı tahtada bir konuyu YZ desteğiyle işlemesi', '<b>EVET</b>'],
+                                ['B) Öğrenci verisinin işlenmesi', 'Kompozisyon, ödev, ses kaydı, rapor vb. verilerin YZ ile analizi; not veya kazanım verilerinin işlenmesi (isimler gizlenmiş olsa dahi)', '<b>EVET</b>'],
+                                ['C) Ölçme, değerlendirme ve karar desteği', 'Öğrenci ürünlerinin YZ ile puanlanması, geri bildirim üretimi, seviye belirleme veya gruplara ayırma', '<b>EVET</b>'],
+                                ['Ç) Ders hazırlığı, materyal üretimi, mesleki gelişim', 'Ders planı, etkinlik fikri, sunum/video hazırlama; makale tarama ve özetleme', 'HAYIR'],
+                                ['D) Öğrencinin bireysel kullanımı', 'Öğrencinin öğretmen talimatı olmadan, kendi inisiyatifiyle evde YZ kullanması', 'HAYIR']], ['26%', '60%', '14%']) +
+                            '<p style="font-size:10pt;margin:2px 0 6px">YZ yalnızca yardımcıdır; hiçbir koşulda öğrenciye verilecek notu tek başına belirleyemez. Öğrenciyle kullanılacak araç önceden test edilmeli, güvenlik filtrelerinin çalıştığından emin olunmalıdır.</p>' +
+                            (ek.length ? '<p style="margin:6px 0 2px"><b>Okul Yapay Zekâ Etiği Ekibi:</b> ' + ek.map(function(x) { return E(x.ad) + ' (' + E(x.rol) + ')'; }).join(', ') + '</p>' : '') +
+                            c.p('Bilgi edinilmesi ve gereğinin yapılması hususunda tebliğ olunur.') + c.imzaSag(c.mudur.name, 'Okul Müdürü') + c.tebellug(ogretmenler());
+                    } },
+                yzIhlal: { grup: 'teblig', ad: 'Yapay Zekâ Etik İhlal Bildirimi İnceleme Tutanağı ve Ekip Kararı', tablolu: true, alan: [{ k: 'bildirimTarihi', l: 'Bildirimin okula ulaştığı tarih', ph: 'gg.aa.yyyy' }, { k: 'bildiren', l: 'Bildirimde bulunan' }, { k: 'ilgili', l: 'Bildirimin ilgili olduğu kişi / birim' }, { k: 'arac', l: 'Yapay zekâ uygulaması / aracı' }, { k: 'kod', l: 'YAZEK başvuru kodu' }, { k: 'ihlalZaman', l: 'İhlalin gerçekleştiği tarih' }, { k: 'etki', l: 'Etki alanı (sınıf/şube, öğrenci sayısı vb.)' }, { k: 'ilke', l: 'İddianın ilgili olduğu ilke', t: 'sec', o: ['İnsan Merkezlilik ve Hak Temelli Yaklaşım', 'Eşitlik ve Kapsayıcılık', 'Şeffaflık ve Açıklanabilirlik', 'Mahremiyet, Gizlilik ve Veri Yönetişimi', 'Güvenilirlik, Emniyet ve Teknik Sağlamlık', 'Hesap Verebilirlik ve İnsan Denetimi', 'Eğitsel Değer ve Nitelikli Katkı', 'Millî ve Manevi Değerlere Uyum', 'Diğer'] }, { k: 'konu', l: 'Bildirimin konusu', t: 'uzun' }, { k: 'inceleme', l: 'Yapılan inceleme ve tespitler', t: 'uzun' }, { k: 'karar', l: 'Ekip kararı (Kılavuz 3.1.2.1)', t: 'sec', o: ['Etik İhlal Bulunmadığı Kararı: uygulamanın yürütülmesine engel bir durum bulunmadığına ve sürecin devamına karar verilmiştir.', 'Etik İhlal Tespit Edildiği Kararı: uygulamanın derhâl durdurulmasına karar verilmiştir.', 'Etik İhlal Tespit Edildiği Kararı: uygulamanın derhâl durdurulmasına; disiplin soruşturması veya idari işlem başlatılması için rapor ve ilgili delillerin yetkili makama resmî yazıyla iletilmesine karar verilmiştir.'] }, { k: 'onlem', l: 'Alınacak önlemler / öneriler', t: 'uzun' }, { k: 'kararTarihi', l: 'Karar tarihi', ph: 'gg.aa.yyyy' }],
+                    not: 'Yönerge md. 16/1 ve Kılavuz 3.1.2.1: Ekip, başvuruyu en geç 15 gün içinde inceler; son karar tarihi otomatik hesaplanır. Belgedeki EK-1 Etik İhlal Durumu Değerlendirme Formunda Evet / Hayır / İlgili Değil kutucuklarına dokunarak işaretleyin, açıklama hücresine dokunarak yazın.',
+                    ciz: function(b, c) {
+                        var t = trTarih(b.bildirimTarihi), son = '', gec = false;
+                        if (t) { var s2 = new Date(t.getTime() + 15 * 864e5); son = String(s2.getDate()).padStart(2, '0') + '.' + String(s2.getMonth() + 1).padStart(2, '0') + '.' + s2.getFullYear(); var kt = trTarih(b.kararTarihi); gec = !!(kt && kt > s2); }
+                        var ek = yzEkip();
+                        var uyeler = ek.length ? ek : [{ ad: c.mudur.name, rol: 'Ekip Başkanı (Okul Müdürü)' }, { ad: '', rol: 'Üye' }, { ad: '', rol: 'Üye' }];
+                        var imzalar = []; for (var i = 0; i < uyeler.length; i += 3) imzalar.push(c.imza(uyeler.slice(i, i + 3).map(function(x) { return { ad: x.ad, unvan: x.rol }; })));
+                        return c.antet() + c.baslik('YAPAY ZEKÂ ETİK İHLAL BİLDİRİMİ<br>İNCELEME TUTANAĞI VE EKİP KARARI') +
+                            c.bilgi([['YAZEK Başvuru Kodu', E(b.kod)], ['Bildirimin Okula Ulaştığı Tarih', E(b.bildirimTarihi)], ['Son Karar Tarihi (15 gün)', E(son) + (gec ? ' <b style="color:#b91c1c">— süre aşıldı</b>' : '')], ['Bildirimde Bulunan', E(b.bildiren)], ['İlgili Kişi / Birim', E(b.ilgili)], ['Yapay Zekâ Uygulaması / Aracı', E(b.arac)], ['İhlalin Gerçekleştiği Tarih', E(b.ihlalZaman)], ['Etki Alanı', E(b.etki)], ['İddianın İlgili Olduğu İlke', E(b.ilke)], ['Bildirimin Konusu', E(b.konu)]], 36) +
+                            '<p style="font-weight:bold;margin:8px 0 2px">İnceleme ve Tespitler</p>' + c.p(c.d(b.inceleme)) +
+                            '<p style="font-weight:bold;margin:8px 0 2px">Etik İhlal Durumu Değerlendirme Formu (Kılavuz EK-1)</p>' + (function() {
+                                var deg = b.deg || {}, ac = b.degAcik || {}, tdx = 'border:1px solid #000;padding:2px 4px;vertical-align:middle;font-size:9.5pt', son2 = -1;
+                                var kt = function(kod, v) { return '<td style="' + tdx + ';text-align:center;cursor:pointer" onclick="ebYzDeg(\'' + kod + '\',\'' + v + '\')">' + (deg[kod] === v ? '☒' : '☐') + '</td>'; };
+                                return '<table style="width:100%;border-collapse:collapse;margin:4px 0"><tr><th style="' + tdx + ';width:18%;background:#f1f5f9">İlke</th><th style="' + tdx + ';background:#f1f5f9">Değerlendirme Sorusu</th><th style="' + tdx + ';width:6%;background:#f1f5f9">Evet</th><th style="' + tdx + ';width:6%;background:#f1f5f9">Hayır</th><th style="' + tdx + ';width:8%;background:#f1f5f9">İlgili Değil*</th><th style="' + tdx + ';width:20%;background:#f1f5f9">Açıklama</th></tr>' +
+                                    YZ_DEG.map(function(q) { var ilk = q[0] !== son2; son2 = q[0]; var say = YZ_DEG.filter(function(x) { return x[0] === q[0]; }).length;
+                                        return '<tr>' + (ilk ? '<td rowspan="' + say + '" style="' + tdx + ';font-weight:bold">' + (q[0] < 8 ? (q[0] + 1) + '. ' + YZ_ILKE[q[0]] : 'Diğer') + '</td>' : '') + '<td style="' + tdx + '">' + (q[1] !== 'Diğer' ? q[1] + '. ' : '') + E(q[2]) + '</td>' + kt(q[1], 'E') + kt(q[1], 'H') + kt(q[1], 'I') + '<td style="' + tdx + ';cursor:pointer" onclick="ebYzAcik(\'' + q[1] + '\')">' + E(ac[q[1]] || '') + '&nbsp;</td></tr>'; }).join('') + '</table><p style="font-size:8.5pt">*Gerçekleştirilen yapay zekâ uygulamasının ilgili madde kapsamında değerlendirilemediği durumlarda işaretlenir.</p>';
+                            })() +
+                            '<p style="font-weight:bold;margin:8px 0 2px">Ekip Kararı</p>' + c.p('Okul Yapay Zekâ Etiği Ekibi, ' + c.d(b.kararTarihi) + ' tarihinde toplanarak bildirimi Millî Eğitim Bakanlığı Yapay Zekâ Uygulamaları Etik Kurulu Yönergesi ve Eğitimde Yapay Zekâ Uygulamaları Etik Kılavuzu çerçevesinde incelemiş; <b>' + c.d(b.karar) + '</b>') +
+                            (b.onlem ? '<p style="font-weight:bold;margin:8px 0 2px">Alınacak Önlemler</p>' + c.p(E(b.onlem)) : '') +
+                            c.p('Gerekçeli karar sekretarya tarafından YAZEK’e işlenir ve ilgililere bildirilir. Karara karşı İl/İlçe Yapay Zekâ Uygulamaları Etik Kuruluna itiraz edilebilir (Yönerge md. 16/2).') + imzalar.join('');
+                    } },
+                yzEkipYok: { grup: 'teblig', ad: 'Okul Yapay Zekâ Etiği Ekibinin Kurulamadığına Dair Bildirim', alan: [{ k: 'personel', l: 'Okuldaki personel durumu (örn: okul müdürü ve 1 öğretmen görev yapmaktadır)' }, { k: 'sayi', l: 'Sayı' }, { k: 'tarih', l: 'Tarih', ph: 'gg.aa.yyyy' }],
+                    not: 'Kılavuz 3.2: Ekibi kuracak yeterli personeli olmayan okullar durumu resmî yazıyla ilçe millî eğitim müdürlüğüne bildirir.',
+                    ciz: function(b, c) {
+                        return c.antet() + c.ust(b, 'Okul Yapay Zekâ Etiği Ekibi') + c.muhatap(c.mem) +
+                            c.p('Millî Eğitim Bakanlığı Yapay Zekâ Uygulamaları Etik Kurulu Yönergesi’nin 13. maddesi uyarınca okul müdürü başkanlığında en az üç üyeden oluşması gereken Okul Yapay Zekâ Etiği Ekibi, ' + (b.personel ? 'okulumuzda ' + E(b.personel) + ' ' : 'okulumuzda ') + 'gerekli personel sayısı bulunmadığından kurulamamıştır.') +
+                            c.p('Eğitimde Yapay Zekâ Uygulamaları Etik Kılavuzu’nun 3.2. maddesi gereğince, ekip kuruluncaya kadar okulumuza yapılacak etik ihlal bildirimlerinin inceleme ve değerlendirme işlemlerinin İlçe Yapay Zekâ Uygulamaları Etik Kurulunca, kurulmamış olması hâlinde İl Yapay Zekâ Uygulamaları Etik Kurulunca yürütülmesi hususunda bilgilerinizi ve gereğini arz ederim.') +
+                            c.imzaSag(c.mudur.name, 'Okul Müdürü');
+                    } },
+                yzKararBildirim: { grup: 'teblig', ad: 'Yapay Zekâ Etik İhlal Bildirimi Karar Bildirim Yazısı', alan: [{ k: 'muhatap', l: 'Muhatap (örn: Sayın …… / ilgili öğretmen)' }, { k: 'sayi', l: 'Sayı' }, { k: 'tarih', l: 'Tarih', ph: 'gg.aa.yyyy' }],
+                    not: 'Bildirim tarihi, uygulama ve karar “Etik İhlal Bildirimi İnceleme Tutanağı” formundan gelir.',
+                    ciz: function(b, c) {
+                        var t = ebB('yzIhlal');
+                        return c.antet() + c.ust(b, 'Etik İhlal Bildirimi Hk.') + c.muhatap(b.muhatap || 'Sayın ……………………') +
+                            c.p('Okulumuzda yürütülen ' + (t.arac ? '<b>' + E(t.arac) + '</b> adlı ' : '') + 'yapay zekâ uygulamasına ilişkin ' + c.d(t.bildirimTarihi) + ' tarihinde okulumuza ulaşan etik ihlal bildirimi, Millî Eğitim Bakanlığı Yapay Zekâ Uygulamaları Etik Kurulu Yönergesi’nin 16. maddesi gereğince Okul Yapay Zekâ Etiği Ekibince incelenmiştir.') +
+                            c.p('Ekip ' + c.d(t.kararTarihi) + ' tarihli toplantısında: <b>' + c.d(t.karar) + '</b>' + (t.onlem ? ' Alınacak önlemler: ' + E(t.onlem) : '')) +
+                            c.p('Karara karşı İl/İlçe Yapay Zekâ Uygulamaları Etik Kuruluna itiraz edilebilir (Yönerge md. 16/2).') +
+                            c.p('Bilgilerinizi rica ederim.') + c.imzaSag(c.mudur.name, 'Okul Müdürü');
+                    } },
                 /* ---------- GENEL ---------- */
                 tkysYetki: { grup: 'genel', ad: 'Taşınır Kayıt Yetkilisi Değişiklik Yazısı', tablolu: true, alan: [{ k: 'rol', l: 'Yetki', t: 'sec', o: ['Taşınır Kayıt Yetkilisi', 'Taşınır Kontrol Yetkilisi'] }, { k: 'eski', l: 'Yetkisi kaldırılacak personel' }, tumPersonelSec('kisi', 'Yetki verilecek personel'), { k: 'gerekce', l: 'Gerekçe (örn: naklen ayrılış)' }, { k: 'sayi', l: 'Sayı' }, { k: 'tarih', l: 'Tarih', ph: 'gg.aa.yyyy' }],
                     ciz: function(b, c) {
@@ -9000,6 +9094,38 @@ window.boardSetKademe = function(kademe) {
                             lines(b.metin).map(function(x) { return c.p(E(x)); }).join('') + c.p(E(b.kapanis || 'Bilgilerinizi ve gereğini arz ederim.')) +
                             c.imzaSag(c.mudur.name, 'Okul Müdürü') + c.ekler(lines(b.ekler));
                     } }
+            };
+            (function yzRolGoc() {
+                try {
+                    var eski = ['Başkan (Okul Müdürü)', 'Müdür Yardımcısı', 'Bilişim Teknolojileri Öğretmeni / BT Sorumlusu', 'Rehber Öğretmen', 'Öğretmen Üye'];
+                    var yeni = ['Başkan (Okul Müdürü)', 'Üye (Müdür Yardımcısı)', 'Üye (YEĞİTEK Okul Sorumlusu / BT Öğretmeni)', 'Üye (Rehber Öğretmen)', 'Sekretarya (Memur / Büro Personeli veya Ekip Üyesi)'];
+                    (state.commissions || []).forEach(function(c) { if (c.id === 549 && JSON.stringify(c.roles) === JSON.stringify(eski)) c.roles = yeni.slice(); });
+                } catch (e) {}
+            })();
+            var YZ_ILKE = ['İnsan Merkezlilik ve Hak Temelli Yaklaşım', 'Eşitlik ve Kapsayıcılık', 'Şeffaflık ve Açıklanabilirlik', 'Mahremiyet, Gizlilik ve Veri Yönetişimi', 'Güvenilirlik, Emniyet ve Teknik Sağlamlık', 'Hesap Verebilirlik ve İnsan Denetimi', 'Eğitsel Değer ve Nitelikli Katkı', 'Millî ve Manevi Değerlere Uyum'];
+            /* Kılavuz EK-1 Etik İhlal Durumu Değerlendirme Formu */
+            var YZ_DEG = [
+                [0, '1.1', 'Yapay Zekâ (YZ), öğrencinin kendi hızında ilerlemesine izin veriyor mu?'], [0, '1.2', 'YZ, öğrencinin yaratıcı/özgün düşüncelerini teşvik ediyor mu?'], [0, '1.3', 'YZ’nin dili ve etkileşimi, öğrenci üzerinde psikolojik baskı oluşturmayacak şekilde (destekleyici) tasarlanmış mı?'], [0, '1.4', 'YZ, öğretmen veya akran etkileşimini (sosyal öğrenmeyi) destekliyor mu?'],
+                [1, '2.1', 'Uygulama, yaygın ve temel cihazlarla erişilebilir durumda mı?'], [1, '2.2', 'Özel gereksinimli öğrenciler (ör. sesli komut, ekran okuyucu) için erişilebilirlik özellikleri yeterli mi?'], [1, '2.3', 'YZ çıktıları, ayrımcılık ve ön yargıdan arındırılmış mı?'], [1, '2.4', 'Tüm öğrencilerin sisteme adil erişimi için bir planlama yapılmış mı?'], [1, '2.5', 'Kullanılan modelin eğitim veri seti tüm kullanıcıları kapsayacak şekilde mi?'],
+                [2, '3.1', 'Öğrenci/veli, bir YZ ile konuştuğunu veya değerlendirildiğini açıkça biliyor mu?'], [2, '3.2', 'YZ’nin bir karara nasıl vardığı basit bir dille açıklanıyor mu?'], [2, '3.3', 'YZ’nin hata yapabileceği (halüsinasyon) konusunda kullanıcılar uyarılıyor mu?'], [2, '3.4', 'YZ çıktısı ile insan (öğretmen) girdisi arasındaki fark belirgin mi?'],
+                [3, '4.1', 'Veri toplamadan önce velilerden ve öğrencilerden KVKK’ye uygun onam alındı mı?'], [3, '4.2', 'İstenen veriler, sadece eğitsel amaç için gerekli olan asgari düzeyde tutulmuş mu?'], [3, '4.3', 'Verilerin üçüncü taraflarla paylaşılmadığı ve reklam amaçlı kullanılmadığı garanti ediliyor mu?'],
+                [4, '5.1', 'Sistem, zararlı ve yaşa uygun olmayan içerikleri etkili bir şekilde engelliyor mu?'], [4, '5.2', 'YZ, doğrulanabilir ve doğru içerik üretiyor mu?'], [4, '5.3', 'Sistem, siber saldırılara veya kötü niyetli kullanıma karşı korunaklı mı?'], [4, '5.4', 'Sistem (ör. sınavda) çökerse, öğrencilerin mağdur olmasını engelleyecek bir B planı var mı?'],
+                [5, '6.1', 'Nihai karar (ör. not, sınıf geçme) aşamasında insani denetim mekanizması var mı?'], [5, '6.2', 'Öğretmen, YZ’nin önerilerini/kararlarını kolayca görüp düzeltebiliyor mu?'], [5, '6.3', 'YZ’nin kararına (ör. intihal tespiti) karşı öğrencinin/velinin itiraz hakkı ve mekanizması var mı?'],
+                [6, '7.1', 'Uygulamanın net bir pedagojik amacı ve öğretim programıyla ilişkisi var mı?'], [6, '7.2', 'YZ, öğrencilerin eleştirel düşünme ve problem çözme becerilerini destekliyor mu?'], [6, '7.3', 'YZ, öğrencinin pasif alıcı olması yerine aktif öğrenen olmasını (sürece katılmasını) destekliyor mu?'],
+                [7, '8.1', 'YZ, millî ve manevi değerlere (tarihi şahsiyetler, kültürel miras vb.) saygılı ve uyumlu içerikler üretiyor mu?'], [7, '8.2', 'YZ, yasalara ve etik kurallara aykırı teşviklerden (kopya, hile, siber nezakete uygun olmayan vb.) arındırılmış mı?'], [7, '8.3', 'YZ’nin ürettiği içerikler, MEB’in genel amaçları ve temel ilkeleri ile örtüşüyor mu?'],
+                [8, 'Diğer', 'Uygulama, yukarıdaki maddeler dışında kalan diğer etik hususlarda da sorunsuz/güvenli görünüyor mu?']];
+            window.ebYzDeg = function(kod, v) { var b = ebB('yzIhlal'); if (!b.deg || typeof b.deg !== 'object') b.deg = {}; b.deg[kod] = b.deg[kod] === v ? '' : v; ebKaydet(); };
+            window.ebYzAcik = function(kod) { var b = ebB('yzIhlal'); if (!b.degAcik || typeof b.degAcik !== 'object') b.degAcik = {}; showModal('Açıklama — ' + kod, [{ key: 'v', label: 'Açıklama', value: String(b.degAcik[kod] || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'), type: 'textarea' }], function(d) { b.degAcik[kod] = String(d.v || '').trim(); ebKaydet(); }); };
+            function yzEkip() {
+                var k = typeof komisyonBul === 'function' ? komisyonBul('yapay zekâ etiği') : null;
+                if (!k || k.hidden) return [];
+                return (k.roles || []).map(function(rol, i) { var si = commissionSlotInfo((k.assigned || [])[i]); return { rol: rol, ad: si.empty ? '' : (si.name || ''), unvan: si.empty ? '' : (si.title || '') }; }).filter(function(x) { return x.ad; });
+            }
+            window.ebYzEkipGit = function() {
+                try { if (typeof kurulKutuphanesi === 'function' && !komisyonBul('yapay zekâ etiği')) kurulKutuphaneEkle(549, true); else { var c0 = komisyonBul('yapay zekâ etiği'); if (c0 && c0.hidden) delete c0.hidden; } } catch (e) {}
+                try { saveAllData(); } catch (e) {}
+                var i = ebKatalog().findIndex(function(x) { return x.tab === 'komisyonlar'; }); if (i >= 0) ebGit(i); else switchTab('komisyonlar');
+                setTimeout(function() { var el = Array.prototype.find.call(document.querySelectorAll('#tab-komisyonlar *'), function(e) { return e.children.length < 3 && /Okul Yapay Zekâ Etiği Ekibi/.test(e.textContent); }); if (el) el.scrollIntoView({ block: 'center' }); }, 250);
             };
             window.ebNormDoldur = function() {
                 var b = ebB('normIhtiyac'), say = {};
@@ -9034,6 +9160,7 @@ window.boardSetKademe = function(kademe) {
                     K('teblig', 'Öğretmenler Kurulu İmza Çizelgesi', 'kurulToplanti', [['boardSetView', 'imza']]),
                     K('teblig', 'Öğretmenler Kurulu Karar Özeti', 'kurulToplanti', [['boardSetView', 'ozet']]),
                     K('teblig', 'Kurul ve Komisyon Görevlendirmeleri', 'komisyonlar'),
+                    K('teblig', 'Öğretmenler Kurulu — Yapay Zekâ Etiği ve YAZEK Gündem Maddesi', 'kurulToplanti'),
                     K('teblig', 'Belirli Gün ve Haftalar Görevlendirme Çizelgesi', 'belirliGunler'),
                     K('teblig', 'Nöbet Çizelgesi', 'nobet', [['nbSetView', 'cizelge']]),
                     K('teblig', 'Nöbet Görev Talimatnamesi', 'nobet', [['nbSetView', 'talimatname']]),
@@ -11593,13 +11720,14 @@ window.staffTcTemizle = function(v) { return String(v == null ? '' : v).replace(
                         return `
                         <div data-acc data-acc-id="komisyon-${c.id}" data-acc-open="0" class="${theme.card} border rounded-xl shadow-sm transition-all flex flex-col justify-between komisyon-kart print:bg-white print:border-black print:rounded-none print:shadow-none print:p-2.5" style="page-break-inside: avoid;">
                             <div>
-                                <div class="flex justify-between items-center gap-2 p-4 cursor-pointer no-print border-b ${theme.head}" onclick="portalAccToggle(this)">
-                                    <h4 class="font-bold ${theme.title} text-sm flex items-center gap-2 min-w-0">
+                                <div data-kurul-id="${c.id}" class="flex flex-wrap justify-between items-center gap-x-2 gap-y-1.5 p-3 cursor-pointer no-print border-b ${theme.head}" onclick="portalAccToggle(this)">
+                                    <h4 class="font-bold ${theme.title} text-sm flex flex-wrap items-center gap-x-2 gap-y-1 min-w-0 w-full">
                                         <i class="fa-solid fa-users-viewfinder ${theme.icon} flex-shrink-0"></i>
-                                        <span class="truncate">${c.name}</span>
+                                        <span class="flex-1 min-w-0 leading-snug break-words">${c.name}</span>
                                         <span class="ml-1 px-1.5 py-0.5 rounded text-[9px] font-bold ${theme.badge} flex-shrink-0">${theme.badgeText}</span>
                                     </h4>
-                                    <div class="flex items-center gap-2 flex-shrink-0">
+                                    <div class="flex items-center gap-2 flex-shrink-0 ml-auto">
+                                        ${typeof kurulTutanakDugme === 'function' ? kurulTutanakDugme(c) : ''}
                                         <button type="button" onclick="event.stopPropagation();editCommission(${c.id})" title="Düzenle" class="text-[11px] text-blue-500 hover:text-blue-700 font-bold p-1"><i class="fa-solid fa-pencil"></i></button>
                                         <button type="button" onclick="event.stopPropagation();arsivleCommission(${c.id})" title="Arşivle (lazım olunca geri getirilebilir)" class="text-[11px] text-amber-600 hover:text-amber-800 font-bold p-1"><i class="fa-solid fa-box-archive"></i></button>
                                         <i data-acc-chevron class="fa-solid fa-chevron-down ${theme.chev} text-xs transition-transform duration-200" style="transform:rotate(0deg)"></i>
@@ -11731,6 +11859,313 @@ window.staffTcTemizle = function(v) { return String(v == null ? '' : v).replace(
         };
         /* Geriye dönük uyumluluk: eski çağrılar da arşivlemeye yönlensin */
         window.deleteCommission = window.arsivleCommission;
+        /* ==================== KURUL / KOMİSYON TOPLANTI TUTANAKLARI (v7.1.6) ====================
+           Her kurulun başlığında tek düğme: programda kendi modülü/tutanağı olan kurullar oraya
+           götürür; Kantin Denetleme Komisyonu MEB EK-1 Okul Denetim Formunu açar; diğerleri için
+           düzenlenebilir toplantı tutanağı ekranı açılır. Üye adları kuruldan otomatik gelir. */
+        (function() {
+            var E = function(s) { return escHtml2(s == null ? '' : String(s)); };
+            var UP = function(s) { return String(s || '').toLocaleUpperCase('tr-TR'); };
+            var bugun = function() { var d = new Date(); return String(d.getDate()).padStart(2, '0') + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.' + d.getFullYear(); };
+            var satirlar = function(t) { return String(t || '').split('\n').map(function(x) { return x.trim(); }).filter(Boolean); };
+            /* Kendi modülünde tutanağı/belgesi olan kurullar */
+            var KURUL_MODUL = {
+                402: ['kurulToplanti', [], 'Öğretmenler Kurulu Toplantısı'],
+                416: ['sosyalEtkinlik', [['sosyalEtkinlikSetSub', 'tutanak']], 'SE Kurulu Tutanağı'],
+                409: ['aileBirligi', [['abSetTab', 'toplanti']], 'OAB Toplantı ve Evrakları'],
+                410: ['aileBirligi', [['abSetTab', 'denetimformu']], 'OAB Denetim Formu'],
+                429: ['sivilSavunma', [['ssSetView', 'komisyon-amirler']], 'Sivil Savunma Planı'],
+                414: ['destekEgitim', [['destSetView', 'bep']], 'BEP Kararı'],
+                530: ['isg', [['isgSetMode', 'over50'], ['isgOpenDoc', 'kurulKarar']], 'İSG Kurulu Kararı'],
+                531: ['isg', [['isgOpenDoc', 'riskEkibi']], 'Risk Ekibi Belgeleri'],
+                546: ['sosyalEtkinlik', [['sosyalEtkinlikSetSub', 'mko'], ['mkoSetView', 'komisyon']], 'MKO Komisyon ve Tutanak'],
+                547: ['okulGuvenligi', [['ogView', 'kurul']], 'Okul Güvenliği Kurul Kararları'],
+                548: ['sosyalEtkinlik', [['sosyalEtkinlikSetSub', 'yb'], ['ybView', 'komisyon']], 'Yaşam Becerileri Komisyon ve Tutanak'],
+                549: ['ebysDonustur', [['ebIcAc', 'yzIhlal']], 'Etik İhlal İnceleme Tutanağı']
+            };
+            var KANTIN_ID = 422;
+            window.kurulTutanakDugme = function(c) {
+                var m = KURUL_MODUL[c.id], cls = 'px-2 py-1 rounded-md text-[10px] font-bold border whitespace-nowrap';
+                if (m) return '<button type="button" onclick="event.stopPropagation();kurulModuleGit(' + c.id + ')" title="' + E(m[2]) + '" class="' + cls + ' bg-white border-emerald-300 text-emerald-700">↗ ' + (c.id === 402 ? 'Toplantı' : 'Modül') + '</button>';
+                if (c.id === KANTIN_ID || /kantin/i.test(c.name || '')) return '<button type="button" onclick="event.stopPropagation();kurulTutanakAc(' + c.id + ')" class="' + cls + ' bg-white border-orange-300 text-orange-700">📋 EK-1 Form</button>';
+                return '<button type="button" onclick="event.stopPropagation();kurulTutanakAc(' + c.id + ')" class="' + cls + ' bg-white border-indigo-300 text-indigo-700">📝 Tutanak</button>';
+            };
+            window.kurulModuleGit = function(id) {
+                var m = KURUL_MODUL[id]; if (!m) return;
+                switchTab(m[0]);
+                m[1].forEach(function(a) { try { if (typeof window[a[0]] === 'function') window[a[0]].apply(window, a.slice(1)); } catch (e) {} });
+                var ch = document.getElementById('eb-geri');
+                if (!ch) { ch = document.createElement('div'); ch.id = 'eb-geri'; ch.className = 'no-print'; document.body.appendChild(ch); }
+                ch.setAttribute('data-tab', m[0]);
+                ch.style.cssText = 'position:fixed;left:12px;bottom:16px;z-index:9990;display:flex;align-items:center;background:#312e81;color:#fff;border-radius:999px;box-shadow:0 6px 18px rgba(0,0,0,.28);font:700 12px system-ui,sans-serif';
+                ch.innerHTML = '<span onclick="this.parentNode.remove();switchTab(\'komisyonlar\')" style="cursor:pointer;padding:9px 6px 9px 14px">← Kurul ve Komisyonlar</span><span onclick="this.parentNode.remove()" title="Kapat" style="cursor:pointer;padding:9px 12px 9px 6px;opacity:.65">✕</span>';
+                if (window.switchTab && !window.switchTab.__ebSarili) {
+                    var orj = window.switchTab;
+                    window.switchTab = function(t) { var r = orj.apply(this, arguments); var c2 = document.getElementById('eb-geri'); if (c2 && t !== c2.getAttribute('data-tab')) c2.remove(); return r; };
+                    window.switchTab.__ebSarili = true;
+                }
+                setTimeout(function() { var pn = document.getElementById('tab-' + m[0]); if (pn) pn.scrollIntoView({ block: 'start' }); }, 80);
+            };
+            window.kurulTutanakAc = function(id) { state.kurulTutanakAcik = id; try { saveAllData(); } catch (e) {} updateUI(); setTimeout(function() { var pn = document.getElementById('tab-komisyonlar'); if (pn) pn.scrollIntoView({ block: 'start' }); }, 60); };
+            window.kurulTutanakKapat = function() { var id = state.kurulTutanakAcik; state.kurulTutanakAcik = null; try { saveAllData(); } catch (e) {} updateUI(); setTimeout(function() { var el = document.querySelector('[data-kurul-id="' + id + '"]'); if (el) el.scrollIntoView({ block: 'center' }); }, 80); };
+            function kurulUyeler(c) {
+                return (c.roles || []).map(function(rol, i) { var si = commissionSlotInfo((c.assigned || [])[i]); return { rol: rol, ad: si.empty ? '' : (si.name || ''), unvan: si.empty ? '' : (si.title || ''), i: i }; });
+            }
+            function kurulDayanak(c) { try { var k = kurulKutuphanesi().find(function(x) { return x.id === c.id || x.ad === c.name; }); return k && k.dayanak ? k.dayanak : ''; } catch (e) { return ''; } }
+            /* ---------- Genel toplantı tutanağı ---------- */
+            function ktE(cid) {
+                if (!state.kurulTutanak || typeof state.kurulTutanak !== 'object') state.kurulTutanak = {};
+                var T = state.kurulTutanak[cid];
+                if (!T || !Array.isArray(T.liste)) T = state.kurulTutanak[cid] = { aktif: 0, liste: [] };
+                if (!T.liste.length) T.liste.push(ktYeniKayit(cid, null));
+                if (T.aktif >= T.liste.length) T.aktif = T.liste.length - 1;
+                return T;
+            }
+            function ktYeniKayit(cid, onceki) {
+                var c = (state.commissions || []).find(function(x) { return x.id === cid; }) || { name: '' };
+                var dy = kurulDayanak(c), yil = state.academicYear || '';
+                return {
+                    no: onceki ? String((parseInt(onceki.no, 10) || 0) + 1) : '1', tarih: '', saat: '', yer: onceki ? onceki.yer : 'Müdür Odası',
+                    gundem: ['Açılış ve yoklama.', c.name + ' görev ve sorumluluklarının' + (dy ? ' (' + dy + ')' : '') + ' okunması.', yil + ' eğitim-öğretim yılı çalışma planının görüşülmesi.', 'Üyeler arasında görev dağılımının yapılması.', 'Dilek ve temenniler, kapanış.'].join('\n'),
+                    gorusme: {}, karar: [c.name + ' çalışmalarının ' + (dy ? dy + ' ' : 'ilgili mevzuat ') + 'hükümleri doğrultusunda yürütülmesine,', 'Çalışma planının hazırlanarak okul müdürlüğü onayına sunulmasına,', 'Kurulun ihtiyaç hâlinde toplanmasına ve alınan kararların tutanakla kayıt altına alınmasına'].join('\n'),
+                    katilmadi: {}
+                };
+            }
+            function ktVarsayilanGorusme(madde, c, kayit) {
+                var b = kurulUyeler(c)[0] || {}, m = madde.toLocaleLowerCase('tr-TR'), dy = kurulDayanak(c);
+                if (/açılış|yoklama/.test(m)) return 'Toplantı ' + (b.ad ? b.ad + ' başkanlığında' : 'kurul başkanı başkanlığında') + ' açıldı; yapılan yoklamada ' + (Object.keys(kayit.katilmadi || {}).some(function(k) { return kayit.katilmadi[k]; }) ? 'çoğunluğun hazır bulunduğu' : 'tüm üyelerin hazır bulunduğu') + ' görüldü.';
+                if (/görev ve sorumlulu|mevzuat|yönetmeli|yönerge/.test(m)) return (dy ? dy + ' hükümleri gereğince ' : 'İlgili mevzuat hükümleri gereğince ') + 'kurulun görev ve sorumlulukları okunarak üyelere bilgi verildi.';
+                if (/çalışma plan|yıllık plan/.test(m)) return (state.academicYear || '') + ' eğitim-öğretim yılında yürütülecek çalışmalar görüşüldü; çalışma takvimi oluşturuldu.';
+                if (/görev dağılım/.test(m)) return 'Kurul üyeleri arasında görev dağılımı yapıldı; görevler üyelere bildirildi.';
+                if (/dilek|temenni|kapanış/.test(m)) return 'Dilek ve temenniler alındıktan sonra toplantı başkan tarafından kapatıldı.';
+                return 'Gündem maddesi görüşüldü.';
+            }
+            window.ktSet = function(cid, k, v) { var T = ktE(cid), r = T.liste[T.aktif]; r[k] = v; try { saveAllData(); } catch (e) {} updateUI(); };
+            window.ktGorusme = function(cid, i, v) { var T = ktE(cid), r = T.liste[T.aktif]; if (!r.gorusme) r.gorusme = {}; r.gorusme[i] = v; try { saveAllData(); } catch (e) {} updateUI(); };
+            window.ktKatilim = function(cid, i, gelmedi) { var T = ktE(cid), r = T.liste[T.aktif]; if (!r.katilmadi) r.katilmadi = {}; r.katilmadi[i] = !!gelmedi; try { saveAllData(); } catch (e) {} updateUI(); };
+            window.ktSec = function(cid, i) { ktE(cid).aktif = +i; try { saveAllData(); } catch (e) {} updateUI(); };
+            window.ktYeni = function(cid) { var T = ktE(cid); T.liste.push(ktYeniKayit(cid, T.liste[T.liste.length - 1])); T.aktif = T.liste.length - 1; try { saveAllData(); } catch (e) {} updateUI(); };
+            window.ktSil = function(cid) {
+                var T = ktE(cid);
+                showCustomConfirm('Tutanağı Sil', T.liste.length > 1 ? 'Seçili tutanak silinsin mi?' : 'Tutanak boş hâline döndürülsün mü?', function(ok) {
+                    if (!ok) return; T.liste.splice(T.aktif, 1); T.aktif = Math.max(0, T.aktif - 1); try { saveAllData(); } catch (e) {} updateUI();
+                });
+            };
+            function ktEkrani(c) {
+                var T = ktE(c.id), r = T.liste[T.aktif], uy = kurulUyeler(c), gnd = satirlar(r.gundem), kr = satirlar(r.karar), dy = kurulDayanak(c);
+                var inp = 'border border-slate-300 rounded px-2 py-1 text-xs w-full';
+                var mudur = gdDirectorStaff ? gdDirectorStaff() : { name: '' };
+                var form = '<div class="no-print bg-white border border-slate-200 rounded-xl p-3 mb-3">' +
+                    '<div class="flex flex-wrap items-center gap-2 mb-2"><span class="text-[11px] font-bold text-slate-600">Tutanak:</span><select onchange="ktSec(' + c.id + ', this.value)" class="border border-slate-300 rounded px-2 py-1 text-xs">' + T.liste.map(function(x, i) { return '<option value="' + i + '"' + (i === T.aktif ? ' selected' : '') + '>' + E(x.no || (i + 1)) + '. toplantı' + (x.tarih ? ' — ' + E(x.tarih) : '') + '</option>'; }).join('') + '</select>' +
+                    '<button type="button" onclick="ktYeni(' + c.id + ')" class="px-2 py-1 rounded bg-indigo-600 text-white text-[11px] font-bold">+ Yeni toplantı</button><button type="button" onclick="ktSil(' + c.id + ')" class="px-2 py-1 rounded bg-white border border-rose-300 text-rose-600 text-[11px] font-bold">Sil</button></div>' +
+                    '<div class="grid grid-cols-2 md:grid-cols-4 gap-2">' + [['no', 'Toplantı no'], ['tarih', 'Tarih (gg.aa.yyyy)'], ['saat', 'Saat'], ['yer', 'Yer']].map(function(f) { return '<label class="text-[10px] text-slate-500 font-bold">' + f[1] + '<input value="' + E(r[f[0]] || '') + '" onchange="ktSet(' + c.id + ',\'' + f[0] + '\', this.value)" class="' + inp + '"></label>'; }).join('') + '</div>' +
+                    '<p class="text-[10px] font-bold text-slate-600 mt-2">Gündem maddeleri (her satır bir madde)</p><textarea rows="5" onchange="ktSet(' + c.id + ',\'gundem\', this.value)" class="' + inp + '">' + E(r.gundem) + '</textarea>' +
+                    '<p class="text-[10px] font-bold text-slate-600 mt-2">Görüşmeler (gündem maddesi başına; boş bırakılan madde için hazır metin kullanılır)</p>' + gnd.map(function(g, i) { var v = r.gorusme && r.gorusme[i] != null && r.gorusme[i] !== '' ? r.gorusme[i] : ''; return '<label class="block text-[10px] text-slate-500 mt-1">' + (i + 1) + '. ' + E(g) + '<textarea rows="2" placeholder="' + E(ktVarsayilanGorusme(g, c, r)) + '" onchange="ktGorusme(' + c.id + ',' + i + ', this.value)" class="' + inp + '">' + E(v) + '</textarea></label>'; }).join('') +
+                    '<p class="text-[10px] font-bold text-slate-600 mt-2">Alınan kararlar (her satır bir karar)</p><textarea rows="4" onchange="ktSet(' + c.id + ',\'karar\', this.value)" class="' + inp + '">' + E(r.karar) + '</textarea>' +
+                    '<p class="text-[10px] font-bold text-slate-600 mt-2">Katılım (üyeler kuruldaki atamalardan gelir)</p><div class="flex flex-wrap gap-2">' + uy.map(function(u) { return '<label class="text-[11px] flex items-center gap-1 bg-slate-50 border border-slate-200 rounded px-2 py-1"><input type="checkbox" ' + (r.katilmadi && r.katilmadi[u.i] ? 'checked' : '') + ' onchange="ktKatilim(' + c.id + ',' + u.i + ', this.checked)"> ' + E(u.ad || '(atanmadı)') + ' <span class="text-slate-400">— katılmadı</span></label>'; }).join('') + '</div>' +
+                    (uy.some(function(u) { return !u.ad; }) ? '<p class="text-[10px] text-amber-700 mt-1">⚠ Bazı görevlere henüz kimse atanmamış; tutanakta isim yeri boş kalır. Kurul listesinden atayabilirsiniz.</p>' : '') + '</div>';
+                var td = 'border:1px solid #000;padding:4px 6px;vertical-align:middle', th = td + ';background:#f1f5f9;font-weight:bold;text-align:center';
+                var belge = '<div id="kurul-tutanak-' + c.id + '" data-evrak="1" class="bg-white text-black border border-slate-300 rounded-lg mx-auto" style="font-family:\'Times New Roman\',serif;font-size:12pt;line-height:1.4;padding:15mm;max-width:200mm">' +
+                    '<div style="text-align:center;font-weight:bold;line-height:1.35">T.C.<br>' + E(UP(makamUstSatir())) + '<br>' + E(UP(state.schoolName || '……………')) + ' MÜDÜRLÜĞÜ</div>' +
+                    '<p style="text-align:center;font-weight:bold;margin:10px 0 8px">' + E(UP(state.academicYear || '')) + ' EĞİTİM-ÖĞRETİM YILI<br>' + E(UP(c.name)) + '<br>' + E(r.no || '1') + '. TOPLANTI TUTANAĞI</p>' +
+                    '<table style="width:100%;border-collapse:collapse;margin:6px 0">' + [['Toplantı Tarihi', E(r.tarih || '…/…/……') + (r.saat ? ' — Saat: ' + E(r.saat) : '')], ['Toplantı Yeri', E(r.yer)], ['Toplantı Başkanı', E((uy[0] && uy[0].ad) || '')]].concat(dy ? [['Dayanak', E(dy)]] : []).map(function(x) { return '<tr><td style="' + td + ';width:30%;font-weight:bold">' + x[0] + '</td><td style="' + td + '">' + (x[1] || '&nbsp;') + '</td></tr>'; }).join('') + '</table>' +
+                    '<p style="font-weight:bold;margin:10px 0 2px">GÜNDEM MADDELERİ</p><ol style="margin:0 0 0 24px;padding:0">' + gnd.map(function(g) { return '<li>' + E(g) + '</li>'; }).join('') + '</ol>' +
+                    '<p style="font-weight:bold;margin:10px 0 2px">GÜNDEM MADDELERİNİN GÖRÜŞÜLMESİ</p>' + gnd.map(function(g, i) { var v = r.gorusme && r.gorusme[i] ? r.gorusme[i] : ktVarsayilanGorusme(g, c, r); return '<p style="text-align:justify;margin:3px 0"><b>' + (i + 1) + '.</b> ' + E(v) + '</p>'; }).join('') +
+                    '<p style="font-weight:bold;margin:10px 0 2px">ALINAN KARARLAR</p><ol style="margin:0 0 0 24px;padding:0;text-align:justify">' + kr.map(function(k, i) { return '<li>' + E(k) + (i === kr.length - 1 && !/karar verildi\.?$/i.test(k) ? ' karar verildi.' : '') + '</li>'; }).join('') + '</ol>' +
+                    '<p style="font-weight:bold;margin:12px 0 4px">KATILANLAR</p><table style="width:100%;border-collapse:collapse;font-size:11pt"><tr><th style="' + th + ';width:7%">S.N.</th><th style="' + th + ';width:35%">Kuruldaki Görevi</th><th style="' + th + ';width:33%">Adı Soyadı</th><th style="' + th + '">İmza</th></tr>' +
+                    uy.map(function(u, i) { return '<tr style="height:30px"><td style="' + td + ';text-align:center">' + (i + 1) + '</td><td style="' + td + '">' + E(u.rol) + '</td><td style="' + td + '">' + E(u.ad) + '</td><td style="' + td + ';text-align:center">' + (r.katilmadi && r.katilmadi[u.i] ? '<i>Katılmadı</i>' : '&nbsp;') + '</td></tr>'; }).join('') + '</table>' +
+                    '<table style="width:100%;margin-top:22px"><tr><td style="width:58%"></td><td style="text-align:center">' + E(r.tarih || '…/…/……') + '<br>UYGUNDUR<div style="height:30px"></div><b>' + E(mudur.name || '……………………') + '</b><br>Okul Müdürü</td></tr></table></div>';
+                return form + belge;
+            }
+            /* ---------- Kantin: MEB EK-1 Okul Denetim Formu (05.04.FR.91) ---------- */
+            var K1_LOGO = 'data:image/png;base64,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';
+            var K1 = {
+                A: ['A. GIDA İŞLETMELERİ İLE İLGİLİ GENEL HUSUSLAR:', [
+                    ['BU', 'Gıda işletmesi iş sağlığı ve güvenliği ile ilgili yükümlülüklerini (Risk değerlendirmesi, güvenlik ve uyarı işaretlemeleri, acil durum önlemleri vb.) yerine getiriyor mu?'],
+                    ['BU', 'Gıda işletmeleri çalışanlarının mevzuatlarda belirtilen ve yaptıkları işe özgü eğitimleri almaları sağlanıyor mu?'],
+                    ['BU', 'Gıda işletmelerinde İlk Yardım Yönetmeliği’ne göre uygun sayıda ilk yardımcı belgesine sahip çalışan bulunuyor mu?'],
+                    ['BU', 'Gıda işletmesinin mevzuat gereğince alması gereken kayıt belgesi mevcut mu?'],
+                    ['BU', 'Gıda işletmelerinin yetkilisi ve çalışanların Tarım ve Orman Bakanlığı tarafından düzenlenen “Okul Kantinlerine Dair Özel Hijyen Kuralları Yönetmeliği Eğitimi “ne katılımları sağlanmış mı?', 'calisan'],
+                    ['KU', 'Okul/kurumların bünyesinde faaliyet gösteren gıda işletmelerinde çalışanların yaka kartı takmaları sağlanıyor mu?'],
+                    ['KU', 'Gıda işletmelerinin yetkilisi ve çalışanlar, öğrenciye ve diğer personele karşı nezaket kurallarına uygun davranıyorlar mı?'],
+                    ['KU', 'Gıda işletmeleri tarafından Tarım ve Orman Bakanlığına ait Alo 174 Gıda Hattı ile ilgili bilgilendirme afişleri görünür yerlere asılmış mı?'],
+                    ['KU', 'Öğrencilerin yeterli ve dengeli beslenmelerine yönelik okul/kurul yönetimi tarafından onaylanmış afiş, poster, broşür vb. materyaller bulunuyor mu?'],
+                    ['KU', 'Öğrenciler tarafından tüketilmesi önerilmeyen gıdaların tüketimini özendirici her türlü reklam, promosyon ve tanıtım amaçlı afiş, poster, broşür vb. materyallerin bulundurulması engellenmiş mi?'],
+                    ['KU', 'Gıda işletmelerinde öğrenci/kursiyerlerin yemek dağıtımı ve benzeri işlerde görevlendirilmesi engellenmiş mi?'],
+                    ['KU', 'Gıda işletmesinde satılan gıdaların fiyatları işletmenin görünür bir yerinde ilan ediliyor mu?'],
+                    ['BU', 'Gıda işletmelerinde mevzuata uygun olarak ecza dolabı ve ilk yardım malzemeleri eksiksiz bulunduruluyor mu?'],
+                    ['BU', 'Gıda işletmelerinde çalışanların SGK’ya kayıt ve bildirgeleri iletiliyor mu?']]],
+                B: ['B- GIDA GÜVENİLİRLİĞİ VE BESLENME:', [
+                    ['BU', 'Fiziksel, kimyasal ya da mikrobiyolojik bozulmaya uğramış ve son tüketim tarihi geçmiş gıda maddelerinin satışı engellenmiş mi?'],
+                    ['BU', 'Okul yemekhanelerinde üretilen yemeklerin her çeşidinden yeterli miktarda numune alınarak, hijyenik kaplarda 72 saat, uygun koşullarda (soğukta ya da dondurarak) muhafaza ediliyor mu?'],
+                    ['BU', 'Depolanan, satışa ve tüketime sunulan her türlü gıda üzerinde, niteliğini ve varsa özel saklama koşullarını belirten gıda ambalajında ilgili mevzuata uygun olmak kaydıyla Okul gıdası logosu ve zorunlu etiket bilgileri yer alıyor mu?'],
+                    ['BU', 'Gıda maddeleri, kimyasal maddeler, temizlik malzemeleri ve iade ürünler uygun etiketleme yapılarak ayrı yerlerde muhafaza ediliyor mu?'],
+                    ['BU', 'Gıdaların taşınmasında kullanılan malzemeler gıdanın muhafaza edilmesini, temizliğe ve gerektiğinde dezenfeksiyona imkân verecek şekilde kullanılıyor mu?'],
+                    ['BU', 'Hazır ambalajlı olmayan (dökme ürünler dâhil) gıdalar gıda ile teması uygun kaplarda muhafaza ediliyor mu?'],
+                    ['BU', 'Gıdalar, grup bazında ilgili mevzuatta belirtilen sıcaklık derecelerinde (soğukta muhafaza edilen gıdalar 0-4°C arasında, dondurulmuş gıdalar -18°C) muhafaza ediliyor mu?'],
+                    ['BU', 'Gıdalar temizlik ve hijyen kurallarına uygun ortamlarda haşere ve zararlılara karşı gerekli koruma tedbirleri alınarak muhafaza ediliyor mu?'],
+                    ['BU', 'İşyerinde muhafaza edilen gıda stoklarında, FİFO “ilk giren ilk çıkar ilkesine” uygun hareket ediliyor mu?'],
+                    ['BU', 'Hazırlık ve üretim alanlarında gıda depolanmaması ile ilgili önlemler alınmış mı?'],
+                    ['BU', 'Depolarda gıda taşınmasına uygun, plastik malzemeden yapılmış ve kolayca temizlenebilir, dezenfekte edilebilir nitelikte ve zeminin temizliğine engel olmayacak uygun yükseklikte paletler kullanılıyor mu?'],
+                    ['BU', 'Depodaki gıdanın duvarlardan uzaklığı ve zeminden yüksekliği en az 15 cm olacak şekilde konumlandırılmış mı?'],
+                    ['BU', 'Depodaki gıdanın duvarlardan uzaklığı ve zeminden yüksekliği en az 15 cm olacak şekilde konumlandırılmış mı?'],
+                    ['BU', 'Depo kapasitesi göz önüne alınarak aşırı yığılma yapılması kontrol altına alınmış mı?'],
+                    ['BU', 'Depo sıcaklığı ve nem değerleri günlük olarak sürekli kontrol ediliyor ve kayıt altına alınıyor mu?'],
+                    ['BU', 'Çiğ ve tüketime hazır hale getirilmiş gıdaların ayrı alanlarda muhafaza edilerek, ayrı ekipmanlarla işlenmesi ve taşınması sağlanıyor mu?'],
+                    ['BU', 'Depolarda ambalajı açık bırakılmış gıda bulundurulmamasına yönelik gerekli önlemler alınmış mı?'],
+                    ['BU', 'Çapraz bulaşmayı önleyici iş akışları hazırlanıyor ve uygulanıyor mu?'],
+                    ['BU', 'Et ve et ürünlerinden yapılan gıdaların pişirilmesi esnasında gıdanın merkez sıcaklığının en az 72°C olması ve 15 saniye süresince bu sıcaklığa maruz kalması sağlanıyor mu?'],
+                    ['BU', 'Dondurulan gıdalar, uygun koşullarda ve kapalı kaplarda muhafaza ediliyor ve dondurma işlemine uygun ambalajlar kullanılıyor mu?'],
+                    ['BU', 'Dondurulan gıdalar kendi ürün gruplarına göre sınıflandırılarak dondurucuya yerleştiriliyor mu?'],
+                    ['BU', 'Dondurulan gıdaların etiketlerinde, gıdanın dondurulma tarih bilgileri ile birlikte muhafaza sıcaklığı belirtilmiş mi?'],
+                    ['BU', 'Çözündürme işlemi, gıdada patojenik mikroorganizma gelişimini, toksin oluşumunu, kimyasal ve fiziksel bulaşmaları engelleyecek biçimde +4 °C buzdolabı sıcaklığında yapılıyor mu?'],
+                    ['BU', 'Çözündürme işlemi sırasında risk oluşturabilecek sıvı akıntısı, insan sağlığının korunması ve güvenilir gıdaya erişim için uygun bir şekilde ortamdan uzaklaştırılıyor mu?'],
+                    ['BU', 'Gıda, tüketilinceye kadar sıcak olarak muhafaza edilecekse, muhafaza sıcaklığının 63°C’nin üzerinde olması sağlanıyor mu?'],
+                    ['BU', 'Tüketime hazır gıdalar herhangi bir bulaşı önleyecek nitelikte muhafaza ediliyor, sergileniyor ve tüketime sunuluyor mu?'],
+                    ['BU', 'Self-servis şeklinde tüketime sunulan gıdalar, bulaştan etkin bir şekilde korunması için koruyucu perde, kapak veya camekân kullanılıyor mu?'],
+                    ['BU', 'Hazır ambalajlı olmayan gıdaların satışı ve tüketime sunumu personel gözetim ve denetiminde gerçekleştiriliyor mu?'],
+                    ['BU', 'Sıcak servis edilen gıdaların 63ºC’nin altında en çok 2 saat ve soğuk gıdaların ise 8ºC’nin üstünde en çok 4 saat bekletilmesi sağlanıyor mu? Gıdaların sıcaklık kontrolünün sürekli yapılması kontrol altına alınmış mı?'],
+                    ['BU', 'Ambalajı açılarak satışa sunulan ve sergilenen gıdaların etiketlerinde raf ömrü bulunuyor mu?'],
+                    ['BU', 'Alerjik reaksiyona sebep olabilecek gıdalar diğer gıdalardan ayrı yerde tutuluyor mu? Hazırlama, sunum ve satışında ayrı ekipmanlar kullanılıyor ve ekipmanların temizliği uygun olarak yapılıyor mu?'],
+                    ['BU', 'Kriterleri karşılaması hâlinde satışına izin verilen hazır ambalajlı gıdalarda okul gıdası logosu bulunuyor mu?'],
+                    ['BU', 'Gıda işletmesinde oyuncak olarak kullanılması muhtemel olan madde ve malzemelerin gıda ambalajı olarak kullanımı ve satışı yasaklarına uyuluyor mu?'],
+                    ['BU', 'Eğitim kurumlarında gıda maddelerinin satışı http://merkezisgb.meb.gov.tr/www/gida-isletmeleri-denetimi/dosya/40 adresinde yer alan “Sağlık Bakanlığı Bilim Kurulu Karar Tutanağı” kriterlerine uygun olarak yapılıyor mu?'],
+                    ['BU', 'Eğitim kurumlarında satışı uygun olmayan gıda ve içecekler hakkında yayımlanan “Sağlık Bakanlığı Bilim Kurulu Karar Tutanağı” kriterlerine göre satışı yapılıyor mu? Uygun olmayan ürünleri işaretleyiniz.', 'urun']]],
+                C: ['C.HİJYEN ŞARTLARI İLE İLGİLİ HUSUSLAR:', [
+                    ['BU', 'Hijyen Eğitimi Yönetmeliği kapsamında; yemekhane, kantin, kafeterya, büfe, çay ocağı gibi gıda işletmelerinde görev yapan, doğrudan hizmetin içinde olan çalışanlar ile bizzat işyeri sahiplerinin ve işletenlerinin çalışmaları durumunda hijyen eğitimi belgeleri bulunuyor mu?', 'calisan'],
+                    ['BU', 'Gıda hazırlık ve üretim alanında çalışan personelin işe özgü KKD’ler (önlük, maske, bone, kolluk, eldiven vb.) kullanması sağlanıyor mu?'],
+                    ['BU', 'Gıda hazırlık ve üretim alanı içinde çalışanların bilezik, yüzük vb. takıların, takma tırnaklar ile tırnak ürünlerinin (oje, cila vb.) çıkartılması, tırnakların temiz ve kısa olması, makyaj malzemesi kullanılmaması sağlanıyor mu?'],
+                    ['BU', 'Gıdalarla taşınması muhtemel bir hastalığı bulunan veya bulaşıcı deri enfeksiyonları, yara ve ishal gibi hastalığı olan kişilerin gıda işletmesinde çalışmasına izin veriliyor mu? Normal koşullarda eldiven kullanımı sağlanıyor mu?'],
+                    ['BU', 'Gıda servisinin yapıldığı alanda çalışan personel hijyen kuralları konusunda eğitilmiş ve kurallar ile ilgili farkındalık sağlanmış mı?'],
+                    ['BU', 'Yetkili personel dışında, depolama, üretim ve hazırlık alanlarına girebilecek tüm kişilerin hijyen kurallarına uyması sağlanıyor mu?'],
+                    ['BU', 'Gıda üretim ve hazırlık alanlarının girişinde alkol bazlı el antiseptiği ve hijyen paspası bulunduruluyor mu? Paspasların temizliği düzenli aralıklarla yapılıyor mu?'],
+                    ['BU', 'Kullanılan tüm ekipmanların bakımları, kalibrasyonları plan/program çerçevesinde yapılıyor mu? Belgeler istenildiğinde gösterilebilecek şekilde hazır bulunduruluyor mu?'],
+                    ['BU', 'Kirli, kırık, paslı, çatlak, lekeli, kötü kokulu, yırtık, sırrı dökülmüş ve uygun olmayan madde ve malzemelerle gıda satış ve servisi yapılmaması ve gıda maddesinin taşınmasında, muhafazasında kullanılan kapların, başka amaçlar için kullanılmaması sağlanıyor mu?'],
+                    ['BU', 'Gıda işletmelerinde kullanılan bıçakların saplarının plastik malzemeden olması, bıçakların kullanılmadıkları zaman kilitli bir dolap içinde muhafaza edilmesi ve bunların temizlik ve dezenfeksiyon işlemlerinin yapılması sağlanıyor mu?'],
+                    ['BU', 'Gıdaların hazırlanmasında kullanılan alet ve ekipmanlar kolay temizlenebilir ve dezenfekte edilebilir plastik malzemeden üretilmiş mi?'],
+                    ['BU', 'Alet ve ekipman çalışır ve bakımı yapılmış durumda bulunduruluyor mu? Kendisinin ve çevresindeki alanın, yeterli temizliğine imkân verecek şekilde yerleştirilmiş mi?'],
+                    ['BU', 'Kimyasal maddelerin kullanılması durumunda gerekli önlemler belirlenmiş ve uygulanıyor mu?'],
+                    ['BU', 'Gıda işletmesinde bütün alanların, her türlü malzeme ve ekipmanın, hijyenik koşullarda bulundurulmasına yönelik temizlik plan/programları oluşturulmuş mu? Plan/Programlar, sürekli uygunluk ve etkinlik için izlenmekte mi?'],
+                    ['BU', 'Tuvaletlerin, gıdaların hazırlandığı odalara doğrudan açık olmaması ve hijyen kurallarını hatırlatıcı uyarı levhalarının bulundurulması sağlanmış mı?'],
+                    ['BU', 'Yeterli bakım, temizlik ve/veya dezenfeksiyona imkan veren, çevreden ve işletmeden kaynaklanan bulaşı engelleyen veya en aza indiren ve bütün işlemler için hijyenik çalışmaya uygun yeterli çalışma alanı sağlanmış mı?'],
+                    ['BU', 'İşletme ve işletme çevresinde zararlı (haşere ve kemirgen) barınmasını engellemek amacıyla, atık birikimine izin verilmemesi ve oluşan atıkların en kısa sürede ortamdan uzaklaştırılması sağlanıyor mu?'],
+                    ['BU', 'İşletme içerisinde, mal kabul alanı, hazırlık alanı ve kimyasal malzeme depoları bulaşı engelleyecek şekilde birbirinden ayrı yerlerde bulunuyor mu?'],
+                    ['BU', 'Camın mevcut olduğu yerlerde, camın kırılarak gıdaya bulaşma riskini kontrol altına almak için; depo, üretim, hazırlık alanlarında bulunan, sinek tutucu lambaları da dâhil tüm ışık kaynaklarında bulunan camlar, kırılmaya karşı koruma altına alınmış mı?'],
+                    ['BU', 'Deponun kapı, pencere ve diğer kısımları her türlü zararlının girmesini önleyecek uygun donanıma sahip mi?'],
+                    ['BU', 'Depolarda zemin pürüzsüz, duvarlar düzgün, kolay temizlenebilir nitelikte, sıvası dökülmemiş, ürünlere olumsuz etkide bulunmayacak nitelikte mi?'],
+                    ['BU', 'Bulaşık yıkama donanımının düzgün çalışması, özellikle çalışma sıcaklıkları ve dezenfekte edici kimyasalların kullanım dozu uygun şekilde ayarlanıyor mu?']]],
+                I: ['I.İZLENEBİLİRLİK', [['BU', 'Gıdanın geriye dönük izlenebilirlik bilgileri gıdanın kabul kayıtları ile fatura/irsaliyelerinden takip ediliyor mu?']]]
+            };
+            /* Orijinal formdaki sayfa düzeni: [bölüm, başlangıç, bitiş] */
+            var K1_SAYFA = [[['A', 1, 14]], [['B', 1, 17]], [['B', 18, 34]], [['B', 35, 35], ['C', 1, 4]], [['C', 5, 18]], [['C', 19, 22], ['I', 1, 1]]];
+            var K1_URUN = ['Enerji içecekleri', 'Gazlı içecekler', 'Aromalı içecekler (soğuk çay, ice tea vb.)', 'Kolalı içecekler', 'Aromalı doğal mineralli içecek', 'Aromalı şurup', 'Aromalı içecek tozu', 'Aromalı su', 'Meyveli içecek', 'Meyveli içecek tozu', 'Meyveli doğal mineralli içecek', 'Yapay soda', 'Meyveli şurup', 'Sporcu içeceği (karbonhidrat- elektrolit içeceği)', 'Meyve nektarı', 'Meyve suyu konsantresi', 'Siyah ve yeşil çay (liseler hariç)', 'Bitki çayları', 'Tatlandırıcı içeren yiyecek ve içecekler', 'Krema, Hindistan cevizi sütü ve kreması', 'Kızartmalar', 'Cipsler (patates, mısır, şekillendirilmiş vb.)', 'Gevrek çerezler', 'Hamurlu, şerbetli tatlılar (kuru baklava dâhil)', 'Kremalı, çikolata dolgulu, jöleli kek, bisküvi ve pastalar (yaş pastalar, ekler, kruvasan, donut, parfe, mozaik pasta, muffin, cupcake vb.)', 'Kafeinli ürünler (tüm kafeinli yiyecek ve içecekler, kahve tarzı ürünler, mocca, latte, capuccino vb.)', 'Tüm çikolata türleri (ayrı satılan veya ürünlere eklenmiş, damla çikolata, sürülebilir çikolata ve çikolata kaplanmış olanlar dâhil)', 'Tüm şeker ve şekerleme türleri (jöle şekerleme, sert şekerlemeler, yumuşak şeker, dolgulu-dolgusuz, kaplamalı, draje, tüm lolipoplar vb.)', '', 'Guarana, guarana özü, eklenmiş kafein içeren ürünler', 'Gofretler (sade, dolgulu, kaplamalı vb.)', 'Çiğ köfte'];
+            function k1E() {
+                if (!state.kantinEk1 || typeof state.kantinEk1 !== 'object') state.kantinEk1 = { aktif: 0, liste: [] };
+                var K = state.kantinEk1; if (!Array.isArray(K.liste)) K.liste = [];
+                if (!K.liste.length) K.liste.push({ tur: { genel: true }, isletme: { kantin: true }, cevap: {}, aciklama: {}, calisan: {}, urun: {}, diger: '' });
+                if (K.aktif >= K.liste.length) K.aktif = K.liste.length - 1;
+                var r = K.liste[K.aktif]; ['tur', 'isletme', 'cevap', 'aciklama', 'calisan', 'urun'].forEach(function(k) { if (!r[k] || typeof r[k] !== 'object') r[k] = {}; });
+                return r;
+            }
+            var k1Kaydet = function() { try { saveAllData(); } catch (e) {} updateUI(); };
+            window.k1Cevap = function(kod, v) { var r = k1E(); r.cevap[kod] = r.cevap[kod] === v ? '' : v; k1Kaydet(); };
+            window.k1Tik = function(grup, k) { var r = k1E(); if (grup === 'tur') { r.tur = {}; r.tur[k] = true; } else r[grup][k] = !r[grup][k]; k1Kaydet(); };
+            window.k1Yaz = function(alan, baslik, uzun) {
+                var r = k1E(), yol = alan.split('.'), o = r; for (var i = 0; i < yol.length - 1; i++) { if (!o[yol[i]] || typeof o[yol[i]] !== 'object') o[yol[i]] = {}; o = o[yol[i]]; }
+                var son = yol[yol.length - 1];
+                showModal(baslik, [{ key: 'v', label: baslik, value: String(o[son] || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'), type: uzun ? 'textarea' : '' }], function(d) { o[son] = String(d.v || '').trim(); k1Kaydet(); });
+            };
+            window.k1Sec = function(i) { state.kantinEk1.aktif = +i; k1Kaydet(); };
+            window.k1Yeni = function() { var r0 = k1E(), K = state.kantinEk1; K.liste.push({ tur: { genel: true }, isletme: JSON.parse(JSON.stringify(r0.isletme)), kayitNo: r0.kayitNo, unvan: r0.unvan, adres: r0.adres, tel: r0.tel, faks: r0.faks, web: r0.web, eposta: r0.eposta, yetkili: r0.yetkili, cevap: {}, aciklama: {}, calisan: {}, urun: {}, diger: '' }); K.aktif = K.liste.length - 1; k1Kaydet(); };
+            window.k1Sil = function() { showCustomConfirm('Formu Sil', 'Seçili denetim formu silinsin mi?', function(ok) { if (!ok) return; var K = state.kantinEk1; K.liste.splice(K.aktif, 1); K.aktif = Math.max(0, K.aktif - 1); k1Kaydet(); }); };
+            function k1Ekrani(c) {
+                var r = k1E(), K = state.kantinEk1, uy = kurulUyeler(c), mudur = gdDirectorStaff ? gdDirectorStaff() : { name: '' };
+                var ku = 0, bu = 0, cevapli = 0;
+                ['A', 'B', 'C', 'I'].forEach(function(b) { K1[b][1].forEach(function(it, i) { var v = r.cevap[b + (i + 1)]; if (v) cevapli++; if (v === 'D') { if (it[0] === 'KU') ku++; else bu++; } }); });
+                var kutu = function(on) { return on ? '☒' : '☐'; };
+                var bos = '<span class="k1-bos" style="color:#94a3b8">……………</span>';
+                var yaz = function(alan, baslik, deger, uzun) { return '<span onclick="k1Yaz(\'' + alan + '\',\'' + baslik.replace(/'/g, '') + '\'' + (uzun ? ',1' : '') + ')" style="cursor:pointer;display:inline-block;min-width:60%">' + (deger ? E(deger) : bos) + '</span>'; };
+                var td = 'border:1px solid #000;padding:2px 4px;vertical-align:middle', tdc = td + ';text-align:center';
+                var tik = function(on, onc) { return '<span onclick="' + onc + '" style="cursor:pointer;font-size:12pt">' + kutu(on) + '</span>'; };
+                var ust = function(sayfa) {
+                    return '<table style="width:100%;border-collapse:collapse;margin-bottom:10px;font-size:9pt"><tr>' +
+                        '<td rowspan="5" style="' + td + ';width:16%;text-align:center"><img src="' + K1_LOGO + '" style="width:62px;height:62px" alt=""></td>' +
+                        '<td rowspan="3" style="' + td + ';text-align:center;font-weight:bold;font-size:10pt;line-height:1.25">T.C.<br>MİLLÎ EĞİTİM BAKANLIĞI<br>Destek Hizmetleri Genel Müdürlüğü<br>İşyeri Sağlık ve Güvenlik Birimi</td>' +
+                        '<td style="' + td + ';width:15%">Doküman No</td><td style="' + td + ';width:14%;text-align:center">05.04.FR. 91</td></tr>' +
+                        '<tr><td style="' + td + '">İlk Yayın Tarihi</td><td style="' + tdc + '">10.11.2020</td></tr><tr><td style="' + td + '">Revizyon Tarihi</td><td style="' + tdc + '">-</td></tr>' +
+                        '<tr><td rowspan="2" style="' + td + ';text-align:center;font-size:9.5pt">Okul Kantinlerinde Satılacak Gıdalar ve Eğitim Kurumlarındaki<br>Gıda İşletmelerinin Hijyen Yönünden Okul Denetim Formu</td><td style="' + td + '">Revizyon No</td><td style="' + tdc + '">00</td></tr>' +
+                        '<tr><td style="' + td + '">Sayfa No</td><td style="' + tdc + '">' + sayfa + '/7</td></tr></table>';
+                };
+                var sayfa = function(n, ic) { return '<div style="' + (n > 1 ? 'page-break-before:always;break-before:page;' : '') + 'padding:2mm 0">' + ust(n) + ic + '</div>'; };
+                var isl = function(k, ad) { return ad + ' <span style="float:right">' + tik(r.isletme[k], "k1Tik('isletme','" + k + "')") + '</span>'; };
+                var s1 = '<table style="width:100%;border-collapse:collapse;font-size:10pt">' +
+                    '<tr><td style="' + td + ';width:22%;font-weight:bold">Denetim Türü</td><td colspan="2" style="' + td + '">Genel Kontrol ve Denetim <span style="float:right">' + tik(r.tur.genel, "k1Tik('tur','genel')") + '</span></td><td colspan="2" style="' + td + '">İtiraz/Şikâyet İncelemesi <span style="float:right">' + tik(r.tur.itiraz, "k1Tik('tur','itiraz')") + '</span></td></tr>' +
+                    '<tr><td rowspan="2" style="' + td + ';font-weight:bold">İşletme Türü<br><span style="font-size:8.5pt">(*Pansiyon yemekhanesi dâhil)</span></td><td style="' + td + '">' + isl('yemekhane', '*Yemekhane') + '</td><td colspan="2" style="' + td + '">' + isl('bufe', 'Büfe') + '</td><td style="' + td + '">' + isl('kafeterya', 'Kafeterya') + '</td></tr>' +
+                    '<tr><td style="' + td + '">' + isl('cayocagi', 'Çay Ocağı') + '</td><td colspan="2" style="' + td + '">' + isl('kantin', 'Kantin/Kooperatif') + '</td><td style="' + td + '"></td></tr>' +
+                    '<tr><td style="' + td + ';font-weight:bold">Kayıt No</td><td colspan="4" style="' + td + '">' + yaz('kayitNo', 'Kayıt No', r.kayitNo) + '</td></tr>' +
+                    '<tr><td style="' + td + ';font-weight:bold">İşyerinin Unvanı</td><td colspan="4" style="' + td + '">' + yaz('unvan', 'İşyerinin Unvanı', r.unvan) + '</td></tr>' +
+                    '<tr><td style="' + td + ';font-weight:bold">Adresi</td><td colspan="4" style="' + td + '">' + yaz('adres', 'Adresi', r.adres) + '</td></tr>' +
+                    '<tr><td rowspan="2" style="' + td + ';font-weight:bold">İletişim Bilgileri</td><td colspan="2" style="' + td + '"><b>Tel:</b> ' + yaz('tel', 'Tel', r.tel) + '</td><td colspan="2" style="' + td + '"><b>Web:</b> ' + yaz('web', 'Web', r.web) + '</td></tr>' +
+                    '<tr><td colspan="2" style="' + td + '"><b>Faks:</b> ' + yaz('faks', 'Faks', r.faks) + '</td><td colspan="2" style="' + td + '"><b>E-mail:</b> ' + yaz('eposta', 'E-mail', r.eposta) + '</td></tr>' +
+                    '<tr><td style="' + td + ';font-weight:bold">İşletme Yetkilisi</td><td colspan="2" style="' + td + '">' + yaz('yetkili', 'İşletme Yetkilisi', r.yetkili) + '</td><td style="' + td + ';font-weight:bold;width:12%">İmza</td><td style="' + td + ';width:22%"></td></tr>' +
+                    '<tr><td style="' + td + ';font-weight:bold">Okul/Kurum Müdürü</td><td colspan="2" style="' + td + '">' + E(mudur.name || '') + '</td><td style="' + td + ';font-weight:bold">İmza</td><td style="' + td + '"></td></tr></table>' +
+                    '<table style="width:100%;border-collapse:collapse;font-size:10pt;margin-top:14px">' +
+                    '<tr><td colspan="3" style="' + tdc + ';font-weight:bold">İŞLETME DENETİMİ</td></tr>' +
+                    '<tr><td style="' + td + ';width:40%">Denetim Tarihi</td><td colspan="2" style="' + td + '">' + yaz('tarih', 'Denetim Tarihi', r.tarih) + '</td></tr>' +
+                    '<tr><td style="' + td + '">Uygunsuzluk Tespit Edilmedi</td><td style="' + tdc + ';width:25%">' + kutu(cevapli && !ku && !bu) + '</td><td style="' + td + '"></td></tr>' +
+                    '<tr><td style="' + td + '">Küçük Uygunsuzluk Tespit Edildi (KU)</td><td style="' + tdc + '">' + kutu(ku > 0) + '</td><td style="' + td + ';text-align:right">' + (ku ? ku : '……….…………') + 'Adet</td></tr>' +
+                    '<tr><td style="' + td + '">Büyük Uygunsuzluk Tespit Edildi (BU)</td><td style="' + tdc + '">' + kutu(bu > 0) + '</td><td style="' + td + ';text-align:right">' + (bu ? bu : '……….…………') + 'Adet</td></tr>' +
+                    '<tr><td style="' + tdc + ';font-weight:bold">DENETİM EKİBİ</td><td style="' + tdc + ';font-weight:bold">ADI SOYADI</td><td style="' + tdc + ';font-weight:bold">İMZA</td></tr>' +
+                    ['Ekip Başkanı', 'Ekip Üyesi', 'Ekip Üyesi', 'Ekip Üyesi'].map(function(e, i) { return '<tr><td style="' + td + '">' + e + '</td><td style="' + td + '">' + E((uy[i] && uy[i].ad) || '') + '</td><td style="' + td + '"></td></tr>'; }).join('') + '</table>' +
+                    '<div style="font-size:10pt;text-align:justify;margin-top:14px"><p>*Bu değerlendirme raporu, 2020/8 sayılı Okul Kantinlerinde Satılacak Gıdalar ve Eğitim Kurumlarındaki Gıda İşletmelerinin Hijyen Yönünden Denetlenmesi Genelgesi esas alınarak, tarafsız, objektif ve gizlilik ilkeleri doğrultusunda; ahlaki davranış, adil temsil, profesyonel özen, bağımsızlık, sosyal sorumluluk, mesleki etik davranış prensiplerine riayet edilerek gerçekleşmiştir. Bu rapordaki uygunsuzluklar örnekleme dayalı olarak gerçekleştirildiğinden denetim sonucunda bakılmayan örneklerde uygunsuzluk olmayacağını göstermez.</p>' +
+                    '<p style="margin-top:8px">*Bu raporun içeriğinde yer alan hususlar, denetim ekibi ile okul/kurum idaresi ve gıda işletmesi arasında sağlığın korunması ve geliştirilmesi amacıyla tanınır bir belge olarak kabul edilecektir.</p>' +
+                    '<p style="margin-top:8px">*Bu raporda yer alan hususlar gerekli görülmesi halinde Tarım ve Orman Bakanlığı, Sağlık Bakanlığı ve ilgili diğer kamu idareleri ile görev yetki sorumluluklar bakımından izleme, değerlendirme ve düzeltici işlem yapılmasını talep etmek üzere paylaşılır.</p></div>';
+                var basTablo = '<tr><th style="' + td + ';text-align:left;font-size:10pt" colspan="2">ŞARTLAR/GEREKLİLİKLER</th><th style="' + td + ';width:5%;font-size:7pt;padding:0"><div style="writing-mode:vertical-rl;transform:rotate(180deg);margin:auto">UYGUN</div></th><th style="' + td + ';width:5%;font-size:7pt;padding:0"><div style="writing-mode:vertical-rl;transform:rotate(180deg);margin:auto">UYGUN DEĞİL</div></th><th style="' + td + ';width:26%;font-size:9.5pt;text-align:left">AÇIKLAMALAR<br>(Uygunsuzluk / İyileştirilecek hususlar)</th></tr>';
+                var madde = function(b, i) {
+                    var it = K1[b][1][i - 1], kod = b + i, v = r.cevap[kod] || '';
+                    var acik = it[2] === 'calisan' ? '<b>Çalışan Sayısı:</b> ' + yaz('calisan.' + kod + 's', 'Çalışan Sayısı', (r.calisan[kod + 's'] || '')) + '<hr style="border:0;border-top:1px solid #000;margin:3px -4px"><b>Belgesi Olan:</b> ' + yaz('calisan.' + kod + 'o', 'Belgesi Olan', (r.calisan[kod + 'o'] || '')) + '<hr style="border:0;border-top:1px solid #000;margin:3px -4px"><b>Belgesi Olmayan:</b> ' + yaz('calisan.' + kod + 'y', 'Belgesi Olmayan', (r.calisan[kod + 'y'] || '')) : yaz('aciklama.' + kod, 'Açıklama (' + kod + ')', r.aciklama[kod], 1);
+                    var s = '<tr><td style="' + tdc + ';width:6%;font-weight:bold;font-size:10pt">' + i + '<br>' + it[0] + '</td><td style="' + td + ';font-size:10pt;text-align:justify">' + (it[2] === 'urun' ? '<b>' + E(it[1]) + '</b>' : E(it[1])) + '</td>' +
+                        '<td style="' + tdc + '">' + tik(v === 'U', "k1Cevap('" + kod + "','U')") + '</td><td style="' + tdc + '">' + tik(v === 'D', "k1Cevap('" + kod + "','D')") + '</td><td style="' + td + ';font-size:9.5pt">' + acik + '</td></tr>';
+                    if (it[2] === 'urun') {
+                        var hucre = K1_URUN.map(function(u, j) { return u ? '<td style="' + td + ';font-size:9pt;width:25%">' + E(u) + ' <span style="float:right">' + tik(r.urun[j], "k1Tik('urun','" + j + "')") + '</span></td>' : '<td style="' + td + '"></td>'; });
+                        var sat = ''; for (var x = 0; x < hucre.length; x += 4) sat += '<tr>' + hucre.slice(x, x + 4).join('') + '</tr>';
+                        s += '<tr><td style="' + td + '"></td><td colspan="4" style="padding:0"><table style="width:100%;border-collapse:collapse">' + sat + '</table></td></tr>';
+                    }
+                    return s;
+                };
+                var sayfalar = [sayfa(1, s1)];
+                K1_SAYFA.forEach(function(parcalar, si) {
+                    var ic = '<table style="width:100%;border-collapse:collapse">' + basTablo;
+                    parcalar.forEach(function(p) {
+                        if (p[1] === 1) ic += '<tr><td colspan="5" style="' + td + ';font-weight:bold;font-size:10pt">' + E(K1[p[0]][0]) + '</td></tr>';
+                        for (var i = p[1]; i <= p[2]; i++) ic += madde(p[0], i);
+                    });
+                    if (si === K1_SAYFA.length - 1) {
+                        ic += '<tr><td colspan="5" style="' + td + ';font-weight:bold;font-size:10pt">İ.GÖRÜLEN DİĞER EKSİKLİKLER, DÜŞÜNCELER</td></tr><tr><td colspan="5" style="' + td + ';height:90px;vertical-align:top;font-size:10pt">' + yaz('diger', 'Görülen diğer eksiklikler, düşünceler', r.diger, 1) + '</td></tr>';
+                        ic += '</table><div style="font-size:9.5pt;text-align:justify;margin-top:10px"><p><b>Not 1:</b> Gıda işletmeleri denetiminde; okul/kurum müdürlüklerince gıda güvenilirliği açısından tespit edilen büyük uygunsuzlukların (BU), aynı gün içerisinde İl/İlçe Millî Eğitim Müdürlüğü tarafından, İl/İlçe Tarım ve Orman Müdürlüğü ve İl Sağlık Müdürlüğü/İlçe Toplum Sağlığı Merkezlerine denetim uygulama kılavuzuna uygun olarak bildirimi yapılır.</p><p style="margin-top:6px"><b>Not 2:</b> Okul/Kurum müdürlüklerince; küçük uygunsuzluk (KU) tespit edilmesi hâlinde, İlçe Millî Eğitim Müdürlüğü İş Sağlığı ve Güvenliği Bürosu (İlçe İSG Büro)/İl İşyeri Sağlık ve Güvenlik Birimlerine (İl İSGB) 3 (üç) iş günü içinde bildirim yapılır.</p></div>';
+                    } else ic += '</table>';
+                    sayfalar.push(sayfa(si + 2, ic));
+                });
+                var form = '<div class="no-print bg-orange-50 border border-orange-200 rounded-xl p-3 mb-3 text-[11px] text-slate-700">' +
+                    '<div class="flex flex-wrap items-center gap-2 mb-1"><span class="font-bold">Denetim:</span><select onchange="k1Sec(this.value)" class="border border-slate-300 rounded px-2 py-1 text-xs">' + K.liste.map(function(x, i) { return '<option value="' + i + '"' + (i === K.aktif ? ' selected' : '') + '>' + (i + 1) + '. denetim' + (x.tarih ? ' — ' + E(x.tarih) : '') + '</option>'; }).join('') + '</select>' +
+                    '<button type="button" onclick="k1Yeni()" class="px-2 py-1 rounded bg-orange-600 text-white text-[11px] font-bold">+ Yeni denetim formu</button><button type="button" onclick="k1Sil()" class="px-2 py-1 rounded bg-white border border-rose-300 text-rose-600 text-[11px] font-bold">Sil</button></div>' +
+                    '<p>Formun üzerinde çalışırsınız: <b>☐ kutucuklara dokununca işaretlenir</b>, noktalı alanlara ve açıklama hücrelerine dokununca yazarsınız. Okul müdürü ve denetim ekibi (Ekip Başkanı + 3 Üye) Kantin Denetleme Komisyonu atamalarından otomatik gelir; KU/BU sayıları “Uygun Değil” işaretlerinden hesaplanır.</p>' +
+                    '<p class="mt-1">Durum: ' + cevapli + ' madde işaretlendi · KU: <b>' + ku + '</b> · BU: <b>' + bu + '</b>' + (bu ? ' — <span class="text-rose-700 font-bold">BU aynı gün İl/İlçe MEM’e bildirilmelidir (Not 1).</span>' : ku ? ' — <span class="text-amber-700 font-bold">KU 3 iş günü içinde İlçe İSG Bürosuna bildirilmelidir (Not 2).</span>' : '') + '</p></div>';
+                return form + '<div id="kantin-ek1-' + K.aktif + '" data-evrak="1" class="bg-white text-black border border-slate-300 rounded-lg mx-auto" style="font-family:\'Times New Roman\',serif;font-size:10.5pt;line-height:1.25;padding:10mm 12mm;max-width:200mm">' + sayfalar.join('') + '</div>';
+            }
+            /* Kurul ve Komisyonlar sayfası: açık tutanak varsa onu gösterir */
+            var orjRender = window.renderKomisyonlar;
+            window.renderKomisyonlar = function() {
+                var id = state.kurulTutanakAcik, c = id != null ? (state.commissions || []).find(function(x) { return x.id === id; }) : null;
+                if (!c) return orjRender.apply(this, arguments);
+                var kantin = c.id === KANTIN_ID || /kantin/i.test(c.name || '');
+                return '<div class="no-print flex flex-wrap items-center justify-between gap-2 mb-3"><div><button type="button" onclick="kurulTutanakKapat()" class="px-3 py-1.5 rounded-lg bg-slate-800 text-white text-xs font-bold">← Kurul ve Komisyonlar</button></div>' +
+                    '<p class="text-sm font-bold text-slate-800">' + (kantin ? '📋 ' : '📝 ') + E(c.name) + (kantin ? ' — Okul Denetim Formu (EK-1)' : ' — Toplantı Tutanağı') + '</p></div>' +
+                    (kantin ? k1Ekrani(c) : ktEkrani(c));
+            };
+        })();
+        /* ==================== /KURUL TOPLANTI TUTANAKLARI ==================== */
+
 
         window.commissionSlotInfo = function(val) {
             /* null | number | {manual:true,...} | {id, auto:true, name?} */
@@ -21550,6 +21985,19 @@ window.okUpdateKulupAdi = function(idx, value) {
                         '<b>Takip ve değerlendirme:</b> Sonuç kayıt defterine işlenir; olay Okul Güvenliği Yönetim Ekibi toplantısında değerlendirilir.']) +
                     c.imza([{ ad: b.sorumlu, unvan: 'Siber Olay Sorumlusu' }, { ad: c.mudur.name, unvan: 'Okul Müdürü' }]);
               } },
+            { id: 'yzVeri', grup: 'Siber Güvenlik', ad: 'Yapay Zekâ Araçlarında Kişisel Veri ve Güvenlik Talimatı', alan: [['ek', 'Okula özgü ek kurallar', 'uzun']],
+              ciz: function(b, c) {
+                return c.antet('YAPAY ZEKÂ ARAÇLARINDA KİŞİSEL VERİ VE GÜVENLİK TALİMATI') +
+                    c.p('Millî Eğitim Bakanlığı Yapay Zekâ Uygulamaları Etik Kurulu Yönergesi’nin 14. maddesi gereğince yapay zekâ uygulamalarında gizlilik, güvenlik ve mahremiyet esaslarına uyulması ve 6698 sayılı Kişisel Verilerin Korunması Kanunu’na tam uyum sağlanması zorunludur. Okulumuzda yapay zekâ araçlarını kullanan tüm personel aşağıdaki kurallara uyar.') +
+                    c.madde(['Öğrencilerin ad-soyad, T.C. kimlik numarası, okul numarası, adres, telefon, fotoğraf, ses ve görüntü kaydı, sağlık ve özel eğitim bilgileri ile not ve değerlendirme bilgileri yapay zekâ araçlarına girilmez ve yüklenmez.',
+                        'Veli ve personele ait kişisel veriler ile e-Okul, MEBBİS, EBYS gibi kurumsal sistemlerden alınan listeler yapay zekâ araçlarına aktarılmaz.',
+                        'Yapay zekâ araçlarına kurumsal hesap şifreleri, erişim bilgileri ve gizlilik dereceli belgeler paylaşılmaz.',
+                        'Yapay zekâ ile üretilen içerik, öğrencilere sunulmadan önce öğretmen tarafından doğruluk, uygunluk ve millî ve manevi değerler yönünden kontrol edilir.',
+                        'Öğrencilerin doğrudan kullanacağı yapay zekâ uygulamaları için öğretmen YAZEK üzerinden Etik Beyan Formunu doldurur; yaş sınırı ve kullanım koşulları uygun olmayan araçlar öğrencilere kullandırılmaz.',
+                        'Yapay zekâ çıktıları, öğrenci hakkında karar vermede tek başına dayanak olarak kullanılmaz; karar süreçleri açık ve izlenebilir tutulur.',
+                        'Kişisel veri ihlali veya etik ihlal şüphesi okul müdürlüğüne bildirilir; bildirim Okul Yapay Zekâ Etiği Ekibince 15 gün içinde incelenir, kişisel veri ihlallerinde ayrıca Siber Olay Müdahale Prosedürü uygulanır.'].concat(b.ek ? [c.esc(b.ek)] : [])) +
+                    c.imza([{ ad: c.mudur.name, unvan: 'Okul Müdürü' }], 'Tebliğ olunur.');
+              } },
             { id: 'siberKayit', grup: 'Siber Güvenlik', ad: 'Siber Olay Kayıt Defteri', yatay: true, liste: { k: 'kayit', sut: [['tarih', 'Tarih'], ['kaynak', 'Kaynak (şikâyet / açık kaynak)'], ['platform', 'Platform'], ['tur', 'Olay türü'], ['hedef', 'Hedef'], ['ozet', 'Kısa açıklama'], ['islem', 'Yapılan işlem / bildirim'], ['sonuc', 'Sonuç']], bos: 10 }, alan: [],
               ciz: function(b, c) {
                 return c.antet('SİBER OLAY KAYIT DEFTERİ (OLAY VERİ TABANI)') +
@@ -28323,6 +28771,16 @@ window.okUpdateKulupAdi = function(idx, value) {
                 "Nöbet uygulamalarının yıl boyunca aksatılmadan yürütüldüğü değerlendirildi."
             ]
         };
+        BOARD_KARAR_ONERILERI.ab = {
+            sene_basi: [
+                "Okul müdürü başkanlığında Okul Yapay Zekâ Etiği Ekibinin oluşturulmasına ve ekip üyelerinin ilgililere tebliğ edilmesine karar verildi.",
+                "Eğitim-öğretim süreçlerinde yapay zekâ uygulaması gerçekleştirecek öğretmenlerin uygulamadan önce YAZEK üzerinden Etik Beyan Formunu doldurmasına karar verildi.",
+                "Yapay zekâ araçlarına öğrencilerin ad-soyad, T.C. kimlik numarası, fotoğraf, ses kaydı ve not bilgisi gibi kişisel verilerinin aktarılmamasına karar verildi.",
+                "Yapay zekâ uygulamalarına ilişkin etik ihlal bildirimlerinin okul müdürlüğüne yapılmasına ve Okul Yapay Zekâ Etiği Ekibince 15 gün içinde karara bağlanmasına karar verildi."
+            ],
+            iki_donem_basi: ["Birinci dönemde yürütülen yapay zekâ uygulamaları ve verilen etik beyanlar değerlendirildi; ikinci dönem uygulamalarında etik ilkelere uyulmasına karar verildi."],
+            yil_sonu: ["Yıl içinde yürütülen yapay zekâ uygulamaları, etik beyanlar ve varsa etik ihlal bildirimleri değerlendirildi."]
+        };
         BOARD_KARAR_ONERILERI.r = {
             sene_basi: [
                 "Okulumuzda pansiyon bulunmadığından bu gündem maddesi bilgi amaçlı görüşülmüştür."
@@ -28997,6 +29455,7 @@ window.okUpdateKulupAdi = function(idx, value) {
 
         window.renderKurulToplanti = function() {
             try { boardRefakatGoc(); } catch (e) {}
+            try { boardYzGoc(); } catch (e) {}
             const donem = state.boardMeetings.activeDonem;
             const view = state.boardMeetings.activeView;
             const params = state.boardMeetings.letterParams;
@@ -37226,7 +37685,7 @@ function isgPrint(kind){
         /* TEK SÜRÜM KAYNAĞI — bu değeri değiştir, her yer (sekme başlığı + sol menü
            etiketi) otomatik güncellenir. Dosya adı da hep bu numarayla aynı olmalı:
            İDARE ASİSTANI v<PORTAL_SURUM>. Sıralama: v6.5.0, v6.5.1 … v6.5.9, v6.6.0 … */
-        window.PORTAL_SURUM = '7.1.4';
+        window.PORTAL_SURUM = '7.1.9';
 
         /* ==================== GENEL BELGE DÜZENLEME ====================
            Programdaki evrakların çoğu salt çıktıydı (yalnızca bazılarında
@@ -37506,6 +37965,12 @@ function isgPrint(kind){
             } catch(e){}
         })();
         window.PORTAL_SURUM_NOTLARI = [
+            'İYEP Planlama mevzuat şeridi: Destekleme ve Yetiştirme Kursları Yönergesi kaldırıldı, İYEP Öğretim Programı (iyep.meb.gov.tr) eklendi',
+            'İlgili mevzuat şeridine eklendi: Yaşam Becerileri Uygulama Kılavuzu ve Etkinlik Kitapları ile Maarifin Kalbinde Oyun (TEGM sayfaları) — Sosyal Etkinlikler; 2010/49 sayılı Ders Dışı Eğitim Çalışmaları Genelgesi — Ders Dışı Egzersiz ve Sosyal Etkinlikler',
+            'Her modülün üstünde 📚 İlgili mevzuat şeridi: ilgili kanun, yönetmelik, yönerge ve genelgeler resmî kaynaklarına (mevzuat.gov.tr, mevzuat.meb.gov.tr) tıklanabilir bağlantı; 🔗 Bağlantılı: ilişkili modüllere ve evraklara tek dokunuşla geçiş (sol alttaki düğmeyle geri dönülür). Kurul ve Komisyonlar: kurul adları telefonda görünmüyordu, düzeltildi',
+            'Kurul ve Komisyonlar: her kurulun başlığında tek düğme — 📝 Tutanak (düzenlenebilir toplantı tutanağı: gündem, görüşmeler, kararlar, katılım; üyeler kuruldan otomatik, birden fazla toplantı), ↗ Modül (kendi modülünde tutanağı olan kurullar: Öğretmenler Kurulu, SE Kurulu, OAB, Okul Güvenliği, MKO, Yaşam Becerileri, İSG, Sivil Savunma, BEP, Yapay Zekâ Etiği) ve 📋 EK-1 Form (Kantin Denetleme Komisyonu: MEB 05.04.FR.91 Okul Denetim Formu birebir; ekip adları kuruldan, KU/BU sayıları otomatik)',
+            'Yapay zekâ etiği belgeleri Eğitimde Yapay Zekâ Uygulamaları Etik Kılavuzu’na göre güncellendi: ekip yapısı (müdür + 3 üye + sekretarya), beyan zorunlu/değil örnek durumlar tablosu, EK-1 Etik İhlal Durumu Değerlendirme Formu (Evet/Hayır/İlgili Değil), Kılavuz karar türleri, YAZEK başvuru kodu; yeni: Ekibin Kurulamadığına Dair Bildirim',
+            'Yapay zekâ etiği (MEB Yapay Zekâ Uygulamaları Etik Kurulu Yönergesi, YAZEK): Kurul ve Komisyonlara “Okul Yapay Zekâ Etiği Ekibi”; Öğretmenler Kurulu gündemine yapay zekâ etiği ve YAZEK maddesi ile karar önerileri (kayıtlı toplantılarınıza da bir kez eklenir); EBYS Evrak Oluştur’a ekip oluru, YAZEK bilgilendirme tebliği, etik ihlal inceleme tutanağı (15 gün takibiyle) ve karar bildirim yazısı; Okul Güvenliği → Siber Güvenlik’e yapay zekâ araçlarında kişisel veri talimatı',
             'Yaşam Becerileri → Gözlem Formu (EK-1): 📚 Beceri bankası — ilkokul ve ortaokul için 200 faaliyetin her birine 3’er gözlenebilir davranış ifadesi (toplam 600). Form otomatik olarak yıllık plandaki faaliyetlerin ifadeleriyle dolar ya da kategori kategori istediğiniz ifadeleri işaretlersiniz; kendi ifadelerinizi de ekleyebilirsiniz',
             'İşçi Puantaj Takvimi düzeltmeleri: aktif kişi işçi listesinden düştüğünde takvime yapılan işaretlerin görünmemesi giderildi (seçili kişi her zaman aktif kalır, havuzdan silinenler seçimden düşer); çıktıda yalnız unvanı “İşçi” olanların çıkması düzeltildi — Hizmetli, TYP, İUP vb. seçilen herkes yazdırılır; T.C. kimlik no sütunu Personel Havuzundan dolar; tarih aralığı ilk açılışta içinde bulunulan aya ayarlanır. İşçi İşlemleri ekranı ve tüm belgeleri Times New Roman',
             'EBYS Evrak Oluştur → Dosya → EBYS Dönüştür artık yalnız Word değil: eski Word (.doc), Excel/Calc (.xlsx, .xls, .ods, .csv — her sayfa tablo olarak), PDF (metinli PDF; sütunlu satırlar tablo olur), OpenDocument metin (.odt), RTF, TXT, HTML ve görseller de dönüştürülür',
@@ -39930,6 +40395,159 @@ function isgPrint(kind){
             ((kapsam === 'evrak' && !ebysVar) ? btn('fa-file-import', "EBYS'ye Kopyala", "ebysKopyala('" + key + "','ebys-oto-" + key + "')", 'evrak-ebys').replace('<button ', '<button id="ebys-oto-' + key + '" ') : '');
     }
     /* Araç çubuklarını yerleştir (idempotent) */
+    /* ==== v7.1.7: MODÜL MEVZUATI VE MODÜLLER ARASI KÖPRÜLER ====
+       Her modülün üstünde (yazdırmaya girmeyen) tek satırlık şerit: ilgili mevzuatın resmî
+       bağlantıları (mevzuat.gov.tr / mevzuat.meb.gov.tr) ve ilişkili modüllere kısayollar. */
+    (function () {
+        var MG = function (no, tur, tertip) { return 'https://www.mevzuat.gov.tr/mevzuat?MevzuatNo=' + no + '&MevzuatTur=' + (tur || 7) + '&MevzuatTertip=' + (tertip || 5); };
+        var MB = function (no) { return 'https://mevzuat.meb.gov.tr/dosyalar/' + no + '.pdf'; };
+        var M = {
+            IO: ['İlköğretim Kurumları Yönetmeliği', MG(19942), 'Okul Öncesi Eğitim ve İlköğretim Kurumları Yönetmeliği'],
+            OO: ['Ortaöğretim Kurumları Yönetmeliği', MG(18812)],
+            SE: ['Sosyal Etkinlikler Yönetmeliği', MG(23639), 'Eğitim Kurumları Sosyal Etkinlikler Yönetmeliği'],
+            OAB: ['Okul-Aile Birliği Yönetmeliği', MG(15878)],
+            RPD: ['Rehberlik ve Psikolojik Danışma Hizmetleri Yönetmeliği', MG(34760)],
+            OZEL: ['Özel Eğitim Hizmetleri Yönetmeliği', MG(24736)],
+            TAS: ['Taşıma Yoluyla Eğitime Erişim Yönetmeliği', MG(20040)],
+            PAN: ['Yatılılık, Bursluluk ve Okul Pansiyonları Yönetmeliği', MG(20169487, 21)],
+            ATAMA: ['Öğretmen Atama ve Yer Değiştirme Yönetmeliği', MG(43919)],
+            KILIK: ['Öğrenci Kılık ve Kıyafet Yönetmeliği', MG(20123959, 21)],
+            YON: ['Yönetici Görevlendirme Yönetmeliği', MG(44989)],
+            TASINIR: ['Taşınır Mal Yönetmeliği', MG(200611545, 21)],
+            YANGIN: ['Binaların Yangından Korunması Yönetmeliği', MG(200712937, 21)],
+            SEIZ: ['Sosyal Etkinlik İzinleri Yönergesi', MB(2041)],
+            EVDE: ['Evde ve Hastanede Eğitim Yönergesi', MB(871)],
+            YZ: ['Yapay Zekâ Etik Kurulu Yönergesi', MB(2295)],
+            ODUL: ['Personel Başarı ve Ödül Yönergesi', MB(2265)],
+            DYK: ['Destekleme ve Yetiştirme Kursları Yönergesi', MB(2179)],
+            IYEP: ['İYEP Yönergesi', MB(2123), 'İlkokullarda Yetiştirme Programı Yönergesi'],
+            HEM: ['Okul Sağlığı Hemşireleri Yönergesi', MB(2121)],
+            CK: ['Çocuk Kulüpleri Yönergesi', MB(1706)],
+            KUT: ['Okul Kütüphaneleri Standart Yönergesi', MB(548)],
+            STD: ['Kurum Standartları Uygulama Yönergesi', MB(1838), 'Okul Öncesi Eğitim ve İlköğretim Kurumları Standartları Uygulama Yönergesi'],
+            IYEPP: ['İYEP Öğretim Programı', 'https://iyep.meb.gov.tr/programlar/detay/IYEP_Ogretim-Programi/7', 'İlkokullarda Yetiştirme Programı (İYEP) Öğretim Programı'],
+            YB: ['Yaşam Becerileri Uygulama Kılavuzu ve Etkinlik Kitapları', 'https://tegm.meb.gov.tr/www/yasam-becerileri-projesi-uygulama-kilavuzu-ve-etkinlik-kitaplari-yayimlandi/icerik/1055'],
+            MKO: ['Maarifin Kalbinde Oyun', 'https://tegm.meb.gov.tr/www/maarifin-kalbinde-oyun/icerik/1318'],
+            gDDE: ['2010/49 sayılı Ders Dışı Eğitim Çalışmaları Genelgesi', 'https://personel.meb.gov.tr/meb_iys_dosyalar/2022_02/28140926_2010-49_nolu_Genelge.pdf', 'Ders Dışı Eğitim Çalışmalarına Dair Esaslar'],
+            gKANTIN: ['2020/8 sayılı Kantin Genelgesi', MB(2050), 'Okul Kantinlerinde Satılacak Gıdalar ve Gıda İşletmelerinin Hijyen Yönünden Denetlenmesi'],
+            gSIDDET: ['2024/56 sayılı Şiddetin Önlenmesi Genelgesi', MB(2234)],
+            gGUV: ['2018/10 sayılı Güvenlik Önlemleri Genelgesi', MB(1935)],
+            gGEZI: ['2011/48 sayılı Eğitim Gezileri Genelgesi', MB(1572)],
+            gNOBET: ['2010/25 sayılı Nöbet Görevi Genelgesi', MB(1098)],
+            gKILIK: ['2013/24 sayılı Kılık Kıyafet Genelgesi', MB(1654)],
+            gSERVIS: ['2008/82 sayılı Okul Servis Genelgesi', MB(1246)],
+            gEKDERS: ['2007/19 sayılı Ek Ders Ücreti Genelgesi', MB(540)],
+            gEKGOREV: ['2011/43 sayılı Ek Ders Karşılığı Görevlendirme Genelgesi', MB(1282)],
+            gAFET: ['2021/13 sayılı Afet ve Acil Durum Genelgesi', MB(2058)],
+            gYANGIN: ['2008/71 sayılı Yangın Emniyet Tedbirleri Genelgesi', MB(1231)],
+            gISG: ['2014/16 sayılı İSG Genelgesi', MB(1705)],
+            gISGMALI: ['2024/38 sayılı İSG Mali İhtiyaçlar Genelgesi', MB(2197)],
+            gKUTLAMA: ['2012/18 sayılı Kutlama ve Anma Programları Genelgesi', MB(1589)],
+            gOGRGUNU: ['2026/72 sayılı Öğretmenler Günü Genelgesi', MB(2323)],
+            gDYS: ['2012/39 sayılı Doküman Yönetim Sistemi Genelgesi', MB(1611)],
+            gTASINIR: ['2012/17 sayılı Taşınır Mal İşlemleri Genelgesi', MB(1588)],
+            gSAGLIK: ['2017/19 sayılı Okul Sağlık Hizmetleri Genelgesi', MB(1845)],
+            gDEVAM: ['2013/14 sayılı Özürlü Devamsızlık Genelgesi', MB(1640)],
+            gPANSIYON: ['2018/8 sayılı Pansiyonlu Okul Denetimleri Genelgesi', MB(1895)],
+            gKAYNAS: ['2017/28 sayılı Kaynaştırma/Bütünleştirme Genelgesi', MB(1870)],
+            gOAB: ['2024/35 sayılı OAB Yönetmeliği Değişikliği Genelgesi', MB(2191)],
+            k1739: ['1739 sayılı Millî Eğitim Temel Kanunu', MG(1739, 1)],
+            k657: ['657 sayılı Devlet Memurları Kanunu', MG(657, 1)],
+            k6331: ['6331 sayılı İş Sağlığı ve Güvenliği Kanunu', MG(6331, 1)],
+            k4734: ['4734 sayılı Kamu İhale Kanunu', MG(4734, 1)],
+            k6698: ['6698 sayılı Kişisel Verilerin Korunması Kanunu', MG(6698, 1)],
+            k4857: ['4857 sayılı İş Kanunu', MG(4857, 1)],
+            k6245: ['6245 sayılı Harcırah Kanunu', MG(6245, 1, 3)]
+        };
+        /* modül: [mevzuat anahtarları, köprüler [sekme, etiket, yol?]] */
+        var MOD = {
+            havuz: [['k657', 'ATAMA', 'YON'], [['gorevDagilimi'], ['komisyonlar'], ['nobet'], ['personelNakil'], ['ebysDonustur', 'Göreve başlama / ayrılış yazıları', [['ebIcAc', 'gorevBaslama']]]]],
+            ebysDonustur: [['gDYS', 'k657'], [['tebligTebellugTab'], ['ekEvraklar'], ['havuz']]],
+            yillikPlan: [['IO', 'OO'], [['kurulToplanti'], ['rehberlikCerceve'], ['belirliGunler'], ['sosyalEtkinlik']]],
+            rehberlikCerceve: [['RPD', 'gSIDDET'], [['yillikPlan'], ['ogrenciIsleri'], ['destekEgitim'], ['okulGuvenligi']]],
+            gorevDagilimi: [['IO', 'OO', 'YON', 'k657'], [['havuz'], ['komisyonlar'], ['tebligTebellugTab']]],
+            belirliGunler: [['SE', 'gKUTLAMA', 'gOGRGUNU'], [['sosyalEtkinlik'], ['degerlerEgitimi'], ['komisyonlar']]],
+            komisyonlar: [['IO', 'OO', 'SE', 'RPD'], [['kurulToplanti'], ['havuz'], ['tebligTebellugTab'], ['kantinKira', 'Kantin kira ve sözleşme']]],
+            sosyalEtkinlik: [['SE', 'SEIZ', 'YB', 'MKO', 'gDDE', 'gGEZI'], [['gezi'], ['belirliGunler'], ['degerlerEgitimi'], ['egzersiz'], ['ebysDonustur', 'Sosyal etkinlik oluru', [['ebIcAc', 'etkinlikOlur']]]]],
+            cocukKulubu: [['CK', 'IO'], [['komisyonlar'], ['aileBirligi']]],
+            ogrenciIsleri: [['IO', 'OO', 'KILIK', 'gKILIK', 'gDEVAM'], [['disiplinIslemleri'], ['sorumlulukSinavi'], ['tasimaliEgitim'], ['rehberlikCerceve']]],
+            kantinKira: [['OAB', 'gKANTIN', 'gOAB'], [['aileBirligi'], ['komisyonlar', 'Kantin Denetim Formu (EK-1)', [['kurulTutanakAc', 422]]]]],
+            kurulToplanti: [['IO', 'OO', 'gNOBET'], [['komisyonlar'], ['yillikPlan'], ['nobet'], ['okulGuvenligi', 'Acil Durum Sevk ve Refakat Tutanağı', [['ogView', 'belge', 'acilSevk']]]]],
+            aileBirligi: [['OAB', 'gOAB', 'k4734'], [['kantinKira'], ['komisyonlar'], ['ebysDonustur', 'OAB harcama talebi ve ödeme talimatı', [['ebIcAc', 'oabHarcama']]]]],
+            imzaCizelgesi: [['k4857', 'k6331'], [['havuz'], ['isg'], ['okulGuvenligi']]],
+            dogumIzni: [['k657'], [['havuz'], ['ebysDonustur', 'Personel izin oluru', [['ebIcAc', 'izinOlur']]]]],
+            degerlerEgitimi: [['SE', 'k1739'], [['sosyalEtkinlik'], ['belirliGunler']]],
+            destekEgitim: [['OZEL', 'EVDE', 'gKAYNAS', 'gEKDERS'], [['havuz'], ['iyepPlanlama'], ['rehberlikCerceve'], ['ebysDonustur', 'Ek ders çizelgesi gönderme yazısı', [['ebIcAc', 'ekDers']]]]],
+            sorumlulukSinavi: [['OO', 'IO'], [['ogrenciIsleri'], ['komisyonlar']]],
+            disiplinIslemleri: [['OO', 'IO', 'k657'], [['ogrenciIsleri'], ['rehberlikCerceve'], ['okulGuvenligi']]],
+            tasimaliEgitim: [['TAS', 'gSERVIS'], [['ogrenciIsleri'], ['okulGuvenligi']]],
+            gezi: [['SE', 'SEIZ', 'gGEZI'], [['sosyalEtkinlik'], ['ebysDonustur', 'Sosyal etkinlik oluru', [['ebIcAc', 'etkinlikOlur']]]]],
+            yolluk: [['k6245', 'k657'], [['personelNakil'], ['havuz']]],
+            personelNakil: [['ATAMA', 'k657'], [['yolluk'], ['havuz'], ['ebysDonustur', 'Görevden ayrılış yazısı', [['ebIcAc', 'gorevAyrilis']]]]],
+            sivilSavunma: [['YANGIN', 'gAFET', 'gYANGIN'], [['okulGuvenligi'], ['isg'], ['komisyonlar']]],
+            okulGuvenligi: [['gGUV', 'gSIDDET', 'k6698', 'YZ'], [['sivilSavunma'], ['isg'], ['nobet'], ['tasimaliEgitim'], ['rehberlikCerceve']]],
+            iyepPlanlama: [['IYEP', 'IYEPP', 'IO'], [['destekEgitim'], ['sosyalEtkinlik']]],
+            isg: [['k6331', 'gISG', 'gISGMALI'], [['sivilSavunma'], ['okulGuvenligi'], ['imzaCizelgesi']]],
+            egzersiz: [['gDDE', 'SE', 'gEKGOREV', 'gEKDERS'], [['sosyalEtkinlik'], ['havuz']]],
+            nobet: [['IO', 'OO', 'gNOBET'], [['kurulToplanti'], ['okulGuvenligi'], ['havuz']]],
+            pansiyonBellet: [['PAN', 'gPANSIYON', 'gEKDERS'], [['nobet'], ['havuz']]],
+            proforma: [['k4734', 'TASINIR'], [['aileBirligi']]],
+            bankaAktarma: [[], [['havuz']]],
+            ekEvraklar: [['k657', 'gDYS'], [['ebysDonustur'], ['tebligTebellugTab']]],
+            tebligTebellugTab: [['k657'], [['komisyonlar'], ['gorevDagilimi'], ['ebysDonustur']]],
+            denetimRehberi: [['IO', 'STD', 'KUT', 'HEM', 'gSAGLIK'], [['okulGuvenligi'], ['ogretmenTakip'], ['yillikPlan']]],
+            dergi: [[], [['yillikPlan'], ['sosyalEtkinlik']]],
+            ogretmenTakip: [['IO', 'OO'], [['havuz'], ['ebysDonustur', 'Evrak teslim tebliği', [['ebIcAc', 'evrakTeslim']]]]],
+            dosyaSirtlik: [['gDYS'], [['ebysDonustur']]]
+        };
+        var esc = function (s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); };
+        var tabAd = function (id) { var t = (typeof tabsDef !== 'undefined' ? tabsDef : []).find(function (x) { return x.id === id; }); return t ? t.title : ''; };
+        window.__kopruler = [];
+        window.portalKopruGit = function (i) {
+            var k = window.__kopruler[i]; if (!k) return;
+            var geri = state.activeTab;
+            switchTab(k[0]);
+            (k[2] || []).forEach(function (a) { try { if (typeof window[a[0]] === 'function') window[a[0]].apply(window, a.slice(1)); } catch (e) {} });
+            var ch = document.getElementById('eb-geri');
+            if (!ch) { ch = document.createElement('div'); ch.id = 'eb-geri'; ch.className = 'no-print'; document.body.appendChild(ch); }
+            ch.setAttribute('data-tab', k[0]);
+            ch.style.cssText = 'position:fixed;left:12px;bottom:16px;z-index:9990;display:flex;align-items:center;background:#312e81;color:#fff;border-radius:999px;box-shadow:0 6px 18px rgba(0,0,0,.28);font:700 12px system-ui,sans-serif;max-width:80vw';
+            ch.innerHTML = '<span onclick="this.parentNode.remove();switchTab(\'' + geri + '\')" style="cursor:pointer;padding:9px 6px 9px 14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">← ' + esc(tabAd(geri) || 'Geri') + '</span><span onclick="this.parentNode.remove()" title="Kapat" style="cursor:pointer;padding:9px 12px 9px 6px;opacity:.65">✕</span>';
+            if (window.switchTab && !window.switchTab.__ebSarili) {
+                var orj = window.switchTab;
+                window.switchTab = function (t) { var r = orj.apply(this, arguments); var c2 = document.getElementById('eb-geri'); if (c2 && t !== c2.getAttribute('data-tab')) c2.remove(); return r; };
+                window.switchTab.__ebSarili = true;
+            }
+            setTimeout(function () { var pn = document.getElementById('tab-' + k[0]); if (pn) pn.scrollIntoView({ block: 'start' }); }, 80);
+        };
+        window.mevzuatSeritYerlestir = function (pane) {
+            try {
+                if (!pane) return;
+                var tab = String(pane.id || '').replace(/^tab-/, ''), d = MOD[tab];
+                var mevcut = pane.querySelector(':scope > .mevzuat-serit');
+                if (!d) { if (mevcut) mevcut.remove(); return; }
+                if (mevcut) return;
+                var mev = d[0].map(function (k) { var m = M[k]; return m ? '<a href="' + esc(m[1]) + '" target="_blank" rel="noopener" title="' + esc(m[2] || m[0]) + '">' + esc(m[0]) + '</a>' : ''; }).filter(Boolean);
+                var kop = d[1].map(function (b, j) { var key = tab + '|' + j; window.__kopruIdx = window.__kopruIdx || {}; var i = window.__kopruIdx[key]; if (i == null) { i = window.__kopruIdx[key] = window.__kopruler.length; window.__kopruler.push(b); } return '<button type="button" onclick="portalKopruGit(' + i + ')">' + esc(b[1] || tabAd(b[0])) + '</button>'; });
+                var s = document.createElement('div');
+                s.className = 'mevzuat-serit no-print';
+                s.innerHTML = (mev.length ? '<div class="mv-satir"><span class="mv-et">📚 İlgili mevzuat:</span> ' + mev.join('<span class="mv-ayr">·</span>') + '</div>' : '') +
+                    (kop.length ? '<div class="mv-satir"><span class="mv-et">🔗 Bağlantılı:</span> ' + kop.join('') + '</div>' : '');
+                var ref = pane.firstElementChild;
+                while (ref && (ref.classList.contains('tur-serit') || ref.classList.contains('eksik-serit'))) ref = ref.nextElementSibling;
+                pane.insertBefore(s, ref || null);
+            } catch (e) { console.warn('mevzuat şerit', e); }
+        };
+        var st = document.createElement('style');
+        st.textContent = '.mevzuat-serit{margin:0 0 12px;padding:8px 10px;border:1px solid #c7d2fe;background:#eef2ff;border-radius:12px;font-size:11.5px;line-height:1.7;color:#334155}' +
+            '.mevzuat-serit .mv-satir+.mv-satir{margin-top:4px;padding-top:4px;border-top:1px dashed #c7d2fe}' +
+            '.mevzuat-serit .mv-et{font-weight:700;color:#3730a3;margin-right:2px}' +
+            '.mevzuat-serit a{color:#1d4ed8;text-decoration:underline;text-underline-offset:2px;font-weight:600}' +
+            '.mevzuat-serit .mv-ayr{color:#94a3b8;margin:0 6px}' +
+            '.mevzuat-serit button{display:inline-block;margin:2px 4px 2px 0;padding:2px 9px;border-radius:999px;border:1px solid #a5b4fc;background:#fff;color:#4338ca;font-weight:700;font-size:11px}' +
+            '@media print{.mevzuat-serit{display:none!important}}';
+        document.head.appendChild(st);
+    })();
     window.evrakAraclariYerlestir = function () {
         try {
             var pane = document.querySelector('#main-content-wrapper .tab-pane:not(.hidden)') || document.querySelector('.tab-pane:not(.hidden)');
@@ -39937,6 +40555,7 @@ function isgPrint(kind){
             /* Gömülü araçlar (iframe) kendi düğmelerini kullanır */
             try { if (typeof turSeritYerlestir === 'function') turSeritYerlestir(pane); } catch (e) {}
             try { if (typeof eksikSeritYerlestir === 'function') eksikSeritYerlestir(pane); } catch (e) {}
+            try { if (typeof mevzuatSeritYerlestir === 'function') mevzuatSeritYerlestir(pane); } catch (e) {}
             if (pane.querySelector('iframe#typ-iup-frame, iframe#iyep-frame')) {
                 Array.prototype.slice.call(pane.querySelectorAll('.evrak-arac')).forEach(function (n) { n.remove(); });
                 return;
