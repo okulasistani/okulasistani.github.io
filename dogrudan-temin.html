@@ -47,6 +47,11 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stro
 .f small{font-size:12px}
 input,select,textarea{font:inherit;color:var(--ink);background:#fff;border:1px solid #d6cdb9;border-radius:10px;padding:9px 11px;min-height:44px;width:100%;min-width:0}
 textarea{min-height:76px;resize:vertical;line-height:1.4}
+input,select,textarea{color:#0b1416;font-weight:600;-webkit-text-fill-color:#0b1416}
+input::placeholder,textarea::placeholder{color:#a39d8f;-webkit-text-fill-color:#a39d8f;font-weight:400;opacity:1}
+input:disabled,select:disabled,textarea:disabled{color:#3a4447;-webkit-text-fill-color:#3a4447;opacity:1;background:#f7f4ed}
+.sat input,.sat select{font-weight:600}
+.page[contenteditable]{font-weight:normal}
 input:focus,select:focus,textarea:focus{outline:2px solid rgba(15,82,73,.25);border-color:var(--pine)}
 input[inputmode=decimal]{text-align:right;font-variant-numeric:tabular-nums}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:11px;padding:9px 14px;font-weight:650;font-size:14px;min-height:44px}
@@ -169,6 +174,8 @@ details.more[open] summary svg{transform:rotate(90deg)}
 .kal{border-bottom:1px dashed var(--line);padding-bottom:5px;margin-bottom:5px}
 .kmenu{display:flex;gap:6px;flex-wrap:wrap;margin:2px 0 6px 31px}
 .tkw{position:relative;margin:0 0 2px 31px}
+.kal .okas{margin:0 0 5px 31px;width:calc(100% - 31px);min-height:38px;font-size:13px;padding:6px 9px;border-radius:8px}
+.mysad{margin:0 0 5px 31px;font-size:12px;color:var(--pine);display:flex;align-items:center;gap:4px}.mysad svg{width:13px;height:13px}
 .kal .tk{min-height:76px;width:100%;font-size:13.5px;padding-bottom:30px}
 .tko{position:absolute;right:6px;bottom:7px;display:flex;align-items:center;gap:4px;border:1px solid #efd9b5;background:var(--amber2);color:#8a5418;border-radius:8px;padding:3px 9px;font-size:12px;font-weight:700}
 .tko svg{width:14px;height:14px}
@@ -279,6 +286,7 @@ details[open] .kdz,details[open] .ksum{display:none}
 <div id="cbPop" class="hidden"></div>
 <div class="toast" id="toast"></div>
 <input type="file" id="fileIn" accept=".json,application/json" class="hidden">
+<input type="file" id="fileX" accept=".xls,.xlsx,.xml,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="hidden">
 <script>
 'use strict';
 /* ================= YARDIMCILAR ================= */
@@ -377,7 +385,7 @@ const DOSYA_KOD={ihtiyac:'934.01',komisyon:'934.01.99',fiyat:'934.01.03',onay:'9
 function yeniKurum(){return{il:'',ilce:'',ust1:'T.C.',ust2:'',ust3:'',okul:'',okulEk:'Müdürlüğü',adres:'',kurumKodu:'',kurumsalKod:'',muhasebe:'',
  harcamaAd:'',harcamaUnvan:'Okul Müdürü',gercekAd:'',gercekUnvan:'Müdür Yardımcısı',
  limitTur:'diger',limitB:'1.021.827',limitD:'340.391',limitYil:'2026',kod:{...DOSYA_KOD},personel:[]};}
-const bosKalem=()=>({ad:'',ozellik:'',miktar:'',birim:'Adet',teknik:'',kabul:''});
+const bosKalem=()=>({ad:'',ozellik:'',miktar:'',birim:'Adet',teknik:'',kabul:'',okas:'',mysAd:'',mysBirim:'',ekapKisim:'',ekapUrun:''});
 const firma=()=>({ad:'',vkn:'',adres:'',tel:'',fiyat:[]});
 const uye=()=>({ad:'',unvan:'',gorev:'Komisyon Üyesi'});
 const uyeler=()=>[uye(),uye(),uye()];
@@ -704,8 +712,14 @@ function sKalem(a){
    ${hk(`a:kalemler.${i}.ad`,{ph:'Adı'})}${hk(`a:kalemler.${i}.ozellik`,{ph:'Özelliği'})}${hk(`a:kalemler.${i}.miktar`,{ph:'0',num:1})}${hk(`a:kalemler.${i}.birim`,{ph:'Birim',list:'dlBirim'})}
    <button class="xb d" data-act="kDel" data-i="${i}" title="Sil">${ic('kapat')}</button></div>
    <div class="kmenu hidden" id="km${i}"><button class="btn s" data-act="kUp" data-i="${i}" ${i===0?'disabled':''}>${ic('yukari')}Yukarı</button><button class="btn s" data-act="kDown" data-i="${i}" ${i===n-1?'disabled':''}>${ic('asagi')}Aşağı</button><button class="btn s" data-act="kIns" data-i="${i}">${ic('arti')}Altına satır ekle</button></div>
+   ${a.okasGoster?`<input class="okas" data-b="a:kalemler.${i}.okas" value="${esc(k.okas)}" placeholder="OKAS kodu ve adı (ör. 30197630-1 - Baskı kağıdı)">`:''}
+   ${k.mysAd&&k.mysAd!==k.ad?`<div class="mysad">${ic('tablo')}MYS: ${esc(k.mysAd)}${k.mysBirim?` · ${esc(k.mysBirim)}`:''}</div>`:''}
    ${a.teknikVar?`<div class="tkw"><textarea class="tk" data-b="a:kalemler.${i}.teknik" placeholder="${esc((k.ad||'Bu kalem')+' için teknik özellikler — hazır metin için “Örnek”e dokunun')}" rows="3">${esc(k.teknik)}</textarea><button type="button" class="tko" data-act="tkOrnek" data-i="${i}" title="Örnek teknik özellik ekle">${ic('sihir')}Örnek</button></div>`:''}</div>`).join('')}</div>
   <div class="row" style="margin-top:10px"><button class="btn p" data-act="kAdd">${ic('arti')}Satır ekle</button><button class="btn" data-act="kBulkShow">${ic('kalem')}Toplu yapıştır</button></div>
+  <div class="item" style="margin-top:14px;background:#f6f9f7"><div class="hd">${ic('aktar')}<span class="t">EKAP ve MYS</span></div>
+  <p class="lead" style="margin-top:-6px">EKAP’tan indirilen kalem listesini (…KalemGirisleri_Duyuru.xls) veya MYS yaklaşık maliyet şablonunu (MYS_V2_Yaklasik_Maliyet.xlsx) yükleyerek kalemleri aktarabilir; kalemleri EKAP duyurusuna yüklenecek biçimde indirebilirsiniz.</p>
+  <div class="row"><button class="btn s" data-act="disYukle" data-m="ekap">${ic('yukle')}EKAP kalem listesini yükle</button><button class="btn s" data-act="ekapIndir">${ic('indir')}EKAP duyuru dosyası indir</button><button class="btn s" data-act="disYukle" data-m="mys">${ic('tablo')}MYS şablonunu yükle</button></div>
+  <div style="margin-top:10px">${chk('OKAS kodlarını göster','a:okasGoster',{rr:1,hint:'EKAP duyurusundaki “OKAS Bilgisi” sütunu için her kaleme kod alanı açar.'})}</div></div>
   <div id="bulk" class="hidden" style="margin-top:12px">${note('info','Her satıra bir kalem yazın: <b>Ad ; Miktar ; Birim ; Özellik</b> (noktalı virgül veya sekme ile). Excel’den kopyalanan sütunlar da olur.')}
   <textarea id="bulkTx" rows="6" placeholder="Sıvı Sabun ; 50 ; Litre ; 5 lt bidon&#10;Tuvalet Kağıdı ; 40 ; Paket ; 32'li"></textarea>
   <div class="row end" style="margin-top:8px"><button class="btn p s" data-act="kBulk">${ic('tamam')}Ekle</button></div></div></div>`;
@@ -749,7 +763,8 @@ function sYM(a){
   <p class="lead">Fiyat araştırmasında alınan birim fiyatları (KDV hariç) girin. Her kalem için birim yaklaşık maliyet, fiyat girilen kişi/firmaların aritmetik ortalamasıdır.</p>
   ${a.ymF.map((f,i)=>firmaKart(a,'ymF',i,h)).join('')}
   <div class="row"><button class="btn" data-act="fAdd" data-l="ymF">${ic('arti')}Kişi / firma ekle</button>
-  <button class="btn" data-act="mys">${ic('tablo')}MYS dosyası indir</button></div></div>
+  <button class="btn" data-act="mys">${ic('tablo')}MYS dosyası indir</button><button class="btn" data-act="disYukle" data-m="mys">${ic('yukle')}MYS şablonunu yükle</button></div>
+  <p class="mut" style="font-size:12.5px;margin:8px 0 0">MYS’den indirdiğiniz şablonu önce yüklerseniz kalem adları ve birim kodları MYS’dekiyle birebir aynı yazılır.</p></div>
   <div class="card"><h2>${ic('tablo')}Hesap özeti</h2><div data-live="ymOzet"></div></div>`;
 }
 function sTeklif(a){
@@ -1154,7 +1169,7 @@ function xlsx(rows,sheet){
    {name:'_rels/.rels',data:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'},
    {name:'xl/workbook.xml',data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="${xesc(sheet)}" sheetId="1" r:id="rId1"/></sheets></workbook>`},
    {name:'xl/_rels/workbook.xml.rels',data:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/></Relationships>'},
-   {name:'xl/worksheets/sheet1.xml',data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>${body}</sheetData></worksheet>`}]);
+   {name:'xl/worksheets/sheet1.xml',data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><cols>${[35.8,10.8,15.8,25.8,30.8,30.8,15.8,18.8].map((w,i)=>`<col min="${i+1}" max="${i+1}" width="${w}" customWidth="1"/>`).join('')}</cols><sheetData>${body}</sheetData></worksheet>`}]);
 }
 function kopyala(t){ // kullanıcı dokunuşu içinde eşzamanlı kopyalama
   let ok=false;
@@ -1169,9 +1184,11 @@ function mysIndir(){
   if(!h.K.length){ toast('Kalem yok.'); return; }
   const fs=a.ymF.filter(f=>h.K.some(k=>num(f.fiyat[k.i])>0));
   const rows=[['Ürün Adı','Miktar','Ölçü Birimi','Ürün No','Model','Marka','Birim Tutar','Firma VKN/TCKN']];
-  h.K.forEach(k=>{ rows.push([k.ad,k.m,'ADET_BIRIM','','','','','']); fs.forEach(f=>{ const b=num(f.fiyat[k.i]); if(b>0) rows.push(['','','','','','',b,String(f.vkn||'')]); }); });
-  indir(xlsx(rows,'Mys_yukle'),`MYS_${a.yil}-${a.no}_${dosyaAdi(a.ad)}.xlsx`);
-  if(fs.some(f=>!String(f.vkn).trim())) toast('Bazı firmaların VKN/TCKN bilgisi boş.'); else toast('MYS dosyası indirildi.');
+  let kodsuz=0;
+  h.K.forEach(k=>{ let kod=mysBirimi(k); if(!kod){ kod='ADET_BIRIM'; kodsuz++; } rows.push([mysAdi(k),k.m,kod,'','','','','']); fs.forEach(f=>{ const b=num(f.fiyat[k.i]); if(b>0) rows.push(['','','','','','',b,String(f.vkn||'')]); }); });
+  indir(xlsx(rows,'Yk_Maliyet_Verileri'),`MYS_V2_Yaklasik_Maliyet_${a.yil}-${a.no}.xlsx`);
+  const eks=[]; if(fs.some(f=>!String(f.vkn).trim())) eks.push('bazı firmaların VKN/TCKN bilgisi boş'); if(kodsuz) eks.push(`${kodsuz} kalemin MYS birim kodu bilinmiyor (ADET_BIRIM yazıldı)`); if(h.K.some(k=>!k.mysAd)) eks.push('MYS şablonu yüklenmediği için kalem adları uygulamadan üretildi');
+  toast(eks.length?'MYS dosyası indirildi; '+eks.join('; ')+'.':'MYS dosyası indirildi.');
 }
 
 /* ================= WORD (.docx) & PDF DIŞA AKTARMA ================= */
@@ -1432,6 +1449,108 @@ function teknikOrnek(k){
   return L.map((x,i)=>`${i+1}. ${x}`).join('\n');
 }
 
+/* ================= EKAP DUYURU & MYS ŞABLONU ================= */
+const EKAP_BIRIM={'Kg':'KİLOGRAM','Gram':'GRAM','Ton':'TON','Litre':'LİTRE','Metre':'METRE','m²':'METREKARE','m³':'METREKÜP'};
+const ekapBirim=b=>{ b=String(b||'').trim(); return EKAP_BIRIM[b]||trUp(b||'Adet'); };
+function birimGeri(v){ // EKAP/MYS biriminden uygulama birimine
+  v=String(v||'').trim().replace(/_BIRIM$/i,'').replace(/_/g,' '); if(!v) return 'Adet';
+  const U=trUp(v); const b=BIRIMLER.find(x=>ekapBirim(x)===U||trUp(x)===U); if(b) return b;
+  return v.toLocaleLowerCase('tr-TR').replace(/(^|\s)\S/g,c=>c.toLocaleUpperCase('tr-TR'));
+}
+const mysAdi=k=>k.mysAd||trUp(String(k.ad).trim()+(String(k.ozellik).trim()?` (${String(k.ozellik).trim()})`:''));
+const mysBirimi=k=>k.mysBirim||(trUp(k.birim)==='ADET'?'ADET_BIRIM':'');
+/* -- ZIP okuyucu (xlsx için; tarayıcının yerleşik açıcısı kullanılır) -- */
+async function zipAc(buf){
+  const u=new Uint8Array(buf), dv=new DataView(buf), td=new TextDecoder();
+  let e=u.length-22; while(e>=0&&dv.getUint32(e,true)!==0x06054b50) e--; if(e<0) throw new Error('Geçerli bir Excel (.xlsx) dosyası değil.');
+  const n=dv.getUint16(e+10,true); let p=dv.getUint32(e+16,true); const F={};
+  for(let i=0;i<n;i++){ const nl=dv.getUint16(p+28,true), xl=dv.getUint16(p+30,true), cl=dv.getUint16(p+32,true);
+    F[td.decode(u.subarray(p+46,p+46+nl))]={m:dv.getUint16(p+10,true),cs:dv.getUint32(p+20,true),o:dv.getUint32(p+42,true)}; p+=46+nl+xl+cl; }
+  const oku=async ad=>{ const f=F[ad]; if(!f) return null; const s=f.o+30+dv.getUint16(f.o+26,true)+dv.getUint16(f.o+28,true), d=u.subarray(s,s+f.cs);
+    if(f.m===0) return td.decode(d);
+    if(typeof DecompressionStream==='undefined') throw new Error('Bu tarayıcı sıkıştırılmış Excel dosyasını açamıyor.');
+    return td.decode(await new Response(new Blob([d]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer()); };
+  return {ad:Object.keys(F),oku};
+}
+const harfSutun=r=>{ const m=String(r).match(/^[A-Z]+/); let n=0; for(const c of m?m[0]:'A') n=n*26+c.charCodeAt(0)-64; return n-1; };
+async function xlsxSatirlar(buf){
+  const z=await zipAc(buf), P=new DOMParser();
+  let sayfa=z.ad.find(x=>/^xl\/worksheets\/sheet1\.xml$/.test(x))||z.ad.find(x=>/^xl\/worksheets\/.*\.xml$/.test(x));
+  const ssx=await z.oku('xl/sharedStrings.xml'); const SS=ssx?[...P.parseFromString(ssx,'application/xml').getElementsByTagName('si')].map(si=>[...si.getElementsByTagName('t')].map(t=>t.textContent).join('')):[];
+  const d=P.parseFromString(await z.oku(sayfa),'application/xml'); const rows=[];
+  [...d.getElementsByTagName('row')].forEach(r=>{ const ri=(+r.getAttribute('r')||rows.length+1)-1; const row=[];
+    [...r.getElementsByTagName('c')].forEach(c=>{ const t=c.getAttribute('t'), ci=harfSutun(c.getAttribute('r')||'A'), v=c.getElementsByTagName('v')[0];
+      let val=''; if(t==='s') val=SS[+(v&&v.textContent)]??''; else if(t==='inlineStr') val=[...c.getElementsByTagName('t')].map(x=>x.textContent).join(''); else if(t==='str'||t==='b') val=v?v.textContent:''; else val=v?(isNaN(+v.textContent)?v.textContent:+v.textContent):'';
+      row[ci]=val; });
+    rows[ri]=row; });
+  return rows.map(r=>r||[]);
+}
+function xmlTabloSatirlar(text){ // XML Elektronik Tablo 2003 (.xls)
+  const d=new DOMParser().parseFromString(text.replace(/^﻿/,''),'application/xml');
+  if(d.getElementsByTagName('parsererror').length) throw new Error('Dosya okunamadı.');
+  return [...d.getElementsByTagNameNS('*','Row')].map(r=>{ const row=[]; let ci=0;
+    [...r.getElementsByTagNameNS('*','Cell')].forEach(c=>{ const ix=c.getAttribute('ss:Index')||c.getAttributeNS('urn:schemas-microsoft-com:office:spreadsheet','Index'); if(ix) ci=+ix-1;
+      const dt=c.getElementsByTagNameNS('*','Data')[0]; row[ci]=dt?(dt.getAttribute('ss:Type')==='Number'?+dt.textContent:dt.textContent):''; ci++; });
+    return row; });
+}
+/* -- EKAP duyuru kalem dosyası -- */
+function ekapIndir(){
+  const a=cur(), h=hesap(a); if(!h.K.length){ toast('Kalem yok.'); return; }
+  const c=(v,num)=>`<Cell><Data ss:Type="${num?'Number':'String'}">${num?v:xe(v??'')}</Data></Cell>`;
+  const bas=['İş Kaleminin Adı ve Kısa Açıklaması','Miktar','Birim','OKAS Bilgisi','IhaleKisimId','IhaleUrunId'].map(x=>`<Cell ss:StyleID="sBaslik"><Data ss:Type="String">${x}</Data></Cell>`).join('');
+  const satir=h.K.map(k=>`<Row>${c(String(k.ad).trim())}${c(k.m,1)}${c(ekapBirim(k.birim))}${c(k.okas)}${c(k.ekapKisim)}${c(k.ekapUrun)}</Row>`).join('');
+  const x=`﻿<?xml version="1.0" encoding="utf-8"?><?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:html="http://www.w3.org/TR/REC-html40"><Styles><Style ss:ID="Default" ss:Name="Normal"><Alignment ss:Vertical="Bottom"/><Font ss:FontName="Calibri" ss:Size="11"/></Style><Style ss:ID="sBaslik"><Font ss:FontName="Calibri" ss:Size="11" ss:Bold="1"/><Interior ss:Color="#D9D9D9" ss:Pattern="Solid"/></Style></Styles><Worksheet ss:Name="Sheet1"><Table><Column ss:AutoFitWidth="0" ss:Width="195.75"/><Column ss:AutoFitWidth="0" ss:Width="53.25"/><Column ss:AutoFitWidth="0" ss:Width="76.5"/><Column ss:AutoFitWidth="0" ss:Width="176.25"/><Column ss:Hidden="1" ss:Width="60.75"/><Column ss:Hidden="1" ss:Width="64.5"/><Row>${bas}</Row>${satir}</Table><WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel"><PageSetup><Header x:Margin="0.3"/><Footer x:Margin="0.3"/><PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/></PageSetup><Selected/><ProtectObjects>False</ProtectObjects><ProtectScenarios>False</ProtectScenarios></WorksheetOptions></Worksheet></Workbook>`;
+  const dn=String(a.dtNo||'').trim().replace(/[^\w]/g,'')||`${String(a.yil).slice(-2)}DT${String(a.no).padStart(4,'0')}`;
+  const t=new Date(), tr=`${String(t.getDate()).padStart(2,'0')}_${String(t.getMonth()+1).padStart(2,'0')}_${t.getFullYear()}`;
+  indir(new Blob([x],{type:'application/vnd.ms-excel'}),`${dn}_KalemGirisleri_Duyuru_${tr}.xls`);
+  toast(h.K.some(k=>!String(k.okas||'').trim())?'EKAP dosyası indirildi. OKAS kodu boş kalemler var.':'EKAP dosyası indirildi.');
+}
+function ekapAl(rows,dosyaAd){
+  const a=cur(), bas=rows.findIndex(r=>r.some(v=>/İş Kaleminin Adı/i.test(String(v)))); if(bas<0) throw new Error('EKAP kalem listesi başlığı bulunamadı.');
+  const L=rows.slice(bas+1).filter(r=>String(r[0]??'').trim()).map(r=>({...bosKalem(),ad:String(r[0]).trim(),miktar:r[1]===''?'':String(r[1]).replace('.',','),birim:birimGeri(r[2]),okas:String(r[3]??'').trim(),ekapKisim:String(r[4]??'').trim(),ekapUrun:String(r[5]??'').trim()}));
+  if(!L.length) throw new Error('Dosyada kalem yok.');
+  const dolu=a.kalemler.some(k=>String(k.ad).trim());
+  if(dolu&&!confirm(`Dosyada ${L.length} kalem var.\n\nTAMAM: Mevcut kalemlerin yerine koy (girilmiş fiyatlar silinir)\nİPTAL: Vazgeç`)) return;
+  a.kalemler=L; [...a.ymF,...a.paF].forEach(f=>f.fiyat=[]); if(L.some(k=>k.okas)) a.okasGoster=true;
+  const m=String(dosyaAd||'').match(/(\d{2}DT\d{3,})/i); if(m&&!String(a.dtNo).trim()) a.dtNo=m[1].toUpperCase();
+  touch(); render(); toast(`${L.length} kalem EKAP dosyasından alındı.${m?' DT no: '+m[1].toUpperCase():''}`);
+}
+/* -- MYS yaklaşık maliyet şablonu -- */
+function mysAl(rows){
+  const a=cur(), bas=rows.findIndex(r=>r.some(v=>/Ürün Adı/i.test(String(v)))); if(bas<0) throw new Error('MYS şablon başlığı (Ürün Adı …) bulunamadı.');
+  const K=[], fiyat=[]; // fiyat: [{ki,vkn,tutar}]
+  rows.slice(bas+1).forEach(r=>{ const ad=String(r[0]??'').trim();
+    if(ad) K.push({ad,miktar:r[1],kod:String(r[2]??'').trim()});
+    else if(K.length&&(r[6]!==''&&r[6]!=null)) fiyat.push({ki:K.length-1,vkn:String(r[7]??'').trim(),t:num(r[6])}); });
+  if(!K.length) throw new Error('Şablonda kalem yok.');
+  const mevcut=a.kalemler.filter(k=>String(k.ad).trim());
+  let mod;
+  if(!mevcut.length) mod='yeni';
+  else if(mevcut.length===K.length&&a.kalemler.length===K.length) mod=confirm(`MYS şablonundaki ${K.length} kalem, uygulamadaki kalemlerle sırasıyla eşleştirilecek; MYS adları ve birim kodları kaydedilecek.\n\nTAMAM: Eşleştir\nİPTAL: Vazgeç`)?'esle':'';
+  else mod=confirm(`MYS şablonunda ${K.length}, uygulamada ${mevcut.length} kalem var; sırayla eşleştirilemez.\n\nTAMAM: Kalemleri MYS şablonundakilerle değiştir (girilmiş fiyatlar silinir)\nİPTAL: Vazgeç`)?'yeni':'';
+  if(!mod) return;
+  if(mod==='yeni'){ a.kalemler=K.map(k=>({...bosKalem(),ad:k.ad,miktar:k.miktar===''?'':String(k.miktar).replace('.',','),birim:birimGeri(k.kod),mysAd:k.ad,mysBirim:k.kod})); [...a.ymF,...a.paF].forEach(f=>f.fiyat=[]); }
+  else { let fark=0; K.forEach((k,i)=>{ const x=a.kalemler[i]; x.mysAd=k.ad; x.mysBirim=k.kod; if(k.miktar!==''&&num(k.miktar)!==num(x.miktar)) fark++; }); if(fark) setTimeout(()=>toast(`${fark} kalemin miktarı MYS ile uygulamada farklı; kontrol edin.`),2800); }
+  let fn=0;
+  if(fiyat.length&&confirm(`Şablonda ${fiyat.length} firma fiyatı da var. Yaklaşık maliyet fiyatlarına aktarılsın mı?`)){
+    const vkns=[...new Set(fiyat.map(f=>f.vkn||'?'))];
+    vkns.forEach(v=>{ let f=a.ymF.find(x=>String(x.vkn).trim()===v); if(!f){ f=a.ymF.find(x=>!String(x.ad).trim()&&!String(x.vkn).trim()&&!x.fiyat.some(Boolean)); if(!f){ f=firma(); a.ymF.push(f); } f.vkn=v==='?'?'':v; if(!f.ad) f.ad=v==='?'?'':`VKN ${v}`; }
+      fiyat.filter(p=>(p.vkn||'?')===v).forEach(p=>{ f.fiyat[p.ki]=String(p.t).replace('.',','); fn++; }); });
+  }
+  touch(); render(); toast(`MYS şablonu alındı: ${K.length} kalem${fn?`, ${fn} fiyat`:''}.`);
+}
+async function disDosyaYukle(file,beklenen){
+  const buf=await file.arrayBuffer(), u=new Uint8Array(buf.slice(0,4));
+  try{
+    if(u[0]===0x50&&u[1]===0x4B){ const rows=await xlsxSatirlar(buf);
+      if(rows.some(r=>r.some(v=>/Ürün Adı/i.test(String(v))))) mysAl(rows);
+      else if(rows.some(r=>r.some(v=>/İş Kaleminin Adı/i.test(String(v))))) ekapAl(rows,file.name);
+      else throw new Error('Dosyada MYS veya EKAP kalem başlığı bulunamadı.'); }
+    else { const t=new TextDecoder().decode(buf); if(!/urn:schemas-microsoft-com:office:spreadsheet/.test(t)) throw new Error(beklenen==='mys'?'MYS şablonu .xlsx olmalıdır.':'Bu dosya EKAP kalem listesi biçiminde değil. Eski .xls (ikili) dosyalar okunamaz; EKAP’tan indirilen dosyayı kullanın.');
+      const rows=xmlTabloSatirlar(t); if(rows.some(r=>r.some(v=>/İş Kaleminin Adı/i.test(String(v))))) ekapAl(rows,file.name); else mysAl(rows); }
+  }catch(e){ alert('Dosya alınamadı: '+e.message); }
+}
+
 /* ================= ÖRNEK ================= */
 function ornek(){
   const k=DB.kurum;
@@ -1470,7 +1589,7 @@ function gitStep(i){ step=Math.max(0,Math.min(STEPS.length-1,i)); render(); wind
 
 /* ================= OLAYLAR ================= */
 const SERBEST=/^a:(secili|belge)\./;
-const DEGISTIR=new Set(['kAdd','kDel','kUp','kDown','kMenu','kIns','tkOrnek','tkTumu','cbAc','cbSec','kBulkShow','kBulk','uAdd','uDel','fAdd','fDel','copyYM','copyKom','autoSayi','omkl','omklOto','tbEdit','tbOto','tbAdd','tbDel','set','arsivle']);
+const DEGISTIR=new Set(['kAdd','kDel','kUp','kDown','kMenu','kIns','tkOrnek','tkTumu','cbAc','cbSec','disYukle','kBulkShow','kBulk','uAdd','uDel','fAdd','fDel','copyYM','copyKom','autoSayi','omkl','omklOto','tbEdit','tbOto','tbAdd','tbDel','set','arsivle']);
 const kilitli=()=>view==='alim'&&cur()&&cur().arsiv;
 document.addEventListener('input',e=>{
   const el=e.target; if(!el.dataset||!el.dataset.b) return;
@@ -1500,7 +1619,7 @@ const ACT={
  sheetKapat(){ $('#modal').innerHTML=''; },
  dupYap(el){ const s=DB.alimlar.find(x=>x.id===el.dataset.id); const c=normAlim(JSON.parse(JSON.stringify(s))); const t=yeniAlim();
    c.id=uid(); c.olusturma=c.guncel=Date.now(); c.arsiv=false; c.arsivTarih=null; c.kurumSnap=null; numarala(c);
-   if(el.dataset.m==='yeni'){ c.tarih=t.tarih; c.sayi=t.sayi; c.kabul=t.kabul; c.odeme=t.odeme; c.hak={...t.hak,gelirV:c.hak.gelirV,damga:c.hak.damga,damgaOran:c.hak.damgaOran,tevkifat:c.hak.tevkifat}; c.omkl={}; c.kalemler.forEach(k=>k.kabul=''); c.dtNo=''; }
+   if(el.dataset.m==='yeni'){ c.tarih=t.tarih; c.sayi=t.sayi; c.kabul=t.kabul; c.odeme=t.odeme; c.hak={...t.hak,gelirV:c.hak.gelirV,damga:c.hak.damga,damgaOran:c.hak.damgaOran,tevkifat:c.hak.tevkifat}; c.omkl={}; c.kalemler.forEach(k=>{ k.kabul=''; k.ekapKisim=''; k.ekapUrun=''; }); c.dtNo=''; }
    DB.alimlar.push(c); DB.aktif=c.id; view='alim'; step=0; $('#modal').innerHTML=''; save(); render(); window.scrollTo(0,0); toast(`${dosyaNo(c)} numaralı kopya oluşturuldu.`); },
  del(el){ const s=DB.alimlar.find(x=>x.id===el.dataset.id); if(!confirm(`“${s.ad||'Adsız alım dosyası'}” silinsin mi? Bu işlem geri alınamaz.`)) return; DB.alimlar=DB.alimlar.filter(x=>x!==s); if(DB.aktif===s.id) DB.aktif=null; save(); render(); },
  demo(){ ornek(); },
@@ -1541,6 +1660,8 @@ const ACT={
  printSel(){ const a=cur(), ids=docsOf(a).filter(d=>secili(a,d)).map(d=>d.id); if(!ids.length){ toast('Belge seçilmedi.'); return; } yazdir(sayfalar(a,ids)); },
  pvPrint(){ yazdir($('#pvBody').innerHTML); },
  ebys(el){ ebysAc(el.dataset.d); },
+ disYukle(el){ const x=$('#fileX'); x.value=''; x.dataset.m=el.dataset.m; x.click(); },
+ ekapIndir(){ ekapIndir(); },
  tkOrnek(el){ const a=cur(), i=+el.dataset.i, k=a.kalemler[i], t=$(`[data-b="a:kalemler.${i}.teknik"]`);
    if(!String(k.ad).trim()){ toast('Önce kalemin adını yazın.'); return; }
    if(String(k.teknik).trim()&&!confirm('Bu kalemin teknik özellik metni, örnek metinle değiştirilsin mi?')) return;
@@ -1590,6 +1711,7 @@ document.addEventListener('click',e=>{
 
   e.stopPropagation(); f(el);
 });
+$('#fileX').addEventListener('change',e=>{ const f=e.target.files[0]; if(f) disDosyaYukle(f,$('#fileX').dataset.m); });
 $('#fileIn').addEventListener('change',e=>{
   const f=e.target.files[0]; if(!f) return; const r=new FileReader();
   r.onload=()=>{ try{ const j=JSON.parse(r.result); const v=j.veri||j; if(!v.kurum||!Array.isArray(v.alimlar)) throw 0;
