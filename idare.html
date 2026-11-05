@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İdare Asistanı 7.2.2 — MEB Yönetim Portalı & Resmi Evrak</title>
+    <title>İdare Asistanı 7.2.4 — MEB Yönetim Portalı & Resmi Evrak</title>
     <!-- Tailwind CSS -->
     
 <style id="critical-offline-css">
@@ -787,7 +787,7 @@ tailwind.config = {
             <p id="son-yedek-bilgi" class="text-[9px] text-center text-slate-500"></p>
         </div>
         <div class="px-2.5 py-2 border-t border-slate-800 text-center flex-shrink-0">
-            <p class="text-[9px] text-slate-500 truncate">Mehmet Can Öztürk-Cuma Çetinkaya <span class="text-slate-400 font-normal" style="cursor:pointer;text-decoration:underline dotted" title="Yenilikleri göster" onclick="portalSurumPopupGoster(true)">· v<span id="portal-surum-etiket">7.2.2</span></span></p>
+            <p class="text-[9px] text-slate-500 truncate">Mehmet Can Öztürk-Cuma Çetinkaya <span class="text-slate-400 font-normal" style="cursor:pointer;text-decoration:underline dotted" title="Yenilikleri göster" onclick="portalSurumPopupGoster(true)">· v<span id="portal-surum-etiket">7.2.4</span></span></p>
             <p class="text-[9px] text-slate-400 font-semibold mt-1 uppercase tracking-wide">İletişim</p>
             <div class="flex items-center justify-center gap-2 flex-wrap text-[9px] text-slate-500 mt-0.5">
                 <a href="mailto:cann201921@gmail.com" class="text-sky-400 hover:text-sky-300 underline" title="E-posta gönder"><i class="fa-solid fa-envelope mr-0.5"></i>cann201921@gmail.com</a>
@@ -7805,7 +7805,7 @@ window.boardSetKademe = function(kademe) {
             komisyonlar: 'Ne işe yarar: Kurul ve komisyon üye atamaları.\nNasıl: Kademe seçin (yalnızca o kademenin kurulları listelenir); 📚 Kütüphaneden kurul ekleyip çıkarın; kurul kartını açıp üye atayın. Yeşil=dolu, turuncu=eksik. Üyeler tutanaklara “Kuruldan Çek” ile aktarılabilir.',
             sosyalEtkinlik: 'Ne işe yarar: Kütüphane, yıllık plan, toplum hizmeti, okul temelli eylem planı ve SE kurul tutanağı.\nNasıl: Üst sekmelerden birini seçin. Kütüphaneden etkinliği plana ekleyin; okul temellide kademe şablonu seçin; tutanakta gündem/karar ve imza. Yaşam Becerileri sekmesinde kademeyi seçin, otomatik plan oluşturun, gözlem formunu öğrenci listesinden toplu basın.',
             ogrenciKulupleri: 'Ne işe yarar: Kulüp listesi, danışman ve öğrenci listesi.\nNasıl: Kulüp ekleyin, danışmanı havuzdan seçin; zorunlu kulüp notunu ekranda görün, yazdırmaya yansımaz.',
-            cocukKulubu: 'Ne işe yarar: MEB Çocuk Kulübü yönergesi evrakları (kuruluş, YK, kayıt, program, yoklama, ücret).\nNasıl: İlgili EK formunu açın; havuz ve öğrenci bilgilerini doldurup yazdırın.',
+            cocukKulubu: 'Ne işe yarar: MEB Çocuk Kulübü yönergesi evrakları (kuruluş, YK, kayıt, program, yoklama, ücret) ve 💰 Mali İşler: aylık gelir dağılımı (bilanço), puantaj, vergi/tavan hesaplı ödeme bordrosu, YK kararları, aidat takibi.\nNasıl: İlgili EK formunu açın; havuz ve öğrenci bilgilerini doldurup yazdırın.',
             ogrenciIsleri: 'Ne işe yarar: Kayıt, şube, devamsızlık, dilekçe ve öğrenci işlemleri.\nNasıl: Alt başlığı seçin; öğrenci havuzundan bilgi çekin veya elle düzenleyin. Dilekçeler ayrı sayfa yazdırılır.',
             kantinKira: 'Ne işe yarar: Kantin kira hesabı ve sözleşme taslağı.\nNasıl: Kira tutarını (kuruş dahil) girin; hesaplanacak ayları işaretleyin; yalnızca tikli aylar hesaba katılır.',
             kurulToplanti: 'Ne işe yarar: Öğretmenler Kurulu gündemi, karar önerileri ve tutanak.\nNasıl: Kademe/tür seçin; gündem maddesini açın; hazır karar ekleyin. Tarih varsayılanı sene başı takvimine göredir.',
@@ -8310,11 +8310,13 @@ window.boardSetKademe = function(kademe) {
             return s;
         }
         function ebysWalk(node) {
+            if (window.__ebysAtla && window.__ebysAtla.has(node)) return null;
             if (node.nodeType === 3) return document.createTextNode(window.ebysCp ? ebysCp(node.textContent) : node.textContent);
             if (node.nodeType !== 1) return null;
             if (node.classList && node.classList.contains('no-print')) return null;
             const tag = node.tagName.toLowerCase();
             if (EBYS_SKIP_TAGS.indexOf(tag) !== -1) return null;
+            if (getComputedStyle(node).display === 'none') return null;
             const el = document.createElement(tag);
             el.setAttribute('style', ebysPropStr(node));
             if (tag === 'td' || tag === 'th') {
@@ -8332,11 +8334,15 @@ window.boardSetKademe = function(kademe) {
         window.ebysHtmlUret = function (sourceElId) {
             const src = document.getElementById(sourceElId);
             if (!src) return '';
-            const baked = ebysWalk(src);
+            window.__ebysAtla = (typeof ebysAtlaBul === 'function') ? ebysAtlaBul(src) : null;
+            let baked;
+            try { baked = ebysWalk(src); } finally { window.__ebysAtla = null; }
             if (!baked) return '';
             const wrap = document.createElement('div');
-            wrap.setAttribute('style', 'font-family:Times New Roman,Georgia,serif;font-size:11pt;color:#000;');
             wrap.appendChild(baked);
+            if (typeof ebysSadelestir === 'function') ebysSadelestir(wrap);
+            /* Yazı tipi her paragrafa: dış kutu (div) EBYS'de kaybolabilir */
+            Array.prototype.forEach.call(wrap.querySelectorAll('p,td,li'), function (x) { var st = x.getAttribute('style') || ''; if (!/font-family/.test(st)) x.setAttribute('style', st + ';font-family:Times New Roman,serif;'); });
             return wrap.innerHTML;
         };
         /* Verilen ID'li kapsayıcıyı EBYS formatına çevirip panoya kopyalar. btnId,
@@ -8432,6 +8438,151 @@ window.boardSetKademe = function(kademe) {
             } catch (e) { finish(false); }
         };
         /* ==================== /GENEL EBYS DÖNÜŞTÜRÜCÜ ==================== */
+        /* ==================== v7.2.4: EBYS GÖVDE MODU ====================
+           EBYS üst yazıda kurum başlığını (T.C. / kurum), Sayı-Tarih-Konu alanlarını, muhatabı
+           (Dağıtım yerleri) ve imzacıyı (okul müdürü / müdür yardımcısı) kendisi oluşturur. Bu
+           yüzden "EBYS'ye Kopyala" yalnızca yazının gövdesini (metin, tablolar, ekler) kopyalar.
+           Ayrıca EBYS editörünün bozduğu yapılar sadeleştirilir: <br> satırları ayrı paragraf
+           olur, başlık hücreleri (th) normal kalın hücreye, kutular (div) paragrafa çevrilir,
+           kenarlıklı tablolara border özniteliği eklenir. */
+        window.ebysGovdeModu = function () { return !state || state.ebysTamMetin !== true; };
+        window.ebysGovdeModuSet = function (acik) { state.ebysTamMetin = !acik; try { saveAllData(); } catch (e) {} updateUI(); };
+        var EB_UNVAN = /(okul müdürü|müdür yardımcısı|müdür yrd\.?|md\. ?yrd\.?|müdür v\.|müdür vekili|harcama yetkilisi)\s*$/i;
+        var ebMetin = function (el) { return (el.textContent || '').replace(/[\s ]+/g, ' ').trim(); };
+        var ebKenarlikli = function (el) { try { var cs = getComputedStyle(el); return ['Top', 'Right', 'Bottom', 'Left'].some(function (y) { return parseFloat(cs['border' + y + 'Width']) > 0 && cs['border' + y + 'Style'] !== 'none'; }); } catch (e) { return false; } };
+        var ebBlok = function (el) { var t = el.tagName.toLowerCase(); return /^(p|div|tr|li|h[1-6]|table|td|th)$/.test(t); };
+        window.ebysAtlaBul = function (src) {
+            var atla = new Set();
+            if (!src || !ebysGovdeModu()) return atla;
+            var hepsi = Array.prototype.slice.call(src.querySelectorAll('*'));
+            /* 1) Hazır imza bölümleri */
+            hepsi.forEach(function (el) { if (el.classList && el.classList.contains('signature-section')) atla.add(el); });
+            /* Bir metin parçasını içeren en küçük blok; sınır uzunluğu aşmadan yukarı çıkar */
+            var blokBul = function (node, sinir) {
+                var el = node.nodeType === 3 ? node.parentElement : node, son = null;
+                while (el && el !== src && ebMetin(el).length <= sinir) { if (ebBlok(el)) son = el; el = el.parentElement; }
+                return son;
+            };
+            var yazilar = [], w = document.createTreeWalker(src, NodeFilter.SHOW_TEXT, null), n;
+            while ((n = w.nextNode())) if (n.nodeValue.trim()) yazilar.push(n);
+            /* 2) Kurum başlığı: belgenin ilk metinlerinde "T.C." */
+            for (var i = 0; i < Math.min(4, yazilar.length); i++) {
+                if (/^\s*T\.\s?C\.?\s*$|^\s*T\.\s?C\.\s/.test(yazilar[i].nodeValue)) { var b = blokBul(yazilar[i], 260); if (b && !/Sayı\s*:/.test(ebMetin(b))) atla.add(b); break; }
+            }
+            /* 3) Sayı / Tarih / Konu satırları */
+            yazilar.slice(0, 40).forEach(function (t) {
+                if (!/^\s*(Sayı|SAYI|Konu|KONU|Tarih)\s*:/.test(t.nodeValue)) return;
+                var tb = t.parentElement && t.parentElement.closest('table');
+                if (tb && src.contains(tb) && ebMetin(tb).length < 320 && !Array.prototype.some.call(tb.querySelectorAll('td,th'), ebKenarlikli)) { atla.add(tb); return; }
+                var b = blokBul(t, 260); if (b) atla.add(b);
+            });
+            /* 4) Muhatap: ortalı, büyük harfli, -NE/-NA/-YE/-YA ile biten satır */
+            hepsi.forEach(function (el) {
+                if (!/^(p|div|h[1-6])$/i.test(el.tagName)) return;
+                var t = ebMetin(el);
+                if (!t || t.length > 160 || t !== t.toLocaleUpperCase('tr-TR') || !/(NE|NA|YE|YA)\.?$/.test(t)) return;
+                if (el.querySelector('p,div,table')) return;
+                try { if (getComputedStyle(el).textAlign !== 'center') return; } catch (e) { return; }
+                atla.add(el);
+            });
+            /* 5) Okul müdürü / müdür yardımcısı imzaları */
+            var adlar = [];
+            try { var md = typeof gdDirectorStaff === 'function' ? gdDirectorStaff() : null; if (md && md.name) adlar.push(md.name); } catch (e) {}
+            (state.staff || []).forEach(function (s) { var tt = (s.title || '').toLocaleLowerCase('tr-TR'); if (/müdür/.test(tt) && s.name) adlar.push(s.name); });
+            var imzaMi = function (el) {
+                var t = ebMetin(el).replace(/[.…_]{3,}/g, ' ').replace(/\s+/g, ' ').trim();
+                if (!t || t.length > 160) return false;
+                if (!EB_UNVAN.test(t) && !adlar.some(function (a) { return t.indexOf(a) >= 0 && t.length < a.length + 45; })) return false;
+                if (/^(td|th)$/i.test(el.tagName) && ebKenarlikli(el)) return false;
+                var tb = el.closest('table'); if (tb && Array.prototype.some.call(tb.querySelectorAll('td,th'), ebKenarlikli)) return false;
+                return true;
+            };
+            var adaylar = hepsi.filter(function (el) { return /^(td|div|p)$/i.test(el.tagName) && imzaMi(el); });
+            /* en küçük adaylar; hücre içindeyse hücrenin tamamı */
+            adaylar = adaylar.filter(function (el) { return !adaylar.some(function (o) { return o !== el && el.contains(o); }); });
+            adaylar.forEach(function (el) {
+                var td = el.closest('td'); var hedef = (td && src.contains(td) && imzaMi(td)) ? td : el;
+                if (!Array.prototype.some.call(atla, function (x) { return x.contains(hedef); })) atla.add(hedef);
+            });
+            /* İmza hücreleri çıkınca boş kalan tabloyu tamamen çıkar */
+            Array.prototype.slice.call(src.querySelectorAll('table')).forEach(function (tb) {
+                var hucreler = Array.prototype.slice.call(tb.querySelectorAll('td,th'));
+                if (!hucreler.length || !hucreler.some(function (h) { return atla.has(h); })) return;
+                if (hucreler.every(function (h) { return atla.has(h) || !ebMetin(h).replace(/^(olur|uygundur|tasdik olunur)\.?$/i, '') || Array.prototype.some.call(atla, function (x) { return x !== h && x.contains(h); }); })) atla.add(tb);
+            });
+            return atla;
+        };
+        /* Pişirilmiş EBYS HTML'ini EBYS editörünün bozmayacağı sade yapıya çevirir */
+        window.ebysSadelestir = function (wrap) {
+            /* th → kalın td */
+            Array.prototype.slice.call(wrap.querySelectorAll('th')).forEach(function (th) {
+                var td = document.createElement('td');
+                Array.prototype.slice.call(th.attributes).forEach(function (a) { td.setAttribute(a.name, a.value); });
+                td.setAttribute('style', (th.getAttribute('style') || '') + ';font-weight:bold;');
+                while (th.firstChild) td.appendChild(th.firstChild);
+                th.parentNode.replaceChild(td, th);
+            });
+            /* <br> içeren bloklar → her satır ayrı paragraf */
+            var bolgeler = Array.prototype.slice.call(wrap.querySelectorAll('br')).map(function (br) { return br.parentElement; }).filter(function (el, i, a) { return el && a.indexOf(el) === i; });
+            bolgeler.forEach(function (el) {
+                var tag = el.tagName.toLowerCase();
+                /* satır içi öğe (b, span, u…) içindeki br: en yakın bloğu böl */
+                while (el && !/^(p|div|td|li|h[1-6])$/.test(el.tagName.toLowerCase()) && el.parentElement && el.parentElement !== wrap) el = el.parentElement;
+                if (!el || !el.querySelector('br')) return;
+                tag = el.tagName.toLowerCase();
+                var stil = el.getAttribute('style') || '';
+                var satirlar = [[]];
+                var topla = function (node, sarmal) {
+                    Array.prototype.slice.call(node.childNodes).forEach(function (ch) {
+                        if (ch.nodeType === 1 && ch.tagName.toLowerCase() === 'br') { satirlar.push([]); return; }
+                        if (ch.nodeType === 1 && ch.querySelector && ch.querySelector('br') && !/^(table|p|div)$/i.test(ch.tagName)) {
+                            topla(ch, (sarmal || []).concat([ch]));
+                            return;
+                        }
+                        var kopya = ch.cloneNode(true);
+                        (sarmal || []).slice().reverse().forEach(function (s) { var k = s.cloneNode(false); k.appendChild(kopya); kopya = k; });
+                        satirlar[satirlar.length - 1].push(kopya);
+                    });
+                };
+                topla(el, []);
+                var pStil = (/^(td|li)$/.test(tag) ? '' : stil.replace(/(^|;)\s*(height|min-height)\s*:[^;]*/g, '')) + ';margin:0;';
+                var yeni = satirlar.map(function (s) {
+                    var p = document.createElement('p'); p.setAttribute('style', pStil);
+                    if (!s.length || !s.some(function (x) { return (x.textContent || '').trim() || (x.nodeType === 1 && x.querySelector && x.querySelector('img')); })) p.innerHTML = '&nbsp;';
+                    else s.forEach(function (x) { p.appendChild(x); });
+                    return p;
+                });
+                if (/^(td|li)$/.test(tag)) { el.innerHTML = ''; yeni.forEach(function (p) { el.appendChild(p); }); }
+                else { yeni.forEach(function (p) { el.parentNode.insertBefore(p, el); }); el.parentNode.removeChild(el); }
+            });
+            /* div → paragraf (blok çocuğu yoksa) ya da kaldır (çocukları kalır) */
+            Array.prototype.slice.call(wrap.querySelectorAll('div')).reverse().forEach(function (d) {
+                if (!d.parentNode) return;
+                if (d.querySelector('p,div,table,ol,ul,h1,h2,h3,h4,h5,h6')) {
+                    while (d.firstChild) d.parentNode.insertBefore(d.firstChild, d);
+                    d.parentNode.removeChild(d);
+                } else if (!(d.textContent || '').trim() && !d.querySelector('img')) d.parentNode.removeChild(d);
+                else {
+                    var p = document.createElement('p'); p.setAttribute('style', (d.getAttribute('style') || '').replace(/(^|;)\s*(height|min-height)\s*:[^;]*/g, '') + ';margin:0;');
+                    while (d.firstChild) p.appendChild(d.firstChild);
+                    d.parentNode.replaceChild(p, d);
+                }
+            });
+            /* Kenarlıklı tablolar: eski editörlerin de tanıdığı öznitelikler */
+            Array.prototype.slice.call(wrap.querySelectorAll('table')).forEach(function (tb) {
+                var kenar = Array.prototype.some.call(tb.querySelectorAll('td'), function (td) { return /border-(top|left|right|bottom)-width:\s*[1-9]/.test(td.getAttribute('style') || ''); });
+                tb.setAttribute('cellspacing', '0'); tb.setAttribute('cellpadding', '4');
+                if (kenar) { tb.setAttribute('border', '1'); tb.setAttribute('style', (tb.getAttribute('style') || '') + ';border-collapse:collapse;'); }
+                else tb.setAttribute('border', '0');
+                if (!/width/.test(tb.getAttribute('style') || '')) tb.setAttribute('width', '100%');
+            });
+            /* Boş baş/son paragrafları at */
+            var bosP = function (p) { return p && p.tagName === 'P' && !(p.textContent || '').replace(/ /g, '').trim() && !p.querySelector('img'); };
+            while (bosP(wrap.firstElementChild)) wrap.removeChild(wrap.firstElementChild);
+            while (bosP(wrap.lastElementChild)) wrap.removeChild(wrap.lastElementChild);
+            return wrap;
+        };
+        /* ==================== /EBYS GÖVDE MODU ==================== */
         /* ==================== EBYS KARAKTER GÜVENLİĞİ + RESMÎ YAZI BİÇİMLEYİCİ (v7.2.2) ====================
            EBYS metni Türkçe 8 bitlik karakter kümesiyle saklar; bu kümede olmayan karakterler
            (akıllı tırnak, uzun tire, madde imi, ₺, görünmez boşluklar, emoji…) yapıştırınca "?"
@@ -8490,8 +8641,10 @@ window.boardSetKademe = function(kademe) {
             window.ebysDuzMetinUret = function (src) {
                 if (!src) return '';
                 var out = '';
+                var atla = (typeof ebysAtlaBul === 'function') ? ebysAtlaBul(src) : new Set();
                 var sonSatir = function () { if (out && !/\n$/.test(out)) out += '\n'; };
                 (function yuru(n) {
+                    if (atla.has(n)) return;
                     if (n.nodeType === 3) { out += n.textContent.replace(/[\r\n\t ]+/g, ' '); return; }
                     if (n.nodeType !== 1) return;
                     if (n.classList && n.classList.contains('no-print')) return;
@@ -8504,6 +8657,8 @@ window.boardSetKademe = function(kademe) {
                     if ((tag === 'td' || tag === 'th') && n.previousElementSibling) {
                         var oncekiBos = true, ps = n.previousElementSibling;
                         while (ps) { if ((ps.textContent || '').trim()) oncekiBos = false; ps = ps.previousElementSibling; }
+                        var tbK = n.closest('table');
+                        if (oncekiBos && tbK && Array.prototype.some.call(tbK.querySelectorAll('td,th'), function (h) { var c2 = getComputedStyle(h); return parseFloat(c2.borderTopWidth) > 0 || parseFloat(c2.borderLeftWidth) > 0; })) oncekiBos = false;
                         if (oncekiBos && (n.textContent || '').trim()) {
                             var kayit = out; out = '';
                             for (var ci = 0; ci < n.childNodes.length; ci++) yuru(n.childNodes[ci]);
@@ -9031,6 +9186,10 @@ window.boardSetKademe = function(kademe) {
                     <p class="text-xs text-slate-500 mt-1">Word (.docx, .doc), Excel/Calc (.xlsx, .xls, .ods, .csv), PDF, OpenDocument (.odt), RTF, TXT, HTML veya görsel dosyanızı seçin. Belgeniz sunucuya gönderilmeden, tamamen bu cihazda/tarayıcıda HTML'e dönüştürülür; metinler, tablolar, temel yazı biçimleri ve görseller mümkün olduğunca korunur. Sonra <b>EBYS'ye Kopyala</b> ile çıktıyı panoya alıp EBYS editöründe Ctrl+V ile yapıştırabilirsiniz.</p>
                 </div>
 
+                <label class="flex items-start gap-2 bg-teal-50 border border-teal-200 rounded-lg p-3 mb-3 text-[11px] text-teal-900 cursor-pointer">
+                    <input type="checkbox" class="mt-0.5 w-4 h-4" ${ebysGovdeModu() ? 'checked' : ''} onchange="ebysGovdeModuSet(this.checked)">
+                    <span><b>EBYS gövde modu (önerilir):</b> “EBYS'ye Kopyala” ve “Düz Metin” bütün modüllerde yalnızca yazının gövdesini kopyalar. Kurum başlığı (T.C. / Kaymakamlık / Okul Müdürlüğü), Sayı-Tarih-Konu, muhatap ve okul müdürü / müdür yardımcısı ad-imzası çıkarılır; çünkü EBYS bunları üst yazıya kendisi yerleştirir. Tam metni (başlık ve imzalarla) kopyalamak için işareti kaldırın.</span>
+                </label>
                 <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-5 text-[11px] text-amber-800">
                     ⚠️ Karmaşık Word nesneleri, makrolar, metin kutuları, SmartArt ve bazı özel yazı tipleri EBYS tarafından desteklenmeyebilir. Dönüştürme sonrası önizlemeyi kontrol edin. Kesin görünüm için orijinal Word/PDF dosyasını da saklayın.
                 </div>
@@ -18695,6 +18854,338 @@ window.okUpdateKulupAdi = function(idx, value) {
             );
         };
 
+        /* —— v7.2.3: MALİ İŞLER (bilanço · puantaj · bordro · kararlar · aidat) ——
+           Yönergenin 16. maddesine göre aylık gelir dağıtımı: %26 temel gider, %55 öğretmen/usta
+           öğretici/koordinatör (saate göre), %7 YK başkanı, %5 müdür yardımcısı, %2 yazışma-muhasebe,
+           %4 temizlik-bakım-beslenme (eşit), %1 il MEM. Kişi başı aylık brüt, en yüksek devlet memuru
+           brüt aylığının görev tavanını (%275/%250/%300/%400/%200) aşamaz; aşan tutar temel gidere geçer. */
+        var CK_PAY = [
+            { k: 'temel', ad: 'Temel giderler (materyal, beslenme, SGK primi, diğer)', o: 26 },
+            { k: 'ogretmen', ad: 'Öğretmen, usta öğretici, koordinatör öğretmen', o: 55 },
+            { k: 'baskan', ad: 'Yönetim kurulu başkanı', o: 7 },
+            { k: 'my', ad: 'Müdür yardımcısı (başkan yardımcısı)', o: 5 },
+            { k: 'muhasebe', ad: 'Yazışma ve muhasebe personeli', o: 2 },
+            { k: 'temizlik', ad: 'Temizlik, bakım ve beslenme personeli', o: 4 },
+            { k: 'ilmem', ad: 'Denetim yetkilileri (il MEM hesabına)', o: 1 }
+        ];
+        var CK_TAVAN = { baskan: 275, my: 250, koordinator: 275, resmi: 300, resmiDegil: 400, muhasebe: 200, temizlik: 200 };
+        var CK_GUN = ['pazar', 'pazartesi', 'sali', 'carsamba', 'persembe', 'cuma', 'cumartesi'];
+        var CK_AY = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+        var ckNorm = function (s) { return String(s || '').toLocaleLowerCase('tr-TR').replace(/ç/g, 'c').replace(/ğ/g, 'g').replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ş/g, 's').replace(/ü/g, 'u'); };
+        var ckTl = function (n) { return Number(n || 0).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
+        var ckR2 = function (n) { return Math.round((Number(n) || 0) * 100) / 100; };
+        /* "Pazartesi, Çarşamba" · "Pazartesi–Cuma" · "Hafta içi" → [1,3] / [1..5] */
+        window.ckGunleriCoz = function (metin) {
+            var t = ckNorm(metin), set = {};
+            if (/hafta ?ici|her gun/.test(t)) [1, 2, 3, 4, 5].forEach(function (d) { set[d] = 1; });
+            if (/hafta ?sonu/.test(t)) { set[6] = 1; set[0] = 1; }
+            var ar = /([a-z]+)\s*[-–—]\s*([a-z]+)/.exec(t);
+            if (ar && CK_GUN.indexOf(ar[1]) >= 0 && CK_GUN.indexOf(ar[2]) >= 0) {
+                var a = CK_GUN.indexOf(ar[1]), b = CK_GUN.indexOf(ar[2]);
+                for (var d = a; ; d = (d + 1) % 7) { set[d] = 1; if (d === b) break; }
+            }
+            t.split(/[,;\/\-–—]|\sve\s|\s+/).forEach(function (p) { var i = CK_GUN.indexOf(p.trim()); if (i >= 0) set[i] = 1; });
+            return Object.keys(set).map(Number);
+        };
+        var ckGrupSaat = function (g) {
+            var p = function (s) { var m = /(\d{1,2})[:.](\d{2})/.exec(s || ''); return m ? (+m[1]) * 60 + (+m[2]) : null; };
+            var a = p(g.saatBas), b = p(g.saatBit);
+            return (a == null || b == null || b <= a) ? 2 : Math.max(1, Math.round((b - a) / 60));
+        };
+        window.ckMaliEnsure = function () {
+            var c = ckEnsure();
+            if (!c.mali || typeof c.mali !== 'object') c.mali = {};
+            var m = c.mali, d = new Date();
+            if (!m.ay) m.ay = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+            if (m.tatil == null) m.tatil = '';
+            if (m.tahsilat == null) m.tahsilat = '';
+            if (m.enYuksekBrut == null) m.enYuksekBrut = '';
+            if (m.damga == null) m.damga = 0.759;
+            if (m.gv == null) m.gv = 15;
+            if (m.sgk == null) m.sgk = 14;
+            if (!m.kisi || typeof m.kisi !== 'object') m.kisi = {};
+            if (!m.sekme) m.sekme = 'bilanco';
+            if (!m.karar) m.karar = 'dagitim';
+            if (m.kararNo == null) m.kararNo = '';
+            if (m.kararTarih == null) m.kararTarih = '';
+            if (!m.odeme || typeof m.odeme !== 'object') m.odeme = {};
+            (c.gruplar || []).forEach(function (g) { (g.kayitlar || []).forEach(function (k) { if (!k.id) k.id = 'k' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }); });
+            return m;
+        };
+        window.ckMaliSet = function (alan, deger, yenile) {
+            ckMaliEnsure()[alan] = deger;
+            try { if (typeof saveAllData === 'function') saveAllData(); } catch (e) {}
+            if (yenile !== false) updateUI();
+        };
+        window.ckMaliKisiSet = function (key, alan, deger) {
+            var m = ckMaliEnsure();
+            if (!m.kisi[key]) m.kisi[key] = {};
+            if (deger === '' || deger == null) delete m.kisi[key][alan]; else m.kisi[key][alan] = deger;
+            try { if (typeof saveAllData === 'function') saveAllData(); } catch (e) {}
+            updateUI();
+        };
+        window.ckOdemeSet = function (kid, deger) {
+            var m = ckMaliEnsure();
+            if (!m.odeme[m.ay]) m.odeme[m.ay] = {};
+            m.odeme[m.ay][kid] = !!deger;
+            try { if (typeof saveAllData === 'function') saveAllData(); } catch (e) {}
+            updateUI();
+        };
+        /* Tüm hesap tek yerde */
+        window.ckMaliHesap = function () {
+            var c = ckEnsure(), m = ckMaliEnsure();
+            var yy = +m.ay.slice(0, 4), mm = +m.ay.slice(5, 7), son = new Date(yy, mm, 0).getDate();
+            var tatil = {}; String(m.tatil || '').split(/[^0-9]+/).forEach(function (x) { if (x) tatil[+x] = 1; });
+            var saatUcreti = Number(c.saatUcreti) || 0;
+            var gruplar = (c.gruplar || []).map(function (g) { return { g: g, gunler: ckGunleriCoz(g.gunler), saat: ckGrupSaat(g), n: (g.kayitlar || []).filter(function (k) { return (k.ad || '').trim(); }).length, aylik: 0 }; });
+            var gunler = [];
+            for (var d = 1; d <= son; d++) {
+                var wd = new Date(yy, mm - 1, d).getDay();
+                if (tatil[d]) continue;
+                var aktif = gruplar.filter(function (x) { return x.gunler.indexOf(wd) >= 0; });
+                if (!aktif.length) continue;
+                aktif.forEach(function (x) { x.aylik += x.saat; });
+                gunler.push({ d: d, wd: wd, aktif: aktif, kulupSaat: Math.max.apply(null, aktif.map(function (x) { return x.saat; })) });
+            }
+            gruplar.forEach(function (x) { x.gelir = ckR2(x.n * x.aylik * saatUcreti); });
+            var beklenen = ckR2(gruplar.reduce(function (a, x) { return a + x.gelir; }, 0));
+            var gelir = (m.tahsilat !== '' && !isNaN(parseFloat(m.tahsilat))) ? ckR2(parseFloat(m.tahsilat)) : beklenen;
+            var enYuksek = (m.enYuksekBrut !== '' && !isNaN(parseFloat(m.enYuksekBrut))) ? parseFloat(m.enYuksekBrut) : ckR2(9500 * (Number(c.katsayi) || 1.575512));
+            var havuz = {}; CK_PAY.forEach(function (p) { havuz[p.k] = ckR2(gelir * p.o / 100); });
+            /* Kişiler */
+            var kisiler = [];
+            var ekle = function (rol, key, ad, gorev, varsTavan, varsTip, saat, gunluk) {
+                var o = m.kisi[key] || {};
+                var tavanK = o.tavan || varsTavan, tip = o.tip || varsTip;
+                kisiler.push({ rol: rol, key: key, ad: ad, gorev: gorev, tavanK: tavanK, tavanOran: CK_TAVAN[tavanK], tip: tip, saatOto: saat, saat: (o.saat != null && o.saat !== '') ? Number(o.saat) : saat, gunluk: gunluk, gvOran: o.gv != null ? Number(o.gv) : Number(m.gv) });
+            };
+            var kulupGunluk = {}; gunler.forEach(function (g) { kulupGunluk[g.d] = g.kulupSaat; });
+            var kulupToplam = gunler.reduce(function (a, g) { return a + g.kulupSaat; }, 0);
+            var adOf = function (id) { var s = (state.staff || []).find(function (x) { return String(x.id) === String(id); }); return s ? s.name : ''; };
+            ekle('baskan', 'baskan', adOf(c.yk.mudurId), 'Yönetim Kurulu Başkanı', 'baskan', 'kadrolu', kulupToplam, kulupGunluk);
+            ekle('my', 'my', adOf(c.yk.myId), 'Başkan Yardımcısı (Müdür Yrd.)', 'my', 'kadrolu', kulupToplam, kulupGunluk);
+            var ogrIdler = [];
+            gruplar.forEach(function (x) { if (x.g.ogretmenId != null && ogrIdler.indexOf(String(x.g.ogretmenId)) < 0) ogrIdler.push(String(x.g.ogretmenId)); });
+            ogrIdler.forEach(function (sid) {
+                var gl = {}, top = 0;
+                gunler.forEach(function (g) { var h = g.aktif.filter(function (x) { return String(x.g.ogretmenId) === sid; }).reduce(function (a, x) { return a + x.saat; }, 0); if (h) { gl[g.d] = h; top += h; } });
+                var koord = String(c.yk.ogretmenId) === sid;
+                ekle('ogretmen', 'o:' + sid, adOf(sid), koord ? 'Koordinatör Öğretmen' : 'Öğretmen', 'resmi', 'kadrolu', top, gl);
+            });
+            (c.ogretmenler || []).forEach(function (ad) {
+                ad = String(ad || '').trim(); if (!ad) return;
+                if (kisiler.some(function (k) { return ckNorm(k.ad) === ckNorm(ad); })) return;
+                ekle('ogretmen', 'u:' + ad, ad, 'Öğretmen / Usta Öğretici', 'resmiDegil', 'ucretli', 0, {});
+            });
+            if (c.personel && String(c.personel.yazisma || '').trim()) ekle('muhasebe', 'muhasebe', c.personel.yazisma.trim(), 'Yazışma-Muhasebe Görevlisi', 'muhasebe', 'kadrolu', kulupToplam, kulupGunluk);
+            ((c.personel && c.personel.temizlik) || []).forEach(function (ad, i) { ad = String(ad || '').trim(); if (ad) ekle('temizlik', 't:' + i, ad, 'Temizlik/Bakım/Beslenme', 'temizlik', 'ucretli', kulupToplam, kulupGunluk); });
+            /* Dağıtım */
+            var artik = 0;
+            var ogrSaat = kisiler.filter(function (k) { return k.rol === 'ogretmen'; }).reduce(function (a, k) { return a + (k.saat || 0); }, 0);
+            var temizN = kisiler.filter(function (k) { return k.rol === 'temizlik'; }).length;
+            kisiler.forEach(function (k) {
+                var pay = 0;
+                if (k.rol === 'ogretmen') pay = ogrSaat ? havuz.ogretmen * (k.saat || 0) / ogrSaat : 0;
+                else if (k.rol === 'temizlik') pay = temizN ? havuz.temizlik / temizN : 0;
+                else pay = havuz[k.rol] || 0;
+                k.pay = ckR2(pay);
+                k.tavan = ckR2(enYuksek * k.tavanOran / 100);
+                k.brut = Math.min(k.pay, k.tavan);
+                k.asim = ckR2(k.pay - k.brut);
+                artik += k.asim;
+                k.sgk = k.tip === 'ucretli' ? ckR2(k.brut * (Number(m.sgk) || 0) / 100) : 0;
+                k.matrah = ckR2(k.brut - k.sgk);
+                k.gv = ckR2(k.matrah * (k.gvOran || 0) / 100);
+                k.damga = ckR2(k.brut * (Number(m.damga) || 0) / 100);
+                k.net = ckR2(k.brut - k.sgk - k.gv - k.damga);
+            });
+            /* Dağıtılamayan paylar (kişisi olmayan kalem) da temel gidere geçer */
+            var bos = 0;
+            ['baskan', 'my', 'muhasebe'].forEach(function (r) { if (!kisiler.some(function (k) { return k.rol === r; })) bos += havuz[r]; });
+            if (!ogrSaat) bos += havuz.ogretmen;
+            if (!temizN) bos += havuz.temizlik;
+            var T = function (f) { return ckR2(kisiler.reduce(function (a, k) { return a + (k[f] || 0); }, 0)); };
+            return {
+                c: c, m: m, yy: yy, mm: mm, ayAd: CK_AY[mm - 1] + ' ' + yy, gunler: gunler, gruplar: gruplar, saatUcreti: saatUcreti,
+                beklenen: beklenen, gelir: gelir, elle: gelir !== beklenen, enYuksek: enYuksek, havuz: havuz, kisiler: kisiler,
+                artik: ckR2(artik), bos: ckR2(bos), temelToplam: ckR2(havuz.temel + artik + bos),
+                top: { brut: T('brut'), sgk: T('sgk'), gv: T('gv'), damga: T('damga'), net: T('net'), saat: T('saat') },
+                ogrenci: gruplar.reduce(function (a, x) { return a + x.n; }, 0)
+            };
+        };
+        var ckYatay = function (html) { return html.replace('<div class="official-letter-page', '<div data-evrak-yatay="1" class="official-letter-page'); };
+        var ckTh = function (t, ek) { return '<th class="border border-black p-1 ' + (ek || '') + '">' + t + '</th>'; };
+        var ckTd = function (t, ek) { return '<td class="border border-black p-1 ' + (ek || '') + '">' + t + '</td>'; };
+        var ckYkImzalari = function () {
+            var c = ckEnsure(), a = function (id) { return ckEsc(ckStaffName(id)); };
+            var hucre = function (ad, gorev) { return '<td style="border:none;text-align:center;vertical-align:top;padding:4px;width:20%"><p style="margin:0 0 26px">&nbsp;</p><p style="margin:0">' + ad + '</p><p style="margin:0;font-size:9pt">' + gorev + '</p></td>'; };
+            return '<table style="width:100%;border-collapse:collapse;margin-top:18px;font-size:10pt"><tr>' +
+                hucre(a(c.yk.mudurId), 'Okul Müdürü<br>YK Başkanı') + hucre(a(c.yk.myId), 'Müdür Yardımcısı<br>Üye') + hucre(a(c.yk.ogretmenId), 'Öğretmen/Koordinatör<br>Üye') +
+                hucre(ckEsc(c.yk.oab || '………………'), 'OAB Başkanı/Muhasip<br>Üye') + hucre(ckEsc(c.yk.veli || '………………'), 'Veli<br>Üye') + '</tr></table>';
+        };
+        var ckDuzenleOnay = function () {
+            var c = ckEnsure();
+            return '<table style="width:100%;border-collapse:collapse;margin-top:22px;font-size:10.5pt"><tr>' +
+                '<td style="border:none;text-align:center;width:50%"><p style="margin:0"><b>Düzenleyen</b></p><p style="margin:26px 0 0">' + ckEsc(ckStaffName(c.yk.myId)) + '</p><p style="margin:0">Başkan Yardımcısı</p></td>' +
+                '<td style="border:none;text-align:center;width:50%"><p style="margin:0"><b>Onaylayan</b></p><p style="margin:26px 0 0">' + ckEsc(ckStaffName(c.yk.mudurId)) + '</p><p style="margin:0">Yönetim Kurulu Başkanı</p></td></tr></table>';
+        };
+
+        window.ckRenderMali = function () {
+            var H = ckMaliHesap(), m = H.m, c = H.c;
+            var inp = function (lbl, alan, val, tip, ek) { return '<div><label class="font-bold text-slate-500">' + lbl + '</label><input type="' + (tip || 'text') + '" ' + (ek || '') + ' value="' + ckEsc(val) + '" onchange="ckMaliSet(\'' + alan + '\',this.value)" class="w-full border rounded p-1.5"></div>'; };
+            var form = '<div class="no-print mb-3 border border-amber-200 bg-amber-50/50 rounded-xl p-3 text-xs">' +
+                '<div class="grid grid-cols-2 md:grid-cols-4 gap-2">' +
+                inp('Dönem (ay)', 'ay', m.ay, 'month') +
+                inp('Tatil günleri (ayın günleri, ör. 28, 29)', 'tatil', m.tatil) +
+                inp('Fiilen tahsil edilen gelir (boşsa hesaplanır)', 'tahsilat', m.tahsilat, 'number', 'step="0.01" placeholder="' + ckTl(H.beklenen) + '"') +
+                inp('En yüksek memur brüt aylığı', 'enYuksekBrut', m.enYuksekBrut, 'number', 'step="0.01" placeholder="' + ckTl(H.enYuksek) + '"') +
+                inp('Gelir vergisi % (varsayılan)', 'gv', m.gv, 'number', 'step="1"') +
+                inp('Damga vergisi % (binde 7,59 = 0,759)', 'damga', m.damga, 'number', 'step="0.001"') +
+                inp('Ücretli/usta öğr. SGK işçi payı %', 'sgk', m.sgk, 'number', 'step="0.5"') +
+                '<div class="bg-white rounded border p-1.5">Saat ücreti: <b>' + ckTl(H.saatUcreti) + ' TL</b><br><span class="text-[10px] text-slate-500">«Ücret / Plan» sekmesinden</span></div>' +
+                '</div>' +
+                '<div class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-2">' +
+                '<div class="bg-white rounded border p-1.5">Faaliyet günü<br><b>' + H.gunler.length + '</b></div>' +
+                '<div class="bg-white rounded border p-1.5">Kayıtlı öğrenci<br><b>' + H.ogrenci + '</b></div>' +
+                '<div class="bg-white rounded border p-1.5">Dağıtılacak gelir<br><b>' + ckTl(H.gelir) + ' TL</b>' + (H.elle ? ' <span class="text-amber-700">(elle)</span>' : '') + '</div>' +
+                '<div class="bg-white rounded border p-1.5">Tavan aşımı → temel gider<br><b class="' + (H.artik ? 'text-rose-600' : '') + '">' + ckTl(H.artik) + ' TL</b></div>' +
+                '</div>' +
+                '<p class="text-[10.5px] text-slate-500 mt-2">Gruplar, günler, saatler ve öğrenciler «Gruplar / Kayıt»tan; YK üyeleri «EK-1 Onay»dan; yazışma ve temizlik personeli EK-1’deki personel alanlarından alınır. Grup günlerini “Pazartesi, Çarşamba” veya “Pazartesi–Cuma” şeklinde yazın. Damga vergisi %0,759 (binde 7,59); gelir vergisi oranı kişi bazında değiştirilebilir. Vergi/SGK uygulamasını okulunuzun muhasebe birimiyle teyit edin.</p>' +
+                '</div>';
+            /* Kişi ayarları */
+            var tavanOpt = function (k) {
+                var ops = k.rol === 'ogretmen' ? [['resmi', 'Resmî görevli %300'], ['resmiDegil', 'Resmî görevi yok %400'], ['koordinator', 'Koordinatör %275']] : [[k.tavanK, '%' + k.tavanOran]];
+                return '<select onchange="ckMaliKisiSet(\'' + ckEsc(k.key) + '\',\'tavan\',this.value)" class="border rounded p-0.5" ' + (k.rol === 'ogretmen' ? '' : 'disabled') + '>' + ops.map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === k.tavanK ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select>';
+            };
+            var kisiTablo = '<div class="no-print mb-3 overflow-x-auto"><table class="w-full text-[11px] border-collapse bg-white"><tr class="bg-slate-100">' +
+                ['Görev', 'Adı Soyadı', 'Statü', 'Tavan', 'Saat (oto)', 'GV %', 'Pay', 'Brüt', 'Net'].map(function (x) { return '<th class="border p-1">' + x + '</th>'; }).join('') + '</tr>' +
+                H.kisiler.map(function (k) {
+                    return '<tr><td class="border p-1">' + ckEsc(k.gorev) + '</td><td class="border p-1">' + ckEsc(k.ad || '— seçilmedi —') + '</td>' +
+                        '<td class="border p-1"><select onchange="ckMaliKisiSet(\'' + ckEsc(k.key) + '\',\'tip\',this.value)" class="border rounded p-0.5"><option value="kadrolu"' + (k.tip === 'kadrolu' ? ' selected' : '') + '>Kadrolu</option><option value="ucretli"' + (k.tip === 'ucretli' ? ' selected' : '') + '>Ücretli/SGK’lı</option></select></td>' +
+                        '<td class="border p-1">' + tavanOpt(k) + '</td>' +
+                        '<td class="border p-1"><input type="number" step="1" class="w-16 border rounded p-0.5" value="' + (k.saat || 0) + '" title="Otomatik: ' + k.saatOto + ' — boş bırakırsanız otomatiğe döner" onchange="ckMaliKisiSet(\'' + ckEsc(k.key) + '\',\'saat\',this.value===\'\'?\'\':Number(this.value))"> <span class="text-slate-400">(' + k.saatOto + ')</span></td>' +
+                        '<td class="border p-1"><select onchange="ckMaliKisiSet(\'' + ckEsc(k.key) + '\',\'gv\',this.value)" class="border rounded p-0.5">' + [15, 20, 27, 35, 40].map(function (o) { return '<option' + (o === k.gvOran ? ' selected' : '') + '>' + o + '</option>'; }).join('') + '</select></td>' +
+                        '<td class="border p-1 text-right">' + ckTl(k.pay) + '</td><td class="border p-1 text-right ' + (k.asim ? 'text-rose-600 font-bold' : '') + '" title="Tavan: ' + ckTl(k.tavan) + '">' + ckTl(k.brut) + (k.asim ? ' ⚠' : '') + '</td><td class="border p-1 text-right">' + ckTl(k.net) + '</td></tr>';
+                }).join('') + '</table>' +
+                (H.kisiler.some(function (k) { return !k.ad; }) ? '<p class="text-[10.5px] text-rose-600 mt-1">Adı seçilmemiş görevli var: «EK-1 Onay» sekmesinden YK üyelerini seçin.</p>' : '') + '</div>';
+            var sekmeler = [['bilanco', '📊 Bilanço'], ['puantaj', '🗓️ Puantaj'], ['bordro', '💰 Bordro'], ['karar', '📝 Kararlar'], ['aidat', '👪 Aidat Takibi']];
+            var sekmeBtn = '<div class="no-print flex flex-wrap gap-1.5 mb-3">' + sekmeler.map(function (s) { return '<button type="button" onclick="ckMaliSet(\'sekme\',\'' + s[0] + '\')" class="px-3 py-1.5 text-[11px] font-bold rounded-lg border ' + (m.sekme === s[0] ? 'bg-amber-600 text-white border-amber-600' : 'bg-white text-slate-600 border-slate-200') + '">' + s[1] + '</button>'; }).join('') + '</div>';
+            var fn = { bilanco: ckMaliBilanco, puantaj: ckMaliPuantaj, bordro: ckMaliBordro, karar: ckMaliKarar, aidat: ckMaliAidat }[m.sekme] || ckMaliBilanco;
+            return form + sekmeBtn + (m.sekme === 'aidat' || m.sekme === 'karar' ? '' : kisiTablo) + fn(H);
+        };
+
+        window.ckMaliBilanco = function (H) {
+            var sube = H.gruplar.length, haftalik = H.gruplar.reduce(function (a, x) { return a + x.aylik; }, 0);
+            return ckDoc('ck-bilanco',
+                ckHeader('ÇOCUK KULÜBÜ ' + H.ayAd.toLocaleUpperCase('tr-TR') + ' AYI GELİR DAĞILIM TABLOSU (BİLANÇO)') +
+                '<p class="text-[10pt] mb-2">Katsayı: <b>' + Number(H.c.katsayi).toLocaleString('tr-TR', { maximumFractionDigits: 6 }) + '</b> · Ders saati ücreti: <b>' + ckTl((Number(H.c.gosterge) || 140) * (Number(H.c.katsayi) || 0)) + ' TL</b> · Belirlenen etkinlik saat ücreti: <b>' + ckTl(H.saatUcreti) + ' TL</b></p>' +
+                '<table class="w-full border-collapse text-[9.5pt] mb-3"><thead><tr class="bg-gray-100">' + ckTh('Grup') + ckTh('Öğrenci') + ckTh('Günler') + ckTh('Günlük saat') + ckTh('Aylık saat') + ckTh('Saat ücreti') + ckTh('Aylık gelir (TL)') + '</tr></thead><tbody>' +
+                H.gruplar.map(function (x) { return '<tr>' + ckTd(ckEsc(x.g.ad + ' / ' + x.g.tur)) + ckTd(x.n, 'text-center') + ckTd(ckEsc(x.g.gunler), 'text-center') + ckTd(x.saat, 'text-center') + ckTd(x.aylik, 'text-center') + ckTd(ckTl(H.saatUcreti), 'text-right') + ckTd(ckTl(x.gelir), 'text-right') + '</tr>'; }).join('') +
+                '<tr class="font-bold">' + ckTd('Toplam (' + sube + ' grup, ' + H.gunler.length + ' faaliyet günü)') + ckTd(H.ogrenci, 'text-center') + ckTd('') + ckTd('') + ckTd(haftalik, 'text-center') + ckTd('') + ckTd(ckTl(H.beklenen), 'text-right') + '</tr></tbody></table>' +
+                (H.elle ? '<p class="text-[10pt] mb-2">Fiilen tahsil edilen gelir: <b>' + ckTl(H.gelir) + ' TL</b> (dağıtım bu tutar üzerinden yapılmıştır).</p>' : '') +
+                '<table class="w-full border-collapse text-[10pt] mb-2"><thead><tr class="bg-gray-100">' + ckTh('Kalem') + ckTh('Oran', 'w-16') + ckTh('Tutar (TL)', 'w-32') + '</tr></thead><tbody>' +
+                '<tr class="font-bold">' + ckTd('Gelir toplamı') + ckTd('%100', 'text-center') + ckTd(ckTl(H.gelir), 'text-right') + '</tr>' +
+                CK_PAY.map(function (p) { return '<tr>' + ckTd(p.ad) + ckTd('%' + p.o, 'text-center') + ckTd(ckTl(H.havuz[p.k]), 'text-right') + '</tr>'; }).join('') +
+                '</tbody></table>' +
+                ((H.artik || H.bos) ? '<p class="text-[10pt] mb-1">Görev tavanını aşan <b>' + ckTl(H.artik) + ' TL</b>' + (H.bos ? ' ve görevlisi bulunmayan kalemlerden kalan <b>' + ckTl(H.bos) + ' TL</b>' : '') + ' temel giderlere aktarılmıştır. Temel giderler toplamı: <b>' + ckTl(H.temelToplam) + ' TL</b>.</p>' : '') +
+                '<p class="text-[9pt] text-justify">Dağıtım, Çocuk Kulüpleri Yönergesinin 16. maddesine göre yapılmıştır. Kişi başı aylık brüt ödeme; en yüksek devlet memuru brüt aylığının (' + ckTl(H.enYuksek) + ' TL) YK başkanı, koordinatör ve denetim yetkilisi için %275’ini, müdür yardımcısı için %250’sini, resmî görevi bulunan öğretmen için %300’ünü, bulunmayan için %400’ünü, diğer personel için %200’ünü aşamaz.</p>' +
+                ckDuzenleOnay());
+        };
+
+        window.ckMaliPuantaj = function (H) {
+            var gun = H.gunler;
+            var kisa = ['Pz', 'Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Ct'];
+            var bas = '<tr class="bg-gray-100">' + ckTh('S.N.') + ckTh('Görevi') + ckTh('Adı Soyadı') + gun.map(function (g) { return ckTh(g.d + '<br><span style="font-weight:normal">' + kisa[g.wd] + '</span>', 'text-[7.5pt] p-0.5'); }).join('') + ckTh('Toplam') + '</tr>';
+            var satir = H.kisiler.map(function (k, i) {
+                var elle = k.saat !== k.saatOto;
+                return '<tr>' + ckTd(i + 1, 'text-center') + ckTd(ckEsc(k.gorev), 'text-[8.5pt]') + ckTd(ckEsc(k.ad || '…………'), 'text-[8.5pt]') +
+                    gun.map(function (g) { var h = k.gunluk[g.d]; return ckTd(elle ? '' : (h || ''), 'text-center p-0.5 text-[8pt]'); }).join('') + ckTd('<b>' + (k.saat || 0) + '</b>', 'text-center') + '</tr>';
+            }).join('');
+            return ckYatay(ckDoc('ck-puantaj',
+                ckHeader('ÇOCUK KULÜBÜ ' + H.ayAd.toLocaleUpperCase('tr-TR') + ' AYI PUANTAJ CETVELİ') +
+                (gun.length ? '<div style="overflow-x:auto"><table class="w-full border-collapse text-[9pt] mb-2"><thead>' + bas + '</thead><tbody>' + satir + '</tbody></table></div>' : '<p class="text-sm">Bu ay için faaliyet günü bulunamadı. «Gruplar / Kayıt»ta grup günlerini girin.</p>') +
+                '<p class="text-[8.5pt]">Hücrelerde o gün yapılan etkinlik/görev saati yer alır. ' + (String(H.m.tatil || '').trim() ? 'Tatil/faaliyet yapılmayan günler: ' + ckEsc(H.m.tatil) + '. ' : '') + 'Saati elle düzeltilen görevlilerde yalnızca toplam gösterilir.</p>' +
+                ckDuzenleOnay()));
+        };
+
+        window.ckMaliBordro = function (H) {
+            var t = H.top;
+            return ckYatay(ckDoc('ck-bordro',
+                ckHeader('ÇOCUK KULÜBÜ ' + H.ayAd.toLocaleUpperCase('tr-TR') + ' AYI ÖDEME BORDROSU') +
+                '<p class="text-[9.5pt] mb-2">Dağıtılan gelir: <b>' + ckTl(H.gelir) + ' TL</b> · En yüksek memur brüt aylığı: <b>' + ckTl(H.enYuksek) + ' TL</b> · Damga vergisi: <b>%' + String(H.m.damga).replace('.', ',') + '</b></p>' +
+                '<div style="overflow-x:auto"><table class="w-full border-collapse text-[8.5pt] mb-2"><thead><tr class="bg-gray-100">' +
+                ['S.N.', 'Görevi', 'Adı Soyadı', 'Statü', 'Saat', 'Brüt', 'SGK İşçi', 'GV Matrahı', 'GV %', 'Gelir V.', 'Damga V.', 'Ele Geçen', 'İmza'].map(function (x) { return ckTh(x); }).join('') + '</tr></thead><tbody>' +
+                H.kisiler.map(function (k, i) {
+                    return '<tr>' + ckTd(i + 1, 'text-center') + ckTd(ckEsc(k.gorev)) + ckTd(ckEsc(k.ad || '…………')) + ckTd(k.tip === 'ucretli' ? 'Ücretli' : 'Kadrolu') + ckTd(k.saat || 0, 'text-center') +
+                        ckTd(ckTl(k.brut), 'text-right') + ckTd(ckTl(k.sgk), 'text-right') + ckTd(ckTl(k.matrah), 'text-right') + ckTd('%' + k.gvOran, 'text-center') +
+                        ckTd(ckTl(k.gv), 'text-right') + ckTd(ckTl(k.damga), 'text-right') + ckTd('<b>' + ckTl(k.net) + '</b>', 'text-right') + ckTd('', 'w-16') + '</tr>';
+                }).join('') +
+                '<tr class="font-bold bg-gray-50">' + ckTd('TOPLAM', '', '') + ckTd('') + ckTd('') + ckTd('') + ckTd(t.saat, 'text-center') + ckTd(ckTl(t.brut), 'text-right') + ckTd(ckTl(t.sgk), 'text-right') + ckTd('') + ckTd('') + ckTd(ckTl(t.gv), 'text-right') + ckTd(ckTl(t.damga), 'text-right') + ckTd(ckTl(t.net), 'text-right') + ckTd('') + '</tr></tbody></table></div>' +
+                '<p class="text-[8.5pt] text-justify">Kadrolu personele ödenen tutarlar vergi matrahına dahil edilmek üzere ilgili muhasebe birimine bildirilir; ücretli personel ve usta öğreticiler kulübün vergi numarasıyla SGK’ya bildirilir. Tavanı aşan tutar (' + ckTl(H.artik) + ' TL) temel giderlere aktarılmıştır. İl MEM payı (' + ckTl(H.havuz.ilmem) + ' TL) il millî eğitim müdürlüğü hesabına yatırılır.</p>' +
+                ckDuzenleOnay()));
+        };
+
+        window.ckMaliKarar = function (H) {
+            var m = H.m, c = H.c;
+            var tur = [['dagitim', 'Aylık gelir dağıtımı ve ödeme'], ['ucret', 'Etkinlik saat ücretinin belirlenmesi'], ['kurulus', 'Kulübün açılması ve etkinlik alanları']];
+            var form = '<div class="no-print mb-3 grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">' +
+                '<div><label class="font-bold text-slate-500">Karar</label><select onchange="ckMaliSet(\'karar\',this.value)" class="w-full border rounded p-1.5">' + tur.map(function (t) { return '<option value="' + t[0] + '"' + (m.karar === t[0] ? ' selected' : '') + '>' + t[1] + '</option>'; }).join('') + '</select></div>' +
+                '<div><label class="font-bold text-slate-500">Karar no</label><input value="' + ckEsc(m.kararNo) + '" onchange="ckMaliSet(\'kararNo\',this.value)" class="w-full border rounded p-1.5"></div>' +
+                '<div><label class="font-bold text-slate-500">Karar tarihi</label><input type="date" value="' + ckEsc(m.kararTarih) + '" onchange="ckMaliSet(\'kararTarih\',this.value)" class="w-full border rounded p-1.5"></div></div>';
+            var tarih = m.kararTarih ? m.kararTarih.split('-').reverse().join('.') : '…/…/20…';
+            var okul = ckEsc(state.schoolName || '…………');
+            var ust = '<p style="text-align:center;font-weight:bold;margin:0 0 4px">' + okul.toLocaleUpperCase('tr-TR') + ' ÇOCUK KULÜBÜ YÖNETİM KURULU KARARI</p>' +
+                '<table style="width:100%;border-collapse:collapse;margin:8px 0 10px;font-size:10.5pt"><tr><td style="border:none">Karar No: <b>' + ckEsc(m.kararNo || '……') + '</b></td><td style="border:none;text-align:right">Karar Tarihi: <b>' + tarih + '</b></td></tr></table>' +
+                '<p class="text-justify mb-2" style="text-indent:1.25cm">Okulumuz Çocuk Kulübü Yönetim Kurulu, ' + tarih + ' tarihinde okul müdürü ' + ckEsc(ckStaffName(c.yk.mudurId)) + ' başkanlığında toplanarak aşağıdaki kararları almıştır.</p>';
+            var govde = '';
+            if (m.karar === 'dagitim') {
+                govde = '<p class="text-justify mb-2" style="text-indent:1.25cm">1. Kulübün ' + H.ayAd + ' ayı geliri <b>' + ckTl(H.gelir) + ' TL</b> olup Millî Eğitim Bakanlığı Çocuk Kulüpleri Yönergesinin 16. maddesi gereğince aşağıdaki şekilde dağıtılmasına,</p>' +
+                    '<table class="w-full border-collapse text-[10pt] mb-2"><tbody>' + CK_PAY.map(function (p) { return '<tr>' + ckTd(p.ad) + ckTd('%' + p.o, 'text-center w-16') + ckTd(ckTl(p.k === 'temel' ? H.temelToplam : H.havuz[p.k]) + ' TL', 'text-right w-32') + '</tr>'; }).join('') + '</tbody></table>' +
+                    '<p class="text-justify mb-2" style="text-indent:1.25cm">2. Görevlilere ' + H.ayAd + ' ayı puantajına göre hazırlanan bordrodaki tutarların (toplam brüt <b>' + ckTl(H.top.brut) + ' TL</b>, ele geçen <b>' + ckTl(H.top.net) + ' TL</b>) okul-aile birliği bünyesindeki kulüp hesabından ödenmesine' + (H.artik ? ', görev tavanını aşan ' + ckTl(H.artik) + ' TL’nin temel giderlere aktarılmasına' : '') + ',</p>' +
+                    '<p class="text-justify mb-2" style="text-indent:1.25cm">3. Denetim yetkilileri payı olan ' + ckTl(H.havuz.ilmem) + ' TL’nin il millî eğitim müdürlüğü adına açılan hesaba yatırılmasına,</p>';
+            } else if (m.karar === 'ucret') {
+                var taban = (Number(c.gosterge) || 140) * (Number(c.katsayi) || 0);
+                govde = '<p class="text-justify mb-2" style="text-indent:1.25cm">1. Gündüz öğretimi ders saati ücreti ' + ckTl(taban) + ' TL (' + (c.gosterge || 140) + ' × ' + Number(c.katsayi).toLocaleString('tr-TR', { maximumFractionDigits: 6 }) + ') olup yönergenin 14. maddesine göre etkinlik saat ücretinin alt sınırı (1/6) ' + ckTl(taban / 6) + ' TL, üst sınırı (1/4) ' + ckTl(taban / 4) + ' TL' + (c.yemekli ? ', beslenme verildiği için üst sınır (1/3) ' + ckTl(taban / 3) + ' TL' : '') + ' olarak hesaplanmıştır.</p>' +
+                    '<p class="text-justify mb-2" style="text-indent:1.25cm">2. Kulübün etkinlik saat ücretinin <b>' + ckTl(H.saatUcreti) + ' TL</b>, günlük etkinlik süresinin <b>' + (c.gunlukSaat || 6) + ' saat</b> olarak belirlenmesine; ücretin her ay peşin olarak okul-aile birliği bünyesindeki kulüp hesabına yatırılmasına,</p>' +
+                    '<p class="text-justify mb-2" style="text-indent:1.25cm">3. Bir ay içinde ücreti ödenmeyen çocuğun sonraki ay etkinliğe alınmamasına ve kulüple ilişiğinin kesilmesine; mazeretsiz ve kesintisiz 20 gün devam etmeyen çocuğun ilişiğinin kesilmesine,</p>';
+            } else {
+                govde = '<p class="text-justify mb-2" style="text-indent:1.25cm">1. Okulumuzda yönerge hükümlerine göre Çocuk Kulübü açılmasına; kulübün ' + ckEsc(c.etkinlikGunleri || '') + ' günleri faaliyet göstermesine,</p>' +
+                    '<p class="text-justify mb-2" style="text-indent:1.25cm">2. Kulüpte aşağıdaki etkinlik alanlarında ve gruplarda çalışma yapılmasına:</p>' +
+                    '<table class="w-full border-collapse text-[10pt] mb-2"><thead><tr class="bg-gray-100">' + ckTh('Grup') + ckTh('Etkinlik alanı') + ckTh('Öğretmen') + ckTh('Gün / Saat') + '</tr></thead><tbody>' +
+                    (c.gruplar || []).map(function (g) { return '<tr>' + ckTd(ckEsc(g.ad)) + ckTd(ckEsc(g.tur)) + ckTd(ckEsc(ckStaffName(g.ogretmenId))) + ckTd(ckEsc(g.gunler + ' ' + g.saatBas + '-' + g.saatBit)) + '</tr>'; }).join('') + '</tbody></table>' +
+                    '<p class="text-justify mb-2" style="text-indent:1.25cm">3. Kulüp için vergi numarası alınmasına, okul-aile birliği bünyesinde kulüp adına alt hesap açılmasına, işletme defterinin okul müdürlüğüne onaylatılmasına ve EK-1 onayı için ilçe millî eğitim müdürlüğüne yazı yazılmasına,</p>';
+            }
+            govde += '<p class="text-justify mb-2" style="text-indent:1.25cm">oy birliği ile karar verilmiştir.</p>';
+            return form + ckDoc('ck-karar', ust + govde + ckYkImzalari());
+        };
+
+        window.ckMaliAidat = function (H) {
+            var m = H.m, od = m.odeme[m.ay] || {}, borc = 0, odenen = 0, bekleyen = [];
+            var satirlar = [];
+            H.gruplar.forEach(function (x) {
+                (x.g.kayitlar || []).forEach(function (k) {
+                    if (!(k.ad || '').trim()) return;
+                    var tutar = ckR2(x.aylik * H.saatUcreti), ok = !!od[k.id];
+                    borc += tutar; if (ok) odenen += tutar; else bekleyen.push({ k: k, g: x.g, t: tutar });
+                    satirlar.push({ k: k, g: x.g, t: tutar, ok: ok });
+                });
+            });
+            var liste = '<div class="no-print mb-3 overflow-x-auto"><table class="w-full text-[11px] border-collapse bg-white"><tr class="bg-slate-100"><th class="border p-1">Öğrenci</th><th class="border p-1">Grup</th><th class="border p-1">Veli / Tel</th><th class="border p-1">Tutar</th><th class="border p-1">Ödendi</th></tr>' +
+                (satirlar.length ? satirlar.map(function (r) {
+                    return '<tr class="' + (r.ok ? 'bg-emerald-50' : '') + '"><td class="border p-1">' + ckEsc(r.k.ad) + '</td><td class="border p-1">' + ckEsc(r.g.ad) + '</td><td class="border p-1">' + ckEsc((r.k.veli || '') + (r.k.tel ? ' · ' + r.k.tel : '')) + '</td><td class="border p-1 text-right">' + ckTl(r.t) + '</td>' +
+                        '<td class="border p-1 text-center"><input type="checkbox" ' + (r.ok ? 'checked' : '') + ' onchange="ckOdemeSet(\'' + ckEsc(r.k.id) + '\',this.checked)" class="w-4 h-4"></td></tr>';
+                }).join('') : '<tr><td colspan="5" class="border p-2 text-center text-slate-400">«Gruplar / Kayıt»ta öğrenci yok.</td></tr>') +
+                '</table><p class="text-[11px] mt-1">Beklenen: <b>' + ckTl(borc) + ' TL</b> · Ödenen: <b class="text-emerald-700">' + ckTl(odenen) + ' TL</b> · Bekleyen: <b class="text-rose-600">' + ckTl(borc - odenen) + ' TL</b> (' + bekleyen.length + ' öğrenci). Tutar = grubun bu ayki etkinlik saati × saat ücreti; mazeretli günler için tutarı düzeltin.</p></div>';
+            var doc = ckDoc('ck-aidat',
+                ckHeader('ÇOCUK KULÜBÜ ' + H.ayAd.toLocaleUpperCase('tr-TR') + ' AYI ÜCRET TAKİP LİSTESİ') +
+                '<table class="w-full border-collapse text-[9.5pt] mb-2"><thead><tr class="bg-gray-100">' + ckTh('S.N.') + ckTh('Öğrenci') + ckTh('Grup') + ckTh('Veli') + ckTh('Tutar (TL)') + ckTh('Durum') + '</tr></thead><tbody>' +
+                satirlar.map(function (r, i) { return '<tr>' + ckTd(i + 1, 'text-center') + ckTd(ckEsc(r.k.ad)) + ckTd(ckEsc(r.g.ad)) + ckTd(ckEsc(r.k.veli || '')) + ckTd(ckTl(r.t), 'text-right') + ckTd(r.ok ? 'Ödendi' : '<b>Ödenmedi</b>', 'text-center') + '</tr>'; }).join('') +
+                '<tr class="font-bold">' + ckTd('') + ckTd('Toplam') + ckTd('') + ckTd('') + ckTd(ckTl(borc), 'text-right') + ckTd('Ödenen: ' + ckTl(odenen), 'text-center') + '</tr></tbody></table>' +
+                (bekleyen.length ? '<p class="text-[10pt] text-justify mt-3" style="text-indent:1.25cm">Yukarıda “Ödenmedi” olarak gösterilen ' + bekleyen.length + ' öğrencinin velilerine ücretin ödenmesi gerektiği bildirilmiştir. Yönergenin 14. maddesi gereğince bir ay içinde ücreti ödenmeyen çocuk sonraki ay etkinliğe alınmaz ve kulüple ilişiği kesilir.</p>' : '<p class="text-[10pt] mt-3">Bu ay için tüm ücretler ödenmiştir.</p>') +
+                ckDuzenleOnay());
+            return liste + doc;
+        };
+
         window.renderCocukKulubu = function() {
             var c = ckEnsure();
             var subs = [
@@ -18708,6 +19199,7 @@ window.okUpdateKulupAdi = function(idx, value) {
                 { id: 'yillik', label: 'Yıllık Program' },
                 { id: 'yoklama', label: 'Yoklama' },
                 { id: 'ucret', label: 'Ücret / Plan' },
+                { id: 'mali', label: '💰 Mali İşler' },
                 { id: 'gorev', label: 'Görevlendirme' }
             ];
             var btns = subs.map(function(s) {
@@ -18721,7 +19213,7 @@ window.okUpdateKulupAdi = function(idx, value) {
                     kurulus: ckRenderKurulus, sozlesme: ckRenderSozlesme, basvuru: ckRenderBasvuru,
                     acil: ckRenderAcil, denetim: ckRenderDenetim, yonetim: ckRenderYonetim,
                     gruplar: ckRenderGruplar, yillik: ckRenderYillik, yoklama: ckRenderYoklama,
-                    ucret: ckRenderUcret, gorev: ckRenderGorevlendirme
+                    ucret: ckRenderUcret, mali: ckRenderMali, gorev: ckRenderGorevlendirme
                 };
                 body = (map[c.activeSub] || ckRenderKurulus)();
             } catch (err) {
@@ -32894,7 +33386,7 @@ window.okUpdateKulupAdi = function(idx, value) {
             ]},
             { baslik: 'Öğrenci İşleri & Kulüpler', ico: '🎓', modüller: [
                 { id: 'ogrenciIsleri', ico: '🎓', ad: 'Öğrenci İşleri', alt: ['Öğrenciler', 'Kayıt İşlemleri', 'Şube Açma/Kapama', 'Sınıf Yükseltme', 'Devamsızlık', 'Disiplin / Davranış'] },
-                { id: 'cocukKulubu', ico: '🧒', ad: 'Çocuk Kulübü', alt: ['EK-1 Onay','EK-2 Sözleşme','EK-4 Başvuru','EK-5 Acil','EK-6 Denetim','Yönetim Kurulu','Gruplar/Kayıt','Yıllık Program','Yoklama','Ücret/Plan','Görevlendirme'] },
+                { id: 'cocukKulubu', ico: '🧒', ad: 'Çocuk Kulübü', alt: ['EK-1 Onay','EK-2 Sözleşme','EK-4 Başvuru','EK-5 Acil','EK-6 Denetim','Yönetim Kurulu','Gruplar/Kayıt','Yıllık Program','Yoklama','Ücret/Plan','Mali İşler: bilanço (gelir dağılımı)','Puantaj','Ödeme bordrosu','YK kararları','Aidat takibi','Görevlendirme'] },
                 { id: 'destekEgitim', ico: '🧩', ad: 'Destek Eğitim / Evde Eğitim', alt: ['Destek Eğitim: Planlama, BEP, Program, Ücret, Çizelge, RPD, Dilekçeler', 'Evde Eğitim: Üst yazı, Ev ortamı, Aylık/Haftalık çizelge, Tutanaklar, Sözleşme'] },
                 { id: 'sorumlulukSinavi', ico: '📝', ad: 'Sorumluluk Sınavları', alt: ['Öğrenci listesi', 'Sınav programı', 'Komisyon', 'Tutanak', 'Dilekçe'] },
                 { id: 'disiplinIslemleri', ico: '⚖️', ad: 'Disiplin İşlemleri', alt: ['İlkokul', 'Ortaokul', 'Ortaöğretim — Ödül ve Disiplin Kurulu'] },
@@ -38259,7 +38751,7 @@ function isgPrint(kind){
         /* TEK SÜRÜM KAYNAĞI — bu değeri değiştir, her yer (sekme başlığı + sol menü
            etiketi) otomatik güncellenir. Dosya adı da hep bu numarayla aynı olmalı:
            İDARE ASİSTANI v<PORTAL_SURUM>. Sıralama: v6.5.0, v6.5.1 … v6.5.9, v6.6.0 … */
-        window.PORTAL_SURUM = '7.2.2';
+        window.PORTAL_SURUM = '7.2.4';
 
         /* ==================== GENEL BELGE DÜZENLEME ====================
            Programdaki evrakların çoğu salt çıktıydı (yalnızca bazılarında
@@ -38539,6 +39031,8 @@ function isgPrint(kind){
             } catch(e){}
         })();
         window.PORTAL_SURUM_NOTLARI = [
+            'EBYS’ye yapıştırma düzeltildi: satır sonları (<br>) artık ayrı paragraf olarak gider, tablo başlık hücreleri normal kalın hücreye, kutular paragrafa çevrilir, kenarlıklı tablolara border özniteliği eklenir, ekranda gizli bölümler kopyalanmaz — başlık satırlarının ve “Ad SOYADUnvan” gibi bitişmeler giderildi. Yeni EBYS gövde modu (varsayılan açık, EBYS Evrak Oluştur sayfasından kapatılabilir): EBYS üst yazıya kendisi eklediği için kurum başlığı, Sayı-Tarih-Konu, muhatap ve okul müdürü / müdür yardımcısı ad-imzası kopyalanmaz; yalnızca yazının gövdesi, tabloları ve ekleri gider',
+            'Çocuk Kulübü → yeni 💰 Mali İşler sekmesi: seçilen ay için grupların günlerinden ve saatlerinden faaliyet günleri, aylık etkinlik saatleri ve beklenen gelir otomatik hesaplanır (tahsil edilen tutar elle de girilebilir). 📊 Bilanço: yönergenin 16. maddesine göre %26 temel gider, %55 öğretmen/usta öğretici/koordinatör (saate göre), %7 YK başkanı, %5 müdür yardımcısı, %2 yazışma-muhasebe, %4 temizlik-bakım-beslenme (eşit), %1 il MEM. Görev tavanları (%275/%250/%300/%400/%200 × en yüksek memur brüt aylığı) aşılırsa fazlası temel gidere aktarılır. 🗓️ Puantaj (günlük saatlerle), 💰 Ödeme bordrosu (brüt, SGK işçi payı, GV matrahı, gelir ve damga vergisi, ele geçen), 📝 YK kararları (aylık dağıtım-ödeme, saat ücreti belirleme, kulüp açılışı) ve 👪 Aidat takibi (ödendi işaretleme, ödemeyen veli listesi). Kişiler EK-1 ve Gruplar sekmelerinden gelir; statü, tavan, saat ve vergi oranı kişi bazında değiştirilebilir',
             'EBYS uyumu: tüm “EBYS’ye Kopyala” işlemlerinde EBYS’de “?” çıkaran karakterler (akıllı tırnak, uzun tire, madde imi, ₺, görünmez boşluklar, bozuk kod sayfası harfleri Ð/Ý/Þ, onay kutuları…) otomatik güvenli karşılığına çevrilir, düzeltilen karakter sayısı düğmede görünür; paragraf girintisi artık EBYS’ye taşınır. Her evrakın araç çubuğuna “Düz Metin” (Not Defteri yöntemi: “?” hiç çıkmaz, girinti ve tablo hücreleri Tab ile korunur) eklendi. EBYS Evrak Oluştur dönüştürücüsüne ✍️ Metin Yapıştır ve 🪄 Resmî Yazı Düzenine Getir: satır sonları kaybolmuş tek blok metin bile başlık, Sayı/Konu/İlgi, muhatap, girintili paragraflar, ayrı kapanış cümlesi (…arz/rica ederim), sağda imza, OLUR onayı, Ek/Dağıtım ve alt bilgi düzenine sokulur; yapay zekâdan gelen **, # işaretleri temizlenir. PDF dönüştürmede filigranlar, e-imza/doğrulama damgaları ve sayfa numaraları ayıklanır',
             'Yeni modül 🧳 Yolluk / Ayrılma İşlemleri: Personel Nakil Bildirimi, Yolluk Hesaplama ve ayrılış/başlayış evrakları tek modülde. 📎 Kararname Ekle: MEBBİS atama/yer değiştirme kararnamesi PDF’i okunur (çok sayfalı PDF’te her sayfa ayrı kararname); ad, T.C., eski/yeni görev yeri, unvan, alan, derece, tarih/sayı ve onay bilgileri nakil formuna, yolluk formuna ve EBYS ayrılış/başlayış yazılarına otomatik aktarılır. Okulunuzdan ayrılan/gelen otomatik belirlenir; gelen personel tek dokunuşla havuza eklenir; kararname tebliğ-tebellüğ belgesi hazır',
             'Proforma Fatura: kalem satırlarının üstüne sütun başlıkları (S.N., Mal/Hizmet Tanımı, KDV %, Adet, Birim Fiyat, Tutar) eklendi; “Hesapla ve Belgeye Aktar” düğmesi girilen tüm satırları, müşteri bilgilerini ve toplamları yazdırılacak faturaya anında aktarır',
