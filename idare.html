@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İdare Asistanı 7.1.9 — MEB Yönetim Portalı & Resmi Evrak</title>
+    <title>İdare Asistanı 7.2.2 — MEB Yönetim Portalı & Resmi Evrak</title>
     <!-- Tailwind CSS -->
     
 <style id="critical-offline-css">
@@ -787,7 +787,7 @@ tailwind.config = {
             <p id="son-yedek-bilgi" class="text-[9px] text-center text-slate-500"></p>
         </div>
         <div class="px-2.5 py-2 border-t border-slate-800 text-center flex-shrink-0">
-            <p class="text-[9px] text-slate-500 truncate">Mehmet Can Öztürk-Cuma Çetinkaya <span class="text-slate-400 font-normal" style="cursor:pointer;text-decoration:underline dotted" title="Yenilikleri göster" onclick="portalSurumPopupGoster(true)">· v<span id="portal-surum-etiket">7.1.9</span></span></p>
+            <p class="text-[9px] text-slate-500 truncate">Mehmet Can Öztürk-Cuma Çetinkaya <span class="text-slate-400 font-normal" style="cursor:pointer;text-decoration:underline dotted" title="Yenilikleri göster" onclick="portalSurumPopupGoster(true)">· v<span id="portal-surum-etiket">7.2.2</span></span></p>
             <p class="text-[9px] text-slate-400 font-semibold mt-1 uppercase tracking-wide">İletişim</p>
             <div class="flex items-center justify-center gap-2 flex-wrap text-[9px] text-slate-500 mt-0.5">
                 <a href="mailto:cann201921@gmail.com" class="text-sky-400 hover:text-sky-300 underline" title="E-posta gönder"><i class="fa-solid fa-envelope mr-0.5"></i>cann201921@gmail.com</a>
@@ -7774,8 +7774,7 @@ window.boardSetKademe = function(kademe) {
             { id: 'disiplinIslemleri', icon: '⚖️', title: 'Disiplin İşlemleri' },
             { id: 'tasimaliEgitim', icon: '🚐', title: 'Taşımalı Eğitim' },
             { id: 'gezi', icon: '🚌', title: 'Gezi Planı Oluşturma' },
-            { id: 'yolluk', icon: '🧳', title: 'Yolluk Hesaplama (Sürekli Görev)' },
-            { id: 'personelNakil', icon: '📇', title: 'Personel Nakil Bildirimi' },
+            { id: 'personelNakil', icon: '🧳', title: 'Yolluk / Ayrılma İşlemleri' },
             { id: 'sivilSavunma', icon: '🛡️', title: 'Sivil Savunma & Sabotaj Koruma Planı' },
             { id: 'okulGuvenligi', icon: '🔐', title: 'Okul Güvenliği Dosyası' },
             { id: 'iyepPlanlama', icon: '📚', title: 'İYEP Planlama' },
@@ -7820,7 +7819,7 @@ window.boardSetKademe = function(kademe) {
             tasimaliEgitim: 'Ne işe yarar: Taşımalı eğitim planlama, denetim ve puantaj evrakları.\nNasıl: Araç/şoför bilgisi girin; tutanak ve puantaj formlarını kullanın.',
             gezi: 'Ne işe yarar: Okul gezisi planı, izin ve güvenlik kontrolü.\nNasıl: Güzergâh, tarih, öğrenci ve görevli öğretmenleri doldurun; kontrol listesini işaretleyin.',
             yolluk: 'Ne işe yarar: Sürekli görev yolluk / harcırah hesabı.\nNasıl: Personel, güzergâh ve gün bilgisini girin; hesabı yazdırın.',
-            personelNakil: 'Ne işe yarar: Personel nakil bildirim formu.\nNasıl: Personeli seçip nakil bilgilerini doldurun; tek A4 yazdırın.',
+            personelNakil: 'Ne işe yarar: Atama/yer değiştirme kararnamesi, personel nakil bildirimi, sürekli görev yolluğu ve ayrılış/başlayış evrakları tek yerde.\nNasıl: Kararname Ekle ile MEBBİS kararname PDF’ini seçin; bilgiler formlara otomatik aktarılır. Alt sekmelerden nakil bildirimi, yolluk ve evrakları yazdırın.',
             sivilSavunma: 'Ne işe yarar: Sivil savunma ve sabotaj koruma planı.\nNasıl: Komisyon üyelerini atayın; plan maddelerini düzenleyip yazdırın.',
             isg: 'Ne işe yarar: İSG atama, form, risk ve eğitim evrakları (50 altı/üstü).\nNasıl: Okul büyüklüğüne göre seçenekleri kullanın; evrakları önizleyip düzenleyin.',
             dogrudanTemin: 'Ne işe yarar: Doğrudan temin işlem dosyası (menüde gizli olabilir).\nNasıl: İhtiyaç listesi ve firmaları doldurup evrak setini üretin.',
@@ -8293,7 +8292,7 @@ window.boardSetKademe = function(kademe) {
            Atlanan/temizlenenler: .no-print elemanları, form kontrolleri
            (button/select/input/textarea), ikonlar (<i>), contenteditable/data-*
            öznitelikleri — EBYS'nin desteklemeyeceği veya işine yaramayacak şeyler. */
-        const EBYS_BAKE_PROPS = ['borderTopWidth', 'borderTopStyle', 'borderTopColor', 'borderRightWidth', 'borderRightStyle', 'borderRightColor', 'borderBottomWidth', 'borderBottomStyle', 'borderBottomColor', 'borderLeftWidth', 'borderLeftStyle', 'borderLeftColor', 'borderCollapse', 'padding', 'margin', 'fontWeight', 'fontStyle', 'textDecoration', 'textAlign', 'fontSize', 'fontFamily', 'color', 'backgroundColor', 'verticalAlign', 'lineHeight'];
+        const EBYS_BAKE_PROPS = ['borderTopWidth', 'borderTopStyle', 'borderTopColor', 'borderRightWidth', 'borderRightStyle', 'borderRightColor', 'borderBottomWidth', 'borderBottomStyle', 'borderBottomColor', 'borderLeftWidth', 'borderLeftStyle', 'borderLeftColor', 'borderCollapse', 'padding', 'margin', 'fontWeight', 'fontStyle', 'textDecoration', 'textAlign', 'fontSize', 'fontFamily', 'color', 'backgroundColor', 'verticalAlign', 'lineHeight', 'textIndent'];
         const EBYS_SKIP_TAGS = ['button', 'select', 'input', 'textarea', 'i', 'svg', 'script', 'style', 'label'];
         function ebysPropStr(node) {
             const cs = getComputedStyle(node);
@@ -8303,6 +8302,7 @@ window.boardSetKademe = function(kademe) {
                 if (!val) return;
                 if (/^(rgba\(0, ?0, ?0, ?0\)|transparent)$/.test(val)) return;
                 if (/Width$/.test(p) && val === '0px') return;
+                if (p === 'textIndent' && !parseFloat(val)) return;
                 if ((val === 'auto' || val === 'normal' || val === 'none') && !/Width|Style|Color/.test(p)) return;
                 const kebab = p.replace(/[A-Z]/g, function (m) { return '-' + m.toLowerCase(); });
                 s += kebab + ':' + val + ';';
@@ -8310,7 +8310,7 @@ window.boardSetKademe = function(kademe) {
             return s;
         }
         function ebysWalk(node) {
-            if (node.nodeType === 3) return document.createTextNode(node.textContent);
+            if (node.nodeType === 3) return document.createTextNode(window.ebysCp ? ebysCp(node.textContent) : node.textContent);
             if (node.nodeType !== 1) return null;
             if (node.classList && node.classList.contains('no-print')) return null;
             const tag = node.tagName.toLowerCase();
@@ -8342,20 +8342,22 @@ window.boardSetKademe = function(kademe) {
         /* Verilen ID'li kapsayıcıyı EBYS formatına çevirip panoya kopyalar. btnId,
            geri bildirim (Kopyalandı!) göstermek için düğmenin id'sidir. */
         window.ebysKopyala = function (sourceElId, btnId) {
+            window.__ebysCpSayac = 0;
             const html = ebysHtmlUret(sourceElId);
+            const duzeltilen = window.__ebysCpSayac || 0;
             if (!html) { showCustomAlert('Belge Bulunamadı', 'Kopyalanacak belge içeriği bulunamadı. Önce belgeyi oluşturup görüntüleyiniz.'); return; }
             const finish = (ok) => {
                 const btn = document.getElementById(btnId);
                 if (!btn) return;
                 const eski = btn.innerHTML;
-                btn.innerHTML = ok ? '✅ Kopyalandı!' : '⚠ Kopyalanamadı';
-                setTimeout(() => { btn.innerHTML = eski; }, 2200);
+                btn.innerHTML = ok ? ('✅ Kopyalandı!' + (duzeltilen ? ' · ' + duzeltilen + ' karakter düzeltildi' : '')) : '⚠ Kopyalanamadı';
+                setTimeout(() => { btn.innerHTML = eski; }, 2600);
             };
             if (navigator.clipboard && window.ClipboardItem) {
                 try {
                     const src = document.getElementById(sourceElId);
                     const blobHtml = new Blob([html], { type: 'text/html' });
-                    const blobText = new Blob([src ? src.innerText : ''], { type: 'text/plain' });
+                    const blobText = new Blob([src ? (window.ebysDuzMetinUret ? ebysDuzMetinUret(src) : src.innerText) : ''], { type: 'text/plain' });
                     navigator.clipboard.write([new ClipboardItem({ 'text/html': blobHtml, 'text/plain': blobText })]).then(() => finish(true)).catch(() => ebysKopyalaFallback(html, finish));
                 } catch (e) { ebysKopyalaFallback(html, finish); }
             } else {
@@ -8394,6 +8396,7 @@ window.boardSetKademe = function(kademe) {
         };
         window.ebysKopyalaCoklu = function (sourceElIds, btnId) {
             var parts = [];
+            window.__ebysCpSayac = 0;
             (sourceElIds || []).forEach(function(id) {
                 var h = (typeof ebysHtmlUret === 'function') ? ebysHtmlUret(id) : '';
                 if (h) parts.push(h);
@@ -8429,6 +8432,300 @@ window.boardSetKademe = function(kademe) {
             } catch (e) { finish(false); }
         };
         /* ==================== /GENEL EBYS DÖNÜŞTÜRÜCÜ ==================== */
+        /* ==================== EBYS KARAKTER GÜVENLİĞİ + RESMÎ YAZI BİÇİMLEYİCİ (v7.2.2) ====================
+           EBYS metni Türkçe 8 bitlik karakter kümesiyle saklar; bu kümede olmayan karakterler
+           (akıllı tırnak, uzun tire, madde imi, ₺, görünmez boşluklar, emoji…) yapıştırınca "?"
+           olur. ebysCp her kopyalamada bu karakterleri güvenli karşılıklarına çevirir. */
+        (function () {
+            var TR_EK = 'ĞğİıŞş';
+            /* Yanlış kod sayfasıyla açılmış Türkçe (Ð→Ğ, Ý→İ, Þ→Ş…) düzeltilir */
+            var CP_MAP = {
+                '‘': "'", '’': "'", '‚': "'", '‛': "'", '′': "'", 'ʼ': "'", '´': "'",
+                '“': '"', '”': '"', '„': '"', '‟': '"', '″': '"',
+                '‐': '-', '‑': '-', '‒': '-', '–': '-', '—': '-', '―': '-', '−': '-',
+                '…': '...', '•': '-', '●': '-', '▪': '-', '■': '-', '◦': '-', '‣': '-', '∙': '-', '➢': '-', '➔': '->', '►': '-', '⁃': '-',
+                '': '-', '': '-', '': '-', '': '-', '': '-', '': '->', '': '-',
+                '→': '->', '←': '<-', '⇒': '=>', '≤': '<=', '≥': '>=', '≠': '!=', '≈': '~', '⁄': '/', '∕': '/',
+                '₺': 'TL', '€': 'EUR', '™': '(TM)', '№': 'No', '‰': '%o', '★': '*', '☆': '*',
+                '☐': '( )', '☑': '(X)', '☒': '(X)', '✓': 'X', '✔': 'X', '✗': '-', '✘': '-', '❌': '-', '✅': 'X',
+                'Ð': 'Ğ', 'ð': 'ğ', 'Ý': 'İ', 'ý': 'ı', 'Þ': 'Ş', 'þ': 'ş',
+                'Œ': 'OE', 'œ': 'oe', 'Š': 'Ş', 'š': 'ş', 'Ž': 'Z', 'ž': 'z', 'Ÿ': 'Y', 'ƒ': 'f', 'ˆ': '^', '˜': '~'
+            };
+            var guvenli = function (ch) {
+                var c = ch.charCodeAt(0);
+                if (ch.length !== 1) return false;
+                if (c === 9 || c === 10 || c === 13 || (c >= 0x20 && c <= 0x7E)) return true;
+                if (c >= 0xA0 && c <= 0xFF) return c !== 0xAD && 'ÐðÝýÞþ'.indexOf(ch) < 0;
+                return TR_EK.indexOf(ch) >= 0;
+            };
+            window.__ebysCpSayac = 0;
+            window.ebysCp = function (girdi) {
+                var say = 0;
+                var s = String(girdi == null ? '' : girdi)
+                    .replace(/[­​-‏‪-‮⁠-⁤⁦-⁩﻿]/g, function () { say++; return ''; })
+                    .replace(/i̇/g, function () { say++; return 'i'; })
+                    .replace(/₺\s*(\d[\d.,]*)/g, function (m, n) { say++; return n + ' TL'; })
+                    .normalize('NFC');
+                var out = '';
+                for (var ch of s) {
+                    if (guvenli(ch)) { out += ch; continue; }
+                    say++;
+                    var r;
+                    if (/[ -   　]/.test(ch)) r = ' ';
+                    else if (CP_MAP[ch] !== undefined) r = CP_MAP[ch];
+                    else {
+                        var d = ch.normalize('NFKD').replace(/[̀-ͯ]/g, '');
+                        r = Array.from(d).every(guvenli) ? d : '';
+                    }
+                    out += r;
+                }
+                window.__ebysCpSayac += say;
+                return out;
+            };
+
+            /* ---------- Düz metin (Not Defteri yöntemi) ----------
+               Biçimsiz yapıştırma: "?" hiç çıkmaz; paragraf girintisi ve tablo hücreleri Tab ile korunur. */
+            var BLOK = /^(block|list-item|table|table-row|table-caption|flex|grid|table-row-group|table-header-group|table-footer-group)$/;
+            var ATLA = ['button', 'select', 'input', 'textarea', 'i', 'svg', 'script', 'style', 'label'];
+            window.ebysDuzMetinUret = function (src) {
+                if (!src) return '';
+                var out = '';
+                var sonSatir = function () { if (out && !/\n$/.test(out)) out += '\n'; };
+                (function yuru(n) {
+                    if (n.nodeType === 3) { out += n.textContent.replace(/[\r\n\t ]+/g, ' '); return; }
+                    if (n.nodeType !== 1) return;
+                    if (n.classList && n.classList.contains('no-print')) return;
+                    var tag = n.tagName.toLowerCase();
+                    if (ATLA.indexOf(tag) >= 0) return;
+                    if (tag === 'br') { out += '\n'; return; }
+                    var cs = getComputedStyle(n);
+                    if (cs.display === 'none' || cs.visibility === 'hidden') return;
+                    var blok = BLOK.test(cs.display) || /^(p|div|li|tr|h[1-6]|table)$/.test(tag);
+                    if ((tag === 'td' || tag === 'th') && n.previousElementSibling) {
+                        var oncekiBos = true, ps = n.previousElementSibling;
+                        while (ps) { if ((ps.textContent || '').trim()) oncekiBos = false; ps = ps.previousElementSibling; }
+                        if (oncekiBos && (n.textContent || '').trim()) {
+                            var kayit = out; out = '';
+                            for (var ci = 0; ci < n.childNodes.length; ci++) yuru(n.childNodes[ci]);
+                            var GIR = '\t\t\t\t\t\t';
+                            out = kayit + GIR + out.replace(/^\n+|\n+$/g, '').split('\n').map(function (x) { return x.trim(); }).join('\n' + GIR);
+                            return;
+                        }
+                        out += '\t';
+                    }
+                    if (blok) { sonSatir(); if (parseFloat(cs.textIndent) > 4) out += '\t'; }
+                    for (var i = 0; i < n.childNodes.length; i++) yuru(n.childNodes[i]);
+                    if (blok) sonSatir();
+                })(src);
+                out = out.replace(/[  -   　]{2,}/g, '\t').replace(/ /g, ' ')
+                    .split('\n').map(function (l) { return l.replace(/^ +|[ \t]+$/g, '').replace(/ {2,}/g, ' '); }).join('\n')
+                    .replace(/\n{3,}/g, '\n\n').trim();
+                return ebysCp(out).replace(/[ ]+/g, ' ');
+            };
+            var panoyaYaz = function (metin, finish) {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(metin).then(function () { finish(true); }).catch(function () { yedek(); });
+                } else yedek();
+                function yedek() {
+                    var ta = document.createElement('textarea');
+                    ta.value = metin; ta.style.position = 'fixed'; ta.style.left = '-9999px';
+                    document.body.appendChild(ta); ta.select();
+                    try { finish(document.execCommand('copy')); } catch (e) { finish(false); }
+                    document.body.removeChild(ta);
+                }
+            };
+            window.ebysDuzKopyala = function (srcId, btnId) {
+                var src = document.getElementById(srcId);
+                window.__ebysCpSayac = 0;
+                var metin = ebysDuzMetinUret(src);
+                if (!metin) { if (typeof showCustomAlert === 'function') showCustomAlert('Belge Bulunamadı', 'Kopyalanacak belge içeriği bulunamadı.'); return; }
+                var n = window.__ebysCpSayac;
+                panoyaYaz(metin, function (ok) {
+                    var btn = document.getElementById(btnId);
+                    if (!btn) return;
+                    var eski = btn.innerHTML;
+                    btn.innerHTML = ok ? ('✅ Düz metin kopyalandı' + (n ? ' · ' + n + ' karakter düzeltildi' : '')) : '⚠ Kopyalanamadı';
+                    setTimeout(function () { btn.innerHTML = eski; }, 2600);
+                });
+            };
+
+            /* ---------- Resmî yazı biçimleyici ----------
+               Yapıştırılan (veya PDF/Word'den gelen) düz metni resmî yazışma düzenine sokar:
+               başlık · Sayı/Konu/İlgi · muhatap · girintili gövde · kapanış · imza · Ek/Dağıtım · alt bilgi. */
+            var U = 'A-ZÇĞİÖŞÜÂÎÛ', L = 'a-zçğıöşüâîû', H = U + L;
+            var ETIKET = new RegExp('^(Sayı|SAYI|Konu|KONU|İlgi|İLGİ|Tarih|TARİH)\\s*:\\s*(.*)$');
+            var EK = /^(Ekler|EKLER|Ek Listesi|EK LİSTESİ|Ek|EK)\s*(?::\s*(.*))?$/;
+            var DAGITIM = /^(Dağıtım|DAĞITIM|Gereği|GEREĞİ|Bilgi|BİLGİ)\s*:\s*(.*)$/;
+            var ALTBILGI = /^(Adres|Telefon( No)?|Tel|Faks|Fax|e-?Posta|E-?Posta|Kep Adresi|KEP Adresi|İnternet Adresi|Web)\s*:|^Ayrıntılı [Bb]ilgi için/;
+            var KAPANIS = /(arz\s+ve\s+rica|rica\s+ve\s+arz|arz|rica)\s+(eder(im|iz)|olunur)\s*\.?\s*$/i;
+            var MADDE = new RegExp('^([' + L + ']\\)|\\d{1,2}[.)-]|[-•*]|[IVX]{1,4}[.)])\\s');
+            var buyukMu = function (l) { var h = l.replace(new RegExp('[^' + H + ']', 'g'), ''); return h.length >= 2 && h === h.toLocaleUpperCase('tr-TR'); };
+            var kurumSatiri = function (l) { return /^T\.?\s?C\.?$/i.test(l) || (buyukMu(l) && l.length < 90) || /(Valiliği|Kaymakamlığı|Müdürlüğü|Başkanlığı|Rektörlüğü|Dekanlığı)$/.test(l); };
+            var muhatapMi = function (l) { return buyukMu(l) && l.length < 110 && new RegExp('(NE|NA|YE|YA)[.]?$').test(l); };
+
+            window.ebysMetinBicimle = function (ham) {
+                var notlar = [];
+                window.__ebysCpSayac = 0;
+                var t = ebysCp(String(ham || '').replace(/\r\n?/g, '\n'));
+                if (window.__ebysCpSayac) notlar.push(window.__ebysCpSayac + ' karakter EBYS uyumlu karşılığına çevrildi ("?" çıkmaması için).');
+                /* Yapay zekâ / Markdown işaretleri */
+                var md = t;
+                t = t.replace(/\*\*(\S(?:[^\n]*?\S)?)\*\*/g, '$1').replace(/__(\S(?:[^\n]*?\S)?)__/g, '$1')
+                    .replace(/(^|[^*\n])\*(\S(?:[^*\n]*?\S)?)\*(?!\*)/g, '$1$2')
+                    .replace(/^#{1,6}\s+/gm, '').replace(/^>\s?/gm, '').replace(/^\s*([-*_])\1{2,}\s*$/gm, '').replace(/`([^`\n]+)`/g, '$1');
+                if (md !== t) notlar.push('Kalın/italik ve başlık işaretleri (**, #, `) temizlendi.');
+                /* Satır sonları kaybolmuş tek blok metni kurtar */
+                var dolu = t.split('\n').filter(function (l) { return l.trim(); }).length;
+                if (t.length > 250 && dolu <= Math.max(2, t.length / 450)) {
+                    var NL = '(?![' + H + '])';
+                    t = t.replace(/^\s*T\.\s?C\.\s*/, 'T.C.\n')
+                        .replace(new RegExp('(VALİLİĞİ|KAYMAKAMLIĞI|MÜDÜRLÜĞÜ|BAŞKANLIĞI|REKTÖRLÜĞÜ)' + NL + '[ \\t]*(?=\\S)', 'g'), '$1\n')
+                        .replace(new RegExp('([' + L + '.)0-9])[ \\t]+(?=(?:[' + U + '.]{2,}[ \\t]+)+[' + U + ']{3,}(NE|NA|YE|YA)' + NL + ')', 'g'), '$1\n')
+                        .replace(new RegExp('([' + U + ']{3,}(?:NE|NA|YE|YA))' + NL + '[ \\t]*(?=\\S)', 'g'), '$1\n')
+                        .replace(/([^\n])[ \t]*(?=(Sayı|Konu|İlgi|Tarih|Ekler?|EKLER?|Dağıtım|DAĞITIM|Gereği|Bilgi)\s*:)/g, '$1\n')
+                        .replace(new RegExp('([^\\n])[ \\t]+(?=(?:[' + L + ']\\)|\\d{1,2}\\)|\\d{1,2}-)[ \\t])', 'g'), '$1\n')
+                        .replace(/([^\n])[ \t]*(?=(Adres|Telefon No|Tel|e-?Posta|E-?Posta|Kep Adresi|İnternet Adresi)\s*:|Ayrıntılı bilgi için)/g, '$1\n');
+                    /* İlgi maddelerinin sonuncusundan sonra gelen gövde cümlesini ayır */
+                    t = t.replace(/(İlgi\s*:[^\n]*(?:\n[a-zçğıöşü]\)[^\n]*)*)/, function (blok) {
+                        var sat = blok.split('\n'), son = sat.length - 1;
+                        sat[son] = sat[son].replace(new RegExp('\\.[ \\t]+(?=[' + U + '][' + L + '])'), '.\n\n');
+                        return sat.join('\n');
+                    });
+                    t = t.replace(/((?:[^\s.!?;:\n]+[ \t]+){0,8}(?:arz\s+ve\s+rica|rica\s+ve\s+arz|arz|rica)\s+(?:eder(?:im|iz)|olunur)\.?)[ \t]*/, '\n\n$1\n');
+                    var kp = t.search(/(?:eder(?:im|iz)|olunur)\.?\n/);
+                    if (kp > 0) {
+                        var bas = t.indexOf('\n', kp) + 1, son = t.slice(bas).search(/\n(Ekler?|EKLER?|Dağıtım|DAĞITIM|Adres)/);
+                        son = son < 0 ? t.length : bas + son;
+                        var imza = t.slice(bas, son).replace(new RegExp('([' + U + ']{2,})[ \\t]+(?=[' + U + '][' + L + ']+)', 'g'), '$1\n');
+                        t = t.slice(0, bas) + imza + t.slice(son);
+                    }
+                    t = t.replace(/\n{3,}/g, '\n\n').replace(/^\n+/, '');
+                    notlar.push('Satır sonları kaybolmuş metin; başlık, Sayı/Konu, muhatap, kapanış ve imza yerlerinden satırlara ayrıldı.');
+                }
+                var S = t.split('\n').map(function (l) { return l.replace(/\s+$/, ''); });
+                var i = 0, n = S.length;
+                var bosAtla = function () { while (i < n && !S[i].trim()) i++; };
+                var e = function (s) { return ebEsc(s); };
+                var P0 = 'margin:0;';
+                var html = '';
+                /* 1) Kurum başlığı */
+                bosAtla();
+                var baslik = [];
+                while (i < n && S[i].trim() && baslik.length < 6 && !ETIKET.test(S[i].trim()) && kurumSatiri(S[i].trim()) && !muhatapMi(S[i].trim())) { baslik.push(S[i].trim()); i++; }
+                if (baslik.length) html += '<p style="' + P0 + 'text-align:center;font-weight:bold;">' + baslik.map(e).join('<br>') + '</p><p style="' + P0 + '">&nbsp;</p>';
+                /* 2) Sayı / Konu / İlgi / Tarih (İlgi muhataptan sonra da gelebilir) */
+                var alanBlok = function () {
+                bosAtla();
+                var html = '';
+                var alan = [];
+                while (i < n) {
+                    var l = S[i].trim();
+                    if (!l) { var j = i; while (j < n && !S[j].trim()) j++; if (j < n && ETIKET.test(S[j].trim())) { i = j; continue; } break; }
+                    var m = ETIKET.exec(l);
+                    if (m) {
+                        var deger = m[2], sag = '';
+                        var tm = /^(.*?)(?:\t+| {3,})(\d{1,2}[.\/]\d{1,2}[.\/]\d{4}|\d{1,2}\s+[A-Za-zÇĞİÖŞÜçğıöşü]+\s+\d{4})\s*$/.exec(deger);
+                        if (tm) { deger = tm[1].trim(); sag = tm[2]; }
+                        alan.push({ k: m[1].charAt(0) + m[1].slice(1).toLocaleLowerCase('tr-TR'), v: [deger], sag: sag });
+                        i++; continue;
+                    }
+                    if (alan.length && !muhatapMi(l) && (MADDE.test(l) || /^\s/.test(S[i]) || alan[alan.length - 1].k === 'İlgi' || (alan[alan.length - 1].k === 'Konu' && l.length < 60 && !/[.!?]$/.test(alan[alan.length - 1].v.join(' '))))) { alan[alan.length - 1].v.push(l); i++; continue; }
+                    break;
+                }
+                if (alan.length) {
+                    var tarihAlan = alan.find(function (a) { return a.k === 'Tarih'; });
+                    if (tarihAlan && alan[0].k === 'Sayı' && !alan[0].sag) { alan[0].sag = tarihAlan.v.join(' '); alan.splice(alan.indexOf(tarihAlan), 1); }
+                    var TD = 'border:none;padding:0 4px 0 0;vertical-align:top;';
+                    html += '<table style="border-collapse:collapse;border:none;width:100%;margin:0;">' + alan.map(function (a) {
+                        return '<tr><td style="' + TD + 'white-space:nowrap;width:1%;">' + e(a.k) + '</td><td style="' + TD + 'width:1%;">:</td><td style="' + TD + '">' + a.v.map(e).join('<br>') + '</td><td style="' + TD + 'text-align:right;white-space:nowrap;">' + e(a.sag) + '</td></tr>';
+                    }).join('') + '</table><p style="' + P0 + '">&nbsp;</p>';
+                }
+                return html;
+                };
+                html += alanBlok();
+                /* 3) Muhatap */
+                bosAtla();
+                var muh = [];
+                while (i < n && S[i].trim() && muh.length < 4 && (muhatapMi(S[i].trim()) || (muh.length && /^\(.*\)$/.test(S[i].trim())) || (!muh.length && buyukMu(S[i].trim()) && S[i].trim().length < 90 && i + 1 < n && (muhatapMi((S[i + 1] || '').trim()))))) { muh.push(S[i].trim()); i++; }
+                if (muh.length) html += '<p style="' + P0 + 'text-align:center;font-weight:bold;">' + muh.map(e).join('<br>') + '</p><p style="' + P0 + '">&nbsp;</p>';
+                html += alanBlok();
+                /* 4) Gövde, kapanış, imza, ek, dağıtım, alt bilgi */
+                var govde = [], cur = [], ekler = [], dagitim = [], alt = [], imzaGrup = [], kapanisVar = false, bolum = 'govde';
+                var paraBitir = function () { if (cur.length) { govde.push(cur.join(' ').replace(/ {2,}/g, ' ')); cur = []; } };
+                for (; i < n; i++) {
+                    var s = S[i].trim();
+                    if (ALTBILGI.test(s)) { alt.push(s); continue; }
+                    var mEk = EK.exec(s), mDg = DAGITIM.exec(s);
+                    if (mEk && (bolum !== 'govde' || kapanisVar || s.length < 80)) { paraBitir(); bolum = 'ek'; ekler.push({ b: true, t: mEk[1] + ':' + (mEk[2] ? ' ' + mEk[2] : '') }); continue; }
+                    if (mDg && (bolum !== 'govde' || kapanisVar)) { paraBitir(); bolum = 'dagitim'; dagitim.push({ b: true, k: mDg[1], t: mDg[2] }); continue; }
+                    if (bolum === 'ek') { if (s) ekler.push({ t: s }); continue; }
+                    if (bolum === 'dagitim') { if (s) dagitim.push({ t: s }); continue; }
+                    if (bolum === 'imza') { if (!s) { if (imzaGrup[imzaGrup.length - 1].length) imzaGrup.push([]); } else imzaGrup[imzaGrup.length - 1].push(s); continue; }
+                    if (!s) { paraBitir(); continue; }
+                    if (MADDE.test(s) || (cur.length && /:$/.test(cur[cur.length - 1]))) paraBitir();
+                    cur.push(s);
+                    var tam = cur.join(' ');
+                    if (KAPANIS.test(tam)) {
+                        var km = KAPANIS.exec(tam), once = tam.slice(0, km.index), nokta = Math.max(once.lastIndexOf('. '), once.lastIndexOf('! '), once.lastIndexOf('? '));
+                        var kap = nokta >= 0 ? tam.slice(nokta + 2) : tam;
+                        if (nokta >= 0 && kap.split(/\s+/).length <= 14) { cur = []; govde.push(tam.slice(0, nokta + 1)); govde.push(kap.trim()); }
+                        else { cur = []; govde.push(tam); }
+                        kapanisVar = true; bolum = 'imza'; imzaGrup = [[]];
+                    }
+                }
+                paraBitir();
+                var PG = P0 + 'text-indent:1.25cm;text-align:justify;';
+                html += govde.map(function (p) { return '<p style="' + PG + '">' + e(p) + '</p>'; }).join('');
+                if (kapanisVar) notlar.push('Kapanış cümlesi ayrı paragrafa alındı.');
+                imzaGrup = (imzaGrup || []).filter(function (g) { return g.length; });
+                if (imzaGrup.length) {
+                    html += '<p style="' + P0 + '">&nbsp;</p>';
+                    imzaGrup.forEach(function (g) {
+                        var olur = g.some(function (x) { return /^(OLUR|Olur)\.?$/.test(x); });
+                        var sutun = g.some(function (x) { return /\t| {3,}/.test(x); });
+                        var TDI = 'border:none;padding:0;text-align:center;vertical-align:top;';
+                        if (sutun) {
+                            var parcalar = g.map(function (x) { return x.split(/\t+| {3,}/); }), k = Math.max.apply(null, parcalar.map(function (p) { return p.length; }));
+                            html += '<table style="border-collapse:collapse;border:none;width:100%;margin:12pt 0 0;"><tr>' + Array.from({ length: k }, function (_, c) { return '<td style="' + TDI + '">' + parcalar.map(function (p) { return e(p[c] || ''); }).join('<br>') + '</td>'; }).join('') + '</tr></table>';
+                        } else if (olur) {
+                            html += '<table style="border-collapse:collapse;border:none;width:100%;margin:12pt 0 0;"><tr><td style="' + TDI + 'width:25%;"></td><td style="' + TDI + '">' + g.map(e).join('<br>') + '</td><td style="' + TDI + 'width:25%;"></td></tr></table>';
+                        } else {
+                            html += '<table style="border-collapse:collapse;border:none;width:100%;margin:12pt 0 0;"><tr><td style="' + TDI + 'width:55%;"></td><td style="' + TDI + '">' + g.map(e).join('<br>') + '</td></tr></table>';
+                        }
+                    });
+                    notlar.push('İmza bloğu sağa (OLUR onayı ortaya) yerleştirildi.');
+                }
+                if (ekler.length) html += '<p style="' + P0 + '">&nbsp;</p>' + ekler.map(function (x) { return '<p style="' + P0 + (x.b ? '' : 'padding-left:0.6cm;') + '">' + (x.b ? '<u>' + e(x.t.split(':')[0]) + ':</u>' + e(x.t.slice(x.t.indexOf(':') + 1)) : e(x.t)) + '</p>'; }).join('');
+                if (dagitim.length) html += '<p style="' + P0 + '">&nbsp;</p>' + dagitim.map(function (x) { return '<p style="' + P0 + (x.b ? '' : 'padding-left:0.6cm;') + '">' + (x.b ? '<u>' + e(x.k) + ':</u> ' + e(x.t) : e(x.t)) + '</p>'; }).join('');
+                if (alt.length) html += '<p style="' + P0 + '">&nbsp;</p><div style="border-top:1px solid #000;padding-top:3pt;font-size:9pt;">' + alt.map(function (x) { return '<p style="' + P0 + '">' + e(x) + '</p>'; }).join('') + '</div>';
+                if (!html.replace(/<[^>]+>|&nbsp;/g, '').trim()) return { html: '', uyarilar: ['Metin bulunamadı.'] };
+                notlar.push('Biçimlendirme otomatiktir: önizlemeyi kontrol edin; yanlış ayrılan satırı metinde boş satırla düzeltip tekrar dönüştürebilirsiniz.');
+                return { html: '<div style="font-family:\'Times New Roman\',serif;font-size:12pt;color:#000;">' + html + '</div>', uyarilar: notlar };
+            };
+
+            /* Dönüştürücü: metin yapıştırma ve mevcut önizlemeyi resmî yazı düzenine sokma */
+            window.__ebysYap = window.__ebysYap || { acik: false, metin: '' };
+            window.ebysYapAc = function () { __ebysYap.acik = !__ebysYap.acik; updateUI(); setTimeout(function () { var ta = document.getElementById('ebys-yap-metin'); if (ta && __ebysYap.acik) ta.focus(); }, 50); };
+            window.ebysMetinDonustur = function () {
+                var ta = document.getElementById('ebys-yap-metin');
+                if (ta) __ebysYap.metin = ta.value;
+                if (!__ebysYap.metin.trim()) { if (typeof showCustomAlert === 'function') showCustomAlert('Metin Yok', 'Önce dönüştürülecek metni kutuya yapıştırın.'); return; }
+                var r = ebysMetinBicimle(__ebysYap.metin);
+                window.__ebysDonustur = { dosyaAdi: 'Yapıştırılan metin', html: r.html, hata: r.html ? '' : 'Metin bulunamadı.', yukleniyor: false, uyarilar: r.uyarilar, tur: 'metin' };
+                updateUI();
+            };
+            window.ebysOnizlemeBicimle = function () {
+                var el = document.getElementById('ebys-donustur-onizleme');
+                if (!el) return;
+                var metin = (el.innerText || '').replace(/\n{3,}/g, '\n\n');
+                var r = ebysMetinBicimle(metin);
+                if (!r.html) return;
+                var d = window.__ebysDonustur;
+                d.html = r.html; d.uyarilar = r.uyarilar; d.tur = 'metin';
+                updateUI();
+            };
+        })();
+        /* ==================== /EBYS KARAKTER GÜVENLİĞİ ==================== */
 
         /* ==================== WORD → EBYS DÖNÜŞTÜR (GENEL MODÜL) ====================
            Kullanıcının getirdiği HERHANGİ bir .docx dosyasını, sunucuya göndermeden
@@ -8541,11 +8838,21 @@ window.boardSetKademe = function(kademe) {
                 var sayfalar = [];
                 for (var i = 1; i <= pdf.numPages; i++) sayfalar.push(i);
                 return Promise.all(sayfalar.map(function (n) { return pdf.getPage(n).then(function (pg) { return pg.getTextContent(); }); })).then(function (icerikler) {
-                    var html = '', toplam = 0;
+                    var html = '', toplam = 0, filigran = 0;
+                    /* v7.2.2: filigran ayıklama — eğik/dikey yazılar, her sayfada tekrar eden iri yazılar,
+                       e-imza/doğrulama damgaları ve sayfa numaraları metne karışmaz */
+                    var boylar = [], tekrar = {};
+                    icerikler.forEach(function (tc, si) { tc.items.forEach(function (it) { var t = (it.str || '').trim(); if (!t) return; var h = Math.abs(it.transform[3]) || it.height || 10; boylar.push(h); if (t.length >= 4) { tekrar[t] = tekrar[t] || {}; tekrar[t][si] = h; } }); });
+                    boylar.sort(function (a, b) { return a - b; });
+                    var ortaBoy = boylar.length ? boylar[Math.floor(boylar.length / 2)] : 10;
+                    var DAMGA = /güvenli elektronik imza ile imzalan|evrakdogrula|Evrakı Doğrulamak|Doğrulama Kodu|belgedogrula|Bilgi için\s*:.*Unvan|^(Sayfa\s*)?\d+\s*\/\s*\d+$/i;
                     icerikler.forEach(function (tc, si) {
                         var satirlar = [];
                         tc.items.forEach(function (it) {
                             if (!it.str) return;
+                            var tf = it.transform, tt = it.str.trim();
+                            if (tt && (Math.abs(tf[1]) > 0.01 || Math.abs(tf[2]) > 0.01)) { filigran++; return; }
+                            if (tt.length >= 4 && icerikler.length >= 2 && tekrar[tt] && Object.keys(tekrar[tt]).length === icerikler.length && (Math.abs(tf[3]) || 10) > ortaBoy * 1.8) { filigran++; return; }
                             var y = it.transform[5], x = it.transform[4], h = Math.abs(it.transform[3]) || it.height || 10;
                             var s = satirlar.find(function (r) { return Math.abs(r.y - y) < h * 0.45; });
                             if (!s) { s = { y: y, h: h, p: [] }; satirlar.push(s); }
@@ -8557,7 +8864,7 @@ window.boardSetKademe = function(kademe) {
                             var t = '', son = null;
                             r.p.forEach(function (q) { if (!q.t.trim()) { if (q.w > r.h * 1.5 && t && !/\t$/.test(t)) t += '\t'; else if (t && !/\s$/.test(t)) t += ' '; son = q.x + q.w; return; } if (son !== null && q.x - son > r.h * 0.25 && !/\s$/.test(t) && !/^\s/.test(q.t)) t += (q.x - son > r.h * 1.5 ? '\t' : ' '); t += q.t; son = q.x + q.w; });
                             return { y: r.y, h: r.h, t: t.replace(/[ ]+/g, ' ').trim(), sx: r.p[0].x };
-                        }).filter(function (r) { return r.t; });
+                        }).filter(function (r) { if (r.t && DAMGA.test(r.t)) { filigran++; return false; } return r.t; });
                         toplam += metinler.length;
                         var aralik = metinler.slice(1).map(function (r, k) { return metinler[k].y - r.y; }).filter(function (d) { return d > 0; }).sort(function (a, b) { return a - b; });
                         var tipik = aralik.length ? aralik[Math.floor(aralik.length / 2)] : 14;
@@ -8572,7 +8879,7 @@ window.boardSetKademe = function(kademe) {
                     });
                     if (!toplam) throw new Error('Bu PDF’te seçilebilir metin yok (taranmış belge). Taranmış PDF’ler metne çevrilemez; EBYS’ye ek olarak ekleyin.');
                     html = html.replace(/<\/table><table>/g, '');
-                    return { html: html, uyarilar: ['PDF’ten yalnızca metin alınır; yazı tipi, logo ve çizgiler aktarılmaz. Sütunlu satırlar tablo olarak gelir — yapıştırmadan önce önizlemeyi kontrol edin.'] };
+                    return { html: html, uyarilar: (filigran ? [filigran + ' filigran / e-imza damgası / sayfa numarası parçası ayıklandı.'] : []).concat(['PDF’ten yalnızca metin alınır; yazı tipi, logo ve çizgiler aktarılmaz. Sütunlu satırlar tablo olarak gelir — yapıştırmadan önce önizlemeyi kontrol edin. Resmî yazı düzeni için “🪄 Resmî Yazı Düzenine Getir” düğmesini kullanın.']) };
                 });
             });
         }
@@ -8734,14 +9041,25 @@ window.boardSetKademe = function(kademe) {
                             📁 Dosya Seç
                             <input type="file" id="ebys-donustur-dosya-input" accept="${EBYS_UZANTILAR}" class="hidden" onchange="ebysDosyaSec(this)">
                         </label>
+                        <button onclick="ebysYapAc()" class="px-4 py-2.5 ${window.__ebysYap && __ebysYap.acik ? 'bg-amber-500 hover:bg-amber-600 text-white' : 'bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200'} rounded-lg text-xs font-bold shadow">✍️ Metin Yapıştır</button>
                         ${d.dosyaAdi ? `<span class="text-xs text-slate-500">${escHtml2(d.dosyaAdi)}</span>` : ''}
                         ${d.html ? `
                             <button id="ebys-donustur-btn" onclick="ebysKopyala('ebys-donustur-onizleme','ebys-donustur-btn')" class="px-4 py-2.5 bg-teal-600 hover:bg-teal-700 text-white rounded-lg text-xs font-bold shadow"><i class="fa-solid fa-file-import mr-1.5"></i> EBYS'ye Kopyala</button>
+                            <button id="ebys-duz-btn" onclick="ebysDuzKopyala('ebys-donustur-onizleme','ebys-duz-btn')" class="px-4 py-2.5 bg-white border border-teal-300 hover:bg-teal-50 text-teal-800 rounded-lg text-xs font-bold" title="Biçimsiz düz metin: “?” hiç çıkmaz, girintiler Tab ile korunur (kalın/tablo biçimi gitmez)">📝 Düz Metin Kopyala</button>
+                            ${d.tur !== 'metin' ? `<button onclick="ebysOnizlemeBicimle()" class="px-4 py-2.5 bg-violet-50 border border-violet-200 hover:bg-violet-100 text-violet-800 rounded-lg text-xs font-bold" title="Metni başlık, Sayı/Konu, muhatap, girintili paragraf, kapanış, imza, Ek/Dağıtım düzenine sokar">🪄 Resmî Yazı Düzenine Getir</button>` : ''}
                             <button onclick="ebysDonusturHtmlIndir()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold"><i class="fa-solid fa-download mr-1.5"></i> HTML İndir</button>
                         ` : ''}
                         ${d.dosyaAdi ? `<button onclick="ebysDonusturTemizle()" class="px-4 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-lg text-xs font-bold">Temizle</button>` : ''}
                     </div>
-                    <p class="text-[10px] text-slate-400 mt-2">Kopyaladıktan sonra EBYS'deki yazı editörüne (Ctrl+V / uzun basıp Yapıştır) yapıştırın — format bozulmadan gelir.</p>
+                    ${window.__ebysYap && __ebysYap.acik ? `<div class="mt-3">
+                        <textarea id="ebys-yap-metin" oninput="__ebysYap.metin=this.value" rows="9" class="w-full border border-amber-200 rounded-lg p-3 text-xs bg-amber-50/40" style="font-family:'Times New Roman',serif" placeholder="Word’den, e-postadan, yapay zekâ sohbetinden veya PDF’ten kopyaladığınız yazıyı buraya yapıştırın. Satır sonları kaybolmuş tek blok metin de olur.">${escHtml2(__ebysYap.metin || '')}</textarea>
+                        <div class="flex flex-wrap items-center gap-2 mt-2">
+                            <button onclick="ebysMetinDonustur()" class="px-4 py-2 bg-violet-600 hover:bg-violet-700 text-white rounded-lg text-xs font-bold shadow">🪄 Resmî Yazıya Dönüştür</button>
+                            <button onclick="__ebysYap.metin='';var t=document.getElementById('ebys-yap-metin');if(t)t.value='';" class="px-3 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg text-xs font-bold">Kutuyu Temizle</button>
+                            <span class="text-[10px] text-slate-500">Başlık · Sayı/Konu/İlgi · muhatap · girintili paragraflar · kapanış cümlesi · imza · Ek/Dağıtım otomatik yerleşir; **, # gibi işaretler ve görünmez karakterler temizlenir.</span>
+                        </div>
+                    </div>` : ''}
+                    <p class="text-[10px] text-slate-400 mt-2">Kopyaladıktan sonra EBYS'deki yazı editörüne (Ctrl+V / uzun basıp Yapıştır) yapıştırın. EBYS’de “?” çıkaran karakterler (akıllı tırnak, uzun tire, madde imi, ₺, görünmez boşluk…) kopyalarken otomatik düzeltilir; yine de sorun olursa <b>📝 Düz Metin Kopyala</b>yı kullanın.</p>
                     ${d.yukleniyor ? `<p class="text-xs text-indigo-600 font-bold mt-3"><i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Dönüştürülüyor…</p>` : ''}
                     ${d.hata ? `<p class="text-xs text-rose-600 font-bold mt-3">⚠ ${escHtml2(d.hata)}</p>` : ''}
                     ${d.uyarilar && d.uyarilar.length ? `<div class="mt-3 text-[10px] text-amber-700 bg-amber-50 border border-amber-200 rounded p-2"><b>Dönüştürme notları:</b><ul class="list-disc pl-4 mt-1 space-y-0.5">${d.uyarilar.slice(0, 8).map(w => `<li>${escHtml2(w)}</li>`).join('')}</ul></div>` : ''}
@@ -9145,8 +9463,10 @@ window.boardSetKademe = function(kademe) {
                     K('personel', 'Görev Dağılım Çizelgesi ve Görev Tebliğleri', 'gorevDagilimi'),
                     K('personel', 'Doğum İzni Üst Yazısı', 'dogumIzni'),
                     K('personel', 'Doğum Sonrası Aylıksız İzin Üst Yazısı', 'dogumIzni', [['diSetTur', 'sonrasi']]),
-                    K('personel', 'Personel Nakil Bildirimi', 'personelNakil'),
-                    K('personel', 'Sürekli Görev Yolluğu Bildirimi', 'yolluk'),
+                    K('personel', 'Atama / Yer Değiştirme Kararnamesi Ekle', 'personelNakil', [['ayrSub', 'kararname']]),
+                    K('personel', 'Personel Nakil Bildirimi', 'personelNakil', [['ayrSub', 'nakil']]),
+                    K('personel', 'Sürekli Görev Yolluğu Bildirimi', 'personelNakil', [['ayrSub', 'yolluk']]),
+                    K('personel', 'Atama Kararnamesi Tebliğ-Tebellüğ Belgesi', 'personelNakil', [['ayrSub', 'evraklar']]),
                     K('personel', 'Müdür Devir–Teslim Tutanağı', 'ekEvraklar', [['ekEvrakSetDoc', 'devirTeslim']]),
                     K('personel', 'Yönetici Hizmet Süresi ve Puan Belgesi', 'ekEvraklar', [['ekEvrakSetDoc', 'yoneticiPuan']]),
                     K('personel', 'Sürekli İşçi Görev Tebliği', 'imzaCizelgesi', [['gtSetType', 'surekliIsci']]),
@@ -15049,7 +15369,239 @@ window.okUpdateKulupAdi = function(idx, value) {
         // PERSONEL NAKİL BİLDİRİMİ RENDER FONKSİYONU
         // ==========================================
 
-        window.renderPersonelNakil = function() {
+        /* ==================== YOLLUK / AYRILMA İŞLEMLERİ (v7.2.1) ====================
+           Personel Nakil Bildirimi + Yolluk Hesaplama + ilgili evraklar tek modülde.
+           "Kararname Ekle": MEB atama/yer değiştirme kararnamesi PDF'i okunur (her sayfa bir
+           kararname), bilgiler nakil formuna, yolluk formuna ve ayrılış/başlayış evraklarına aktarılır. */
+        (function() {
+            var E = function(s) { return escHtml2(s == null ? '' : String(s)); };
+            var UP = function(s) { return String(s || '').toLocaleUpperCase('tr-TR'); };
+            var norm = function(s) { return String(s || '').toLocaleLowerCase('tr-TR').replace(/müdürlüğü|okulu|lisesi|ortaokulu|ilkokulu/g, '').replace(/[^a-zçğıöşü0-9]/g, ''); };
+            var isoYap = function(t) { var m = String(t || '').match(/(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{4})/); return m ? m[3] + '-' + m[2].padStart(2, '0') + '-' + m[1].padStart(2, '0') : ''; };
+            var trYap = function(t) { var m = String(t || '').match(/(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{4})/); return m ? m[1].padStart(2, '0') + '.' + m[2].padStart(2, '0') + '.' + m[3] : (t || ''); };
+            window.krEnsure = function() {
+                if (!state.kararname || typeof state.kararname !== 'object') state.kararname = {};
+                var K = state.kararname; if (!Array.isArray(K.liste)) K.liste = []; if (K.aktif == null) K.aktif = null;
+                if (!state.ayrilmaSub) state.ayrilmaSub = 'kararname';
+                return K;
+            };
+            /* ---- PDF çözümleme: etiket–değer konumsal eşleştirme ---- */
+            var ETIKET = ['Sayı', 'Konu', 'Tebligat Adresi', 'T.C.Kimlik No', 'T.C. Kimlik No', 'Adı Soyadı', 'Doğum Yılı / Yeri', 'Bitirdiği Okul', 'Görev Yeri', 'Alanı', 'Hizmet Sınıfı', 'Ünvanı', 'Unvanı', 'Görevi', 'Derece / Kademe', 'Derece/Kademe', 'Bakanlık Onay Tarihi', 'Bakanlık Onay Sayısı', 'Valilik Onay Tarihi', 'Valilik Onay Sayısı', 'Atama Nedeni ve', 'Açıklama'];
+            var etiketMi = function(s) { s = s.trim(); return ETIKET.some(function(e) { return s === e; }); };
+            function sayfaCoz(items) {
+                var it = items.filter(function(i) { return i.s.trim(); });
+                var bul = function(re, alt, ust) { return it.find(function(i) { return re.test(i.s.trim()) && (alt == null || i.y > alt) && (ust == null || i.y < ust); }); };
+                var deger = function(etk, alt, ust) {
+                    var l = it.find(function(i) { return i.s.trim() === etk && (alt == null || i.y > alt) && (ust == null || i.y < ust); });
+                    if (!l) return '';
+                    var sat = it.filter(function(i) { return Math.abs(i.y - l.y) <= 7 && i.x > l.x + 4; }).sort(function(a, b) { return a.x - b.x; });
+                    var out = [];
+                    for (var k = 0; k < sat.length; k++) { if (etiketMi(sat[k].s)) break; out.push(sat[k].s.trim()); }
+                    return out.join(' ').replace(/^:\s*/, '').trim();
+                };
+                var hAt = bul(/^ATANDIĞI GÖREV/i), hAy = bul(/^AYRILDIĞI GÖREV/i), hEs = bul(/^ATAMAYA ESAS/i);
+                var yAt = hAt ? hAt.y : 99999, yAy = hAy ? hAy.y : -1, yEs = hEs ? hEs.y : -1;
+                var gorevYeri = function(ust, alt) {
+                    var alan = it.find(function(i) { return i.s.trim() === 'Alanı' && i.y < ust && i.y > alt; });
+                    var taban = alan ? alan.y + 3 : alt;
+                    var p = it.filter(function(i) { return i.y < ust - 3 && i.y > taban && !etiketMi(i.s); }).sort(function(a, b) { return b.y - a.y || a.x - b.x; }).map(function(i) { return i.s.trim(); }).join(' ');
+                    var m = p.match(/^(.*?)\s*\((\d{4,8})\)\s*(.*)$/);
+                    return m ? { ilIlce: m[1].trim(), kod: m[2], kurum: m[3].trim() } : { ilIlce: (p.match(/^\S+\/\S+/) || [''])[0], kod: '', kurum: p.replace(/^\S+\/\S+\s*/, '') };
+                };
+                var bolum = function(ust, alt) {
+                    var g = gorevYeri(ust, alt);
+                    g.alan = deger('Alanı', alt, ust); g.hizmet = deger('Hizmet Sınıfı', alt, ust);
+                    g.unvan = deger('Ünvanı', alt, ust) || deger('Unvanı', alt, ust); g.gorev = deger('Görevi', alt, ust);
+                    g.derece = (deger('Derece / Kademe', alt, ust) || deger('Derece/Kademe', alt, ust)).replace(/\s*\/\s*/g, '/');
+                    return g;
+                };
+                var tum = it.map(function(i) { return i.s; }).join(' ');
+                var konuSat = it.find(function(i) { return i.s.trim() === 'Konu'; });
+                var tarih = konuSat ? (it.filter(function(i) { return Math.abs(i.y - konuSat.y) <= 7 && /\d{2}\/\d{2}\/\d{4}/.test(i.s); })[0] || {}).s : '';
+                var makam = (bul(/(VALİLİĞİNE|KAYMAKAMLIĞINA|MÜDÜRLÜĞÜNE)$/) || {}).s || '';
+                var bas = bul(/BAKANLIĞI$/); var birim = bas ? ((it.filter(function(i) { return i.y < bas.y && i.y > bas.y - 14 && i.x > 150; })[0]) || {}).s || '' : '';
+                var r = {
+                    sayi: deger('Sayı'), tarih: trYap(tarih), makam: makam.trim(), birim: (birim || '').trim(),
+                    tc: (deger('T.C.Kimlik No') || deger('T.C. Kimlik No') || (tum.match(/\b\d{11}\b/) || [''])[0]).replace(/\D/g, ''),
+                    ad: deger('Adı Soyadı') || deger('Konu'), dogum: deger('Doğum Yılı / Yeri'), okul: deger('Bitirdiği Okul'), adres: deger('Tebligat Adresi'),
+                    yeni: bolum(yAt, Math.max(yAy, yEs)), eski: hAy ? bolum(yAy, yEs) : {},
+                    onayTarihi: trYap(deger('Bakanlık Onay Tarihi') || deger('Valilik Onay Tarihi')), onaySayisi: deger('Bakanlık Onay Sayısı') || deger('Valilik Onay Sayısı'),
+                    valilikOnayTarihi: trYap(deger('Valilik Onay Tarihi')), valilikOnaySayisi: deger('Valilik Onay Sayısı'),
+                    neden: deger('Atama Nedeni ve')
+                };
+                if (r.eski && !r.eski.alan) r.eski.alan = r.yeni.alan;
+                return r;
+            }
+            window.krDosyaSec = function(input) {
+                var f = input.files && input.files[0]; input.value = '';
+                if (!f) return;
+                if (!/\.pdf$/i.test(f.name)) { showCustomAlert('Kararname', 'Lütfen MEBBİS’ten indirilen kararname PDF dosyasını seçin. PDF yoksa “Elle gir” ile bilgileri yazabilirsiniz.'); return; }
+                if (typeof pdfjsLib === 'undefined') { showCustomAlert('Kararname', 'PDF okuyucu yüklenemedi (internet bağlantısı gerekir). Bilgileri “Elle gir” ile yazabilirsiniz.'); return; }
+                var TRK = { Yili: 'Yılı', Yariyil: 'Yarıyıl', Ogretmenlerin: 'Öğretmenlerin', Ogretmen: 'Öğretmen', Bagli: 'Bağlı', Degistirme: 'Değiştirme', Iller: 'İller', Ici: 'İçi', Arasi: 'Arası', Ozur: 'Özür', Durumuna: 'Durumuna', Yoneticilerin: 'Yöneticilerin', Gorevlendirme: 'Görevlendirme' };
+                var tur = f.name.replace(/\.pdf$/i, '').replace(/^[0-9a-f]{6,}[-_]/i, '').replace(/_/g, ' ').replace(/(\s+\d+)+$/, '').replace(/\b(Kararnameleri?|Atanan(lar)?|Atama)\b/gi, ' ').replace(/\s+/g, ' ').trim().split(' ').map(function(w) { return TRK[w] || w; }).join(' ');
+                var rd = new FileReader();
+                rd.onload = function(e) {
+                    pdfjsLib.getDocument({ data: new Uint8Array(e.target.result) }).promise.then(function(pdf) {
+                        var sayfalar = []; for (var i = 1; i <= pdf.numPages; i++) sayfalar.push(i);
+                        return Promise.all(sayfalar.map(function(n) { return pdf.getPage(n).then(function(pg) { return pg.getTextContent(); }); }));
+                    }).then(function(icerik) {
+                        var K = krEnsure(), eklenen = [];
+                        icerik.forEach(function(tc) {
+                            var r = sayfaCoz(tc.items.map(function(i) { return { s: i.str, x: i.transform[4], y: i.transform[5] }; }));
+                            if (!r.ad && !r.tc) return;
+                            r.id = generateId() + eklenen.length; r.tur = tur; r.dosya = f.name; r.yon = krYonBul(r);
+                            if (K.liste.some(function(x) { return x.tc && x.tc === r.tc && x.sayi === r.sayi; })) return;
+                            K.liste.unshift(r); eklenen.push(r);
+                        });
+                        if (!eklenen.length) { showCustomAlert('Kararname', 'PDF’ten kararname bilgisi okunamadı (taranmış belge olabilir) ya da bu kararname zaten ekli. “Elle gir” ile ekleyebilirsiniz.'); return; }
+                        K.aktif = eklenen[0].id;
+                        eklenen.forEach(function(r) { krAktar(r, true); });
+                        state.ayrilmaSub = 'nakil';
+                        try { saveAllDataHemen(); } catch (er) {} updateUI();
+                        var r0 = eklenen[0];
+                        showCustomAlert('Kararname eklendi', (eklenen.length > 1 ? eklenen.length + ' kararname okundu. ' : '') + r0.ad + ' — ' + (r0.eski.ilIlce || '?') + ' → ' + (r0.yeni.ilIlce || '?') + '. Bilgiler Personel Nakil Bildirimi, Yolluk Hesaplama ve ayrılış/başlayış evraklarına aktarıldı; lütfen kontrol edin.');
+                    }).catch(function(er) { showCustomAlert('Kararname', 'PDF okunamadı: ' + (er && er.message ? er.message : er)); });
+                };
+                rd.readAsArrayBuffer(f);
+            };
+            function krYonBul(r) {
+                var o = norm(state.schoolName); if (!o) return '';
+                if (r.eski && r.eski.kurum && (norm(r.eski.kurum).indexOf(o) >= 0 || o.indexOf(norm(r.eski.kurum)) >= 0)) return 'ayrilan';
+                if (r.yeni && r.yeni.kurum && (norm(r.yeni.kurum).indexOf(o) >= 0 || o.indexOf(norm(r.yeni.kurum)) >= 0)) return 'gelen';
+                return '';
+            }
+            var krStaff = function(r) { return (state.staff || []).find(function(s) { return (r.tc && String(s.tc || '') === r.tc) || UP(s.name).replace(/\s+/g, ' ').trim() === UP(r.ad).replace(/\s+/g, ' ').trim(); }) || null; };
+            var gorevAdi = function(g) { if (!g) return ''; var u = g.unvan || g.gorev || ''; return g.alan && /^öğretmen$/i.test(u) ? g.alan + ' Öğretmeni' : u; };
+            var yerAdi = function(g) { return g ? [g.ilIlce, g.kurum].filter(Boolean).join(' – ') : ''; };
+            window.krAktar = function(r, sessiz) {
+                if (typeof r !== 'object') r = krEnsure().liste.find(function(x) { return x.id === r; });
+                if (!r) return;
+                var s = krStaff(r), dayanak = [r.birim ? 'Millî Eğitim Bakanlığı (' + r.birim + ')' : (r.makam || ''), r.tarih ? r.tarih + ' tarihli' : '', r.sayi ? 've ' + r.sayi + ' sayılı' : '', 'atama kararnamesi'].filter(Boolean).join(' ');
+                /* Personel Nakil Bildirimi */
+                var N = state.personelNakil;
+                if (N) {
+                    if (s) N.staffId = s.id;
+                    N.adSoyad = r.ad; N.tcKimlik = r.tc;
+                    N.eskiGorevi = gorevAdi(r.eski) || N.eskiGorevi; N.yeniGorevi = gorevAdi(r.yeni) || N.yeniGorevi;
+                    N.eskiGorevYeri = yerAdi(r.eski); N.yeniGorevYeri = yerAdi(r.yeni);
+                    if (r.eski && r.eski.derece) N.eskiDerece = r.eski.derece;
+                    N.atamaTarihi = isoYap(r.onayTarihi || r.tarih) || N.atamaTarihi;
+                }
+                /* Yolluk Hesaplama */
+                var Y = state.yolluk && state.yolluk.form;
+                if (Y) {
+                    if (s) Y.staffId = s.id;
+                    Y.adSoyad = r.ad; Y.tcKimlik = r.tc; Y.unvan = gorevAdi(r.yeni) || gorevAdi(r.eski) || Y.unvan;
+                    var d = (r.eski && r.eski.derece) || ''; if (/^\d/.test(d)) { Y.derece = d; var ana = parseInt(d, 10); Y.ekGosterge = ({ 1: '3600', 2: '3000', 3: '2200', 4: '1600', 5: '1300', 6: '1150', 7: '950', 8: '800' })[ana] || '0'; }
+                    Y.onayMakami = r.birim ? 'Millî Eğitim Bakanlığı ' + r.birim : (r.makam || Y.onayMakami);
+                    Y.onayTarihi = r.onayTarihi || r.tarih || Y.onayTarihi; Y.onaySayisi = r.onaySayisi || r.sayi || Y.onaySayisi;
+                    Y.nereden = (r.eski && r.eski.ilIlce) || Y.nereden; Y.nereye = (r.yeni && r.yeni.ilIlce) || Y.nereye;
+                    Y.mesafeKm = ''; Y.otobusUcreti = '';
+                }
+                /* EBYS Evrak Oluştur: ayrılış / başlayış evrakları */
+                try {
+                    if (typeof ebB === 'function') {
+                        var a = ebB('gorevAyrilis'); if (s) a.kisi = String(s.id); a.neden = 'Naklen atama'; a.gidecek = yerAdi(r.yeni); a.dayanak = dayanak;
+                        var f2 = ebB('ayrilisFormu'); if (s) f2.kisi = String(s.id); f2.neden = 'Naklen atama'; f2.gidecek = yerAdi(r.yeni);
+                        var b = ebB('gorevBaslama'); if (s) b.kisi = String(s.id); b.tur = 'Naklen atama'; b.gelen = yerAdi(r.eski); b.dayanak = dayanak;
+                    }
+                } catch (e) {}
+                krEnsure().aktif = r.id;
+                if (!sessiz) { try { saveAllDataHemen(); } catch (e) {} updateUI(); showCustomAlert('Aktarıldı', r.ad + ' kararnamesindeki bilgiler Personel Nakil Bildirimi, Yolluk Hesaplama ve ayrılış/başlayış evraklarına aktarıldı.'); }
+            };
+            var KR_ALAN = [['ad', 'Adı Soyadı'], ['tc', 'T.C. Kimlik No'], ['tarih', 'Kararname tarihi (gg.aa.yyyy)'], ['sayi', 'Kararname sayısı'], ['birim', 'Kararnameyi düzenleyen birim (örn: Personel Genel Müdürlüğü)'], ['neden', 'Atama nedeni'], ['onayTarihi', 'Onay tarihi'], ['onaySayisi', 'Onay sayısı'],
+                ['eski.ilIlce', 'Ayrıldığı il/ilçe (örn: İL/İLÇE)'], ['eski.kurum', 'Ayrıldığı kurum'], ['eski.unvan', 'Ayrıldığı unvan'], ['eski.alan', 'Alanı'], ['eski.derece', 'Derece/Kademe (örn: 6/1)'],
+                ['yeni.ilIlce', 'Atandığı il/ilçe'], ['yeni.kurum', 'Atandığı kurum'], ['yeni.unvan', 'Atandığı unvan'], ['yeni.alan', 'Atandığı alan']];
+            var al = function(r, k) { var p = k.split('.'); return p.length > 1 ? ((r[p[0]] || {})[p[1]] || '') : (r[k] || ''); };
+            window.krDuzenle = function(id) {
+                var K = krEnsure(), r = id ? K.liste.find(function(x) { return x.id === id; }) : null, yeni = !r;
+                if (yeni) r = { id: generateId(), eski: {}, yeni: {}, tur: 'Elle girilen kararname' };
+                showModal(yeni ? 'Kararname Bilgileri (elle)' : 'Kararnameyi Düzenle', KR_ALAN.map(function(f) { return { key: f[0].replace('.', '_'), label: f[1], value: String(al(r, f[0])).replace(/&/g, '&amp;').replace(/"/g, '&quot;') }; }), function(d) {
+                    KR_ALAN.forEach(function(f) { var v = String(d[f[0].replace('.', '_')] || '').trim(), p = f[0].split('.'); if (p.length > 1) { r[p[0]] = r[p[0]] || {}; r[p[0]][p[1]] = v; } else r[f[0]] = v; });
+                    if (!r.ad) return;
+                    r.tc = String(r.tc || '').replace(/\D/g, '');
+                    if (yeni) { r.yon = krYonBul(r); K.liste.unshift(r); }
+                    krAktar(r, true); state.ayrilmaSub = yeni ? 'nakil' : state.ayrilmaSub;
+                    try { saveAllDataHemen(); } catch (e) {} updateUI();
+                });
+            };
+            window.krSil = function(id) { showCustomConfirm('Kararnameyi Sil', 'Bu kararname listeden silinsin mi? Formlara aktarılmış bilgiler değişmez.', function(ok) { if (!ok) return; var K = krEnsure(); K.liste = K.liste.filter(function(x) { return x.id !== id; }); if (K.aktif === id) K.aktif = null; try { saveAllData(); } catch (e) {} updateUI(); }); };
+            window.krYon = function(id, v) { var r = krEnsure().liste.find(function(x) { return x.id === id; }); if (r) { r.yon = v; try { saveAllData(); } catch (e) {} updateUI(); } };
+            window.krHavuzaEkle = function(id) {
+                var r = krEnsure().liste.find(function(x) { return x.id === id; }); if (!r) return;
+                if (krStaff(r)) { showCustomAlert('Personel Havuzu', r.ad + ' zaten Personel Havuzunda kayıtlı.'); return; }
+                state.staff.push({ id: generateId(), name: r.ad, title: gorevAdi(r.yeni) || 'Öğretmen', pool: 'ogretmen', tc: r.tc || '' });
+                krAktar(r, true); try { saveAllDataHemen(); } catch (e) {} updateUI();
+                showCustomAlert('Personel Havuzu', r.ad + ' Personel Havuzu → Öğretmenler listesine eklendi.');
+            };
+            window.ayrSub = function(v) { state.ayrilmaSub = v; try { saveAllData(); } catch (e) {} updateUI(); var pn = document.getElementById('tab-personelNakil'); if (pn) pn.scrollIntoView({ block: 'start' }); };
+            /* Kararname tebliğ-tebellüğ belgesi */
+            function krTebligBelgesi(r) {
+                var mudur = gdDirectorStaff(), td = 'border:1px solid #000;padding:4px 6px;vertical-align:middle';
+                var bilgi = [['Adı Soyadı', r.ad], ['T.C. Kimlik No', r.tc], ['Kararname Tarihi / Sayısı', [r.tarih, r.sayi].filter(Boolean).join(' / ')], ['Atama Nedeni', r.neden], ['Ayrıldığı Görev Yeri', yerAdi(r.eski)], ['Ayrıldığı Unvan / Alan', [r.eski && r.eski.unvan, r.eski && r.eski.alan].filter(Boolean).join(' / ')], ['Atandığı Görev Yeri', yerAdi(r.yeni)], ['Atandığı Unvan / Alan', [r.yeni && r.yeni.unvan, r.yeni && r.yeni.alan].filter(Boolean).join(' / ')]];
+                return '<div id="kr-teblig-' + r.id + '" data-evrak="1" class="bg-white text-black border border-slate-300 rounded-lg mx-auto mt-3" style="font-family:\'Times New Roman\',serif;font-size:12pt;line-height:1.4;padding:15mm;max-width:200mm">' +
+                    '<div style="text-align:center;font-weight:bold;line-height:1.35">T.C.<br>' + E(UP(makamUstSatir())) + '<br>' + E(UP(state.schoolName || '……………')) + ' MÜDÜRLÜĞÜ</div>' +
+                    '<p style="text-align:center;font-weight:bold;margin:12px 0 8px">ATAMA KARARNAMESİ TEBLİĞ-TEBELLÜĞ BELGESİ</p>' +
+                    '<table style="width:100%;border-collapse:collapse">' + bilgi.map(function(x) { return '<tr><td style="' + td + ';width:36%;font-weight:bold">' + x[0] + '</td><td style="' + td + '">' + E(x[1] || '') + '&nbsp;</td></tr>'; }).join('') + '</table>' +
+                    '<p style="text-indent:1.25cm;text-align:justify;margin:12px 0">' + E(r.birim || r.makam || 'Millî Eğitim Bakanlığı') + ' tarafından düzenlenen ' + E(r.tarih || '…/…/……') + ' tarihli ve ' + E(r.sayi || '……………') + ' sayılı atama kararnamesi ilgiliye tebliğ edilmiştir. İlgilinin maaş nakil ilmühaberi esas alınarak görev yerinden ayrılması/atandığı görev yerinde göreve başlaması sağlanacaktır.</p>' +
+                    '<table style="width:100%;margin-top:26px"><tr><td style="width:50%;text-align:center;vertical-align:top"><b>TEBELLÜĞ EDEN</b><br>…/…/……<div style="height:34px"></div><b>' + E(r.ad) + '</b><br>' + E(gorevAdi(r.eski) || gorevAdi(r.yeni)) + '</td><td style="text-align:center;vertical-align:top"><b>TEBLİĞ EDEN</b><br>…/…/……<div style="height:34px"></div><b>' + E(mudur.name || '……………………') + '</b><br>Okul Müdürü</td></tr></table></div>';
+            }
+            /* ---- Modül sayfası ---- */
+            window.renderPersonelNakil = function() {
+                var K = krEnsure(), sub = state.ayrilmaSub, aktif = K.liste.find(function(x) { return x.id === K.aktif; }) || K.liste[0] || null;
+                var subler = [['kararname', '📎 Kararnameler (' + K.liste.length + ')'], ['nakil', '📇 Personel Nakil Bildirimi'], ['yolluk', '🧳 Yolluk Hesaplama'], ['evraklar', '🗂️ Ayrılış / Başlayış Evrakları']];
+                var bas = '<div class="no-print mb-4"><div class="flex flex-wrap items-start justify-between gap-3 mb-3"><div><h3 class="text-xl font-bold text-slate-800">🧳 Yolluk / Ayrılma İşlemleri</h3><p class="text-xs text-slate-500 mt-1">Atama/yer değiştirme kararnamesini ekleyin; bilgiler nakil bildirimine, yolluk hesabına ve ayrılış/başlayış evraklarına otomatik aktarılır.</p></div>' +
+                    '<div class="flex flex-wrap gap-2"><label class="cursor-pointer px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-extrabold shadow-lg flex items-center gap-2">📎 Kararname Ekle (PDF)<input type="file" accept=".pdf,application/pdf" class="hidden" onchange="krDosyaSec(this)"></label>' +
+                    '<button type="button" onclick="krDuzenle()" class="px-3 py-3 rounded-xl bg-white border border-emerald-300 text-emerald-700 text-xs font-bold">✍️ Elle gir</button></div></div>' +
+                    (aktif ? '<div class="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-[12px] text-emerald-900 mb-3">Aktif kararname: <b>' + E(aktif.ad) + '</b> · ' + E((aktif.eski && aktif.eski.ilIlce) || '?') + ' → ' + E((aktif.yeni && aktif.yeni.ilIlce) || '?') + (aktif.neden ? ' · ' + E(aktif.neden) : '') + '</div>' : '') +
+                    '<div class="flex flex-wrap gap-1.5">' + subler.map(function(s) { return '<button type="button" onclick="ayrSub(\'' + s[0] + '\')" class="px-3 py-2 rounded-lg text-xs font-bold ' + (sub === s[0] ? 'bg-indigo-600 text-white shadow' : 'bg-white border border-slate-300 text-slate-600') + '">' + s[1] + '</button>'; }).join('') + '</div></div>';
+                var ic = '';
+                if (sub === 'nakil') ic = (typeof renderPersonelNakilIc === 'function' ? renderPersonelNakilIc() : '');
+                else if (sub === 'yolluk') {
+                    ic = (aktif && /mazeret|isteğ/i.test(aktif.neden || '') ? '<div class="no-print rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-[11px] text-amber-900 mb-3">⚠ Atama nedeni: <b>' + E(aktif.neden) + '</b>. İsteğe/mazerete bağlı yer değiştirmelerde sürekli görev yolluğu ödenip ödenmeyeceğini 6245 sayılı Harcırah Kanunu ve mali hizmetler birimiyle teyit ediniz.</div>' : '') + (typeof renderYolluk === 'function' ? renderYolluk() : '');
+                }
+                else if (sub === 'evraklar') {
+                    var kart = function(id, ad, acik) { return '<button type="button" onclick="ayrEvrakGit(\'' + id + '\')" class="text-left bg-white border border-slate-200 rounded-xl p-3 hover:bg-indigo-50"><p class="text-sm font-bold text-indigo-900">' + ad + '</p><p class="text-[11px] text-slate-500 mt-0.5">' + acik + '</p></button>'; };
+                    ic = '<div class="no-print grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">' + kart('gorevAyrilis', 'Görevden Ayrılış Bildirimi', 'İlçe MEM’e ayrılış yazısı — kararnameden doldurulur') + kart('ayrilisFormu', 'Görevden Ayrılış Kontrol ve Bilgi Formu', 'Zimmet, evrak, e-Okul devri ve son ödemeler') + kart('gorevBaslama', 'Göreve Başlama Bildirimi', 'Okulunuza gelen personel için') + kart('tkysYetki', 'Taşınır Kayıt Yetkilisi Değişikliği', 'Ayrılan personel taşınır yetkilisiyse') + '</div>' +
+                        (aktif ? '<p class="no-print text-xs font-bold text-slate-600 mb-1">Kararname tebliğ-tebellüğ belgesi — ' + E(aktif.ad) + '</p>' + krTebligBelgesi(aktif) : '<p class="text-xs text-slate-500">Kararname tebliğ belgesi için önce kararname ekleyin.</p>');
+                } else {
+                    ic = K.liste.length ? '<div class="no-print space-y-2">' + K.liste.map(function(r) {
+                        var s = krStaff(r), ak = aktif && aktif.id === r.id;
+                        var yonEt = r.yon === 'ayrilan' ? '<span class="px-2 py-0.5 rounded-full bg-rose-100 text-rose-700 text-[10px] font-bold">Okulumuzdan ayrılıyor</span>' : r.yon === 'gelen' ? '<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">Okulumuza geliyor</span>' : '<span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold">Yön belirsiz</span>';
+                        return '<div class="bg-white border ' + (ak ? 'border-emerald-400 ring-2 ring-emerald-100' : 'border-slate-200') + ' rounded-xl p-3">' +
+                            '<div class="flex flex-wrap items-center justify-between gap-2"><p class="text-sm font-bold text-slate-800">' + E(r.ad) + ' <span class="font-normal text-slate-500 text-xs">' + E(r.tc) + '</span></p>' + yonEt + '</div>' +
+                            '<p class="text-[12px] text-slate-700 mt-1"><b>' + E(yerAdi(r.eski) || '—') + '</b> → <b>' + E(yerAdi(r.yeni) || '—') + '</b></p>' +
+                            '<p class="text-[11px] text-slate-500 mt-0.5">' + [r.tur, r.neden, r.tarih ? r.tarih + ' tarihli' : '', r.sayi ? r.sayi + ' sayılı' : '', r.eski && r.eski.derece ? 'Derece ' + r.eski.derece : ''].filter(Boolean).map(E).join(' · ') + '</p>' +
+                            '<div class="flex flex-wrap gap-1.5 mt-2">' +
+                            '<button type="button" onclick="krAktar(' + r.id + ')" class="px-2.5 py-1 rounded-lg bg-emerald-600 text-white text-[11px] font-bold">⇢ Formlara aktar</button>' +
+                            '<button type="button" onclick="krDuzenle(' + r.id + ')" class="px-2.5 py-1 rounded-lg bg-white border border-slate-300 text-slate-700 text-[11px] font-bold">Düzenle</button>' +
+                            '<select onchange="krYon(' + r.id + ', this.value)" class="border border-slate-300 rounded-lg px-1.5 py-1 text-[11px]"><option value="">Yön…</option><option value="ayrilan"' + (r.yon === 'ayrilan' ? ' selected' : '') + '>Okulumuzdan ayrılıyor</option><option value="gelen"' + (r.yon === 'gelen' ? ' selected' : '') + '>Okulumuza geliyor</option></select>' +
+                            (s ? '<span class="text-[10px] text-emerald-700 font-bold self-center">✓ Havuzda kayıtlı</span>' : r.yon === 'ayrilan' ? '' : '<button type="button" onclick="krHavuzaEkle(' + r.id + ')" class="px-2.5 py-1 rounded-lg bg-white border border-indigo-300 text-indigo-700 text-[11px] font-bold">+ Personel Havuzuna ekle</button>') +
+                            '<button type="button" onclick="krSil(' + r.id + ')" class="px-2.5 py-1 rounded-lg bg-white border border-rose-300 text-rose-600 text-[11px] font-bold">Sil</button></div></div>';
+                    }).join('') + '</div>' : '<div class="no-print text-center py-10 bg-white border border-dashed border-slate-300 rounded-xl"><p class="text-4xl">📎</p><p class="text-sm font-bold text-slate-700 mt-2">Henüz kararname eklenmedi</p><p class="text-xs text-slate-500 mt-1 px-6">MEBBİS’ten indirdiğiniz atama/yer değiştirme kararnamesi PDF’ini yukarıdaki <b>Kararname Ekle</b> düğmesiyle seçin. Birden çok kararname içeren PDF’lerde her sayfa ayrı okunur.</p></div>';
+                }
+                return bas + ic;
+            };
+            window.ayrEvrakGit = function(id) {
+                switchTab('ebysDonustur'); try { ebIcAc(id); } catch (e) {}
+                var ch = document.getElementById('eb-geri');
+                if (!ch) { ch = document.createElement('div'); ch.id = 'eb-geri'; ch.className = 'no-print'; document.body.appendChild(ch); }
+                ch.setAttribute('data-tab', 'ebysDonustur');
+                ch.style.cssText = 'position:fixed;left:12px;bottom:16px;z-index:9990;display:flex;align-items:center;background:#312e81;color:#fff;border-radius:999px;box-shadow:0 6px 18px rgba(0,0,0,.28);font:700 12px system-ui,sans-serif';
+                ch.innerHTML = '<span onclick="this.parentNode.remove();switchTab(\'personelNakil\')" style="cursor:pointer;padding:9px 6px 9px 14px">← Yolluk / Ayrılma İşlemleri</span><span onclick="this.parentNode.remove()" style="cursor:pointer;padding:9px 12px 9px 6px;opacity:.65">✕</span>';
+            };
+            /* Eski "Yolluk Hesaplama" sekmesine giden bağlantılar bu modülün Yolluk bölümünü açar */
+            var yolYonlendir = function() {
+                if (!window.switchTab || window.switchTab.__yolYon) return;
+                var orj = window.switchTab;
+                window.switchTab = function(t) { if (t === 'yolluk') { state.ayrilmaSub = 'yolluk'; t = 'personelNakil'; } return orj.call(this, t); };
+                Object.keys(orj).forEach(function(k) { window.switchTab[k] = orj[k]; });
+                window.switchTab.__yolYon = true;
+            };
+            setTimeout(yolYonlendir, 0);
+            window.__krSayfaCoz = sayfaCoz;
+        })();
+        window.renderPersonelNakilIc = function() {
             const f = state.personelNakil;
             const director = destDirector();
             const mudurYrd = state.staff.find(s => s.id === f.duzenleyenMudurYrdId);
@@ -17593,6 +18145,15 @@ window.okUpdateKulupAdi = function(idx, value) {
             state.proforma.kaseData = '';
             updateUI();
         };
+        window.pfHesaplaAktar = function() {
+            try { (document.activeElement && document.activeElement.blur) && document.activeElement.blur(); } catch (e) {}
+            try { if (typeof saveAllDataHemen === 'function') saveAllDataHemen(); else saveAllData(); } catch (e) {}
+            updateUI();
+            setTimeout(function() {
+                var n = document.getElementById('pf-aktar-not'); if (n) n.textContent = '✓ Belgeye aktarıldı';
+                var b = document.querySelector('#tab-proforma .proforma-belge'); if (b) b.scrollIntoView({ block: 'start', behavior: 'smooth' });
+            }, 60);
+        };
         window.pfHesapla = function() {
             let araToplam = 0;
             const kdvGrup = {};
@@ -18229,6 +18790,15 @@ window.okUpdateKulupAdi = function(idx, value) {
                             <h4 class="font-bold text-slate-800 text-sm">📦 Mal / Hizmet Kalemleri</h4>
                             <button onclick="pfKalemEkle()" class="px-3 py-1.5 bg-emerald-600 text-white rounded-lg text-xs font-bold hover:bg-emerald-700"><i class="fa-solid fa-plus mr-1"></i> Satır Ekle</button>
                         </div>
+                        <div class="grid grid-cols-12 gap-2 items-end px-2 pb-1 text-[10px] font-bold text-slate-500 uppercase leading-tight">
+                            <span class="col-span-1 text-center">S.N.</span>
+                            <span class="col-span-5">Mal / Hizmet Tanımı</span>
+                            <span class="col-span-1 text-center">KDV %</span>
+                            <span class="col-span-1 text-center">Adet</span>
+                            <span class="col-span-2 text-right">Birim Fiyat (TL)</span>
+                            <span class="col-span-1 text-right">Tutar</span>
+                            <span class="col-span-1"></span>
+                        </div>
                         <div class="space-y-2">
                             ${p.kalemler.map((k, i) => {
                                 const satirToplam = (k.adet || 0) * (k.fiyat || 0);
@@ -18236,9 +18806,9 @@ window.okUpdateKulupAdi = function(idx, value) {
                                     <div class="grid grid-cols-12 gap-2 items-center bg-slate-50 border border-slate-200 rounded-lg p-2">
                                         <span class="col-span-1 text-center text-[11px] font-bold text-slate-500">${i + 1}</span>
                                         <input value="${(k.tanim || '').replace(/"/g, '&quot;')}" oninput="pfKalemGuncelle(${i}, 'tanim', this.value)" placeholder="Mal / hizmet tanımı" class="col-span-5 border border-slate-200 rounded p-1.5 text-xs">
-                                        <input type="number" value="${k.kdv}" oninput="pfKalemGuncelle(${i}, 'kdv', this.value)" placeholder="KDV %" class="col-span-1 border border-slate-200 rounded p-1.5 text-xs text-center">
-                                        <input type="number" value="${k.adet}" oninput="pfKalemGuncelle(${i}, 'adet', this.value)" placeholder="Adet" class="col-span-1 border border-slate-200 rounded p-1.5 text-xs text-center">
-                                        <input type="number" value="${k.fiyat}" oninput="pfKalemGuncelle(${i}, 'fiyat', this.value)" placeholder="Birim fiyat" class="col-span-2 border border-slate-200 rounded p-1.5 text-xs text-right">
+                                        <input type="number" value="${k.kdv}" oninput="pfKalemGuncelle(${i}, 'kdv', this.value)" placeholder="KDV %" title="KDV oranı (%)" inputmode="decimal" class="col-span-1 border border-slate-200 rounded p-1.5 text-xs text-center">
+                                        <input type="number" value="${k.adet}" oninput="pfKalemGuncelle(${i}, 'adet', this.value)" placeholder="Adet" title="Adet / miktar" inputmode="decimal" class="col-span-1 border border-slate-200 rounded p-1.5 text-xs text-center">
+                                        <input type="number" value="${k.fiyat}" oninput="pfKalemGuncelle(${i}, 'fiyat', this.value)" placeholder="Birim fiyat" title="KDV hariç birim fiyat (TL)" inputmode="decimal" class="col-span-2 border border-slate-200 rounded p-1.5 text-xs text-right">
                                         <span id="pf-satir-toplam-${i}" class="col-span-1 text-right text-[11px] font-bold text-slate-700">${satirToplam > 0 ? pfTL(satirToplam) : '—'}</span>
                                         <button onclick="pfKalemSil(${i})" class="col-span-1 text-rose-600 hover:bg-rose-50 rounded p-1"><i class="fa-solid fa-xmark"></i></button>
                                     </div>
@@ -18250,6 +18820,11 @@ window.okUpdateKulupAdi = function(idx, value) {
                             <div id="pf-kdv-satirlari">${Object.keys(h.kdvGrup).sort((a, b) => a - b).map(o => `<p class="text-slate-600">KDV %${o}: <strong>${pfTL(h.kdvGrup[o])} TL</strong></p>`).join('')}</div>
                             <p class="text-lg font-black text-indigo-700 mt-1">GENEL TOPLAM: <span id="pf-genel-toplam">${pfTL(h.genelToplam)} TL</span></p>
                         </div>
+                        <div class="mt-3 flex flex-wrap items-center justify-end gap-2">
+                            <span id="pf-aktar-not" class="text-[11px] text-emerald-700 font-bold"></span>
+                            <button type="button" onclick="pfHesaplaAktar()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-bold shadow"><i class="fa-solid fa-calculator mr-1.5"></i> Hesapla ve Belgeye Aktar</button>
+                        </div>
+                        <p class="text-[10px] text-slate-400 mt-1 text-right">Fiyatları KDV hariç girin. Bilgileri girdikten sonra bu düğmeye basın; tüm satırlar, müşteri bilgileri ve toplamlar aşağıdaki yazdırılacak faturaya aktarılır.</p>
                     </div>
 
                     <div class="bg-white border border-slate-200 rounded-xl p-4">
@@ -32312,7 +32887,7 @@ window.okUpdateKulupAdi = function(idx, value) {
                 { id: 'komisyonlar', ico: '🏛️', ad: 'Kurul ve Komisyonlar (Atamalı)', alt: [] },
                 { id: 'imzaCizelgesi', ico: '📝', ad: 'İşçi İşlemleri', alt: ['İmza Çizelgesi', 'İşçi Puantaj Takvimi', 'Sürekli İşçi Görev Tebliği', 'TYP Görev Tebliği', 'İUP Görev Tebliği', 'Bahçe Görevlisi Tebliği', 'TYP/İUP İmza Çizelgesi'] },
                 { id: 'dogumIzni', ico: '👶', ad: 'Doğum İzni Üst Yazısı', alt: [] },
-                { id: 'personelNakil', ico: '📇', ad: 'Personel Nakil Bildirimi', alt: [] },
+                { id: 'personelNakil', ico: '🧳', ad: 'Yolluk / Ayrılma İşlemleri', alt: ['Kararname Ekle (PDF)', 'Personel Nakil Bildirimi', 'Yolluk Hesaplama', 'Ayrılış / Başlayış Evrakları', 'Kararname Tebliğ Belgesi'] },
                 { id: 'nobet', ico: '🔄', ad: 'Nöbet Çizelgesi', alt: [] },
                 { id: 'pansiyonBellet', ico: '🛏️', ad: 'Pansiyon Belletici Nöbeti', alt: ['İstekli listesi', 'Dış okul personeli', 'Aylık çizelge', 'Görev tebliği', 'Talep dilekçesi'] },
                 { id: 'tebligTebellugTab', ico: '📨', ad: 'Tebliğ–Tebellüğ Belgesi', alt: ['Yazı/belge tebliği', 'Tebellüğ eden personel', 'Tebliğ edilen yer'] }
@@ -32343,7 +32918,6 @@ window.okUpdateKulupAdi = function(idx, value) {
             ]},
             { baslik: 'Mali & İdari İşlemler', ico: '💰', modüller: [
                 { id: 'kantinKira', ico: '🏪', ad: 'Kantin Kira Hesaplama ve Sözleşmesi', alt: [] },
-                { id: 'yolluk', ico: '🧳', ad: 'Yolluk Hesaplama (Sürekli Görev)', alt: [] },
                 /* GİZLİ: { id: 'dogrudanTemin', ico: '🛒', ad: 'Doğrudan Temin Otomasyonu', alt: [] }, */
                 { id: 'proforma', ico: '🧾', ad: 'Proforma Fatura', alt: [] },
                 { id: 'bankaAktarma', ico: '🏦', ad: 'Maaş Banka Formatı Dönüştürücü', alt: [] },
@@ -37516,7 +38090,7 @@ function isgPrint(kind){
                 yollukTab.className = 'tab-pane bg-white rounded-xl shadow-sm border border-slate-200 p-8 max-w-6xl mx-auto hidden';
                 document.getElementById('main-content-wrapper').appendChild(yollukTab);
             }
-            try { yollukTab.innerHTML = renderYolluk(); }
+            try { yollukTab.innerHTML = ''; /* Yolluk artık Yolluk / Ayrılma İşlemleri modülünde */ }
             catch (e) { yollukTab.innerHTML = portalModulHatasi('renderYolluk', e); console.error('renderYolluk', e); }
 
             let sivilSavunmaTab = document.getElementById('tab-sivilSavunma');
@@ -37685,7 +38259,7 @@ function isgPrint(kind){
         /* TEK SÜRÜM KAYNAĞI — bu değeri değiştir, her yer (sekme başlığı + sol menü
            etiketi) otomatik güncellenir. Dosya adı da hep bu numarayla aynı olmalı:
            İDARE ASİSTANI v<PORTAL_SURUM>. Sıralama: v6.5.0, v6.5.1 … v6.5.9, v6.6.0 … */
-        window.PORTAL_SURUM = '7.1.9';
+        window.PORTAL_SURUM = '7.2.2';
 
         /* ==================== GENEL BELGE DÜZENLEME ====================
            Programdaki evrakların çoğu salt çıktıydı (yalnızca bazılarında
@@ -37965,6 +38539,9 @@ function isgPrint(kind){
             } catch(e){}
         })();
         window.PORTAL_SURUM_NOTLARI = [
+            'EBYS uyumu: tüm “EBYS’ye Kopyala” işlemlerinde EBYS’de “?” çıkaran karakterler (akıllı tırnak, uzun tire, madde imi, ₺, görünmez boşluklar, bozuk kod sayfası harfleri Ð/Ý/Þ, onay kutuları…) otomatik güvenli karşılığına çevrilir, düzeltilen karakter sayısı düğmede görünür; paragraf girintisi artık EBYS’ye taşınır. Her evrakın araç çubuğuna “Düz Metin” (Not Defteri yöntemi: “?” hiç çıkmaz, girinti ve tablo hücreleri Tab ile korunur) eklendi. EBYS Evrak Oluştur dönüştürücüsüne ✍️ Metin Yapıştır ve 🪄 Resmî Yazı Düzenine Getir: satır sonları kaybolmuş tek blok metin bile başlık, Sayı/Konu/İlgi, muhatap, girintili paragraflar, ayrı kapanış cümlesi (…arz/rica ederim), sağda imza, OLUR onayı, Ek/Dağıtım ve alt bilgi düzenine sokulur; yapay zekâdan gelen **, # işaretleri temizlenir. PDF dönüştürmede filigranlar, e-imza/doğrulama damgaları ve sayfa numaraları ayıklanır',
+            'Yeni modül 🧳 Yolluk / Ayrılma İşlemleri: Personel Nakil Bildirimi, Yolluk Hesaplama ve ayrılış/başlayış evrakları tek modülde. 📎 Kararname Ekle: MEBBİS atama/yer değiştirme kararnamesi PDF’i okunur (çok sayfalı PDF’te her sayfa ayrı kararname); ad, T.C., eski/yeni görev yeri, unvan, alan, derece, tarih/sayı ve onay bilgileri nakil formuna, yolluk formuna ve EBYS ayrılış/başlayış yazılarına otomatik aktarılır. Okulunuzdan ayrılan/gelen otomatik belirlenir; gelen personel tek dokunuşla havuza eklenir; kararname tebliğ-tebellüğ belgesi hazır',
+            'Proforma Fatura: kalem satırlarının üstüne sütun başlıkları (S.N., Mal/Hizmet Tanımı, KDV %, Adet, Birim Fiyat, Tutar) eklendi; “Hesapla ve Belgeye Aktar” düğmesi girilen tüm satırları, müşteri bilgilerini ve toplamları yazdırılacak faturaya anında aktarır',
             'İYEP Planlama mevzuat şeridi: Destekleme ve Yetiştirme Kursları Yönergesi kaldırıldı, İYEP Öğretim Programı (iyep.meb.gov.tr) eklendi',
             'İlgili mevzuat şeridine eklendi: Yaşam Becerileri Uygulama Kılavuzu ve Etkinlik Kitapları ile Maarifin Kalbinde Oyun (TEGM sayfaları) — Sosyal Etkinlikler; 2010/49 sayılı Ders Dışı Eğitim Çalışmaları Genelgesi — Ders Dışı Egzersiz ve Sosyal Etkinlikler',
             'Her modülün üstünde 📚 İlgili mevzuat şeridi: ilgili kanun, yönetmelik, yönerge ve genelgeler resmî kaynaklarına (mevzuat.gov.tr, mevzuat.meb.gov.tr) tıklanabilir bağlantı; 🔗 Bağlantılı: ilişkili modüllere ve evraklara tek dokunuşla geçiş (sol alttaki düğmeyle geri dönülür). Kurul ve Komisyonlar: kurul adları telefonda görünmüyordu, düzeltildi',
@@ -40392,7 +40969,8 @@ function isgPrint(kind){
             btn('fa-print', 'Yazdır', "evrakYazdir('" + key + "','" + kapsam + "')", 'evrak-yazdir') +
             btn('fa-file-pdf', 'PDF İndir', "evrakPdfIndir('" + key + "','" + kapsam + "')", 'evrak-pdf') +
             btn('fa-file-word', 'Word İndir', "evrakWordIndir('" + key + "','" + kapsam + "')", 'evrak-word') +
-            ((kapsam === 'evrak' && !ebysVar) ? btn('fa-file-import', "EBYS'ye Kopyala", "ebysKopyala('" + key + "','ebys-oto-" + key + "')", 'evrak-ebys').replace('<button ', '<button id="ebys-oto-' + key + '" ') : '');
+            ((kapsam === 'evrak' && !ebysVar) ? btn('fa-file-import', "EBYS'ye Kopyala", "ebysKopyala('" + key + "','ebys-oto-" + key + "')", 'evrak-ebys').replace('<button ', '<button id="ebys-oto-' + key + '" ') : '') +
+            (kapsam === 'evrak' ? btn('fa-align-left', 'Düz Metin', "ebysDuzKopyala('" + key + "','ebys-duz-" + key + "')", 'evrak-ebys').replace('<button ', '<button id="ebys-duz-' + key + '" title="EBYS’ye biçimsiz düz metin: “?” çıkmaz, girintiler Tab ile korunur" ') : '');
     }
     /* Araç çubuklarını yerleştir (idempotent) */
     /* ==== v7.1.7: MODÜL MEVZUATI VE MODÜLLER ARASI KÖPRÜLER ====
@@ -40482,8 +41060,7 @@ function isgPrint(kind){
             disiplinIslemleri: [['OO', 'IO', 'k657'], [['ogrenciIsleri'], ['rehberlikCerceve'], ['okulGuvenligi']]],
             tasimaliEgitim: [['TAS', 'gSERVIS'], [['ogrenciIsleri'], ['okulGuvenligi']]],
             gezi: [['SE', 'SEIZ', 'gGEZI'], [['sosyalEtkinlik'], ['ebysDonustur', 'Sosyal etkinlik oluru', [['ebIcAc', 'etkinlikOlur']]]]],
-            yolluk: [['k6245', 'k657'], [['personelNakil'], ['havuz']]],
-            personelNakil: [['ATAMA', 'k657'], [['yolluk'], ['havuz'], ['ebysDonustur', 'Görevden ayrılış yazısı', [['ebIcAc', 'gorevAyrilis']]]]],
+            personelNakil: [['ATAMA', 'k6245', 'k657'], [['havuz'], ['ebysDonustur', 'Görevden ayrılış yazısı', [['ebIcAc', 'gorevAyrilis']]], ['ebysDonustur', 'Göreve başlama yazısı', [['ebIcAc', 'gorevBaslama']]]]],
             sivilSavunma: [['YANGIN', 'gAFET', 'gYANGIN'], [['okulGuvenligi'], ['isg'], ['komisyonlar']]],
             okulGuvenligi: [['gGUV', 'gSIDDET', 'k6698', 'YZ'], [['sivilSavunma'], ['isg'], ['nobet'], ['tasimaliEgitim'], ['rehberlikCerceve']]],
             iyepPlanlama: [['IYEP', 'IYEPP', 'IO'], [['destekEgitim'], ['sosyalEtkinlik']]],
