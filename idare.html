@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İdare Asistanı 7.2.4 — MEB Yönetim Portalı & Resmi Evrak</title>
+    <title>İdare Asistanı 7.2.6 — MEB Yönetim Portalı & Resmi Evrak</title>
     <!-- Tailwind CSS -->
     
 <style id="critical-offline-css">
@@ -787,7 +787,7 @@ tailwind.config = {
             <p id="son-yedek-bilgi" class="text-[9px] text-center text-slate-500"></p>
         </div>
         <div class="px-2.5 py-2 border-t border-slate-800 text-center flex-shrink-0">
-            <p class="text-[9px] text-slate-500 truncate">Mehmet Can Öztürk-Cuma Çetinkaya <span class="text-slate-400 font-normal" style="cursor:pointer;text-decoration:underline dotted" title="Yenilikleri göster" onclick="portalSurumPopupGoster(true)">· v<span id="portal-surum-etiket">7.2.4</span></span></p>
+            <p class="text-[9px] text-slate-500 truncate">Mehmet Can Öztürk-Cuma Çetinkaya <span class="text-slate-400 font-normal" style="cursor:pointer;text-decoration:underline dotted" title="Yenilikleri göster" onclick="portalSurumPopupGoster(true)">· v<span id="portal-surum-etiket">7.2.6</span></span></p>
             <p class="text-[9px] text-slate-400 font-semibold mt-1 uppercase tracking-wide">İletişim</p>
             <div class="flex items-center justify-center gap-2 flex-wrap text-[9px] text-slate-500 mt-0.5">
                 <a href="mailto:cann201921@gmail.com" class="text-sky-400 hover:text-sky-300 underline" title="E-posta gönder"><i class="fa-solid fa-envelope mr-0.5"></i>cann201921@gmail.com</a>
@@ -8303,6 +8303,9 @@ window.boardSetKademe = function(kademe) {
                 if (/^(rgba\(0, ?0, ?0, ?0\)|transparent)$/.test(val)) return;
                 if (/Width$/.test(p) && val === '0px') return;
                 if (p === 'textIndent' && !parseFloat(val)) return;
+                const kb = /^border(Top|Right|Bottom|Left)(Style|Color)$/.exec(p);
+                if (kb && (!parseFloat(cs['border' + kb[1] + 'Width']) || cs['border' + kb[1] + 'Style'] === 'none')) return;
+                if (p === 'borderCollapse' && val === 'separate' && node.tagName !== 'TABLE') return;
                 if ((val === 'auto' || val === 'normal' || val === 'none') && !/Width|Style|Color/.test(p)) return;
                 const kebab = p.replace(/[A-Z]/g, function (m) { return '-' + m.toLowerCase(); });
                 s += kebab + ':' + val + ';';
@@ -8583,6 +8586,33 @@ window.boardSetKademe = function(kademe) {
             return wrap;
         };
         /* ==================== /EBYS GÖVDE MODU ==================== */
+        /* v7.2.5: HTML kodunu kopyala — EBYS editörünün "Kaynak" moduna yapıştırmak için.
+           Kaynak modunda yapıştırma süzgeci çalışmadığından biçim en az bozulan yöntemdir. */
+        window.ebysKodKopyala = function (srcId, btnId) {
+            window.__ebysCpSayac = 0;
+            var html = ebysHtmlUret(srcId);
+            if (!html) { if (typeof showCustomAlert === 'function') showCustomAlert('Belge Bulunamadı', 'Kopyalanacak belge içeriği bulunamadı.'); return; }
+            html = html.replace(/></g, '>\n<');
+            var bitir = function (ok) {
+                var btn = document.getElementById(btnId);
+                if (!btn) return;
+                var eski = btn.innerHTML;
+                btn.innerHTML = ok ? '✅ Kod kopyalandı — EBYS’de Kaynak’a basıp yapıştırın' : '⚠ Kopyalanamadı';
+                setTimeout(function () { btn.innerHTML = eski; }, 4000);
+            };
+            var yedek = function () {
+                var ta = document.createElement('textarea');
+                ta.value = html; ta.style.position = 'fixed'; ta.style.left = '-9999px';
+                document.body.appendChild(ta); ta.select();
+                try { bitir(document.execCommand('copy')); } catch (e) { bitir(false); }
+                document.body.removeChild(ta);
+            };
+            if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(html).then(function () { bitir(true); }).catch(yedek);
+            else yedek();
+        };
+        window.ebysKodYardim = function () {
+            showCustomAlert('HTML Kodu ile EBYS’ye Aktarma', '1) “HTML Kodu” düğmesine basın.\n2) EBYS yazı editöründe araç çubuğundaki “Kaynak” düğmesine basın (ekran kod görünümüne geçer).\n3) Kod alanına yapıştırın (Ctrl+V veya uzun basıp Yapıştır).\n4) Tekrar “Kaynak” düğmesine basın: yazı biçimli hâliyle görünür.\n\nÖnemli: Kaynak moduna geçmeden normal ekrana yapıştırırsanız kodlar yazının içine düz metin olarak girer; öyle olursa geri alıp (Ctrl+Z) Kaynak modunda tekrar yapıştırın.');
+        };
         /* ==================== EBYS KARAKTER GÜVENLİĞİ + RESMÎ YAZI BİÇİMLEYİCİ (v7.2.2) ====================
            EBYS metni Türkçe 8 bitlik karakter kümesiyle saklar; bu kümede olmayan karakterler
            (akıllı tırnak, uzun tire, madde imi, ₺, görünmez boşluklar, emoji…) yapıştırınca "?"
@@ -9204,6 +9234,8 @@ window.boardSetKademe = function(kademe) {
                         ${d.dosyaAdi ? `<span class="text-xs text-slate-500">${escHtml2(d.dosyaAdi)}</span>` : ''}
                         ${d.html ? `
                             <button id="ebys-donustur-btn" onclick="ebysKopyala('ebys-donustur-onizleme','ebys-donustur-btn')" class="px-4 py-2.5 bg-teal-600 hover:bg-teal-700 text-white rounded-lg text-xs font-bold shadow"><i class="fa-solid fa-file-import mr-1.5"></i> EBYS'ye Kopyala</button>
+                            <button id="ebys-kod-btn" onclick="ebysKodKopyala('ebys-donustur-onizleme','ebys-kod-btn')" class="px-4 py-2.5 bg-white border border-teal-300 hover:bg-teal-50 text-teal-800 rounded-lg text-xs font-bold" title="EBYS’de Kaynak moduna yapıştırmak için"><i class="fa-solid fa-code mr-1"></i> HTML Kodu</button>
+                            <button onclick="ebysKodYardim()" class="px-2.5 py-2.5 bg-white border border-slate-200 text-slate-500 rounded-lg text-xs font-bold" title="HTML kodu nasıl yapıştırılır?">?</button>
                             <button id="ebys-duz-btn" onclick="ebysDuzKopyala('ebys-donustur-onizleme','ebys-duz-btn')" class="px-4 py-2.5 bg-white border border-teal-300 hover:bg-teal-50 text-teal-800 rounded-lg text-xs font-bold" title="Biçimsiz düz metin: “?” hiç çıkmaz, girintiler Tab ile korunur (kalın/tablo biçimi gitmez)">📝 Düz Metin Kopyala</button>
                             ${d.tur !== 'metin' ? `<button onclick="ebysOnizlemeBicimle()" class="px-4 py-2.5 bg-violet-50 border border-violet-200 hover:bg-violet-100 text-violet-800 rounded-lg text-xs font-bold" title="Metni başlık, Sayı/Konu, muhatap, girintili paragraf, kapanış, imza, Ek/Dağıtım düzenine sokar">🪄 Resmî Yazı Düzenine Getir</button>` : ''}
                             <button onclick="ebysDonusturHtmlIndir()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold"><i class="fa-solid fa-download mr-1.5"></i> HTML İndir</button>
@@ -9218,7 +9250,7 @@ window.boardSetKademe = function(kademe) {
                             <span class="text-[10px] text-slate-500">Başlık · Sayı/Konu/İlgi · muhatap · girintili paragraflar · kapanış cümlesi · imza · Ek/Dağıtım otomatik yerleşir; **, # gibi işaretler ve görünmez karakterler temizlenir.</span>
                         </div>
                     </div>` : ''}
-                    <p class="text-[10px] text-slate-400 mt-2">Kopyaladıktan sonra EBYS'deki yazı editörüne (Ctrl+V / uzun basıp Yapıştır) yapıştırın. EBYS’de “?” çıkaran karakterler (akıllı tırnak, uzun tire, madde imi, ₺, görünmez boşluk…) kopyalarken otomatik düzeltilir; yine de sorun olursa <b>📝 Düz Metin Kopyala</b>yı kullanın.</p>
+                    <p class="text-[10px] text-slate-400 mt-2">Kopyaladıktan sonra EBYS'deki yazı editörüne (Ctrl+V / uzun basıp Yapıştır) yapıştırın. EBYS’de “?” çıkaran karakterler (akıllı tırnak, uzun tire, madde imi, ₺, görünmez boşluk…) kopyalarken otomatik düzeltilir; yapıştırınca düzen bozuluyorsa <b>HTML Kodu</b>nu kullanın: EBYS editöründe önce <b>Kaynak</b>’a basın, kodu yapıştırın, sonra tekrar <b>Kaynak</b>’a basın (Kaynak’a basmadan yapıştırırsanız kodlar yazıya düz metin olarak girer). Hiçbiri olmazsa <b>📝 Düz Metin Kopyala</b>.</p>
                     ${d.yukleniyor ? `<p class="text-xs text-indigo-600 font-bold mt-3"><i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Dönüştürülüyor…</p>` : ''}
                     ${d.hata ? `<p class="text-xs text-rose-600 font-bold mt-3">⚠ ${escHtml2(d.hata)}</p>` : ''}
                     ${d.uyarilar && d.uyarilar.length ? `<div class="mt-3 text-[10px] text-amber-700 bg-amber-50 border border-amber-200 rounded p-2"><b>Dönüştürme notları:</b><ul class="list-disc pl-4 mt-1 space-y-0.5">${d.uyarilar.slice(0, 8).map(w => `<li>${escHtml2(w)}</li>`).join('')}</ul></div>` : ''}
@@ -35120,6 +35152,10 @@ function isgEditPanel(g, cat){
   if(cat.needsPerson){
     h += isgSelect('İlgili personel', 'seciliPersonelId', g.seciliPersonelId);
   }
+  if(cat.id==='uyumEgitim'){
+    h += '<div class="grid sm:grid-cols-2 gap-3 mt-2">'+isgSelect('İşveren (Müdür)', 'isverenId', g.isverenId)+isgSelect('Eğitim Görevlisi / İşveren Vekili', 'isverenVekiliId', g.isverenVekiliId)+'</div>';
+    h += '<div class="mt-3">'+isgUyumKartIc(g)+'<p class="text-[11px] text-slate-500 mt-1">Toplu yazdırma her personel için şablondan üretilir; aşağıdaki önizlemede elle yaptığınız metin değişiklikleri yalnızca tekli “Yazdır / PDF”e yansır (Verildi/Verilmedi işaretleri ikisine de).</p></div>';
+  }
   if(cat.id==='isverenVekili' || cat.id==='destekElemani' || cat.id==='calisanTemsilcisi' || cat.id==='riskEkibi' || cat.id==='kurulAtama' || cat.id==='kurulToplanti' || cat.id==='kurulEgitim' || cat.id==='temsilciTalimat' || cat.id==='riskEgitim' || cat.id==='riskProsedur'){
     h += '<div class="grid sm:grid-cols-2 gap-3 mt-2">';
     if(['isverenVekili','destekElemani','calisanTemsilcisi','riskEkibi','kurulAtama','riskProsedur','temsilciTalimat','riskEgitim'].indexOf(cat.id)>=0){
@@ -35356,7 +35392,7 @@ function isgRenderOzluk(g){
         }).join('')}
       </div>
     `, "isgPrint('ozlukKontrol')")}
-    ${isgCard('Uyum ve İş Başı Eğitim Formu', `<p class="text-sm text-slate-600">1 saat uyum + 2 saat işbaşı eğitimi tutanağı. Seçili personel: <b>${escHtml(isgPersonName(g.seciliPersonelId))}</b></p>`, "isgPrint('uyumEgitim')")}
+    ${isgCard('Uyum ve İş Başı Eğitim Formu', isgUyumKartIc(g), "isgPrint('uyumEgitim')")}
     ${isgCard('İSG Talimat ve Tutanağı (76 madde)', `<p class="text-sm text-slate-600">Genel güvenlik talimatı — her sayfa paraflanır. Seçili personel: <b>${escHtml(isgPersonName(g.seciliPersonelId))}</b></p>`, "isgPrint('talimat')")}
     ${isgCard('Kişisel Koruyucu Donanım Zimmet ve Taahhüt Tutanağı', `<p class="text-sm text-slate-600">KKD teslim ve taahhüt. Seçili personel: <b>${escHtml(isgPersonName(g.seciliPersonelId))}</b></p>`, "isgPrint('kkd')")}
     ${isgCard('Fazla Çalışma Onay Formu', `<p class="text-sm text-slate-600">TYP / işçi fazla çalışma onayı.</p>`, "isgPrint('fazlaCalisma')")}
@@ -35430,6 +35466,133 @@ function isgRenderKurul(g){
 }
 
 /* ---------- PRINT ---------- */
+/* ===== v7.2.6: Uyum ve İşbaşı Eğitim Formu — tek sayfa A4 dikey, toplu yazdırma ===== */
+var ISG_UYUM_KONU = [
+  'İşyeri tanıtımı',
+  'Çalışma saatleri ve servis bilgileri',
+  'Yapılan işin tanıtımı',
+  'İş yeri kuralları (mesai giriş-çıkış, izin, giyim, disiplin yönetmeliği vb.)',
+  'Sorumlu olduğu amir, bölüm ve kurum çalışanları ile tanışma'
+];
+var ISG_SERT_KONU = [
+  'Temel İş Sağlığı ve Güvenliği Eğitimi',
+  'Acil Durum Eğitimi (deprem, yangın, arama-kurtarma vb.)'
+];
+var ISG_ISBASI_KONU = [
+  'İş sağlığı ve güvenliği konularında bilgilendirme',
+  'Acil durumlar hakkında bilgilendirme',
+  'Ofis çalışmalarında dikkat edilecek hususlar',
+  'İş tarifi ve pratiği eğitimi',
+  'Çalıştığı iş kolunda olan/olabilecek riskler konusunda eğitim',
+  'Kullanacağı makine bilgisi ve uygulamalı güvenli makine kullanım eğitimi',
+  'Kullanacağı malzeme/kimyasallar eğitimi (temizlik personeli için)',
+  'Kişisel koruyucu donanım (KKD) ekipmanları ile ilgili bilgilendirme',
+  'Muhtemel bir uygunsuzluk veya yapılacak hatanın bir sonraki adıma etkisinin anlatımı'
+];
+function isgUyumTarihMetni(g){
+  const t = (g && g.uyumTarih) || '';
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(t);
+  return m ? (m[3]+'/'+m[2]+'/'+m[1]) : '…… / …… / 20……';
+}
+function isgUyumBody(g, pid, iv, ivv, sonSayfa){
+  if(!g.uyumEgitim) g.uyumEgitim = {};
+  const pers = isgPersonName(pid);
+  const B = 'border:0.3mm solid #000;';
+  const td = B+'padding:0.9mm 1.4mm;font-size:9pt;line-height:1.2';
+  const tick = (grp, idx, val, cur) => {
+    const on = (cur===val);
+    return `<td class="uy-tick" data-isg-tick="${val}" onclick="isgTickUyum(this,'${grp}',${idx},'${val}')" style="${B}padding:0.6mm;text-align:center;cursor:pointer;user-select:none;font-size:10.5pt;line-height:1.1;width:16mm;${on?'background:#dcfce7;font-weight:700':''}">${on?'✓':''}</td>`;
+  };
+  const satirlar = (liste, grp, num) => liste.map((t,i)=>{
+    const cur = (g.uyumEgitim[grp+i]||'');
+    return `<tr><td style="${td}">${num?(i+1)+'. ':''}${escHtml(t)}</td>${tick(grp,i,'V',cur)}${tick(grp,i,'Y',cur)}</tr>`;
+  }).join('');
+  const bas = (b1,b2,b3) => `<tr><th style="${td};text-align:left;background:#f1f5f9">${b1}</th><th style="${td};width:16mm;text-align:center;background:#f1f5f9">${b2}</th><th style="${td};width:16mm;text-align:center;background:#f1f5f9">${b3}</th></tr>`;
+  const tablo = (ic) => `<table style="width:100%;border-collapse:collapse;margin:0 0 1.5mm">${ic}</table>`;
+  const baslik = (t, ek) => `<p style="font-weight:700;font-size:10pt;margin:2mm 0 0.8mm">${t}${ek?` <span style="font-weight:400;font-size:8.5pt">${ek}</span>`:''}</p>`;
+  const tarih = isgUyumTarihMetni(g);
+  const imzaHucre = (ad, unvan) => `<td class="uy-imza" style="width:33.3%;text-align:center;vertical-align:top;padding:0 1mm;font-size:9.5pt;line-height:1.25"><b>${escHtml(ad||'……………………')}</b><br>${unvan}<div style="height:16mm"></div>İmza</td>`;
+  /* Genel yazdırma kuralı (th, td { padding:8px 12px !important … }) formu uzatıp ikinci sayfaya taşırdı; daha özgül !important ile ezilir */
+  const css = `<style>.isg-uyum-sayfa td,.isg-uyum-sayfa th{padding:1.25mm 1.6mm!important;font-size:9pt!important;line-height:1.2!important;border:0.3mm solid #000!important;color:#000!important}.isg-uyum-sayfa td.uy-tick{padding:0.4mm!important;font-size:10.5pt!important;line-height:1.1!important}.isg-uyum-sayfa td.uy-imza{border:none!important;padding:0 1mm!important;font-size:9.5pt!important;line-height:1.25!important}.isg-uyum-sayfa p{line-height:1.25!important}</style>`;
+  return css + `<div class="isg-uyum-sayfa" style="font-family:'Times New Roman',serif;color:#000;break-inside:avoid;page-break-inside:avoid;${sonSayfa===false?'break-after:page;page-break-after:always;':''}">
+    <div style="text-align:center">
+      <div style="font-size:10.5pt;font-weight:700;line-height:1.25">T.C.<br>${escHtml(makamUstSatir())}<br>${escHtml(isgKurum())}</div>
+      <div style="font-size:12pt;font-weight:700;margin:2.5mm 0 2mm">UYUM VE İŞ BAŞI EĞİTİM FORMU</div>
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:1.5mm">
+      <tr><td style="${td};width:36%">Adı Soyadı</td><td style="${td}"><b>${escHtml(pers)}</b></td></tr>
+      <tr><td style="${td}">Kadro unvanı</td><td style="${td}">${escHtml(isgPersonTitle(pid))}</td></tr>
+      <tr><td style="${td}">Çalıştığı bölüm / okul</td><td style="${td}">${escHtml(isgKurum())}</td></tr>
+      <tr><td style="${td}">İşe giriş (başlama) tarihi</td><td style="${td}">&nbsp;</td></tr>
+      <tr><td style="${td}">Öğrenim durumu</td><td style="${td}">&nbsp;</td></tr>
+      <tr><td style="${td}">Eğitim tarihi</td><td style="${td}">${tarih}</td></tr>
+    </table>
+    ${baslik('1. UYUM EĞİTİMİ','(Toplam eğitim saati: 1 saat)')}
+    ${tablo(bas('Konular','Verildi','Verilmedi')+satirlar(ISG_UYUM_KONU,'u',true))}
+    ${baslik('Aldığı eğitimler (sertifikalı)')}
+    <p style="font-size:7.8pt;text-align:justify;margin:0 0 0.8mm;line-height:1.2">Bu eğitimler İSG uzmanları ve yetkilendirilmiş yangın formatörleri tarafından mevzuata göre verilir. “Çalışanın Temel İSG Eğitimi” İlçe MEM tarafından planlanır; katılım okul/kurum amiri tarafından sağlanır.</p>
+    ${tablo(bas('Eğitim','Var','Yok')+satirlar(ISG_SERT_KONU,'s',false))}
+    ${baslik('2. İŞ BAŞI EĞİTİMİ','(Toplam eğitim saati: 2 saat)')}
+    ${tablo(bas('Konular','Verildi','Verilmedi')+satirlar(ISG_ISBASI_KONU,'i',true))}
+    <p style="margin:2mm 0 0;font-size:9.5pt;text-align:justify">Personel işe başlama ve uyum eğitimini <b>${tarih}</b> tarihinde kurumda tamamlamıştır. Personel yıllık eğitim programına katılacaktır.</p>
+    <table style="width:100%;border-collapse:collapse;margin-top:7mm;break-inside:avoid;page-break-inside:avoid"><tr>
+      ${imzaHucre(pers,'Eğitimi Alan Personel')}${imzaHucre(ivv||iv,'Eğitim Görevlisi /<br>İşveren Vekili')}${imzaHucre(iv,'İşveren /<br>Okul Müdürü')}
+    </tr></table>
+  </div>`;
+}
+function isgUyumSec(id, on){
+  const g = isgEnsure();
+  if(!Array.isArray(g.uyumSecili)) g.uyumSecili = [];
+  const k = String(id);
+  g.uyumSecili = g.uyumSecili.filter(x=>String(x)!==k);
+  if(on) g.uyumSecili.push(k);
+  try{saveAllData();}catch(e){}
+  updateUI();
+}
+function isgUyumSecToplu(tur){
+  const g = isgEnsure();
+  let l = [];
+  if(tur==='hepsi') l = (state.staff||[]);
+  else if(tur==='diger') l = (typeof getDigerStaff==='function' ? getDigerStaff() : []);
+  else if(tur==='ogretmen') l = (typeof getOgretmenStaff==='function' ? getOgretmenStaff() : []);
+  g.uyumSecili = tur==='temizle' ? [] : l.map(p=>String(p.id));
+  try{saveAllData();}catch(e){}
+  updateUI();
+}
+function isgUyumTopluYazdir(){
+  const g = isgEnsure();
+  const ids = (g.uyumSecili||[]).filter(id=>isgPerson(id));
+  if(!ids.length){ alert('Önce listeden personel seçin.'); return; }
+  const iv = isgNameOr(g.isverenId, ['Başkan \\(Müdür\\)','^Okul Müdürü$','^Müdür$']);
+  const ivv = isgNameOr(g.isverenVekiliId, ['Müdür Yardımcısı','Başkan \\(Müdür Yrd','İşveren Vekili']);
+  /* Personel havuzundaki sıraya göre */
+  const sira = (state.staff||[]).map(p=>String(p.id));
+  ids.sort((a,b)=>sira.indexOf(String(a))-sira.indexOf(String(b)));
+  isgDoPrint(ids.map((id,i)=>isgUyumBody(g, id, iv, ivv, i===ids.length-1)).join(''));
+}
+function isgUyumKartIc(g){
+  const sec = (g.uyumSecili||[]).map(String);
+  const kutu = p => `<label class="flex items-center gap-1.5 text-xs py-0.5"><input type="checkbox" class="w-4 h-4" ${sec.indexOf(String(p.id))>=0?'checked':''} onchange="isgUyumSec('${String(p.id).replace(/'/g,'')}',this.checked)"><span>${escHtml(p.name||'')}</span><span class="text-slate-400">${escHtml(p.title||'')}</span></label>`;
+  const ogr = typeof getOgretmenStaff==='function' ? getOgretmenStaff() : [];
+  const ogrIds = ogr.map(p=>String(p.id));
+  const diger = (state.staff||[]).filter(p=>ogrIds.indexOf(String(p.id))<0);
+  const grup = (ad, l) => l.length ? `<div class="mb-2"><div class="text-[11px] font-bold text-slate-500 mb-0.5">${ad} (${l.length})</div><div class="grid sm:grid-cols-2 gap-x-3">${l.map(kutu).join('')}</div></div>` : '';
+  const btn = (t, f) => `<button type="button" onclick="${f}" class="px-2 py-1 text-[11px] rounded border border-slate-300 bg-white hover:bg-slate-50">${t}</button>`;
+  return `<p class="text-sm text-slate-600 mb-2">1 saat uyum + 2 saat işbaşı eğitimi tutanağı. Her form tek sayfa, A4 dikey yazdırılır. Tekli yazdırma için seçili personel: <b>${escHtml(isgPersonName(g.seciliPersonelId))}</b></p>
+    <div class="grid sm:grid-cols-2 gap-3 mb-3">
+      <label class="block text-sm"><span class="text-slate-600 font-medium">Eğitim tarihi (isteğe bağlı — tüm formlara yazılır)</span>
+        <input type="date" class="mt-1 w-full border border-slate-300 rounded-lg px-2 py-1.5 text-sm" value="${escHtml(g.uyumTarih||'')}" onchange="isgSetField('uyumTarih', this.value); updateUI();"></label>
+      <div class="text-[11px] text-slate-500 self-end">Boş bırakılırsa tarih yerleri “…/…/20…” olarak kalır. “Öğrenim durumu” ve “İşe giriş tarihi” elle doldurulmak üzere boş bırakılır. Verildi/Verilmedi işaretleri (önizlemede hücreye dokunarak) bütün formlara uygulanır.</div>
+    </div>
+    <div class="border border-slate-200 rounded-lg p-2 bg-slate-50">
+      <div class="flex flex-wrap items-center gap-1.5 mb-2">
+        <span class="text-xs font-bold text-slate-700 mr-1">Toplu yazdırılacak personel:</span>
+        ${btn('Tümü',"isgUyumSecToplu('hepsi')")}${btn('Öğretmenler',"isgUyumSecToplu('ogretmen')")}${btn('Diğer personel',"isgUyumSecToplu('diger')")}${btn('Temizle',"isgUyumSecToplu('temizle')")}
+      </div>
+      <div class="max-h-64 overflow-y-auto">${grup('Diğer Personel', diger)}${grup('Öğretmenler', ogr)}${(state.staff||[]).length?'':'<p class="text-xs text-slate-400">Personel havuzu boş.</p>'}</div>
+      <button type="button" onclick="isgUyumTopluYazdir()" class="mt-2 px-3 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white text-sm rounded-lg font-semibold">🖨 Seçilenleri Toplu Yazdır (${sec.filter(id=>isgPerson(id)).length})</button>
+    </div>`;
+}
 function isgPrintHead(title){
   return `<div style="text-align:center;font-family:'Times New Roman',serif;color:#000">
     <div style="font-size:11pt;font-weight:700">T.C.<br>${escHtml(makamUstSatir())}<br>${escHtml(isgKurum())}</div>
@@ -35580,92 +35743,7 @@ function isgDocBody(kind){
       isgPrintImza(`<b>${escHtml(pers)}</b><br>Çalışan`, `<b>${escHtml(iv||ivv)}</b><br>İşveren / Vekili`);
   }
   else if(kind==='uyumEgitim'){
-    const uyumKonular = [
-      'İşyeri tanıtımı',
-      'Çalışma saatleri ve servis bilgileri',
-      'Yapılan işin tanıtımı',
-      'İş yeri kuralları (mesai giriş-çıkış, izin, giyim, disiplin yönetmeliği vb.)',
-      'Sorumlu olduğu amir, bölüm ve kurum çalışanları ile tanışma'
-    ];
-    const sertifikaKonular = [
-      'Temel İş Sağlığı ve Güvenliği Eğitimi',
-      'Acil Durum Eğitimi (deprem, yangın, arama-kurtarma vb.)'
-    ];
-    const isbasiKonular = [
-      'İş sağlığı ve güvenliği konularında bilgilendirme',
-      'Acil durumlar hakkında bilgilendirme',
-      'Ofis çalışmalarında dikkat edilecek hususlar',
-      'İş tarifi ve pratiği eğitimi',
-      'Çalıştığı iş kolunda olan/olabilecek riskler konusunda eğitim',
-      'Kullanacağı makine bilgisi ve uygulamalı güvenli makine kullanım eğitimi',
-      'Kullanacağı malzeme/kimyasallar eğitimi (temizlik personeli için)',
-      'Kişisel koruyucu donanım (KKD) ekipmanları ile ilgili bilgilendirme',
-      'Muhtemel bir uygunsuzluk veya yapılacak hatanın bir sonraki adıma etkisinin anlatımı'
-    ];
-    if(!g.uyumEgitim) g.uyumEgitim = {};
-    const tick = (grp, idx, val, cur) => {
-      const on = (cur===val);
-      return `<td data-isg-tick="${val}" onclick="isgTickUyum(this,'${grp}',${idx},'${val}')" style="border:0.35mm solid #000;padding:2mm;text-align:center;cursor:pointer;user-select:none;font-size:12pt;width:14mm;${on?'background:#dcfce7;font-weight:700':''}">${on?'✓':''}</td>`;
-    };
-    let uyumRows = uyumKonular.map((t,i)=>{
-      const cur = (g.uyumEgitim['u'+i]||'');
-      return `<tr><td style="border:0.35mm solid #000;padding:1.2mm;font-size:9pt">${i+1}. ${escHtml(t)}</td>${tick('u',i,'V',cur)}${tick('u',i,'Y',cur)}</tr>`;
-    }).join('');
-    let sertRows = sertifikaKonular.map((t,i)=>{
-      const cur = (g.uyumEgitim['s'+i]||'');
-      return `<tr><td style="border:0.35mm solid #000;padding:1.2mm;font-size:9pt">${escHtml(t)}</td>${tick('s',i,'V',cur)}${tick('s',i,'Y',cur)}</tr>`;
-    }).join('');
-    let isbRows = isbasiKonular.map((t,i)=>{
-      const cur = (g.uyumEgitim['i'+i]||'');
-      return `<tr><td style="border:0.35mm solid #000;padding:1.2mm;font-size:9pt">${i+1}. ${escHtml(t)}</td>${tick('i',i,'V',cur)}${tick('i',i,'Y',cur)}</tr>`;
-    }).join('');
-
-    body = isgPrintHead('UYUM VE İŞ BAŞI EĞİTİM FORMU') +
-      `<table style="width:100%;border-collapse:collapse;font-size:9.5pt;margin-bottom:3mm">
-        <tr><td style="border:0.35mm solid #000;padding:1.2mm;width:38%">Adı Soyadı</td><td style="border:0.35mm solid #000;padding:1.2mm">${escHtml(pers)}</td></tr>
-        <tr><td style="border:0.35mm solid #000;padding:1.2mm">Kadro unvanı</td><td style="border:0.35mm solid #000;padding:1.2mm">${escHtml(isgPersonTitle(g.seciliPersonelId))}</td></tr>
-        <tr><td style="border:0.35mm solid #000;padding:1.2mm">Çalıştığı bölüm / okul</td><td style="border:0.35mm solid #000;padding:1.2mm">${escHtml(isgKurum())}</td></tr>
-        <tr><td style="border:0.35mm solid #000;padding:1.2mm">İşe giriş (başlama) tarihi</td><td style="border:0.35mm solid #000;padding:1.2mm"></td></tr>
-        <tr><td style="border:0.35mm solid #000;padding:1.2mm">Öğrenim durumu</td><td style="border:0.35mm solid #000;padding:1.2mm">İlkokul · Ortaokul · Lise · Ön lisans · Lisans · Lisansüstü</td></tr>
-      </table>
-
-      <p style="font-weight:700;font-size:10.5pt;margin:3mm 0 1mm">1. UYUM EĞİTİMİ <span style="font-weight:400;font-size:9pt">(Toplam eğitim saati: 1 saat)</span></p>
-      <table style="width:100%;border-collapse:collapse;margin-bottom:2mm">
-        <tr>
-          <th style="border:0.35mm solid #000;padding:1.2mm;text-align:left;font-size:9pt">Konular</th>
-          <th style="border:0.35mm solid #000;padding:1.2mm;font-size:9pt;width:14mm">Verildi</th>
-          <th style="border:0.35mm solid #000;padding:1.2mm;font-size:9pt;width:14mm">Verilmedi</th>
-        </tr>
-        ${uyumRows}
-      </table>
-
-      <p style="font-weight:700;font-size:10pt;margin:3mm 0 1mm">Aldığı eğitimler (sertifikalı)</p>
-      <p style="font-size:8.5pt;text-align:justify;margin:1mm 0;color:#333">Bu eğitimler İSG uzmanları ve yetkilendirilmiş yangın formatörleri tarafından mevzuata göre verilir. “Çalışanın Temel İSG Eğitimi” İlçe MEM tarafından planlanır; katılım okul/kurum amiri tarafından sağlanır ve takip edilir.</p>
-      <table style="width:100%;border-collapse:collapse;margin-bottom:2mm">
-        <tr>
-          <th style="border:0.35mm solid #000;padding:1.2mm;text-align:left;font-size:9pt">Eğitim</th>
-          <th style="border:0.35mm solid #000;padding:1.2mm;font-size:9pt;width:14mm">Var</th>
-          <th style="border:0.35mm solid #000;padding:1.2mm;font-size:9pt;width:14mm">Yok</th>
-        </tr>
-        ${sertRows}
-      </table>
-
-      <p style="font-weight:700;font-size:10.5pt;margin:3mm 0 1mm">2. İŞBAŞI EĞİTİMİ <span style="font-weight:400;font-size:9pt">(Toplam eğitim saati: 2 saat)</span></p>
-      <table style="width:100%;border-collapse:collapse;margin-bottom:2mm">
-        <tr>
-          <th style="border:0.35mm solid #000;padding:1.2mm;text-align:left;font-size:9pt">Konular</th>
-          <th style="border:0.35mm solid #000;padding:1.2mm;font-size:9pt;width:14mm">Verildi</th>
-          <th style="border:0.35mm solid #000;padding:1.2mm;font-size:9pt;width:14mm">Verilmedi</th>
-        </tr>
-        ${isbRows}
-      </table>
-
-      <p style="margin-top:4mm;font-size:9.5pt;text-align:justify">Personel işe başlama ve uyum eğitimini <b>${isgBugun()}</b> tarihinde kurumda tamamlamıştır. Personel yıllık eğitim programına katılacaktır.</p>` +
-      isgPrintImza(
-        `<b>${escHtml(pers)}</b><br>Eğitimi Alan Personel`,
-        `<b>${escHtml(ivv||iv)}</b><br>Eğitim Görevlisi / İşveren Vekili`
-      ) +
-      isgPrintImza('', `<b>${escHtml(iv)}</b><br>İşveren / Okul Müdürü`);
+    body = isgUyumBody(g, g.seciliPersonelId, iv, ivv);
   }
   else if(kind==='kkd'){
     body = isgPrintHead('KİŞİSEL KORUYUCU DONANIM ZİMMET VE TAAHHÜT TUTANAĞI') +
@@ -38751,7 +38829,7 @@ function isgPrint(kind){
         /* TEK SÜRÜM KAYNAĞI — bu değeri değiştir, her yer (sekme başlığı + sol menü
            etiketi) otomatik güncellenir. Dosya adı da hep bu numarayla aynı olmalı:
            İDARE ASİSTANI v<PORTAL_SURUM>. Sıralama: v6.5.0, v6.5.1 … v6.5.9, v6.6.0 … */
-        window.PORTAL_SURUM = '7.2.4';
+        window.PORTAL_SURUM = '7.2.6';
 
         /* ==================== GENEL BELGE DÜZENLEME ====================
            Programdaki evrakların çoğu salt çıktıydı (yalnızca bazılarında
@@ -39031,6 +39109,8 @@ function isgPrint(kind){
             } catch(e){}
         })();
         window.PORTAL_SURUM_NOTLARI = [
+            'İSG → Uyum ve İş Başı Eğitim Formu: seçilen personel için toplu yazdırma (Tümü / Öğretmenler / Diğer personel / tek tek seçim); her personel ayrı sayfada. Tüm formlara uygulanan isteğe bağlı eğitim tarihi alanı (boşsa “…/…/20…”). Öğrenim durumu satırı boş bırakıldı. Form sıkılaştırıldı: her zaman tek sayfa A4 dikey, üç imza (Eğitimi Alan, İşveren Vekili, Okul Müdürü) tek satırda ve ikinci sayfaya taşmaz',
+            'Her evrakın araç çubuğuna ve EBYS dönüştürücüsüne “HTML Kodu” düğmesi eklendi: yazının (gövde modu ve karakter düzeltmeleri uygulanmış) HTML kodu panoya kopyalanır; EBYS editöründe Kaynak’a basıp yapıştırınca, tekrar Kaynak’a basınca yazı biçimli görünür. EBYS’nin yapıştırma süzgecine takılmadığı için düzenin en az bozulduğu yöntemdir; nasıl yapılacağı “?” düğmesinde anlatılır',
             'EBYS’ye yapıştırma düzeltildi: satır sonları (<br>) artık ayrı paragraf olarak gider, tablo başlık hücreleri normal kalın hücreye, kutular paragrafa çevrilir, kenarlıklı tablolara border özniteliği eklenir, ekranda gizli bölümler kopyalanmaz — başlık satırlarının ve “Ad SOYADUnvan” gibi bitişmeler giderildi. Yeni EBYS gövde modu (varsayılan açık, EBYS Evrak Oluştur sayfasından kapatılabilir): EBYS üst yazıya kendisi eklediği için kurum başlığı, Sayı-Tarih-Konu, muhatap ve okul müdürü / müdür yardımcısı ad-imzası kopyalanmaz; yalnızca yazının gövdesi, tabloları ve ekleri gider',
             'Çocuk Kulübü → yeni 💰 Mali İşler sekmesi: seçilen ay için grupların günlerinden ve saatlerinden faaliyet günleri, aylık etkinlik saatleri ve beklenen gelir otomatik hesaplanır (tahsil edilen tutar elle de girilebilir). 📊 Bilanço: yönergenin 16. maddesine göre %26 temel gider, %55 öğretmen/usta öğretici/koordinatör (saate göre), %7 YK başkanı, %5 müdür yardımcısı, %2 yazışma-muhasebe, %4 temizlik-bakım-beslenme (eşit), %1 il MEM. Görev tavanları (%275/%250/%300/%400/%200 × en yüksek memur brüt aylığı) aşılırsa fazlası temel gidere aktarılır. 🗓️ Puantaj (günlük saatlerle), 💰 Ödeme bordrosu (brüt, SGK işçi payı, GV matrahı, gelir ve damga vergisi, ele geçen), 📝 YK kararları (aylık dağıtım-ödeme, saat ücreti belirleme, kulüp açılışı) ve 👪 Aidat takibi (ödendi işaretleme, ödemeyen veli listesi). Kişiler EK-1 ve Gruplar sekmelerinden gelir; statü, tavan, saat ve vergi oranı kişi bazında değiştirilebilir',
             'EBYS uyumu: tüm “EBYS’ye Kopyala” işlemlerinde EBYS’de “?” çıkaran karakterler (akıllı tırnak, uzun tire, madde imi, ₺, görünmez boşluklar, bozuk kod sayfası harfleri Ð/Ý/Þ, onay kutuları…) otomatik güvenli karşılığına çevrilir, düzeltilen karakter sayısı düğmede görünür; paragraf girintisi artık EBYS’ye taşınır. Her evrakın araç çubuğuna “Düz Metin” (Not Defteri yöntemi: “?” hiç çıkmaz, girinti ve tablo hücreleri Tab ile korunur) eklendi. EBYS Evrak Oluştur dönüştürücüsüne ✍️ Metin Yapıştır ve 🪄 Resmî Yazı Düzenine Getir: satır sonları kaybolmuş tek blok metin bile başlık, Sayı/Konu/İlgi, muhatap, girintili paragraflar, ayrı kapanış cümlesi (…arz/rica ederim), sağda imza, OLUR onayı, Ek/Dağıtım ve alt bilgi düzenine sokulur; yapay zekâdan gelen **, # işaretleri temizlenir. PDF dönüştürmede filigranlar, e-imza/doğrulama damgaları ve sayfa numaraları ayıklanır',
@@ -41464,7 +41544,8 @@ function isgPrint(kind){
             btn('fa-file-pdf', 'PDF İndir', "evrakPdfIndir('" + key + "','" + kapsam + "')", 'evrak-pdf') +
             btn('fa-file-word', 'Word İndir', "evrakWordIndir('" + key + "','" + kapsam + "')", 'evrak-word') +
             ((kapsam === 'evrak' && !ebysVar) ? btn('fa-file-import', "EBYS'ye Kopyala", "ebysKopyala('" + key + "','ebys-oto-" + key + "')", 'evrak-ebys').replace('<button ', '<button id="ebys-oto-' + key + '" ') : '') +
-            (kapsam === 'evrak' ? btn('fa-align-left', 'Düz Metin', "ebysDuzKopyala('" + key + "','ebys-duz-" + key + "')", 'evrak-ebys').replace('<button ', '<button id="ebys-duz-' + key + '" title="EBYS’ye biçimsiz düz metin: “?” çıkmaz, girintiler Tab ile korunur" ') : '');
+            (kapsam === 'evrak' ? btn('fa-align-left', 'Düz Metin', "ebysDuzKopyala('" + key + "','ebys-duz-" + key + "')", 'evrak-ebys').replace('<button ', '<button id="ebys-duz-' + key + '" title="EBYS’ye biçimsiz düz metin: “?” çıkmaz, girintiler Tab ile korunur" ') : '') +
+            (kapsam === 'evrak' ? btn('fa-code', 'HTML Kodu', "ebysKodKopyala('" + key + "','ebys-kod-" + key + "')", 'evrak-ebys').replace('<button ', '<button id="ebys-kod-' + key + '" title="EBYS editöründe önce Kaynak düğmesine basın, kodu yapıştırın, sonra tekrar Kaynak’a basın — biçim en az bozulan yöntem" ') : '');
     }
     /* Araç çubuklarını yerleştir (idempotent) */
     /* ==== v7.1.7: MODÜL MEVZUATI VE MODÜLLER ARASI KÖPRÜLER ====
