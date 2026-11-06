@@ -154,6 +154,47 @@ body.uygulama-modu{overflow:hidden}
 .modal-btn{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
 .btn-tehlike{background:#b42318;color:#fff}
 
+/* ===== SOHBET ===== */
+.sohbet{background:var(--panel);border:1px solid var(--cizgi);border-radius:16px;box-shadow:var(--golge);overflow:hidden;position:relative;--renk:var(--lacivert);--acik:#e9ecf3}
+.sohbet-yonetim{display:none;align-items:center;gap:6px;flex-wrap:wrap;padding:8px 12px;background:#fff6e0;border-bottom:1px solid #f0d48a;font-size:12.5px;color:#6b4e00}
+.sohbet.yonetici .sohbet-yonetim{display:flex}
+.sohbet-yonetim b{margin-right:auto}
+.sohbet-yonetim button{border:1px solid #e5c56d;background:#fff;border-radius:8px;padding:4px 9px;font-size:12px;font-weight:600}
+.sohbet-akis{height:clamp(300px,52vh,520px);overflow-y:auto;overscroll-behavior:contain;padding:12px 12px 4px;display:flex;flex-direction:column;gap:8px;background:linear-gradient(#faf9f5,#f6f4ee)}
+.sohbet-bilgi{margin:auto;text-align:center;color:var(--soluk);font-size:13.5px;padding:24px 12px;line-height:1.5}
+.sohbet-daha{align-self:center;font-size:12px;color:var(--soluk);padding:4px 10px}
+.sohbet-gun{align-self:center;font-size:11.5px;font-weight:700;color:var(--soluk);background:#fff;border:1px solid var(--cizgi);border-radius:999px;padding:3px 10px;margin:6px 0 2px}
+.msj{max-width:min(86%,620px);align-self:flex-start;background:hsl(var(--h) 75% 96.5%);border:1px solid hsl(var(--h) 45% 86%);border-left:4px solid hsl(var(--h) 60% 46%);border-radius:4px 14px 14px 14px;padding:7px 11px 8px}
+.msj.ben{align-self:flex-end;border-left-width:1px;border-right:4px solid hsl(var(--h) 60% 46%);border-radius:14px 4px 14px 14px}
+.msj-bas{display:flex;align-items:center;gap:7px;font-size:12px;margin-bottom:2px}
+.msj-ad{font-weight:800;color:hsl(var(--h) 65% 30%)}
+.msj-zaman{color:#8a8f9c;font-size:11px}
+.msj-metin{color:hsl(var(--h) 55% 22%);font-size:14.5px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere}
+.msj-islem{margin-left:auto;display:flex;gap:2px}
+.msj-islem button{border:0;background:none;color:#a7a39a;font-size:12px;padding:2px 6px;border-radius:6px;line-height:1.2}
+.msj-islem button:hover{background:rgba(0,0,0,.06);color:#b42318}
+.msj-islem .yon{color:#8a1f12;font-weight:700}
+.msj.gel{--h:222;background:#14213d;border-color:#14213d;border-left-color:#f2b544}
+.msj.gel .msj-ad{color:#f2b544}
+.msj.gel .msj-metin{color:#fff}
+.msj.gel .msj-zaman{color:rgba(255,255,255,.55)}
+.rozet{font-size:10px;font-weight:800;background:#f2b544;color:#14213d;border-radius:5px;padding:1px 6px;letter-spacing:.3px}
+.sohbet-yeni{position:absolute;left:50%;transform:translateX(-50%);bottom:118px;display:none;border:0;background:var(--lacivert);color:#fff;font-weight:700;font-size:12.5px;padding:7px 14px;border-radius:999px;box-shadow:0 6px 18px rgba(0,0,0,.2);z-index:2}
+.sohbet-yeni.acik{display:block}
+.sohbet-yaz{display:flex;gap:8px;align-items:flex-end;padding:10px 12px 6px;border-top:1px solid var(--cizgi)}
+.sohbet-yaz textarea{flex:1;resize:none;border:1px solid var(--cizgi2);border-radius:12px;padding:10px 12px;font:inherit;font-size:15px;line-height:1.4;max-height:120px;min-height:44px;outline:none;background:#fff;color:var(--metin)}
+.sohbet-yaz textarea:focus{border-color:var(--lacivert);box-shadow:0 0 0 3px rgba(20,33,61,.12)}
+.sohbet.yonetici .sohbet-yaz textarea{border-color:#e5c56d;background:#fffcf3}
+.sohbet-gonder{width:44px;height:44px;border-radius:12px;border:0;background:var(--lacivert);color:#fff;font-size:18px;flex-shrink:0;display:grid;place-items:center}
+.sohbet-gonder:disabled{opacity:.5}
+.sohbet-alt{display:flex;align-items:center;gap:10px;padding:0 12px 10px;font-size:12px;color:var(--soluk)}
+.sohbet-alt .ben-ad{font-weight:800}
+.sohbet-alt .say{margin-left:auto;font-variant-numeric:tabular-nums}
+.sohbet-alt .say.dolu{color:#b42318;font-weight:700}
+.sohbet-kilit{border:0;background:none;font-size:13px;opacity:.45;padding:2px 4px}
+.sohbet-kilit:hover{opacity:1}
+.modal-govde input[type=password]{width:100%;height:44px;border:1px solid var(--cizgi2);border-radius:10px;padding:0 12px;font-size:15px;margin-top:6px}
+
 /* Alt çubuk (telefon) */
 .alt-cubuk{display:none}
 .bildirim{position:fixed;left:50%;bottom:84px;transform:translateX(-50%) translateY(20px);background:var(--lacivert);color:#fff;padding:11px 16px;border-radius:12px;font-size:13.5px;box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:all .25s;z-index:90;max-width:calc(100% - 32px)}
@@ -230,6 +271,24 @@ body.uygulama-modu{overflow:hidden}
       <div id="yedek-uyari"></div>
       <div class="giris-izgara" id="giris-izgara"></div>
 
+      <div class="bolum" id="bolum-sohbet">
+        <div class="bolum-bas"><h3>💬 Sohbet</h3><span class="not">Herkese açık · kişisel bilgi yazmayın</span></div>
+        <div class="sohbet" id="sohbet">
+          <div class="sohbet-yonetim"><b>🔑 Yönetici modu</b>
+            <button onclick="sohbetGizlenenler()">Gizlenenler</button>
+            <button onclick="sohbetSusturmaKaldir()">Susturmaları kaldır</button>
+            <button onclick="sohbetYoneticiCikis()">Çıkış</button>
+          </div>
+          <div class="sohbet-akis" id="sohbet-akis" role="log" aria-live="polite" aria-label="Sohbet mesajları"><div class="sohbet-bilgi">Sohbet yükleniyor…</div></div>
+          <button class="sohbet-yeni" id="sohbet-yeni" onclick="sohbetAlta(true)">↓ Yeni mesaj</button>
+          <form class="sohbet-yaz" id="sohbet-form" onsubmit="sohbetGonder(event)">
+            <textarea id="sohbet-metin" rows="1" maxlength="500" placeholder="Soru, öneri ya da talebinizi yazın…" aria-label="Mesaj" oninput="sohbetYaziyor()" onkeydown="sohbetTus(event)"></textarea>
+            <button class="sohbet-gonder" id="sohbet-gonder" type="submit" aria-label="Gönder" title="Gönder">➤</button>
+          </form>
+          <div class="sohbet-alt"><span id="sohbet-ben"></span><span class="say" id="sohbet-say">0/500</span><button type="button" class="sohbet-kilit" onclick="sohbetYoneticiGiris()" title="Yönetici girişi" aria-label="Yönetici girişi">🔒</button></div>
+        </div>
+      </div>
+
       <div class="bolum" id="bolum-favori">
         <div class="bolum-bas"><h3>⭐ Favorilerim</h3><span class="not">Kartlardaki yıldıza dokunarak ekleyin</span></div>
         <div id="favori-listesi"></div>
@@ -254,7 +313,7 @@ body.uygulama-modu{overflow:hidden}
       </div>
 
       <div class="alt-bilgi">
-        <span>🔒 Tüm veriler yalnızca bu cihazda, tarayıcınızda saklanır. Düzenli olarak uygulamaların içindeki <b>Yedekle</b> düğmesini kullanın. Site kullanımı, çerez kullanılmadan ve kişisel bilgi toplanmadan anonim olarak sayılır.</span>
+        <span>🔒 Tüm veriler yalnızca bu cihazda, tarayıcınızda saklanır. Düzenli olarak uygulamaların içindeki <b>Yedekle</b> düğmesini kullanın. Site kullanımı, çerez kullanılmadan ve kişisel bilgi toplanmadan anonim olarak sayılır. Sohbete yazılan mesajlar ise herkese açıktır ve sunucuda saklanır.</span>
         <span>Mehmet Can Öztürk</span>
       </div>
     </div>
@@ -308,7 +367,7 @@ const YERLESIK_UYGULAMALAR = [
     aciklama: 'Sınıf öğretmeni araçları: planlar, toplantılar, rehberlik ve değerlendirme' }
 ];
 /* İlk açılışta hemen gösterilecek modül listesi (sonra uygulama dosyasından tazelenir) */
-const YERLESIK_KATALOG = {"idare":{"kategoriler":[{"ad":"Personel & Görev Yönetimi","ico":"👥","moduller":[{"id":"havuz","ico":"👥","ad":"Personel Havuzu","alt":["Öğretmenler","Diğer Personel","Toplu Excel"],"acik":"Tüm personeli (öğretmen / diğer) kaydeder; diğer modüller isimleri buradan çeker."},{"id":"gorevDagilimi","ico":"📋","ad":"Görev Dağılımı","alt":["Okul Müdürü","Müdür Yardımcısı","Pansiyon MY","Rehber","Hemşire","Sayman","Memur"],"acik":"Müdür, MY ve diğer kadroların görev/tebliğ dağılımı."},{"id":"komisyonlar","ico":"🏛️","ad":"Kurul ve Komisyonlar (Atamalı)","alt":[],"acik":"Kurul ve komisyon üye atamaları."},{"id":"imzaCizelgesi","ico":"📝","ad":"İşçi İşlemleri","alt":["İmza Çizelgesi","İşçi Puantaj Takvimi","Sürekli İşçi Görev Tebliği","TYP Görev Tebliği","İUP Görev Tebliği","Bahçe Görevlisi Tebliği","TYP/İUP İmza Çizelgesi"],"acik":"İşçi imza, puantaj ve görev tebliğleri (TYP, İUP, bahçe görevlisi vb.)."},{"id":"dogumIzni","ico":"👶","ad":"Doğum İzni Üst Yazısı","alt":[],"acik":"Doğum izni üst yazısı ve ekleri."},{"id":"personelNakil","ico":"📇","ad":"Personel Nakil Bildirimi","alt":[],"acik":"Personel nakil bildirim formu."},{"id":"nobet","ico":"🔄","ad":"Nöbet Çizelgesi","alt":[],"acik":"Öğretmen nöbet çizelgesi."},{"id":"pansiyonBellet","ico":"🛏️","ad":"Pansiyon Belletici Nöbeti","alt":["İstekli listesi","Dış okul personeli","Aylık çizelge","Görev tebliği","Talep dilekçesi"],"acik":"Pansiyon belletici / nöbetçi belletici aylık çizelgesi, dış okul personeli, görev tebliği ve talep dilekçesi."},{"id":"tebligTebellugTab","ico":"📨","ad":"Tebliğ–Tebellüğ Belgesi","alt":["Yazı/belge tebliği","Tebellüğ eden personel","Tebliğ edilen yer"],"acik":"Herhangi bir yazı, genelge, görevlendirme veya resmî belgeyi personele tebliğ etmek için tebliğ–tebellüğ belgesi."}]},{"ad":"Öğrenci İşleri & Kulüpler","ico":"🎓","moduller":[{"id":"ogrenciIsleri","ico":"🎓","ad":"Öğrenci İşleri","alt":["Öğrenciler","Kayıt İşlemleri","Şube Açma/Kapama","Sınıf Yükseltme","Devamsızlık","Disiplin / Davranış"],"acik":"Kayıt, şube, devamsızlık, dilekçe ve öğrenci işlemleri."},{"id":"cocukKulubu","ico":"🧒","ad":"Çocuk Kulübü","alt":["EK-1 Onay","EK-2 Sözleşme","EK-4 Başvuru","EK-5 Acil","EK-6 Denetim","Yönetim Kurulu","Gruplar/Kayıt","Yıllık Program","Yoklama","Ücret/Plan","Görevlendirme"],"acik":"MEB Çocuk Kulübü yönergesi evrakları (kuruluş, YK, kayıt, program, yoklama, ücret)."},{"id":"destekEgitim","ico":"🧩","ad":"Destek Eğitim / Evde Eğitim","alt":["Destek Eğitim: Planlama, BEP, Program, Ücret, Çizelge, RPD, Dilekçeler","Evde Eğitim: Üst yazı, Ev ortamı, Aylık/Haftalık çizelge, Tutanaklar, Sözleşme"],"acik":"Destek eğitim odası ve evde eğitim evrakları."},{"id":"sorumlulukSinavi","ico":"📝","ad":"Sorumluluk Sınavları","alt":["Öğrenci listesi","Sınav programı","Komisyon","Tutanak","Dilekçe"],"acik":"Ortaöğretim sorumluluk sınavı listesi, program, komisyon ve tutanaklar."},{"id":"disiplinIslemleri","ico":"⚖️","ad":"Disiplin İşlemleri","alt":["İlkokul","Ortaokul","Ortaöğretim — Ödül ve Disiplin Kurulu"],"acik":"Kademeye göre disiplin / ödül evrakları."},{"id":"tasimaliEgitim","ico":"🚐","ad":"Taşımalı Eğitim","alt":["Araç/şoför planlama","Teslim tutanağı","Taşıt denetim","Puantajlar","Değişiklik formları"],"acik":"Taşımalı eğitim planlama, denetim ve puantaj evrakları."},{"id":"gezi","ico":"🚌","ad":"Gezi Planı Oluşturma","alt":[],"acik":"Okul gezisi planı, izin ve güvenlik kontrolü."},{"id":"egzersiz","ico":"🏅","ad":"Ders Dışı Egzersiz Çalışma Planı","alt":[],"acik":"Ders dışı spor/egzersiz çalışma planı."}]},{"ad":"Etkinlik & Eğitim Planlama","ico":"📅","moduller":[{"id":"yillikPlan","ico":"📅","ad":"Yıllık Çalışma Planı","alt":[],"acik":"Okulun yıllık idari ve pedagojik iş takvimini planlar."},{"id":"rehberlikCerceve","ico":"🧭","ad":"Rehberlik Yıllık Çerçeve Planı","alt":["RÖ olan okul","RÖ olmayan okul","Kademe planları","Görevlendirme"],"acik":"Rehber öğretmeni olan/olmayan okullar için yıllık çerçeve plan, görevlendirme ve aylık faaliyetler."},{"id":"belirliGunler","ico":"🇹🇷","ad":"Belirli Gün ve Haftalar (Atamalı)","alt":[],"acik":"MEB belirli gün ve haftalar için sorumlu öğretmen ataması."},{"id":"sosyalEtkinlik","ico":"🎨","ad":"Sosyal Etkinlikler","alt":["Etkinlikler Kütüphanesi","Yıllık Çalışma Planı","Toplum Hizmeti","Okul Temelli Eylem Planı","SE Kurulu Tutanağı","Öğrenci Kulüpleri (48 kulüp)","Maarifin Kalbinde Oyun","Yaşam Becerileri (faaliyet havuzu, yıllık plan, gözlem formu, yıl sonu raporu)"],"acik":"Kütüphane, yıllık plan, toplum hizmeti, okul temelli eylem planı ve SE kurul tutanağı."},{"id":"degerlerEgitimi","ico":"💛","ad":"Değerler Eğitimi","alt":[],"acik":"Değerler eğitimi planı ve kayıtları."},{"id":"kurulToplanti","ico":"👨‍🏫","ad":"Öğretmenler Kurulu Toplantısı","alt":["Kademe/tür seçimi","Gündem maddeleri","Hazır karar önerileri","Şube–rehber tablosu","Tutanak"],"acik":"Öğretmenler Kurulu gündemi, karar önerileri ve tutanak."}]},{"ad":"Güvenlik & Sağlık","ico":"🛡️","moduller":[{"id":"okulGuvenligi","ico":"🔐","ad":"Okul Güvenliği Dosyası","alt":["Genel Bilgiler","Denetim Formu (75 soru)","Güvenlik Eylem Planı","Yönetim Ekibi ve Tutanak","Ziyaretçi Kayıt Defteri","Erken Çıkış Formu","Kamera Envanteri ve Teslim Tutanağı","Olay Kayıt ve Analiz","Siber Olay Prosedürü ve Kayıt Defteri","Görev Talimatları","Tatbikat ve Seminer","Veli Bilgilendirme","Servis Güvenliği","Protokol Ekleri EK-1…EK-8","Güvenlik Ölçeği (EK-7)","İlçe Yürütme Kurulu Kararları ve Uygulama Raporu","Görevli Personel ve Görüşme Defteri","Yükümlülük Takvimi","Müfettiş Denetimi (Denetim Rehberi 25 madde)","1. Derece Denetim Formu","Adli Sicil Kontrol Çizelgesi","Ev Ziyareti Tutanağı","Tebliğ-Tebellüğ ve Bilgilendirme Tutanakları"],"acik":"2026 okul ve çevresi güvenlik tedbirleri genelgesi ile iş birliği protokolüne göre okul güvenliği dosyası."},{"id":"iyepPlanlama","ico":"📚","ad":"İYEP Planlama","alt":["Onay Çizelgesi ve Excel","Öğretmen Kurs Takvimi","Haftasonu Yönetim Görevi","Genel Değerlendirme Raporu","Öğretmen Planı (öğrenme çıktıları)","Tamamlama Tutanağı","Devamsızlıktan Çıkarma Tutanağı"],"acik":"İlkokullarda Yetiştirme Programı (2026 TYMM) için öğretmen kurs takvimi, onay çizelgesi ve Excel, değerlendirme raporu, öğretmen planı ve tutanaklar."},{"id":"sivilSavunma","ico":"🛡️","ad":"Sivil Savunma & Sabotaj Koruma Planı","alt":["Genel Bilgiler","Komisyon & Amirler","Ekip / Servisler","Haber Verilecek Makamlar","Tedbirler & Malzeme","Anahtar Teslim Tutanağı","Görev Talimatları","Tatbikatlar","Sivil Savunma Planı","Sabotaj Koruma Planı"],"acik":"Sivil savunma ve sabotaj koruma planı."},{"id":"isg","ico":"🦺","ad":"İş Sağlığı ve Güvenliği (İSG)","alt":["Organizasyon","Özlük","Risk","Saha","Kurul","Kaza ve Sağlık","Referans (7 kategori altında 29 belge)"],"acik":"İSG atama, form, risk ve eğitim evrakları (50 altı/üstü)."}]},{"ad":"Mali & İdari İşlemler","ico":"💰","moduller":[{"id":"kantinKira","ico":"🏪","ad":"Kantin Kira Hesaplama ve Sözleşmesi","alt":[],"acik":"Kantin kira hesabı ve sözleşme taslağı."},{"id":"yolluk","ico":"🧳","ad":"Yolluk Hesaplama (Sürekli Görev)","alt":[],"acik":"Sürekli görev yolluk / harcırah hesabı."},{"id":"proforma","ico":"🧾","ad":"Proforma Fatura","alt":[],"acik":"Proforma fatura ve teklif yazışması."},{"id":"bankaAktarma","ico":"🏦","ad":"Maaş Banka Formatı Dönüştürücü","alt":[],"acik":"Maaş banka aktarım dosyası dönüştürücü."},{"id":"ekEvraklar","ico":"📁","ad":"Ek Evraklar","alt":["Tutanak Hazırlama","Müdür Devir–Teslim Tutanağı","KBS–MYS–KYS Yetki Talep Formu","Yönetici Hizmet Süresi ve Puan (EK-1)","Kurumsal Sosyal Medya Hesabı Olur Yazısı"],"acik":"Devir teslim, yetki, yönetici puan, sosyal medya olur vb. ek belgeler."}]},{"ad":"Veli & Toplum İlişkileri","ico":"👨‍👩‍👧‍👦","moduller":[{"id":"aileBirligi","ico":"👨‍👩‍👧‍👦","ad":"Okul Aile Birliği","alt":[],"acik":"Okul-Aile Birliği organları, seçim ve kararlar."}]},{"ad":"Denetim & Yayın","ico":"📋","moduller":[{"id":"denetimRehberi","ico":"📋","ad":"İlkokul/Ortaokul Denetim Rehberi","alt":[],"acik":"İlkokul/ortaokul denetim rehberi ve referans belgeler."},{"id":"dergi","ico":"📰","ad":"Brifing / Dergi Oluştur","alt":["Brifing","Dergi","Kat Planı / Yerleşim Levhası"],"acik":"Brifing dosyası, okul dergisi ve kat planı / yerleşim levhası."},{"id":"ogretmenTakip","ico":"✅","ad":"Öğretmen Evrak/Görev Takibi","alt":[],"acik":"Öğretmenlerin hazırlaması/teslim etmesi gereken evrak ve görevlerin takibi."},{"id":"dosyaSirtlik","ico":"🏷️","ad":"Dosya Sırtlığı Oluşturucu","alt":[],"acik":"Klasör sırtına yapıştırılacak dosya sırtlığı (etiket) üretir."},{"id":"ebysDonustur","ico":"📝","ad":"EBYS Evrak Oluştur","alt":["Dosya → EBYS Dönüştür (Word, Excel, PDF, ODT, RTF, TXT, HTML, görsel)","Evrak listesi ve kısayollar","Göreve başlama / ayrılış","İzin oluru","Tebliğler","OAB harcama ve ödeme talimatı","Sosyal etkinlik oluru","Serbest üst yazı"],"acik":"Okul idaresindeki tüm resmî evrakların listesi; programda olan evraka kısayolla gider, olmayanı bu sayfada portal bilgileriyle hazırlar. Üstte Dosya → EBYS dönüştürücü."}]}]},"ogretmen":{"kategoriler":[{"ad":"Sistem","ico":"⚙️","moduller":[{"id":"ayarlar","ico":"🪪","ad":"Kurum / Öğretmen Bilgileri","alt":[],"acik":"Kurum, öğretmen, müdür ve eğitim yılı bilgilerini girersiniz. Yazdırılan çoğu evrakta üst bilgi buradan gelir. Önce bu paneli doldurun."},{"id":"ogrenciHavuzu","ico":"👧","ad":"Öğrenci Havuzu","alt":[],"acik":"Sınıfınızdaki öğrencileri kaydedersiniz (ad, no, veli, iletişim). Diğer modüller isimleri buradan çeker. Toplu ekleme ve sıralama yapılabilir."},{"id":"dosyaKapaklari","ico":"📂","ad":"Öğretmen Dosyası Oluşturma","alt":[],"acik":"Kademenize göre sıralı öğretmen dosyası: burada üretilen evraklar, diğer modüllere «Şimdi oluştur» kısayolu ve dönüş çubuğu, mevzuat için karekod sayfaları; seçtiğiniz maddeler kapak, içindekiler ve ayraçlarla tek PDF olur. 2. sekmede dosya kapağı oluşturucu."},{"id":"takvim","ico":"📆","ad":"Takvim","alt":[],"acik":"Okul ve kişisel önemli tarihleri işlersiniz. MEB takvimiyle uyumlu hatırlatmalar için kullanın."},{"id":"imsakTakvim","ico":"⚙️","ad":"İmsakiye ve Yıllık Takvim","alt":[],"acik":"Seçilen yıl (ör. 2027) için Ocak–Aralık yıllık takvim ve Ramazan imsakiyesi; resmî tatiller, dinî bayramlar, okul tatilleri ve okula özel günler; vakitler ilinize göre hesaplanır ya da Diyanet tablosu yapıştırılır; okul / sınıf adına özel, fotoğraf veya yazı filigranlı."},{"id":"kendimiTakip","ico":"✅","ad":"Kendimi Takip Ediyorum","alt":[],"acik":"Yıl içinde hazırlamanız gereken işleri ay ay listeler; tamamladıklarınızı işaretlersiniz. Kişisel kontrol listesidir."}]},{"ad":"Planlama","ico":"🗓️","moduller":[{"id":"haftalikProgram","ico":"🗓️","ad":"Haftalık Ders Programı","alt":[],"acik":"Haftalık ders programını oluşturur ve yazdırırsınız. İlkokul için hazır dağıt örnekleri kullanılabilir."},{"id":"dersPlani","ico":"📄","ad":"Ders Planı/Günlük plan","alt":[],"acik":"Sınıf düzeyine ve derse göre günlük ders planı hazırlar: TYMM verisinden çıktı ve süreç bileşenleri, zamanlanmış öğretmen/öğrenci etkinlikleri; yazdırır veya PDF/ZIP alırsınız."},{"id":"egzersizPlani","ico":"🏃","ad":"Ders Dışı Egzersiz Planı","alt":[],"acik":"Ders dışı egzersiz çalışma planı hazırlar. Tarih ve kazanım saatlerine göre çizelge oluşturur."},{"id":"iyepPlani","ico":"🌱","ad":"İYEP Plan Hazırlama","alt":[],"acik":"2026 TYMM İYEP programına göre Türkçe öğrenme alanları ve Matematik temaları için öğrenme çıktısı bazlı haftalık plan; tamamlama ve devamsızlıktan çıkarma tutanakları."},{"id":"kilavuzKagit","ico":"✏️","ad":"İlk Defterim (Okuma Yazma)","alt":[],"acik":"1. sınıf okuma yazma defteri: TYMM ses gruplarına göre kılavuzlu harf, hece, kelime, cümle ve rakam çalışmaları, hece tabloları, harf izleme ve takip tablosu; sınıf listesi Öğrenci Havuzu’ndan gelir."},{"id":"izlemeTymm","ico":"📈","ad":"Okuma Düzeyi İzleme","alt":[],"acik":"Öğrencilerin okuma hızı/düzeyi ve kitap okuma takibini tablolar ve grafiklerle izlersiniz; ders adlı, hafta içi tarih sütunlu ve tek A4 sayfalık ödev takip formu hazırlarsınız."},{"id":"degerlerDil","ico":"💛","ad":"Değerler Eğitimi-Dilimizin Zenginlikleri","alt":[],"acik":"Değerler eğitimi ve Dilimizin Zenginlikleri için plan ve aylık rapor hazırlar."},{"id":"tymmRaporlari","ico":"🧾","ad":"TYMM Raporları","alt":[],"acik":"Ders ve sınıf bazında Maarif Modeli aylık, dönem ve yıl sonu uygulama-değerlendirme raporları; tek tek veya toplu yazdırılır."}]},{"ad":"Sınıf Yönetimi","ico":"🏫","moduller":[{"id":"oturmaPlani","ico":"🪑","ad":"Sınıf Oturma Planı","alt":[],"acik":"Sınıf oturma düzeni oluşturur; kız-erkek dağılımı ve yazdırma seçenekleri vardır."},{"id":"nobetCizelgesi","ico":"🧹","ad":"Öğrenci Nöbet Çizelgesi","alt":[],"acik":"Öğrenci nöbet yerlerini dengeli dağıtır ve çizelge yazdırır."},{"id":"ihtiyacListesi","ico":"🧺","ad":"İhtiyaç Listesi","alt":[],"acik":"Okul öncesi ve 1–4. sınıf ihtiyaç listesi oluşturur; seçilen maddeleri yazdırırsınız."},{"id":"beslenmeListesi","ico":"🍎","ad":"Haftalık Beslenme Listesi","alt":[],"acik":"Okul öncesi haftalık beslenme listesini tablo halinde hazırlar ve yazdırır."},{"id":"fotoCerceve","ico":"🖼️","ad":"Fotoğraf Çerçeve Baskısı","alt":[],"acik":"Öğrenci fotoğraflarını ölçülü çerçevelere yerleştirip toplu baskı alır."},{"id":"panoHazirlama","ico":"📌","ad":"Pano Hazırlama","alt":[],"acik":"Pano için büyük harf ve sayı kartları üretir; resimli harf (tema motifleri ya da kendi görseliniz harf biçiminde), renkli ve boyama takımı, belirli gün ve haftalar için hazır panolar; 10, 100 gibi sayılar tek kartta kalır, ritmik sayma (2’şer, 5’er, 10’ar…) boş kartlı da hazırlanır; tema ve stil seçebilirsiniz."},{"id":"rozetBelge","ico":"🏫","ad":"Rozet, Kokart ve Motivasyon Belgeleri","alt":[],"acik":"Belirli gün ve haftalar, kulüpler ve motivasyon için rozet ve kokartlar; kitap kurdu, başarı, üstün başarı, teşekkür, ayın öğrencisi vb. belgeler; tüm örnekler düzenlenebilir, boş şablonlar; şubeden seçilen öğrencilere isimli toplu baskı."},{"id":"sinifGazetesi","ico":"📰","ad":"Sınıf Gazetesi","alt":[],"acik":"Bir ya da iki sayfalık sınıf gazetesi hazırlar: manşet, kategorili haberler, fotoğraflar, köşeler ve kelime avı bulmacası; canlı önizleme ile yazdırır."},{"id":"okumaAnlama","ico":"📖","ad":"Okuma Anlama Metinleri","alt":[],"acik":"1–8. sınıf için 150’yi aşkın okuma anlama metni (hikâye, bilgilendirici, şiir, mektup, haber…); 5N1K, kelime çalışması, olay sıralama ve okuma süresi kaydıyla çalışma kâğıdı; toplu yazdırma."},{"id":"posterHazirlama","ico":"🪧","ad":"Poster Hazırlama","alt":[],"acik":"Görseli, PDF’i ya da Kelime Sanatı çalışmasını istenen pano ölçüsünde A4 sayfalara böler; önizleyip yazdırırsınız."},{"id":"kelimeSanati","ico":"☁️","ad":"Kelime Sanatı","alt":[],"acik":"Kelimeleri kalp, yıldız, ağaç, harf/sayı ya da kendi silüetinizin içine yerleştirerek pano görseli hazırlar; PNG indirir veya yazdırır."},{"id":"etiketOlusturucu","ico":"🏷️","ad":"Etiket Oluşturucu","alt":[],"acik":"Öğrenci havuzundan etiket basar; A3–A6 boyut ve hücre stili ayarlanır."},{"id":"geometrikAcinim","ico":"🧊","ad":"Geometrik Cisim Açınımı","alt":[],"acik":"Prizma, piramit, silindir ve koni açınımlarını gerçek boyutta çizer; yüzlere yazı/renk verir, 3B modeli döndürür, kes-katla-yapıştır işaretleriyle yazdırır."}]},{"ad":"Toplantı / Tutanak","ico":"🤝","moduller":[{"id":"zumreToplantisi","ico":"👥","ad":"Zümre Toplantısı","alt":[],"acik":"Zümre tutanağı, gündem, karar ve onay sayfası hazırlar. Branş ve dönemi seçip yazdırın."},{"id":"veliToplantisi","ico":"👨‍👩‍👧","ad":"Veli Toplantısı","alt":[],"acik":"Veli toplantı tutanağı, gündem onayı ve imza listesi oluşturur."},{"id":"bepGelistirmeBirimi","ico":"🧩","ad":"BEP Geliştirme Birimi Toplantısı","alt":[],"acik":"BEP geliştirme birimi 1–2–3. toplantı tutanaklarını resmi formatta hazırlar."},{"id":"psikososyalEkip","ico":"🤲","ad":"Psikososyal Koruma / Krize Müdahale","alt":[],"acik":"Psikososyal koruma ve krize müdahale ekibi toplantı tutanakları üretir."},{"id":"rpdKomisyonu","ico":"💬","ad":"RPD Hizmetleri Yürütme Komisyonu","alt":[],"acik":"RPD hizmetleri yürütme komisyonu toplantı tutanakları hazırlar."}]},{"ad":"Özel Eğitim","ico":"🧩","moduller":[{"id":"bepPlani","ico":"🧩","ad":"BEP Planı Hazırlama","alt":[],"acik":"BEP v1.7 · öğrenci bilgileri havuzdan · Öğrenciye özel BEP planı oluşturur; örnek plan ve UDA/KDA seçimi yapılabilir."},{"id":"bepDegerlendirme","ico":"📋","ad":"BEP Değerlendirme Raporu","alt":[],"acik":"BEP değerlendirme raporu için derse ve tanıya uygun metin önerileri sunar."}]},{"ad":"Rehberlik","ico":"🧭","moduller":[{"id":"sinifRehberlikRaporu","ico":"🧑‍🏫","ad":"Sınıf Rehberlik Faaliyet Raporu","alt":[],"acik":"Sınıf rehberlik faaliyet raporu ve yıl sonu değerlendirme metinleri hazırlar."},{"id":"ogrenciGozlem","ico":"👁️","ad":"Öğrenci Gözlem Notları","alt":[],"acik":"Öğrenci gözlem notlarını kaydeder ve yazdırır."},{"id":"veliGorusme","ico":"🤝","ad":"Veli Görüşme / Ziyaret Formu","alt":[],"acik":"Veli görüşme/ziyaret formu doldurur; öğrenci seçilince veli bilgisi gelebilir. Şube bazında yatay A4 veli görüşme çizelgesi (tarih, kaçıncı görüşme, veli ve yakınlığı, konu/özet, imza) kayıtlardan dolar ya da boş basılır."}]},{"ad":"İletişim","ico":"📇","moduller":[{"id":"veliIletisimListesi","ico":"📒","ad":"Veli İletişim Listesi","alt":[],"acik":"Veli iletişim ve teslim alacak kişi listesini havuzdan tablo olarak yazdırır."},{"id":"ogrenciKarti","ico":"🪪","ad":"Öğrenci Kartı","alt":[],"acik":"A4 sayfaya 8 kart: öğle arası, servis, öğrenci tanıtım/iletişim ve sınıf kütüphanesi kartları; logo, fotoğraf ve kesim çizgisiyle."},{"id":"eOkulBilgiFormu","ico":"🗂️","ad":"E-Okul Bilgi Formu","alt":[],"acik":"E-Okul öğrenci bilgi formunu havuzdaki öğrenciler için toplu üretir."},{"id":"dilekceler","ico":"✍️","ad":"Dilekçe Örnekleri","alt":[],"acik":"İzin, nöbet muafiyeti, emeklilik vb. öğretmen dilekçeleri, ders kesim raporu, gezi talebi, veli izin/KVKK belgeleri ve aile durumu bildirimi; metin seçimlere göre kendiliğinden kurulur."},{"id":"matAlistirma","ico":"🧮","ad":"Matematik Alıştırma Üretici","alt":[],"acik":"1–8. sınıf matematik çalışma kâğıdı üretir: işlemler, problemler, örüntü, çözümleme, kesir, saat vb.; farklı soru setli kopyalar, isimli baskı ve cevap anahtarı."},{"id":"calismaProgrami","ico":"⏰","ad":"Çalışma Programı Hazırla","alt":[],"acik":"Öğrenciye özel ya da şablondan çalışma programı; günlere göre farklı konu, haftalık süre hesabı, hedefler, takip çizelgesi ve şubeye toplu isimli baskı."}]},{"ad":"Kulüp / Etkinlik","ico":"⭐","moduller":[{"id":"kulupPlani","ico":"⭐","ad":"Kulüp Planı ve Faaliyet Raporları","alt":[],"acik":"Kulüp yıllık planı, aylık ve yıl sonu faaliyet raporları ile kulüp öğrenci listesi hazırlar."},{"id":"anmaKutlama","ico":"🇹🇷","ad":"Belirli Gün ve Hafta Programları","alt":[],"acik":"Belirli gün ve haftalar için anma/kutlama programı ve rapor taslağı sunar."},{"id":"etkinlikRaporu","ico":"📋","ad":"Etkinlik / Faaliyet Raporu","alt":[],"acik":"Yapılan etkinlik için faaliyet raporu yazmanıza yardımcı olur."}]},{"ad":"Değerlendirme","ico":"📊","moduller":[{"id":"notCizelgesi","ico":"🧮","ad":"Not Çizelgesi / Ortalama Hesaplayıcı","alt":[],"acik":"Not çizelgesi ve ortalama hesaplama tablosu oluşturur."},{"id":"ilkokulIzleme","ico":"📑","ad":"İlkokul İzleme-Değerlendirme","alt":[],"acik":"İlkokul izleme-değerlendirme formlarını öğrenci listesiyle yazdırır."},{"id":"donemYilSonu","ico":"📊","ad":"Dönem / Yıl Sonu Değerlendirme","alt":[],"acik":"Dönem ve yıl sonu değerlendirme metinleri hazırlar."},{"id":"karneGorusleri","ico":"🖋️","ad":"Karne Görüşleri","alt":[],"acik":"Akrostiş veya nesir karne görüşü metinleri üretir."}]}]}};
+const YERLESIK_KATALOG = {"idare":{"kategoriler":[{"ad":"Personel & Görev Yönetimi","ico":"👥","moduller":[{"id":"havuz","ico":"👥","ad":"Personel Havuzu","alt":["Öğretmenler","Diğer Personel","Toplu Excel"],"acik":"Tüm personeli (öğretmen / diğer) kaydeder; diğer modüller isimleri buradan çeker."},{"id":"gorevDagilimi","ico":"📋","ad":"Görev Dağılımı","alt":["Okul Müdürü","Müdür Yardımcısı","Pansiyon MY","Rehber","Hemşire","Sayman","Memur"],"acik":"Müdür, MY ve diğer kadroların görev/tebliğ dağılımı."},{"id":"komisyonlar","ico":"🏛️","ad":"Kurul ve Komisyonlar (Atamalı)","alt":[],"acik":"Kurul ve komisyon üye atamaları."},{"id":"imzaCizelgesi","ico":"📝","ad":"İşçi İşlemleri","alt":["İmza Çizelgesi","İşçi Puantaj Takvimi","Sürekli İşçi Görev Tebliği","TYP Görev Tebliği","İUP Görev Tebliği","Bahçe Görevlisi Tebliği","TYP/İUP İmza Çizelgesi"],"acik":"İşçi imza, puantaj ve görev tebliğleri (TYP, İUP, bahçe görevlisi vb.)."},{"id":"dogumIzni","ico":"👶","ad":"Doğum İzni Üst Yazısı","alt":[],"acik":"Doğum izni üst yazısı ve ekleri."},{"id":"personelNakil","ico":"🧳","ad":"Yolluk / Ayrılma İşlemleri","alt":["Kararname Ekle (PDF)","Personel Nakil Bildirimi","Yolluk Hesaplama","Ayrılış / Başlayış Evrakları","Kararname Tebliğ Belgesi"],"acik":"Atama/yer değiştirme kararnamesi, personel nakil bildirimi, sürekli görev yolluğu ve ayrılış/başlayış evrakları tek yerde."},{"id":"nobet","ico":"🔄","ad":"Nöbet Çizelgesi","alt":[],"acik":"Öğretmen nöbet çizelgesi."},{"id":"pansiyonBellet","ico":"🛏️","ad":"Pansiyon Belletici Nöbeti","alt":["İstekli listesi","Dış okul personeli","Aylık çizelge","Görev tebliği","Talep dilekçesi"],"acik":"Pansiyon belletici / nöbetçi belletici aylık çizelgesi, dış okul personeli, görev tebliği ve talep dilekçesi."},{"id":"tebligTebellugTab","ico":"📨","ad":"Tebliğ–Tebellüğ Belgesi","alt":["Yazı/belge tebliği","Tebellüğ eden personel","Tebliğ edilen yer"],"acik":"Herhangi bir yazı, genelge, görevlendirme veya resmî belgeyi personele tebliğ etmek için tebliğ–tebellüğ belgesi."}]},{"ad":"Öğrenci İşleri & Kulüpler","ico":"🎓","moduller":[{"id":"ogrenciIsleri","ico":"🎓","ad":"Öğrenci İşleri","alt":["Öğrenciler","Kayıt İşlemleri","Şube Açma/Kapama","Sınıf Yükseltme","Devamsızlık","Disiplin / Davranış"],"acik":"Kayıt, şube, devamsızlık, dilekçe ve öğrenci işlemleri."},{"id":"cocukKulubu","ico":"🧒","ad":"Çocuk Kulübü","alt":["EK-1 Onay","EK-2 Sözleşme","EK-4 Başvuru","EK-5 Acil","EK-6 Denetim","Yönetim Kurulu","Gruplar/Kayıt","Yıllık Program","Yoklama","Ücret/Plan","Mali İşler: bilanço (gelir dağılımı)","Puantaj","Ödeme bordrosu","YK kararları","Aidat takibi","Görevlendirme"],"acik":"MEB Çocuk Kulübü yönergesi evrakları (kuruluş, YK, kayıt, program, yoklama, ücret) ve 💰 Mali İşler: aylık gelir dağılımı (bilanço), puantaj, vergi/tavan hesaplı ödeme bordrosu, YK kararları, aidat takibi."},{"id":"destekEgitim","ico":"🧩","ad":"Destek Eğitim / Evde Eğitim","alt":["Destek Eğitim: Planlama, BEP, Program, Ücret, Çizelge, RPD, Dilekçeler","Evde Eğitim: Üst yazı, Ev ortamı, Aylık/Haftalık çizelge, Tutanaklar, Sözleşme"],"acik":"Destek eğitim odası ve evde eğitim evrakları."},{"id":"sorumlulukSinavi","ico":"📝","ad":"Sorumluluk Sınavları","alt":["Öğrenci listesi","Sınav programı","Komisyon","Tutanak","Dilekçe"],"acik":"Ortaöğretim sorumluluk sınavı listesi, program, komisyon ve tutanaklar."},{"id":"disiplinIslemleri","ico":"⚖️","ad":"Disiplin İşlemleri","alt":["İlkokul","Ortaokul","Ortaöğretim — Ödül ve Disiplin Kurulu"],"acik":"Kademeye göre disiplin / ödül evrakları."},{"id":"tasimaliEgitim","ico":"🚐","ad":"Taşımalı Eğitim","alt":["Araç/şoför planlama","Teslim tutanağı","Taşıt denetim","Puantajlar","Değişiklik formları"],"acik":"Taşımalı eğitim planlama, denetim ve puantaj evrakları."},{"id":"gezi","ico":"🚌","ad":"Gezi Planı Oluşturma","alt":[],"acik":"Okul gezisi planı, izin ve güvenlik kontrolü."},{"id":"egzersiz","ico":"🏅","ad":"Ders Dışı Egzersiz Çalışma Planı","alt":[],"acik":"Ders dışı spor/egzersiz çalışma planı."}]},{"ad":"Etkinlik & Eğitim Planlama","ico":"📅","moduller":[{"id":"yillikPlan","ico":"📅","ad":"Yıllık Çalışma Planı","alt":[],"acik":"Okulun yıllık idari ve pedagojik iş takvimini planlar."},{"id":"rehberlikCerceve","ico":"🧭","ad":"Rehberlik Yıllık Çerçeve Planı","alt":["RÖ olan okul","RÖ olmayan okul","Kademe planları","Görevlendirme"],"acik":"Rehber öğretmeni olan/olmayan okullar için yıllık çerçeve plan, görevlendirme ve aylık faaliyetler."},{"id":"belirliGunler","ico":"🇹🇷","ad":"Belirli Gün ve Haftalar (Atamalı)","alt":[],"acik":"MEB belirli gün ve haftalar için sorumlu öğretmen ataması."},{"id":"sosyalEtkinlik","ico":"🎨","ad":"Sosyal Etkinlikler","alt":["Etkinlikler Kütüphanesi","Yıllık Çalışma Planı","Toplum Hizmeti","Okul Temelli Eylem Planı","SE Kurulu Tutanağı","Öğrenci Kulüpleri (48 kulüp)","Maarifin Kalbinde Oyun","Yaşam Becerileri (faaliyet havuzu, yıllık plan, gözlem formu, yıl sonu raporu)"],"acik":"Kütüphane, yıllık plan, toplum hizmeti, okul temelli eylem planı ve SE kurul tutanağı."},{"id":"degerlerEgitimi","ico":"💛","ad":"Değerler Eğitimi","alt":[],"acik":"Değerler eğitimi planı ve kayıtları."},{"id":"kurulToplanti","ico":"👨‍🏫","ad":"Öğretmenler Kurulu Toplantısı","alt":["Kademe/tür seçimi","Gündem maddeleri","Hazır karar önerileri","Şube–rehber tablosu","Tutanak"],"acik":"Öğretmenler Kurulu gündemi, karar önerileri ve tutanak."}]},{"ad":"Güvenlik & Sağlık","ico":"🛡️","moduller":[{"id":"okulGuvenligi","ico":"🔐","ad":"Okul Güvenliği Dosyası","alt":["Genel Bilgiler","Denetim Formu (75 soru)","Güvenlik Eylem Planı","Yönetim Ekibi ve Tutanak","Ziyaretçi Kayıt Defteri","Erken Çıkış Formu","Kamera Envanteri ve Teslim Tutanağı","Olay Kayıt ve Analiz","Siber Olay Prosedürü ve Kayıt Defteri","Görev Talimatları","Tatbikat ve Seminer","Veli Bilgilendirme","Servis Güvenliği","Protokol Ekleri EK-1…EK-8","Güvenlik Ölçeği (EK-7)","İlçe Yürütme Kurulu Kararları ve Uygulama Raporu","Görevli Personel ve Görüşme Defteri","Yükümlülük Takvimi","Müfettiş Denetimi (Denetim Rehberi 25 madde)","1. Derece Denetim Formu","Adli Sicil Kontrol Çizelgesi","Ev Ziyareti Tutanağı","Tebliğ-Tebellüğ ve Bilgilendirme Tutanakları"],"acik":"2026 okul ve çevresi güvenlik tedbirleri genelgesi ile iş birliği protokolüne göre okul güvenliği dosyası."},{"id":"iyepPlanlama","ico":"📚","ad":"İYEP Planlama","alt":["Onay Çizelgesi ve Excel","Öğretmen Kurs Takvimi","Haftasonu Yönetim Görevi","Genel Değerlendirme Raporu","Öğretmen Planı (öğrenme çıktıları)","Tamamlama Tutanağı","Devamsızlıktan Çıkarma Tutanağı"],"acik":"İlkokullarda Yetiştirme Programı (2026 TYMM) için öğretmen kurs takvimi, onay çizelgesi ve Excel, değerlendirme raporu, öğretmen planı ve tutanaklar."},{"id":"sivilSavunma","ico":"🛡️","ad":"Sivil Savunma & Sabotaj Koruma Planı","alt":["Genel Bilgiler","Komisyon & Amirler","Ekip / Servisler","Haber Verilecek Makamlar","Tedbirler & Malzeme","Anahtar Teslim Tutanağı","Görev Talimatları","Tatbikatlar","Sivil Savunma Planı","Sabotaj Koruma Planı"],"acik":"Sivil savunma ve sabotaj koruma planı."},{"id":"isg","ico":"🦺","ad":"İş Sağlığı ve Güvenliği (İSG)","alt":["Organizasyon","Özlük","Risk","Saha","Kurul","Kaza ve Sağlık","Referans (7 kategori altında 29 belge)"],"acik":"İSG atama, form, risk ve eğitim evrakları (50 altı/üstü)."}]},{"ad":"Mali & İdari İşlemler","ico":"💰","moduller":[{"id":"kantinKira","ico":"🏪","ad":"Kantin Kira Hesaplama ve Sözleşmesi","alt":[],"acik":"Kantin kira hesabı ve sözleşme taslağı."},{"id":"proforma","ico":"🧾","ad":"Proforma Fatura","alt":[],"acik":"Proforma fatura ve teklif yazışması."},{"id":"bankaAktarma","ico":"🏦","ad":"Maaş Banka Formatı Dönüştürücü","alt":[],"acik":"Maaş banka aktarım dosyası dönüştürücü."},{"id":"ekEvraklar","ico":"📁","ad":"Ek Evraklar","alt":["Tutanak Hazırlama","Müdür Devir–Teslim Tutanağı","KBS–MYS–KYS Yetki Talep Formu","Yönetici Hizmet Süresi ve Puan (EK-1)","Kurumsal Sosyal Medya Hesabı Olur Yazısı"],"acik":"Devir teslim, yetki, yönetici puan, sosyal medya olur vb. ek belgeler."}]},{"ad":"Veli & Toplum İlişkileri","ico":"👨‍👩‍👧‍👦","moduller":[{"id":"aileBirligi","ico":"👨‍👩‍👧‍👦","ad":"Okul Aile Birliği","alt":[],"acik":"Okul-Aile Birliği organları, seçim ve kararlar."}]},{"ad":"Denetim & Yayın","ico":"📋","moduller":[{"id":"denetimRehberi","ico":"📋","ad":"İlkokul/Ortaokul Denetim Rehberi","alt":[],"acik":"İlkokul/ortaokul denetim rehberi ve referans belgeler."},{"id":"dergi","ico":"📰","ad":"Brifing / Dergi Oluştur","alt":["Brifing","Dergi","Kat Planı / Yerleşim Levhası"],"acik":"Brifing dosyası, okul dergisi ve kat planı / yerleşim levhası."},{"id":"ogretmenTakip","ico":"✅","ad":"Öğretmen Evrak/Görev Takibi","alt":[],"acik":"Öğretmenlerin hazırlaması/teslim etmesi gereken evrak ve görevlerin takibi."},{"id":"dosyaSirtlik","ico":"🏷️","ad":"Dosya Sırtlığı Oluşturucu","alt":[],"acik":"Klasör sırtına yapıştırılacak dosya sırtlığı (etiket) üretir."},{"id":"ebysDonustur","ico":"📝","ad":"EBYS Evrak Oluştur","alt":["Dosya → EBYS Dönüştür (Word, Excel, PDF, ODT, RTF, TXT, HTML, görsel)","Evrak listesi ve kısayollar","Göreve başlama / ayrılış","İzin oluru","Tebliğler","OAB harcama ve ödeme talimatı","Sosyal etkinlik oluru","Serbest üst yazı"],"acik":"Okul idaresindeki tüm resmî evrakların listesi; programda olan evraka kısayolla gider, olmayanı bu sayfada portal bilgileriyle hazırlar. Üstte Dosya → EBYS dönüştürücü."}]}]},"ogretmen":{"kategoriler":[{"ad":"Sistem","ico":"⚙️","moduller":[{"id":"ayarlar","ico":"🪪","ad":"Kurum / Öğretmen Bilgileri","alt":[],"acik":"Kurum, öğretmen, müdür ve eğitim yılı bilgilerini girersiniz. Yazdırılan çoğu evrakta üst bilgi buradan gelir. Önce bu paneli doldurun."},{"id":"ogrenciHavuzu","ico":"👧","ad":"Öğrenci Havuzu","alt":[],"acik":"Sınıfınızdaki öğrencileri kaydedersiniz (ad, no, veli, iletişim). Diğer modüller isimleri buradan çeker. Toplu ekleme ve sıralama yapılabilir."},{"id":"dosyaKapaklari","ico":"📂","ad":"Öğretmen Dosyası Oluşturma","alt":[],"acik":"Kademenize göre sıralı öğretmen dosyası: burada üretilen evraklar, diğer modüllere «Şimdi oluştur» kısayolu ve dönüş çubuğu, mevzuat için karekod sayfaları; seçtiğiniz maddeler kapak, içindekiler ve ayraçlarla tek PDF olur. 2. sekmede dosya kapağı oluşturucu."},{"id":"takvim","ico":"📆","ad":"Takvim","alt":[],"acik":"Okul ve kişisel önemli tarihleri işlersiniz. MEB takvimiyle uyumlu hatırlatmalar için kullanın."},{"id":"imsakTakvim","ico":"⚙️","ad":"İmsakiye ve Yıllık Takvim","alt":[],"acik":"Seçilen yıl (ör. 2027) için Ocak–Aralık yıllık takvim ve Ramazan imsakiyesi; resmî tatiller, dinî bayramlar, okul tatilleri ve okula özel günler; vakitler ilinize göre hesaplanır ya da Diyanet tablosu yapıştırılır; okul / sınıf adına özel, fotoğraf veya yazı filigranlı."},{"id":"kendimiTakip","ico":"✅","ad":"Kendimi Takip Ediyorum","alt":[],"acik":"Yıl içinde hazırlamanız gereken işleri ay ay listeler; tamamladıklarınızı işaretlersiniz. Kişisel kontrol listesidir."}]},{"ad":"Planlama","ico":"🗓️","moduller":[{"id":"haftalikProgram","ico":"🗓️","ad":"Haftalık Ders Programı","alt":[],"acik":"Haftalık ders programını oluşturur ve yazdırırsınız. İlkokul için hazır dağıt örnekleri kullanılabilir."},{"id":"dersPlani","ico":"📄","ad":"Ders Planı/Günlük plan","alt":[],"acik":"Sınıf düzeyine ve derse göre günlük ders planı hazırlar: TYMM verisinden çıktı ve süreç bileşenleri, zamanlanmış öğretmen/öğrenci etkinlikleri; yazdırır veya PDF/ZIP alırsınız."},{"id":"egzersizPlani","ico":"🏃","ad":"Ders Dışı Egzersiz Planı","alt":[],"acik":"Ders dışı egzersiz çalışma planı hazırlar. Tarih ve kazanım saatlerine göre çizelge oluşturur."},{"id":"iyepPlani","ico":"🌱","ad":"İYEP Plan Hazırlama","alt":[],"acik":"2026 TYMM İYEP programına göre Türkçe öğrenme alanları ve Matematik temaları için öğrenme çıktısı bazlı haftalık plan; tamamlama ve devamsızlıktan çıkarma tutanakları."},{"id":"kilavuzKagit","ico":"✏️","ad":"İlk Defterim (Okuma Yazma)","alt":[],"acik":"1. sınıf okuma yazma defteri: TYMM ses gruplarına göre kılavuzlu harf, hece, kelime, cümle ve rakam çalışmaları, hece tabloları, harf izleme ve takip tablosu; sınıf listesi Öğrenci Havuzu’ndan gelir."},{"id":"izlemeTymm","ico":"📈","ad":"Okuma Düzeyi İzleme","alt":[],"acik":"Öğrencilerin okuma hızı/düzeyi ve kitap okuma takibini tablolar ve grafiklerle izlersiniz; ders adlı, hafta içi tarih sütunlu ve tek A4 sayfalık ödev takip formu hazırlarsınız."},{"id":"degerlerDil","ico":"💛","ad":"Değerler Eğitimi-Dilimizin Zenginlikleri","alt":[],"acik":"Değerler eğitimi ve Dilimizin Zenginlikleri için plan ve aylık rapor hazırlar."},{"id":"tymmRaporlari","ico":"🧾","ad":"TYMM Raporları","alt":[],"acik":"Ders ve sınıf bazında Maarif Modeli aylık, dönem ve yıl sonu uygulama-değerlendirme raporları; tek tek veya toplu yazdırılır."}]},{"ad":"Sınıf Yönetimi","ico":"🏫","moduller":[{"id":"oturmaPlani","ico":"🪑","ad":"Sınıf Oturma Planı","alt":[],"acik":"Sınıf oturma düzeni oluşturur; kız-erkek dağılımı ve yazdırma seçenekleri vardır."},{"id":"nobetCizelgesi","ico":"🧹","ad":"Öğrenci Nöbet Çizelgesi","alt":[],"acik":"Öğrenci nöbet yerlerini dengeli dağıtır ve çizelge yazdırır."},{"id":"ihtiyacListesi","ico":"🧺","ad":"İhtiyaç Listesi","alt":[],"acik":"Okul öncesi ve 1–4. sınıf ihtiyaç listesi oluşturur; seçilen maddeleri yazdırırsınız."},{"id":"beslenmeListesi","ico":"🍎","ad":"Haftalık Beslenme Listesi","alt":[],"acik":"Okul öncesi haftalık beslenme listesini tablo halinde hazırlar ve yazdırır."},{"id":"fotoCerceve","ico":"🖼️","ad":"Fotoğraf Çerçeve Baskısı","alt":[],"acik":"Öğrenci fotoğraflarını ölçülü çerçevelere yerleştirip toplu baskı alır."},{"id":"panoHazirlama","ico":"📌","ad":"Pano Hazırlama","alt":[],"acik":"Pano için büyük harf ve sayı kartları üretir; resimli harf (tema motifleri ya da kendi görseliniz harf biçiminde), renkli ve boyama takımı, belirli gün ve haftalar için hazır panolar; 10, 100 gibi sayılar tek kartta kalır, ritmik sayma (2’şer, 5’er, 10’ar…) boş kartlı da hazırlanır; tema ve stil seçebilirsiniz."},{"id":"rozetBelge","ico":"🏫","ad":"Rozet, Kokart ve Motivasyon Belgeleri","alt":[],"acik":"Belirli gün ve haftalar, kulüpler ve motivasyon için rozet ve kokartlar; kitap kurdu, başarı, üstün başarı, teşekkür, ayın öğrencisi vb. belgeler; tüm örnekler düzenlenebilir, boş şablonlar; şubeden seçilen öğrencilere isimli toplu baskı."},{"id":"sinifGazetesi","ico":"📰","ad":"Sınıf Gazetesi","alt":[],"acik":"Bir ya da iki sayfalık sınıf gazetesi hazırlar: manşet, kategorili haberler, fotoğraflar, köşeler ve kelime avı bulmacası; canlı önizleme ile yazdırır."},{"id":"okumaAnlama","ico":"📖","ad":"Okuma Anlama Metinleri","alt":[],"acik":"1–8. sınıf için 150’yi aşkın okuma anlama metni (hikâye, bilgilendirici, şiir, mektup, haber…); 5N1K, kelime çalışması, olay sıralama ve okuma süresi kaydıyla çalışma kâğıdı; toplu yazdırma."},{"id":"posterHazirlama","ico":"🪧","ad":"Poster Hazırlama","alt":[],"acik":"Görseli, PDF’i ya da Kelime Sanatı çalışmasını istenen pano ölçüsünde A4 sayfalara böler; önizleyip yazdırırsınız."},{"id":"kelimeSanati","ico":"☁️","ad":"Kelime Sanatı","alt":[],"acik":"Kelimeleri kalp, yıldız, ağaç, harf/sayı ya da kendi silüetinizin içine yerleştirerek pano görseli hazırlar; PNG indirir veya yazdırır."},{"id":"etiketOlusturucu","ico":"🏷️","ad":"Etiket Oluşturucu","alt":[],"acik":"Öğrenci havuzundan etiket basar; A3–A6 boyut ve hücre stili ayarlanır."},{"id":"geometrikAcinim","ico":"🧊","ad":"Geometrik Cisim Açınımı","alt":[],"acik":"Prizma, piramit, silindir ve koni açınımlarını gerçek boyutta çizer; yüzlere yazı/renk verir, 3B modeli döndürür, kes-katla-yapıştır işaretleriyle yazdırır."}]},{"ad":"Toplantı / Tutanak","ico":"🤝","moduller":[{"id":"zumreToplantisi","ico":"👥","ad":"Zümre Toplantısı","alt":[],"acik":"Zümre tutanağı, gündem, karar ve onay sayfası hazırlar. Branş ve dönemi seçip yazdırın."},{"id":"veliToplantisi","ico":"👨‍👩‍👧","ad":"Veli Toplantısı","alt":[],"acik":"Veli toplantı tutanağı, gündem onayı ve imza listesi oluşturur."},{"id":"bepGelistirmeBirimi","ico":"🧩","ad":"BEP Geliştirme Birimi Toplantısı","alt":[],"acik":"BEP geliştirme birimi 1–2–3. toplantı tutanaklarını resmi formatta hazırlar."},{"id":"psikososyalEkip","ico":"🤲","ad":"Psikososyal Koruma / Krize Müdahale","alt":[],"acik":"Psikososyal koruma ve krize müdahale ekibi toplantı tutanakları üretir."},{"id":"rpdKomisyonu","ico":"💬","ad":"RPD Hizmetleri Yürütme Komisyonu","alt":[],"acik":"RPD hizmetleri yürütme komisyonu toplantı tutanakları hazırlar."}]},{"ad":"Özel Eğitim","ico":"🧩","moduller":[{"id":"bepPlani","ico":"🧩","ad":"BEP Planı Hazırlama","alt":[],"acik":"BEP v1.7 · öğrenci bilgileri havuzdan · Öğrenciye özel BEP planı oluşturur; örnek plan ve UDA/KDA seçimi yapılabilir."},{"id":"bepDegerlendirme","ico":"📋","ad":"BEP Değerlendirme Raporu","alt":[],"acik":"BEP değerlendirme raporu için derse ve tanıya uygun metin önerileri sunar."}]},{"ad":"Rehberlik","ico":"🧭","moduller":[{"id":"sinifRehberlikRaporu","ico":"🧑‍🏫","ad":"Sınıf Rehberlik Faaliyet Raporu","alt":[],"acik":"Sınıf rehberlik faaliyet raporu ve yıl sonu değerlendirme metinleri hazırlar."},{"id":"ogrenciGozlem","ico":"👁️","ad":"Öğrenci Gözlem Notları","alt":[],"acik":"Öğrenci gözlem notlarını kaydeder ve yazdırır."},{"id":"veliGorusme","ico":"🤝","ad":"Veli Görüşme / Ziyaret Formu","alt":[],"acik":"Veli görüşme/ziyaret formu doldurur; öğrenci seçilince veli bilgisi gelebilir. Şube bazında yatay A4 veli görüşme çizelgesi (tarih, kaçıncı görüşme, veli ve yakınlığı, konu/özet, imza) kayıtlardan dolar ya da boş basılır."}]},{"ad":"İletişim","ico":"📇","moduller":[{"id":"veliIletisimListesi","ico":"📒","ad":"Veli İletişim Listesi","alt":[],"acik":"Veli iletişim ve teslim alacak kişi listesini havuzdan tablo olarak yazdırır."},{"id":"ogrenciKarti","ico":"🪪","ad":"Öğrenci Kartı","alt":[],"acik":"A4 sayfaya 8 kart: öğle arası, servis, öğrenci tanıtım/iletişim ve sınıf kütüphanesi kartları; logo, fotoğraf ve kesim çizgisiyle."},{"id":"eOkulBilgiFormu","ico":"🗂️","ad":"E-Okul Bilgi Formu","alt":[],"acik":"E-Okul öğrenci bilgi formunu havuzdaki öğrenciler için toplu üretir."},{"id":"dilekceler","ico":"✍️","ad":"Dilekçe Örnekleri","alt":[],"acik":"İzin, nöbet muafiyeti, emeklilik vb. öğretmen dilekçeleri, ders kesim raporu, gezi talebi, veli izin/KVKK belgeleri ve aile durumu bildirimi; metin seçimlere göre kendiliğinden kurulur."},{"id":"matAlistirma","ico":"🧮","ad":"Matematik Alıştırma Üretici","alt":[],"acik":"1–8. sınıf matematik çalışma kâğıdı üretir: işlemler, problemler, örüntü, çözümleme, kesir, saat vb.; farklı soru setli kopyalar, isimli baskı ve cevap anahtarı."},{"id":"calismaProgrami","ico":"⏰","ad":"Çalışma Programı Hazırla","alt":[],"acik":"Öğrenciye özel ya da şablondan çalışma programı; günlere göre farklı konu, haftalık süre hesabı, hedefler, takip çizelgesi ve şubeye toplu isimli baskı."}]},{"ad":"Kulüp / Etkinlik","ico":"⭐","moduller":[{"id":"kulupPlani","ico":"⭐","ad":"Kulüp Planı ve Faaliyet Raporları","alt":[],"acik":"Kulüp yıllık planı, aylık ve yıl sonu faaliyet raporları ile kulüp öğrenci listesi hazırlar."},{"id":"anmaKutlama","ico":"🇹🇷","ad":"Belirli Gün ve Hafta Programları","alt":[],"acik":"Belirli gün ve haftalar için anma/kutlama programı ve rapor taslağı sunar."},{"id":"etkinlikRaporu","ico":"📋","ad":"Etkinlik / Faaliyet Raporu","alt":[],"acik":"Yapılan etkinlik için faaliyet raporu yazmanıza yardımcı olur."}]},{"ad":"Değerlendirme","ico":"📊","moduller":[{"id":"notCizelgesi","ico":"🧮","ad":"Not Çizelgesi / Ortalama Hesaplayıcı","alt":[],"acik":"Not çizelgesi ve ortalama hesaplama tablosu oluşturur."},{"id":"ilkokulIzleme","ico":"📑","ad":"İlkokul İzleme-Değerlendirme","alt":[],"acik":"İlkokul izleme-değerlendirme formlarını öğrenci listesiyle yazdırır."},{"id":"donemYilSonu","ico":"📊","ad":"Dönem / Yıl Sonu Değerlendirme","alt":[],"acik":"Dönem ve yıl sonu değerlendirme metinleri hazırlar."},{"id":"karneGorusleri","ico":"🖋️","ad":"Karne Görüşleri","alt":[],"acik":"Akrostiş veya nesir karne görüşü metinleri üretir."}]}]}};
 
 /* Toplu yedek özetinde verinin hangi uygulamaya ait olduğunu göstermek için kayıt anahtarı önekleri
    (uygulamalar.json içinde "depoOnekleri" ile de verilebilir) */
@@ -797,11 +856,13 @@ function yonlendir(sadeceCiz) {
     } else {
       aktifGorunum = 'ana'; aktifApp = null;
       $('g-ana').classList.add('aktif'); anaCiz();
+      setTimeout(sohbetBaslat, 0);
       document.title = 'Okul Asistanı';
       if (sadeceCiz !== true) sayacSay('/', 'Ana Sayfa');
     }
     if (sadeceCiz !== true) window.scrollTo(0, 0);
   }
+  if (aktifGorunum !== 'ana' && typeof sohbetGorunurlukDenetle === 'function') sohbetGorunurlukDenetle();
   const navAnahtar = aktifGorunum === 'ana' ? 'ana' : aktifApp;
   document.querySelectorAll('[data-nav]').forEach(b => b.classList.toggle('aktif', b.dataset.nav === navAnahtar));
 }
@@ -1021,6 +1082,287 @@ function adresDuyurusu() {
     ]);
   /* boşluğa tıklayınca da "daha sonra" sayılsın */
   $('modal').onclick = (e) => { if (e.target === $('modal')) ertele(); };
+}
+
+/* =====================================================================
+   8) SOHBET — ana sayfada herkese açık tek akış (sunucu: /api/sohbet)
+   Her cihaza kalıcı bir geçici isim ve renk verilir. Yeni mesajlar ortak
+   önbellekli küçük bir yoklamayla (~15 sn) kontrol edilir.
+   ===================================================================== */
+const SOHBET_API = '/api/sohbet';
+const K_SOH_CIHAZ = 'okulAsistani_sohbetCihaz', K_SOH_BILDIRILEN = 'okulAsistani_sohbetBildirilen', K_SOH_YON = 'okulAsistani_sohbetYonetici';
+const SOH = {
+  basladi: false, kullanilamaz: false, mesajlar: new Map(), son: 0, deg: -1, enEski: Infinity, eskiBitti: false,
+  eskiYukleniyor: false, zamanlayici: null, sonDegisim: Date.now(), gorunur: false, benAd: '', benTon: 0, gonderiliyor: false
+};
+const sohbetAkis = () => $('sohbet-akis');
+function sohbetCihaz() {
+  let c = DEPO.oku(K_SOH_CIHAZ, '');
+  if (!/^[a-f0-9]{32}$/.test(c)) {
+    const b = new Uint8Array(16); (window.crypto || window.msCrypto).getRandomValues(b);
+    c = Array.from(b, x => x.toString(16).padStart(2, '0')).join(''); DEPO.yaz(K_SOH_CIHAZ, c);
+  }
+  return c;
+}
+function sohbetYoneticiSifre() { try { return sessionStorage.getItem(K_SOH_YON) || ''; } catch (e) { return ''; } }
+async function sohbetIstek(govde, yonetici) {
+  const h = { 'Content-Type': 'application/json' };
+  if (yonetici) h['X-Yonetici'] = yonetici;
+  const r = await fetch(SOHBET_API, { method: 'POST', headers: h, body: JSON.stringify(govde) });
+  let j = {}; try { j = await r.json(); } catch (e) {}
+  if (!r.ok) throw new Error(j.hata || 'Sohbet sunucusuna ulaşılamadı.');
+  return j;
+}
+async function sohbetGetir(sorgu) {
+  const r = await fetch(SOHBET_API + (sorgu ? '?' + sorgu : ''), { headers: { Accept: 'application/json' } });
+  if (r.status === 404 || r.status === 405) { const e = new Error('yok'); e.yok = true; throw e; }
+  let j = {}; try { j = await r.json(); } catch (e) { const x = new Error('yok'); x.yok = true; throw x; }
+  if (!r.ok) { const e = new Error(j.hata || 'Sunucu hatası'); e.kurulmadi = !!j.kurulmadi; throw e; }
+  return j;
+}
+
+/* ---------- çizim ---------- */
+const gunAdi = t => {
+  const d = new Date(t), b = new Date(); b.setHours(0, 0, 0, 0);
+  const fark = Math.round((b - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 86400000);
+  return fark === 0 ? 'Bugün' : fark === 1 ? 'Dün' : d.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: d.getFullYear() === b.getFullYear() ? undefined : 'numeric' });
+};
+const saatYaz = t => new Date(t).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+function sohbetMesajHtml(m, yon) {
+  const ben = !m.g && m.a === SOH.benAd && !yon;
+  const yonBtn = yon ? `<button class="yon" onclick="sohbetYonetimIslem('sil',${m.id})" title="Mesajı sil">Sil</button>${m.g ? '' : `<button class="yon" onclick="sohbetYonetimIslem('sustur',${m.id})" title="Sil ve bu kişinin yazmasını engelle">Sustur</button>`}` : '';
+  const bildirBtn = !yon && !m.g && !ben ? `<button onclick="sohbetBildir(${m.id})" title="Uygunsuz olarak bildir" aria-label="Bildir">⚑</button>` : '';
+  return `<div class="msj${ben ? ' ben' : ''}${m.g ? ' gel' : ''}" data-id="${m.id}" style="--h:${(+m.h || 0) % 360}">
+    <div class="msj-bas"><span class="msj-ad">${kacis(m.a)}</span>${m.g ? '<span class="rozet" title="Site geliştiricisi">✔</span>' : ''}<span class="msj-zaman">${saatYaz(m.t)}</span>
+      <span class="msj-islem">${bildirBtn}${yonBtn}</span></div>
+    <div class="msj-metin">${kacis(m.m)}</div></div>`;
+}
+function sohbetCiz(koru) {
+  const ak = sohbetAkis(); if (!ak) return;
+  const altta = ak.scrollHeight - ak.scrollTop - ak.clientHeight < 60;
+  const eskiYuk = ak.scrollHeight, eskiUst = ak.scrollTop;
+  const bildirilen = DEPO.oku(K_SOH_BILDIRILEN, []);
+  const yon = !!sohbetYoneticiSifre();
+  const liste = [...SOH.mesajlar.values()].filter(m => yon || bildirilen.indexOf(m.id) < 0).sort((a, b) => a.id - b.id);
+  if (!liste.length) {
+    ak.innerHTML = `<div class="sohbet-bilgi">Henüz mesaj yok.<br>İlk mesajı siz yazın: soru, öneri ya da talep. 👋</div>`;
+    return;
+  }
+  let o = SOH.eskiBitti ? '<div class="sohbet-daha">Sohbetin başı</div>' : '<div class="sohbet-daha">↑ Eski mesajlar için yukarı kaydırın</div>';
+  let gun = '';
+  liste.forEach(m => { const g = gunAdi(m.t); if (g !== gun) { gun = g; o += `<div class="sohbet-gun">${kacis(g)}</div>`; } o += sohbetMesajHtml(m, yon); });
+  ak.innerHTML = o;
+  if (koru === 'ust') ak.scrollTop = ak.scrollHeight - eskiYuk + eskiUst;   /* eski mesajlar eklendi: yer kaymasın */
+  else if (koru === 'alt' || altta) ak.scrollTop = ak.scrollHeight;
+  else ak.scrollTop = eskiUst;
+}
+function sohbetAlta(yumusak) {
+  const ak = sohbetAkis(); if (!ak) return;
+  ak.scrollTo({ top: ak.scrollHeight, behavior: yumusak ? 'smooth' : 'auto' });
+  $('sohbet-yeni').classList.remove('acik');
+}
+function sohbetBilgi(metin) { const ak = sohbetAkis(); if (ak) ak.innerHTML = `<div class="sohbet-bilgi">${metin}</div>`; }
+function sohbetBenCiz() {
+  $('sohbet-ben').innerHTML = sohbetYoneticiSifre() ? 'Adınız: <span class="ben-ad" style="color:#8a1f12">Geliştirici</span>'
+    : SOH.benAd ? `Adınız: <span class="ben-ad" style="color:hsl(${SOH.benTon} 65% 30%)">${kacis(SOH.benAd)}</span>` : '';
+  $('sohbet').classList.toggle('yonetici', !!sohbetYoneticiSifre());
+}
+function sohbetEkle(liste) {
+  let yeni = false;
+  (liste || []).forEach(m => {
+    if (!SOH.mesajlar.has(m.id)) yeni = true;
+    SOH.mesajlar.set(m.id, m);
+    if (m.id > SOH.son) SOH.son = m.id;
+    if (m.id < SOH.enEski) SOH.enEski = m.id;
+  });
+  return yeni;
+}
+
+/* ---------- yükleme ve yoklama ---------- */
+async function sohbetBaslat() {
+  if (SOH.basladi) { sohbetGorunurlukDenetle(); return; }
+  SOH.basladi = true;
+  const ak = sohbetAkis(); if (!ak) return;
+  ak.addEventListener('scroll', () => {
+    if (ak.scrollTop < 80) sohbetEskiYukle();
+    if (ak.scrollHeight - ak.scrollTop - ak.clientHeight < 60) $('sohbet-yeni').classList.remove('acik');
+  }, { passive: true });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(g => { SOH.gorunur = g[0].isIntersecting; sohbetGorunurlukDenetle(); }).observe($('sohbet'));
+  } else SOH.gorunur = true;
+  document.addEventListener('visibilitychange', sohbetGorunurlukDenetle);
+  sohbetBenCiz();
+  await sohbetTamYukle(true);
+  /* kişiye özel isim (sunucu hesaplar; veritabanına gitmez) */
+  if (!SOH.kullanilamaz) sohbetIstek({ islem: 'kimlik', cihaz: sohbetCihaz() }).then(k => { SOH.benAd = k.ad; SOH.benTon = k.ton; sohbetBenCiz(); sohbetCiz(); }).catch(() => {});
+}
+async function sohbetTamYukle(ilk) {
+  try {
+    const j = await sohbetGetir('');
+    SOH.mesajlar.clear(); SOH.son = 0; SOH.enEski = Infinity;
+    sohbetEkle(j.mesajlar);
+    SOH.son = Math.max(SOH.son, j.son || 0); SOH.deg = j.deg || 0;
+    SOH.eskiBitti = (j.mesajlar || []).length < (j.sayfa || 50);
+    sohbetCiz(ilk ? 'alt' : undefined);
+  } catch (e) {
+    if (e.yok || e.kurulmadi) {
+      SOH.kullanilamaz = true;
+      $('sohbet-form').style.display = 'none';
+      sohbetBilgi(e.kurulmadi ? 'Sohbet çok yakında açılacak.' : `Sohbet yalnızca <a href="https://okul-asistani.com.tr/" style="color:var(--idare);font-weight:700">okul-asistani.com.tr</a> adresinde çalışır.`);
+      return;
+    }
+    if (ilk) sohbetBilgi('Sohbete şu an ulaşılamıyor. Biraz sonra kendiliğinden tekrar denenecek.');
+  }
+}
+async function sohbetEskiYukle() {
+  if (SOH.eskiBitti || SOH.eskiYukleniyor || !isFinite(SOH.enEski) || SOH.kullanilamaz) return;
+  SOH.eskiYukleniyor = true;
+  try {
+    const j = await sohbetGetir('once=' + SOH.enEski);
+    if ((j.mesajlar || []).length < (j.sayfa || 50)) SOH.eskiBitti = true;
+    sohbetEkle(j.mesajlar); sohbetCiz('ust');
+  } catch (e) {} finally { SOH.eskiYukleniyor = false; }
+}
+async function sohbetYokla() {
+  if (SOH.kullanilamaz) return;
+  try {
+    const d = await sohbetGetir('son=1');
+    if (SOH.deg >= 0 && d.deg !== SOH.deg) { SOH.sonDegisim = Date.now(); await sohbetTamYukle(false); return; }
+    if (d.son > SOH.son) {
+      const ak = sohbetAkis(), altta = ak.scrollHeight - ak.scrollTop - ak.clientHeight < 60;
+      const j = await sohbetGetir('sonra=' + SOH.son);
+      if (sohbetEkle(j.mesajlar)) {
+        SOH.sonDegisim = Date.now(); sohbetCiz();
+        if (!altta) $('sohbet-yeni').classList.add('acik');
+      }
+      SOH.son = Math.max(SOH.son, j.son || 0);
+    }
+  } catch (e) {
+    if (e.yok || e.kurulmadi) return;
+    if (!SOH.mesajlar.size) await sohbetTamYukle(false);
+  }
+}
+/* Yalnızca ana sayfa açık, sekme önde ve sohbet kutusu ekrandayken yoklar.
+   2 dk hareket yoksa aralık 15 sn'den 45 sn'ye çıkar. */
+function sohbetGorunurlukDenetle() {
+  clearTimeout(SOH.zamanlayici); SOH.zamanlayici = null;
+  if (!SOH.basladi || SOH.kullanilamaz) return;
+  if (aktifGorunum !== 'ana' || document.visibilityState === 'hidden' || !SOH.gorunur) return;
+  const dongu = async () => {
+    await sohbetYokla();
+    if (aktifGorunum !== 'ana' || document.visibilityState === 'hidden' || !SOH.gorunur) { SOH.zamanlayici = null; return; }
+    SOH.zamanlayici = setTimeout(dongu, Date.now() - SOH.sonDegisim > 120000 ? 45000 : 15000);
+  };
+  SOH.zamanlayici = setTimeout(dongu, SOH.ilkYoklamaYapildi ? 1500 : 15000);
+  SOH.ilkYoklamaYapildi = true;
+}
+
+/* ---------- yazma ---------- */
+function sohbetYaziyor() {
+  const t = $('sohbet-metin'), n = t.value.length;
+  t.style.height = 'auto'; t.style.height = Math.min(t.scrollHeight + 2, 120) + 'px';
+  const s = $('sohbet-say'); s.textContent = n + '/500'; s.classList.toggle('dolu', n >= 480);
+}
+function sohbetTus(e) {
+  /* Bilgisayarda Enter gönderir, Shift+Enter yeni satır; telefonda Enter yeni satırdır */
+  if (e.key === 'Enter' && !e.shiftKey && !e.isComposing && window.matchMedia && matchMedia('(pointer:fine)').matches) { e.preventDefault(); sohbetGonder(); }
+}
+function sohbetOnKontrol(m) {
+  if (/[^\s@]+@[^\s@]+\.[a-z]{2,}/i.test(m)) return 'Güvenliğiniz için e-posta adresi paylaşılamaz.';
+  if (/(?:\d[\s\-.()/]*){10,}/.test(m)) return 'Telefon, T.C. kimlik no gibi uzun numaralar paylaşılamaz.';
+  return '';
+}
+async function sohbetGonder(e) {
+  if (e) e.preventDefault();
+  if (SOH.gonderiliyor || SOH.kullanilamaz) return;
+  const t = $('sohbet-metin'), metin = t.value.trim();
+  if (!metin) { t.focus(); return; }
+  const yon = sohbetYoneticiSifre();
+  const sorun = yon ? '' : sohbetOnKontrol(metin);
+  if (sorun) { bildir('⚠️ ' + sorun); return; }
+  SOH.gonderiliyor = true; $('sohbet-gonder').disabled = true;
+  try {
+    const j = await sohbetIstek({ islem: 'gonder', metin, cihaz: sohbetCihaz() }, yon);
+    if (j.mesaj && !j.mesaj.g) { SOH.benAd = j.mesaj.a; SOH.benTon = j.mesaj.h; sohbetBenCiz(); }
+    sohbetEkle([j.mesaj]); SOH.sonDegisim = Date.now();
+    t.value = ''; sohbetYaziyor(); sohbetCiz('alt');
+    sayacGonder({ path: 'sohbet/mesaj', title: 'Sohbet mesajı', event: true });
+  } catch (err) {
+    bildir('⚠️ ' + err.message);
+    if (/Şifre yanlış|yönetici girişi/i.test(err.message)) sohbetYoneticiCikis();
+  } finally { SOH.gonderiliyor = false; $('sohbet-gonder').disabled = false; }
+}
+function sohbetBildir(id) {
+  const m = SOH.mesajlar.get(id); if (!m) return;
+  modalAc('⚑ Mesajı bildir',
+    `<p style="margin:0 0 10px">Bu mesaj uygunsuz mu? (hakaret, reklam, kişisel bilgi…)</p>
+     <div style="background:var(--zemin);border-radius:10px;padding:10px 12px;font-size:13.5px;white-space:pre-wrap;overflow-wrap:anywhere"><b>${kacis(m.a)}:</b> ${kacis(m.m.length > 220 ? m.m.slice(0, 220) + '…' : m.m)}</div>
+     <p style="margin:10px 0 0;font-size:13px;color:var(--soluk)">Mesaj sizin ekranınızdan hemen kaldırılır. Birkaç kişi bildirirse herkes için gizlenir ve yönetici inceler.</p>`,
+    [{ ad: 'Vazgeç', tik: modalKapat },
+     { ad: 'Bildir', sinif: 'btn-tehlike', tik: async () => {
+        modalKapat();
+        const l = DEPO.oku(K_SOH_BILDIRILEN, []); if (l.indexOf(id) < 0) { l.push(id); DEPO.yaz(K_SOH_BILDIRILEN, l.slice(-300)); }
+        sohbetCiz();
+        try { await sohbetIstek({ islem: 'bildir', id, cihaz: sohbetCihaz() }); bildir('Bildiriminiz alındı, teşekkürler.'); } catch (err) { bildir('⚠️ ' + err.message); }
+      } }]);
+}
+
+/* ---------- yönetici ---------- */
+function sohbetYoneticiGiris() {
+  if (sohbetYoneticiSifre()) { sohbetYoneticiCikis(); return; }
+  modalAc('🔑 Sohbet yönetimi',
+    `<label>Yönetim şifresi<input type="password" id="sohbet-sifre" autocomplete="current-password" onkeydown="if(event.key==='Enter'){event.preventDefault();document.getElementById('sohbet-sifre-btn').click()}"></label>
+     <p style="margin:10px 0 0;font-size:12.5px;color:var(--soluk)">Şifre yalnızca bu sekme açıkken hatırlanır.</p>`,
+    [{ ad: 'Vazgeç', tik: modalKapat },
+     { ad: 'Giriş', sinif: 'btn-dolu', tik: async () => {
+        const s = $('sohbet-sifre').value; if (!s) return;
+        try {
+          await sohbetIstek({ islem: 'giris' }, s);
+          try { sessionStorage.setItem(K_SOH_YON, s); } catch (e) {}
+          modalKapat(); sohbetBenCiz(); sohbetCiz(); bildir('Yönetici modu açıldı.');
+        } catch (err) { bildir('⚠️ ' + err.message); }
+      } }]);
+  const b = $('modal-btn').lastElementChild; if (b) b.id = 'sohbet-sifre-btn';
+  setTimeout(() => { const i = $('sohbet-sifre'); if (i) i.focus(); }, 50);
+}
+function sohbetYoneticiCikis() { try { sessionStorage.removeItem(K_SOH_YON); } catch (e) {} sohbetBenCiz(); sohbetCiz(); }
+async function sohbetYonetimIslem(islem, id) {
+  const m = SOH.mesajlar.get(id);
+  const soru = islem === 'sustur' ? `“${kacis(m ? m.a : '')}” adlı kişinin bu mesajı silinsin ve bu cihaz/bağlantıdan bir daha yazması engellensin mi?` : 'Bu mesaj herkes için silinsin mi?';
+  modalAc(islem === 'sustur' ? '🔇 Sustur' : '🗑️ Sil', `<p style="margin:0">${soru}</p>`,
+    [{ ad: 'Vazgeç', tik: modalKapat },
+     { ad: islem === 'sustur' ? 'Sil ve sustur' : 'Sil', sinif: 'btn-tehlike', tik: async () => {
+        modalKapat();
+        try { await sohbetIstek({ islem, id }, sohbetYoneticiSifre()); SOH.mesajlar.delete(id); sohbetCiz(); bildir(islem === 'sustur' ? 'Mesaj silindi, kişi susturuldu.' : 'Mesaj silindi.'); }
+        catch (err) { bildir('⚠️ ' + err.message); }
+      } }]);
+}
+async function sohbetGizlenenler() {
+  try {
+    const j = await sohbetIstek({ islem: 'gizlenenler' }, sohbetYoneticiSifre());
+    const l = j.mesajlar || [];
+    modalAc('Bildirimle gizlenen mesajlar',
+      (l.length ? l.map(m => `<div style="border:1px solid var(--cizgi);border-radius:10px;padding:8px 10px;margin-bottom:8px">
+          <div style="font-size:12px;color:var(--soluk)"><b style="color:hsl(${m.h} 65% 30%)">${kacis(m.a)}</b> · ${gunAdi(m.t)} ${saatYaz(m.t)}</div>
+          <div style="white-space:pre-wrap;overflow-wrap:anywhere;margin:4px 0 6px">${kacis(m.m)}</div>
+          <button class="btn btn-hayalet" style="padding:6px 10px" onclick="sohbetGeriAl(${m.id})">Geri yayınla</button>
+          <button class="btn btn-tehlike" style="padding:6px 10px" onclick="modalKapat();sohbetYonetimIslem('sil',${m.id})">Kalıcı sil</button></div>`).join('')
+        : '<p style="margin:0">Gizlenen mesaj yok.</p>') +
+      `<p style="margin:10px 0 0;font-size:12.5px;color:var(--soluk)">Susturulmuş kişi sayısı: ${j.susturulan || 0}</p>`,
+      [{ ad: 'Kapat', tik: modalKapat }]);
+  } catch (err) { bildir('⚠️ ' + err.message); }
+}
+async function sohbetGeriAl(id) {
+  try { await sohbetIstek({ islem: 'geriAl', id }, sohbetYoneticiSifre()); modalKapat(); await sohbetTamYukle(false); bildir('Mesaj yeniden yayında.'); }
+  catch (err) { bildir('⚠️ ' + err.message); }
+}
+function sohbetSusturmaKaldir() {
+  modalAc('Susturmaları kaldır', '<p style="margin:0">Susturulan tüm kişiler yeniden yazabilsin mi?</p>',
+    [{ ad: 'Vazgeç', tik: modalKapat },
+     { ad: 'Kaldır', sinif: 'btn-dolu', tik: async () => {
+        modalKapat();
+        try { await sohbetIstek({ islem: 'susturmaKaldir' }, sohbetYoneticiSifre()); bildir('Tüm susturmalar kaldırıldı.'); } catch (err) { bildir('⚠️ ' + err.message); }
+      } }]);
 }
 
 /* ---------- başlat ---------- */
