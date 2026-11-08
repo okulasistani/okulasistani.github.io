@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İdare Asistanı 7.2.6 — MEB Yönetim Portalı & Resmi Evrak</title>
+    <title>İdare Asistanı 7.2.9 — MEB Yönetim Portalı & Resmi Evrak</title>
     <!-- Tailwind CSS -->
     
 <style id="critical-offline-css">
@@ -787,7 +787,7 @@ tailwind.config = {
             <p id="son-yedek-bilgi" class="text-[9px] text-center text-slate-500"></p>
         </div>
         <div class="px-2.5 py-2 border-t border-slate-800 text-center flex-shrink-0">
-            <p class="text-[9px] text-slate-500 truncate">Mehmet Can Öztürk-Cuma Çetinkaya <span class="text-slate-400 font-normal" style="cursor:pointer;text-decoration:underline dotted" title="Yenilikleri göster" onclick="portalSurumPopupGoster(true)">· v<span id="portal-surum-etiket">7.2.6</span></span></p>
+            <p class="text-[9px] text-slate-500 truncate">Mehmet Can Öztürk-Cuma Çetinkaya <span class="text-slate-400 font-normal" style="cursor:pointer;text-decoration:underline dotted" title="Yenilikleri göster" onclick="portalSurumPopupGoster(true)">· v<span id="portal-surum-etiket">7.2.9</span></span></p>
             <p class="text-[9px] text-slate-400 font-semibold mt-1 uppercase tracking-wide">İletişim</p>
             <div class="flex items-center justify-center gap-2 flex-wrap text-[9px] text-slate-500 mt-0.5">
                 <a href="mailto:cann201921@gmail.com" class="text-sky-400 hover:text-sky-300 underline" title="E-posta gönder"><i class="fa-solid fa-envelope mr-0.5"></i>cann201921@gmail.com</a>
@@ -7755,7 +7755,7 @@ window.boardSetKademe = function(kademe) {
         const tabsDef = [
             { id: 'havuz', icon: '👥', title: 'Personel Havuzu' },
             { id: 'ebysDonustur', icon: '📝', title: 'EBYS Evrak Oluştur' },
-            { id: 'yillikPlan', icon: '📅', title: 'Yıllık Çalışma Planı' },
+            { id: 'yillikPlan', icon: '📅', title: 'İdareci Yıllık Çalışma Planı' },
             { id: 'rehberlikCerceve', icon: '🧭', title: 'Rehberlik Yıllık Çerçeve Planı' },
             { id: 'gorevDagilimi', icon: '📋', title: 'Görev Dağılımı' },
             { id: 'belirliGunler', icon: '🇹🇷', title: 'Belirli Gün ve Haftalar (Atamalı)' },
@@ -7796,7 +7796,7 @@ window.boardSetKademe = function(kademe) {
 
         const MODULE_HELP = {
             havuz: 'Ne işe yarar: Tüm personeli (öğretmen / diğer) kaydeder; diğer modüller isimleri buradan çeker.\nNasıl: Öğretmenler veya Diğer Personel sekmesine ekleyin; toplu Excel yüklemesi varsa kullanın. Önce havuzu doldurmak çoğu modülü kolaylaştırır.',
-            yillikPlan: 'Ne işe yarar: Okulun yıllık idari ve pedagojik iş takvimini planlar.\nNasıl: Satır ekleyip ay/faaliyet girin; yazdırın. Belirli gün ve sosyal planlarla çakışmayı kontrol edin.',
+            yillikPlan: 'Ne işe yarar: Okul idaresinin ay ay yapılacaklar listesi; okul profiline (kademe, taşımalı, kantin, yemek, pansiyon…) ve seçilen bakanlık projelerine göre hazırlanır.\nNasıl: Okul Profilini kontrol edin, projeleri seçin; her ayda plana girecek maddeleri işaretleyin (işaretsizler soluk görünür, yazdırılmaz). Kendi maddenizi “+ Madde” ile ekleyin.',
             rehberlikCerceve: 'Ne işe yarar: Rehber öğretmeni olan/olmayan okullar için yıllık çerçeve plan, görevlendirme ve aylık faaliyetler.\nNasıl: Sekme ve kademe seçin; danışman/rehber öğretmeni havuzdan atayın; aylık maddeleri düzenleyip yazdırın.',
             ogretmenTakip: 'Ne işe yarar: Öğretmenlerin hazırlaması/teslim etmesi gereken evrak ve görevlerin takibi.\nNasıl: Sütun (evrak/görev) ekleyin; her öğretmen–evrak hücresine tıklayarak durumu değiştirin: yeşil ✓ = teslim/yapıldı, kırmızı ✗ = eksik. Tek yatay A4 sayfası olarak yazdırılır.',
             dosyaSirtlik: 'Ne işe yarar: Klasör sırtına yapıştırılacak dosya sırtlığı (etiket) üretir.\nNasıl: İnce (3cm), Kalın (5cm) veya özel genişlik seçin; hızlı listeyle çok sayıda sırtlığı tek seferde oluşturun; her sırtlığın üç alanını (kurum, başlık, yıl/sayı) elle düzenleyin. A4 yatay, yan yana yazdırılır — kesip klasöre yapıştırın.',
@@ -11195,7 +11195,7 @@ window.staffTcTemizle = function(v) { return String(v == null ? '' : v).replace(
             });
         };
 
-        window.renderYillikPlan = function() {
+        window.renderYillikPlanEski = function() {
             let html = `
                 ${getOfficialPrintHeader("MÜDÜR YARDIMCISI YILLIK ÇALIŞMA PLANI")}
                 <div class="flex justify-between items-center mb-6 no-print">
@@ -11301,6 +11301,600 @@ window.staffTcTemizle = function(v) { return String(v == null ? '' : v).replace(
         };
 
         
+        /* ==================== v7.2.8: OKUL PROFİLİ + İDARECİ YILLIK ÇALIŞMA PLANI + PROFİLE GÖRE GÖREV DAĞILIMI ====================
+           Okul profili (kademe + okul şartları) tek yerde tutulur; yıllık plan maddeleri, bakanlık proje
+           kataloğu ve müdür yardımcısı görev havuzu bu profile göre süzülür. */
+        window.OP_KADEME = [
+            ['oo', 'Okul öncesi / Ana sınıfı'], ['ilk', 'İlkokul'], ['orta', 'Ortaokul'], ['lise', 'Lise'],
+            ['ih', 'İmam Hatip (ortaokul/lise)'], ['mes', 'Mesleki ve Teknik Lise']
+        ];
+        window.OP_SART = [
+            ['tasimali', 'Taşımalı eğitim / servis'], ['yemek', 'Yemekhane / öğle yemeği'], ['kantin', 'Kantin'], ['pansiyon', 'Pansiyon'],
+            ['okulSutu', 'Okul sütü dağıtımı'], ['ikili', 'İkili öğretim'], ['birlestirilmis', 'Birleştirilmiş sınıf'],
+            ['kaynastirma', 'Kaynaştırma öğrencisi'], ['ozelEgitim', 'Özel eğitim sınıfı / destek eğitim odası'], ['cocukKulubu', 'Çocuk kulübü'],
+            ['yabanci', 'Yabancı uyruklu öğrenci'], ['hemsire', 'Okul hemşiresi'], ['rehber', 'Rehber öğretmen']
+        ];
+        window.okulProfilEnsure = function () {
+            if (!state.okulProfil || typeof state.okulProfil !== 'object') {
+                var ad = (state.schoolName || '').toLocaleLowerCase('tr-TR');
+                var k = {};
+                if (/anaokul|ana okul|okul öncesi|kreş/.test(ad)) k.oo = true;
+                if (/ilkokul|ilköğretim/.test(ad)) k.ilk = true;
+                if (/ortaokul|ilköğretim/.test(ad)) k.orta = true;
+                if (/lise/.test(ad)) k.lise = true;
+                if (/imam hatip/.test(ad)) k.ih = true;
+                if (/mesleki|teknik|meslek/.test(ad) && /lise/.test(ad)) k.mes = true;
+                if (!Object.keys(k).length) { k.ilk = true; k.orta = true; }
+                var unv = (state.staff || []).map(function (s) { return (s.title || '').toLocaleLowerCase('tr-TR'); });
+                var s = {
+                    pansiyon: !!(state.gorevDagilimi && state.gorevDagilimi.pansiyonlu),
+                    okulSutu: !!k.ilk,
+                    rehber: unv.some(function (t) { return /rehber|psikolojik/.test(t); }),
+                    hemsire: unv.some(function (t) { return /hemşire|hemsire/.test(t); })
+                };
+                state.okulProfil = { kademe: k, sart: s, _acik: true, _yeni: true };
+            }
+            var p = state.okulProfil;
+            if (!p.kademe) p.kademe = {};
+            if (!p.sart) p.sart = {};
+            return p;
+        };
+        /* Etiket listesi profile uyuyor mu? k: kademe listesi (boş = hepsi), s: şart (boş = koşulsuz) */
+        window.opUyar = function (k, s) {
+            var p = okulProfilEnsure();
+            if (k && k.length && !k.some(function (x) { return p.kademe[x]; })) return false;
+            if (s && !p.sart[s]) return false;
+            return true;
+        };
+        window.okulProfilSet = function (grup, key) {
+            var p = okulProfilEnsure();
+            p[grup][key] = !p[grup][key];
+            delete p._yeni;
+            if (grup === 'sart' && key === 'pansiyon') { try { var g = gdEnsure(); g.pansiyonlu = !!p.sart.pansiyon; if (!g.pansiyonlu && g.activeSub === 'pansiyon_my') g.activeSub = 'my'; } catch (e) {} }
+            try { saveAllData(); } catch (e) {}
+            updateUI();
+        };
+        window.okulProfilOzet = function () {
+            var p = okulProfilEnsure();
+            var k = OP_KADEME.filter(function (x) { return p.kademe[x[0]]; }).map(function (x) { return x[1]; });
+            var s = OP_SART.filter(function (x) { return p.sart[x[0]]; }).map(function (x) { return x[1]; });
+            return (k.join(' · ') || 'Kademe seçilmedi') + (s.length ? ' — ' + s.join(', ') : ' — özel şart yok');
+        };
+        window.okulProfilPanel = function () {
+            var p = okulProfilEnsure();
+            var cip = function (grup, x) {
+                var on = !!p[grup][x[0]];
+                return '<button type="button" onclick="okulProfilSet(\'' + grup + '\',\'' + x[0] + '\')" class="px-2.5 py-1 rounded-full text-[11px] font-semibold border transition ' +
+                    (on ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-500 border-slate-300 hover:border-emerald-400') + '">' + (on ? '✓ ' : '') + x[1] + '</button>';
+            };
+            return '<details class="no-print mb-4 border border-emerald-200 bg-emerald-50/50 rounded-xl"' + (p._acik ? ' open' : '') + ' ontoggle="okulProfilEnsure()._acik=this.open">' +
+                '<summary class="cursor-pointer px-4 py-2.5 text-sm font-bold text-emerald-900 flex flex-wrap items-center gap-2">🏫 Okul Profili <span class="font-normal text-[11px] text-emerald-800">' + escHtml2(okulProfilOzet()) + '</span>' +
+                (p._yeni ? '<span class="text-[10px] bg-amber-100 text-amber-800 border border-amber-300 rounded px-1.5 py-0.5">Kontrol edin — okul adından tahmin edildi</span>' : '') + '</summary>' +
+                '<div class="px-4 pb-3">' +
+                '<p class="text-[11px] text-slate-600 mb-1.5 font-bold">Kademe (birden çok seçilebilir)</p><div class="flex flex-wrap gap-1.5 mb-3">' + OP_KADEME.map(function (x) { return cip('kademe', x); }).join('') + '</div>' +
+                '<p class="text-[11px] text-slate-600 mb-1.5 font-bold">Okulun şartları (olanları işaretleyin)</p><div class="flex flex-wrap gap-1.5">' + OP_SART.map(function (x) { return cip('sart', x); }).join('') + '</div>' +
+                '<p class="text-[10.5px] text-slate-500 mt-2">Yıllık çalışma planı, bakanlık proje listesi ve müdür yardımcısı görev havuzu bu seçimlere göre hazırlanır. Örneğin servisi olmayan okulda taşımalı eğitim, kantini olmayan okulda kantin denetimi, yemek verilmeyen okulda yemekhane maddeleri çıkmaz.</p>' +
+                '</div></details>';
+        };
+
+        /* ---------- Bakanlık proje / program kataloğu ---------- */
+        window.IDP_PROJE = [
+            { id: 'dz', ad: 'Dilimizin Zenginlikleri Projesi', k: [], v: 1, d: '2026/70 sayılı Genelge; okul öncesinden liseye. Okul Yürütme Komisyonu bir MY başkanlığında.' },
+            { id: 'mko', ad: 'Maarifin Kalbinde Oyun', k: [], v: 1, d: '2026-2027 yılı teması; Oyun Politika Belgesi.' },
+            { id: 'yb', ad: 'Yaşam Becerileri Projesi', k: ['oo', 'ilk', 'orta'], v: 1, d: 'Uygulama kılavuzu ve etkinlik kitapları (TEGM).' },
+            { id: 'dde', ad: 'Duygu-Değer Temelli Dijital Esenlik', k: [], v: 1, d: 'Siber zorbalık, dijital mahremiyet ve bilinçli teknoloji kullanımı.' },
+            { id: 'aey', ad: 'Ailemle Eğitim Yolculuğum', k: [], v: 1, d: 'Okul-aile iş birliği; okul öncesi ve 1. sınıfta aile etkinlikleri.' },
+            { id: 'deg', ad: 'Değerler Eğitimi', k: [], v: 1, d: 'Ayın değeri etkinlikleri; değerler eğitimi kurulu.' },
+            { id: 'sb', ad: 'Okulumda Sağlıklı Besleniyorum', k: [], v: 0, d: 'Sağlıklı beslenme ve obezite ile mücadele.' },
+            { id: 'bb', ad: 'Beyaz Bayrak', k: [], v: 0, d: 'Okul hijyen ve sağlık şartları belgelendirmesi.' },
+            { id: 'bdo', ad: 'Beslenme Dostu Okul', k: [], v: 0, d: 'Sağlıklı beslenme ve hareketli yaşam belgelendirmesi.' },
+            { id: 'sa', ad: 'Sıfır Atık', k: [], v: 0, d: 'Atık ayrıştırma ve geri dönüşüm.' },
+            { id: 'odo', ad: 'Okul Dışı Öğrenme Ortamları', k: [], v: 0, d: 'Gezi ve okul dışı etkinliklerin dijital platforma işlenmesi.' },
+            { id: 'ho', ad: 'Haberimiz Olsun', k: [], v: 0, d: 'Dijital medya içerikleri.' },
+            { id: 'ced', ad: 'ÇEDES', k: ['ilk', 'orta', 'lise'], v: 0, d: 'Çevreme Duyarlıyım, Değerlerime Sahip Çıkıyorum.' },
+            { id: 'tf', ad: 'TÜBİTAK 4006 Bilim Fuarı', k: ['orta', 'lise'], v: 0, d: 'Bilim fuarı başvurusu ve düzenlenmesi.' },
+            { id: 'et', ad: 'eTwinning', k: [], v: 0, d: 'Avrupa okulları ile çevrim içi ortak projeler.' },
+            { id: 'er', ad: 'Erasmus+', k: [], v: 0, d: 'Hareketlilik ve ortaklık projeleri.' }
+        ];
+        /* ---------- Yıllık plan maddeleri ----------
+           Biçim: AY|grup|kademe(* ya da virgüllü)|şart(* ya da anahtar)|proje(- ya da id)|sorumlu|öneri(0/1)|metin
+           grup: yon=Yönetim ve personel, egt=Eğitim-öğretim, ogr=Öğrenci işleri, kur=Kurul ve komisyonlar
+           sorumlu: M=Okul Müdürü, MY=Müdür Yardımcısı, R=Rehber Öğretmen, T=Okul İdaresi
+           öneri=1 → listede çıkar ama başlangıçta işaretsizdir */
+        window.IDP_MADDE_HAM = [
+            /* --- HER AY --- */
+            'HER|yon|*|*|-|MY|0|Ek ders ve ücret puantajları ay sonunda düzenlenerek KBS/MEBBİS’e işlenir.',
+            'HER|yon|*|*|-|MY|0|Nöbet çizelgesine uyum denetlenir, nöbet defteri kontrol edilir.',
+            'HER|ogr|*|*|-|MY|0|Öğrenci devam-devamsızlık durumu izlenir; özürsüz devamsızlıkta veliye bildirim yapılır.',
+            'HER|yon|*|*|-|MY|0|Gelen-giden evrak, DYS/EBYS kayıtları ve arşiv düzeni kontrol edilir.',
+            'HER|egt|*|*|-|MY|0|Ayın belirli gün ve haftaları kutlanır, e-Okul Sosyal Etkinlik Modülü’ne işlenir.',
+            'HER|yon|*|*|-|MY|0|Okul temizliği, hijyen ve bina güvenliği kontrolleri yapılır.',
+            'HER|yon|*|*|-|M|1|Okul-aile birliği gelir-gider kayıtları ve harcama belgeleri kontrol edilir.',
+            'HER|yon|*|*|-|MY|1|Taşınır giriş-çıkış ve zimmet kayıtları güncellenir.',
+            'HER|yon|*|tasimali|-|MY|0|Taşıma puantajı ve hakediş evrakı düzenlenir; araç, şoför ve rehber personel denetimi yapılır.',
+            'HER|ogr|*|tasimali|-|MY|0|Taşımalı öğrencilerin okula geliş-gidiş ve teslim-tesellüm kayıtları kontrol edilir.',
+            'HER|yon|*|pansiyon|-|MY|0|Pansiyon belletici nöbet çizelgesi, yoklama ve pansiyon defterleri kontrol edilir.',
+            'HER|yon|*|kantin|-|MY|0|Kantin fiyat listesi, ürün ve hijyen denetimi yapılarak tutanağa bağlanır.',
+            'HER|yon|*|yemek|-|MY|0|Yemekhane menüsü, yemek numuneleri ve gıda güvenliği kayıtları kontrol edilir.',
+            'HER|ogr|ilk|okulSutu|-|MY|0|Okul sütü dağıtım kayıtları tutulur, dağıtım tutanakları dosyalanır.',
+            'HER|yon|*|ikili|-|MY|0|İkili öğretimde sabahçı-öğlenci nöbet ve devir-teslim düzeni kontrol edilir.',
+            'HER|egt|ilk|birlestirilmis|-|MY|0|Birleştirilmiş sınıf ders programı ve sınıf defteri kayıtları kontrol edilir.',
+            'HER|yon|*|cocukKulubu|-|MY|0|Çocuk kulübü yoklama, ücret tahsilatı ve puantaj işlemleri yapılır.',
+            'HER|ogr|*|kaynastirma|-|R|0|Kaynaştırma öğrencilerinin BEP hedefleri ve gelişimi izlenir.',
+            'HER|ogr|mes|*|-|MY|0|MEB-İMES üzerinden işletmelerdeki öğrencilerin devamı ve koordinatör öğretmen raporları izlenir.',
+            'HER|egt|*|*|dz|MY|0|Dilimizin Zenginlikleri kademe eylem planındaki etkinlikler uygulanır ve e-Okul Sosyal Etkinlik Modülü’ne işlenir.',
+            'HER|egt|*|*|mko|MY|0|Ders dışı ve teneffüs oyun etkinlikleri (Maarifin Kalbinde Oyun) uygulanır.',
+            'HER|egt|*|*|yb|MY|0|Aylık yaşam becerileri etkinlikleri uygulanır, gözlem formları doldurulur.',
+            'HER|egt|*|*|deg|MY|0|Ayın değeri etkinlikleri yapılır ve panolarda duyurulur.',
+            'HER|egt|*|*|aey|MY|1|Aile katılımlı etkinlikler (Ailemle Eğitim Yolculuğum) uygulanır.',
+            'HER|egt|*|*|sa|MY|0|Sıfır atık ayrıştırma kayıtları tutulur.',
+            'HER|egt|*|*|odo|MY|0|Okul dışı öğrenme etkinlikleri ve gezi onayları dijital platforma işlenir.',
+            'HER|egt|*|*|ho|MY|1|Okulun “Haberimiz Olsun” dijital medya içerikleri paylaşılır.',
+            'HER|egt|*|*|ced|MY|0|ÇEDES aylık etkinlikleri uygulanır.',
+            'HER|egt|*|*|et|MY|1|eTwinning proje etkinlikleri yürütülür, TwinSpace’e işlenir.',
+            'HER|yon|*|*|bb|MY|1|Beyaz Bayrak hijyen öz denetimi yapılır.',
+            'HER|egt|*|*|sb|MY|1|Sağlıklı beslenme etkinlikleri ve bilgilendirmeleri yapılır.',
+            /* --- EYLÜL --- */
+            'EYL|yon|*|*|-|M|0|Okul yönetim ekibi toplanarak yılın iş takvimi ve idari görev dağılımı belirlenir.',
+            'EYL|yon|*|*|-|MY|0|Müdür yardımcısı ve personel görev dağılımı yapılarak tebliğ edilir.',
+            'EYL|yon|*|*|-|MY|0|Eylül mesleki çalışma programı hazırlanır ve uygulanır.',
+            'EYL|yon|*|*|-|MY|0|Ders dağıtım çizelgesi ve haftalık ders programı hazırlanarak e-Okul’a işlenir; ek ders onayları alınır.',
+            'EYL|yon|*|*|-|MY|0|Öğretmen nöbet çizelgesi hazırlanarak tebliğ edilir.',
+            'EYL|yon|*|*|-|MY|1|Personelin MEBBİS/KBS, adres ve iletişim bilgileri güncellenir.',
+            'EYL|yon|*|*|-|M|0|Güvenli okul iklimi tedbirleri gözden geçirilir; okul giriş-çıkış ve ziyaretçi düzeni belirlenir.',
+            'EYL|yon|*|*|-|MY|0|Okul Randevu Sistemi ile veli görüşme saatleri belirlenip velilere duyurulur.',
+            'EYL|yon|*|*|-|M|0|Okul-aile birliği genel kurul hazırlıkları yapılır, tarih velilere duyurulur.',
+            'EYL|kur|*|*|-|M|0|Eğitim öğretim yılı başı öğretmenler kurulu toplantısı yapılır.',
+            'EYL|kur|*|*|-|MY|0|Zümre öğretmenler kurulu toplantıları yapılır; yıllık planlar incelenip onaylanır.',
+            'EYL|kur|*|*|-|M|0|Okul kurul ve komisyonları oluşturularak görevlendirmeler tebliğ edilir.',
+            'EYL|kur|*|*|-|R|1|Rehberlik ve psikolojik danışma hizmetleri yürütme komisyonu toplanır.',
+            'EYL|egt|*|*|-|MY|0|Ders kitapları dağıtılır, dağıtım tutanakları düzenlenir.',
+            'EYL|egt|orta,lise|*|-|MY|0|Türk Dünyası materyalleri ders kitaplarıyla birlikte öğrencilere ulaştırılır.',
+            'EYL|egt|*|*|-|MY|0|Millî birlik ve beraberlik etkinlikleri yılın ilk haftası yapılır.',
+            'EYL|egt|*|*|-|MY|0|Eylül ayı belirli gün ve haftaları (İlköğretim Haftası, Gaziler Günü, 15 Temmuz Demokrasi ve Millî Birlik Günü) kutlanır.',
+            'EYL|egt|*|*|-|MY|0|Sınıf içinde cep telefonu kullanımına ilişkin kurallar öğrenci ve velilere duyurulur.',
+            'EYL|ogr|*|*|-|MY|0|e-Okul’da şube açma, öğrenci şube dağılımı ve nakil işlemleri tamamlanır.',
+            'EYL|ogr|oo|*|-|MY|0|Okul öncesi uyum eğitimi bakanlık takvimine göre uygulanır.',
+            'EYL|ogr|ilk|*|-|MY|0|1. sınıf uyum eğitimi bakanlık takvimine göre uygulanır.',
+            'EYL|ogr|orta|*|-|MY|0|5. sınıf uyum eğitimi bakanlık takvimine göre uygulanır.',
+            'EYL|ogr|lise|*|-|MY|1|9. sınıf öğrencilerine okula uyum ve oryantasyon çalışmaları yapılır.',
+            'EYL|ogr|lise|*|-|MY|0|Sorumluluk sınavları yapılarak sonuçlar e-Okul’a işlenir.',
+            'EYL|ogr|*|*|-|MY|1|Öğrenci kimlik kartı, fotoğraf ve veli iletişim bilgileri güncellenir.',
+            'EYL|ogr|orta,lise|*|-|MY|0|Destekleme ve Yetiştirme Kursları (DYK) için öğrenci ve öğretmen başvuruları alınır.',
+            'EYL|yon|*|tasimali|-|MY|0|Taşımalı öğrenci listeleri, güzergâhlar, araç ve şoför belgeleri kontrol edilerek taşıma başlatılır.',
+            'EYL|yon|*|tasimali|-|MY|0|Taşımalı öğrencilerin öğle yemeği dağıtımı planlanır.',
+            'EYL|yon|*|pansiyon|-|MY|0|Pansiyon kayıt-kabul, yatakhane yerleşimi ve belletici öğretmen nöbet çizelgesi düzenlenir.',
+            'EYL|yon|*|kantin|-|MY|0|Kantin kira sözleşmesi, fiyat listesi ve hijyen belgeleri kontrol edilir.',
+            'EYL|yon|*|yemek|-|MY|0|Yemekhane menüsü, numune alma ve hijyen kayıt düzeni kurulur.',
+            'EYL|ogr|ilk|okulSutu|-|MY|0|Okul sütü dağıtımı planlanır, veli izinleri alınır.',
+            'EYL|yon|*|cocukKulubu|-|MY|0|Çocuk kulübü kayıt ve grup oluşturma işlemleri yapılır.',
+            'EYL|kur|*|kaynastirma|-|R|0|Kaynaştırma öğrencileri için BEP geliştirme birimi oluşturulur.',
+            'EYL|egt|*|ozelEgitim|-|MY|0|Destek eğitim odası programı ve öğretmen görevlendirmeleri yapılır.',
+            'EYL|ogr|*|yabanci|-|R|0|Yabancı uyruklu öğrencilerin uyum ve Türkçe destek çalışmaları planlanır.',
+            'EYL|yon|mes|*|-|MY|0|İşletmelerde mesleki eğitim için işletme seçimi tamamlanır; sözleşmeler ve koordinatör öğretmen görevlendirmeleri yapılır.',
+            'EYL|yon|*|hemsire|-|MY|1|Okul sağlık odası malzemeleri ve ilk yardım dolapları kontrol edilir.',
+            'EYL|egt|*|*|mko|MY|0|Oyun Politika Belgesi doğrultusunda okul oyun eylem planı hazırlanır.',
+            'EYL|egt|*|*|yb|MY|0|Yaşam becerileri uygulama ekibi ve yıllık etkinlik takvimi oluşturulur.',
+            'EYL|egt|*|*|deg|MY|0|Değerler eğitimi kurulu oluşturulur, yıllık değerler takvimi hazırlanır.',
+            'EYL|egt|*|*|aey|MY|0|Ailemle Eğitim Yolculuğum kapsamında yıllık aile katılım takvimi hazırlanır.',
+            /* --- EKİM --- */
+            'EKI|yon|*|*|-|M|0|Okul-aile birliği genel kurulu yapılır; yönetim ve denetim kurulu seçimleri tamamlanır.',
+            'EKI|yon|*|*|-|M|0|Okul gelişim ve yönetim ekibi toplanarak yıllık eylem planı hazırlanır.',
+            'EKI|yon|*|*|-|MY|0|Afet ve acil durum planı güncellenir, 1. dönem tahliye tatbikatı yapılır.',
+            'EKI|yon|*|*|-|MY|1|Okul güvenliği denetim formu doldurularak eksikler giderilir.',
+            'EKI|kur|*|*|-|MY|0|Sınıf/şube öğretmenler kurulu toplantıları yapılır.',
+            'EKI|kur|*|*|-|MY|0|Sosyal etkinlikler kurulu toplanarak öğrenci kulüpleri ve toplum hizmeti çalışmaları belirlenir.',
+            'EKI|egt|*|*|-|MY|0|29 Ekim Cumhuriyet Bayramı ve Ekim ayı belirli gün ve haftaları kutlanır.',
+            'EKI|ogr|*|*|-|MY|0|1. dönem veli toplantısı yapılır.',
+            'EKI|ogr|ilk|*|-|MY|0|İYEP kapsamına alınacak 3 ve 4. sınıf öğrencileri belirlenerek kurslar planlanır.',
+            'EKI|egt|orta,lise|*|-|MY|0|DYK kursları açılarak kayıtları yapılır.',
+            'EKI|ogr|orta|*|-|R|0|8. sınıf öğrencilerine LGS ve tercih süreci hakkında bilgilendirme yapılır.',
+            'EKI|ogr|lise|*|-|R|0|12. sınıf öğrencilerine yükseköğretim ve meslek seçimi bilgilendirmesi yapılır.',
+            'EKI|ogr|oo|*|-|MY|0|Okul öncesi aile katılımlı etkinlikler ve aile eğitim bültenleri planlanır.',
+            'EKI|egt|*|*|dz|MY|0|Dilimizin Zenginlikleri Okul Yürütme Komisyonu kurulur (bir MY başkanlığında en az 2 öğretmen ve her sınıf düzeyinden 1 öğrenci; ilk ve ortaokulda 7–9 Ekim, lisede 7–12 Ekim).',
+            'EKI|egt|*|*|dde|R|0|Dijital esenlik, siber zorbalık ve bilinçli teknoloji kullanımı bilgilendirme planı hazırlanır.',
+            'EKI|egt|*|*|bb|MY|0|Beyaz Bayrak okul ekibi oluşturulur, başvuru süreci başlatılır.',
+            'EKI|egt|*|*|bdo|MY|0|Beslenme Dostu Okul ekibi oluşturulur, eylem planı hazırlanır.',
+            'EKI|egt|*|*|sa|MY|0|Sıfır atık ekibi oluşturulur, ayrıştırma kutuları yerleştirilir.',
+            'EKI|egt|*|*|sb|MY|0|Okulumda Sağlıklı Besleniyorum ekibi ve etkinlik planı oluşturulur.',
+            'EKI|egt|*|*|ced|MY|0|ÇEDES okul ekibi ve yıllık etkinlik planı oluşturulur.',
+            'EKI|egt|*|*|et|MY|0|eTwinning proje ortakları belirlenir, projeler kaydedilir.',
+            'EKI|egt|*|*|er|M|0|Erasmus+ proje/akreditasyon başvuru hazırlıklarına başlanır.',
+            'EKI|yon|*|tasimali|-|MY|0|Taşımalı eğitim denetim komisyonu ilk denetimini yapar.',
+            /* --- KASIM --- */
+            'KAS|egt|*|*|-|MY|0|10 Kasım Atatürk’ü Anma Haftası ve 24 Kasım Öğretmenler Günü etkinlikleri düzenlenir.',
+            'KAS|egt|orta,lise|*|-|MY|0|1. dönem yazılı/ortak sınav takvimi duyurulur; sonuçlar e-Okul’a zamanında işlenir.',
+            'KAS|yon|*|*|-|MY|1|Ara tatil döneminde öğretmenlerin mesleki gelişim (ÖBA) eğitimleri planlanır.',
+            'KAS|yon|*|*|-|MY|0|Kış öncesi ısıtma sistemi, yakıt ve bina bakım kontrolleri yapılır.',
+            'KAS|ogr|*|*|-|R|1|Akran zorbalığı ve okul iklimi taraması yapılır.',
+            'KAS|ogr|ilk|*|-|MY|0|İYEP kursları başlatılır, öğrenci ilerlemesi izlenir.',
+            'KAS|egt|orta,lise|*|tf|MY|0|TÜBİTAK 4006 Bilim Fuarı başvurusu yapılır, danışman öğretmenler belirlenir.',
+            /* --- ARALIK --- */
+            'ARA|egt|*|*|-|MY|0|Tutum, Yatırım ve Türk Malları Haftası (12–18 Aralık) etkinlikleri yapılır.',
+            'ARA|egt|*|*|-|MY|0|Aralık ayı belirli gün ve haftaları (Dünya Engelliler Günü, İnsan Hakları ve Demokrasi Haftası, Mehmet Akif Ersoy’u Anma) kutlanır.',
+            'ARA|yon|*|*|-|MY|0|Yıl sonu taşınır sayımı yapılır; sayım tutanakları ve taşınır yönetim hesabı cetvelleri hazırlanır.',
+            'ARA|yon|*|*|-|M|0|Mali yıl sonu ödenek ve harcama işlemleri tamamlanır.',
+            'ARA|egt|orta,lise|*|-|MY|0|1. dönem 2. yazılı sınavlar yapılır, sonuçlar e-Okul’a işlenir.',
+            'ARA|yon|*|yemek|-|MY|1|Yemekhane gıda denetimi belgeleri dosyalanır.',
+            /* --- OCAK --- */
+            'OCA|kur|*|*|-|M|0|1. dönem sonu öğretmenler kurulu toplantısı yapılır.',
+            'OCA|ogr|*|*|-|MY|0|1. dönem not, devamsızlık ve davranış girişleri tamamlanarak karneler hazırlanır.',
+            'OCA|ogr|orta,lise|*|-|MY|0|Teşekkür ve takdir belgesi alan öğrenciler belirlenir.',
+            'OCA|yon|*|*|-|MY|0|Yarıyıl tatilinde okul güvenliği, nöbet ve bina kontrolleri planlanır.',
+            'OCA|ogr|*|*|-|R|1|Yarıyıl tatili öncesi öğrenci ve velilere tatil güvenliği bilgilendirmesi yapılır.',
+            'OCA|yon|*|*|-|MY|1|Ocak ayı katsayı değişikliğine göre ek ders ve ücret hesaplamaları güncellenir.',
+            'OCA|yon|*|pansiyon|-|MY|0|Pansiyon yarıyıl tatili kapatma, yatakhane ve depo sayımı yapılır.',
+            'OCA|yon|*|tasimali|-|MY|0|Taşımalı eğitim 1. dönem hakediş ve değerlendirme raporu hazırlanır.',
+            'OCA|egt|*|*|dz|MY|0|Dilimizin Zenginlikleri 1. dönem iyi örnek dosyası hazırlanır.',
+            /* --- ŞUBAT --- */
+            'SUB|kur|*|*|-|M|0|2. dönem başı öğretmenler kurulu toplantısı yapılır.',
+            'SUB|yon|*|*|-|MY|0|2. dönem ders programı ve ders dağıtımı güncellenir, ek ders onayları yenilenir.',
+            'SUB|egt|orta,lise|*|-|MY|0|2. dönem DYK kursları açılır.',
+            'SUB|ogr|lise|*|-|MY|0|Sorumluluk sınavları yapılarak sonuçlar e-Okul’a işlenir.',
+            'SUB|ogr|lise|*|-|R|0|12. sınıf öğrencilerinin YKS başvuruları için rehberlik ve destek sağlanır.',
+            'SUB|ogr|*|*|-|MY|0|2. dönem veli toplantısı yapılır.',
+            'SUB|egt|*|*|dde|R|0|Güvenli İnternet Günü etkinlikleri yapılır.',
+            'SUB|egt|*|*|er|M|0|Erasmus+ başvuru dosyası tamamlanır.',
+            'SUB|yon|*|*|-|M|1|Okul ihtiyaçları ve bakım-onarım planı okul-aile birliği ile gözden geçirilir.',
+            /* --- MART --- */
+            'MAR|egt|*|*|-|MY|0|12 Mart İstiklal Marşı’nın Kabulü ve 18 Mart Çanakkale Zaferi ve Şehitleri Anma Günü etkinlikleri yapılır.',
+            'MAR|egt|orta,lise|*|-|MY|0|2. dönem yazılı/ortak sınav takvimi duyurulur.',
+            'MAR|yon|*|*|-|MY|0|2. dönem deprem ve yangın tahliye tatbikatı yapılır.',
+            'MAR|ogr|orta|*|-|MY|0|LGS başvuruları alınır, 8. sınıf öğrencileri bilgilendirilir.',
+            'MAR|egt|orta,lise|*|tf|MY|0|TÜBİTAK 4006 Bilim Fuarı düzenlenir.',
+            /* --- NİSAN --- */
+            'NIS|egt|*|*|-|MY|0|23 Nisan Ulusal Egemenlik ve Çocuk Bayramı kutlama programı hazırlanır ve uygulanır.',
+            'NIS|kur|*|*|-|MY|1|2. dönem sınıf/şube öğretmenler kurulu toplantıları yapılır.',
+            'NIS|yon|*|*|-|MY|0|Yıl sonu sergi, şenlik ve sosyal etkinlik programı planlanır.',
+            'NIS|yon|mes|*|-|MY|0|İşletmelerde mesleki eğitim denetim ve rehberlik raporları değerlendirilir.',
+            'NIS|egt|*|*|bb|MY|0|Beyaz Bayrak başvuru dosyası tamamlanır.',
+            'NIS|egt|*|*|bdo|MY|0|Beslenme Dostu Okul başvuru dosyası tamamlanır.',
+            /* --- MAYIS --- */
+            'MAY|egt|*|*|-|MY|0|19 Mayıs Atatürk’ü Anma, Gençlik ve Spor Bayramı kutlanır.',
+            'MAY|egt|ilk|*|-|MY|0|Okuma Bayramı tüm 1. sınıf öğrencilerini kapsayacak şekilde düzenlenir.',
+            'MAY|egt|orta,lise|*|-|MY|0|2. dönem yazılı sınavları yapılır, sonuçlar e-Okul’a işlenir.',
+            'MAY|ogr|orta|*|-|MY|0|LGS sınav günü öğrenci bilgilendirmeleri ve okul tedbirleri planlanır.',
+            'MAY|ogr|oo,ilk|*|-|MY|0|Okul öncesi ve 1. sınıf e-Kayıt hazırlıkları yapılır, kayıt alanı adresleri kontrol edilir.',
+            'MAY|yon|*|*|-|M|1|Gelecek yılın norm kadro ve öğretmen ihtiyacı belirlenir.',
+            'MAY|yon|*|cocukKulubu|-|MY|1|Yaz dönemi çocuk kulübü planlaması yapılır.',
+            'MAY|egt|*|*|mko|MY|0|Oyun etkinlikleri değerlendirilir; yıl sonu oyun şenliği düzenlenir.',
+            /* --- HAZİRAN --- */
+            'HAZ|kur|*|*|-|M|0|Ders yılı sonu öğretmenler kurulu toplantısı yapılır.',
+            'HAZ|ogr|*|*|-|MY|0|Yıl sonu not, devamsızlık ve sınıf geçme işlemleri tamamlanır; karneler dağıtılır.',
+            'HAZ|ogr|orta,lise|*|-|MY|0|Teşekkür, takdir ve onur belgesi alan öğrenciler belirlenir.',
+            'HAZ|ogr|lise|*|-|MY|0|Sorumluluk ve beceri sınavları yapılır.',
+            'HAZ|yon|*|*|-|MY|0|Sene sonu mesleki çalışma programı hazırlanarak uygulanır.',
+            'HAZ|yon|*|*|-|M|0|Okul yıllık faaliyet raporu ve öz değerlendirme hazırlanır.',
+            'HAZ|yon|*|*|-|MY|1|Kurul, komisyon ve nöbet dosyaları arşivlenir.',
+            'HAZ|ogr|oo,ilk|*|-|MY|0|Okul öncesi ve 1. sınıf e-Kayıt işlemleri yürütülür.',
+            'HAZ|ogr|lise|*|-|MY|0|LGS tercihleri ve 9. sınıf kayıt süreçleri yürütülür.',
+            'HAZ|yon|*|pansiyon|-|MY|0|Pansiyon yıl sonu kapanış, eşya teslim ve sayım işlemleri yapılır.',
+            'HAZ|yon|*|tasimali|-|MY|0|Taşımalı eğitim yıl sonu hakediş ve yeni yıl ihtiyaç bildirimi yapılır.',
+            'HAZ|yon|*|kantin|-|MY|1|Kantin yıl sonu denetim kayıtları değerlendirilir.',
+            'HAZ|yon|mes|*|-|MY|0|İşletmelerde mesleki eğitimin yıl sonu değerlendirmesi yapılır.',
+            'HAZ|egt|*|*|yb|MY|0|Yaşam becerileri yıl sonu değerlendirme raporu hazırlanır.',
+            'HAZ|egt|*|*|dz|MY|0|Dilimizin Zenginlikleri 2. dönem iyi örnek dosyası hazırlanır; yıl sonu şölen çalışmalarına katılım sağlanır.',
+            'HAZ|egt|*|*|sa|MY|0|Sıfır atık yıllık değerlendirmesi yapılır.',
+            'HAZ|egt|*|*|et|MY|0|eTwinning projeleri tamamlanır, kalite etiketi başvurusu yapılır.',
+            /* --- TEMMUZ / AĞUSTOS (yaz) --- */
+            'TEM|yon|*|*|-|M|0|Bina bakım-onarım, boya ve temizlik işleri planlanarak yürütülür.',
+            'TEM|ogr|*|*|-|MY|1|Yaz dönemi nakil ve kayıt işlemleri yürütülür.',
+            'AGU|yon|*|*|-|M|0|Yeni eğitim öğretim yılı hazırlıkları (derslik düzeni, şube planlaması) yapılır.',
+            'AGU|yon|*|*|-|MY|0|Eylül mesleki çalışma programı ve öğretmenler kurulu gündemi hazırlanır.',
+            'AGU|yon|*|tasimali|-|MY|0|Yeni yıl taşıma güzergâhları ve taşınacak öğrenci listeleri hazırlanır.'
+        ];
+        window.IDP_AY = [['HER', 'Her Ay Düzenli Yapılacaklar'], ['EYL', 'Eylül'], ['EKI', 'Ekim'], ['KAS', 'Kasım'], ['ARA', 'Aralık'], ['OCA', 'Ocak'], ['SUB', 'Şubat'], ['MAR', 'Mart'], ['NIS', 'Nisan'], ['MAY', 'Mayıs'], ['HAZ', 'Haziran'], ['TEM', 'Temmuz'], ['AGU', 'Ağustos']];
+        window.IDP_GRUP = { yon: 'Yönetim ve Personel', egt: 'Eğitim-Öğretim', ogr: 'Öğrenci İşleri', kur: 'Kurul ve Komisyonlar', ozel: 'Okulumuza Özel (şartlara göre)', proje: 'Bakanlık Projeleri', ek: 'Ek Çalışmalar' };
+        window.IDP_SOR = { M: 'Okul Müdürü', MY: 'Müdür Yrd.', R: 'Rehber Öğrt.', T: 'Okul İdaresi' };
+        var idpHash = function (s) { var h = 5381; for (var i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0; return 'y' + h.toString(36); };
+        window.IDP_MADDE = IDP_MADDE_HAM.map(function (r) {
+            var p = r.split('|');
+            return { id: idpHash(p[0] + p[7]), ay: p[0], g: p[1], k: p[2] === '*' ? [] : p[2].split(','), s: p[3] === '*' ? '' : p[3], p: p[4] === '-' ? '' : p[4], sor: p[5], o: p[6] === '1', t: p.slice(7).join('|') };
+        });
+        var IDP_AY_ESKI = { 'eylül': 'EYL', 'ekim': 'EKI', 'kasım': 'KAS', 'aralık': 'ARA', 'ocak': 'OCA', 'şubat': 'SUB', 'mart': 'MAR', 'nisan': 'NIS', 'mayıs': 'MAY', 'haziran': 'HAZ', 'temmuz': 'TEM', 'ağustos': 'AGU' };
+        window.idpEnsure = function () {
+            if (!state.yillikPlan2 || typeof state.yillikPlan2 !== 'object') state.yillikPlan2 = {};
+            var y = state.yillikPlan2;
+            if (!y.secim) y.secim = {};
+            if (!y.metin) y.metin = {};
+            if (!Array.isArray(y.ozel)) y.ozel = [];
+            if (!y.gunler) y.gunler = {};
+            if (!y.projeler) { y.projeler = {}; IDP_PROJE.forEach(function (p) { if (p.v) y.projeler[p.id] = true; }); }
+            if (y.sorumlu == null) y.sorumlu = true;
+            if (y.yaz == null) y.yaz = false;
+            /* Eski plan (ay ay paragraflar) bir kez taşınır: silinmez, işaretsiz "Önceki plan" maddesi olur */
+            if (!y._goc) {
+                (state.annualPlan || []).forEach(function (a) {
+                    var kod = IDP_AY_ESKI[String(a.month || '').trim().toLocaleLowerCase('tr-TR')];
+                    if (!kod) return;
+                    if (a.days && !y.gunler[kod]) y.gunler[kod] = a.days;
+                    [['yon', a.management], ['egt', a.education]].forEach(function (x) {
+                        var t = String(x[1] || '').trim();
+                        if (t) y.ozel.push({ id: 'o' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), ay: kod, t: t, g: x[0], eski: true });
+                    });
+                });
+                y._goc = true;
+            }
+            return y;
+        };
+        var idpSecili = function (y, m) {
+            if (y.secim[m.id] !== undefined) return !!y.secim[m.id];
+            if (m.eski) return false;
+            if (m.ozel) return true;
+            return !m.o;
+        };
+        window.idpMaddeler = function (ay) {
+            var y = idpEnsure();
+            var l = IDP_MADDE.filter(function (m) { return m.ay === ay && opUyar(m.k, m.s) && (!m.p || y.projeler[m.p]); }).map(function (m) {
+                return { id: m.id, ay: m.ay, g: m.p ? 'proje' : (m.s || (m.k.length && m.k.some(function (x) { return x === 'mes' || x === 'ih'; })) ? 'ozel' : m.g), t: y.metin[m.id] || m.t, sor: m.sor, o: m.o, p: m.p, s: m.s, k: m.k };
+            });
+            y.ozel.filter(function (o) { return o.ay === ay; }).forEach(function (o) { l.push({ id: o.id, ay: ay, g: 'ek', t: o.t, sor: o.sor || '', ozel: true, eski: o.eski }); });
+            return l;
+        };
+        var idpKaydet = function () { try { saveAllData(); } catch (e) {} };
+        /* İşaretleme ekranı yeniden çizmez: satır, grup ve ay görünümü yerinde güncellenir */
+        window.idpTik = function (id, on, cb) {
+            var y = idpEnsure(); y.secim[id] = !!on; idpKaydet();
+            var row = cb && cb.closest('.yp-satir');
+            if (row) { row.classList.toggle('yp-pasif', !on); row.classList.toggle('no-print', !on); if (y.gizle && !on) row.style.display = 'none'; }
+            idpBlokGuncelle(row && row.closest('.yp-ay'));
+        };
+        window.idpBlokGuncelle = function (blok) {
+            if (!blok) return;
+            Array.prototype.forEach.call(blok.querySelectorAll('.yp-grup'), function (gr) {
+                var acik = gr.querySelectorAll('.yp-satir:not(.yp-pasif)').length;
+                gr.classList.toggle('no-print', !acik);
+            });
+            var n = blok.querySelectorAll('.yp-satir:not(.yp-pasif)').length, t = blok.querySelectorAll('.yp-satir').length;
+            blok.classList.toggle('no-print', !n);
+            var say = blok.querySelector('.yp-sayac'); if (say) say.textContent = n + ' / ' + t;
+        };
+        window.idpAyTopluTik = function (ay, on) {
+            var y = idpEnsure();
+            idpMaddeler(ay).forEach(function (m) { y.secim[m.id] = !!on; });
+            idpKaydet(); updateUI();
+        };
+        window.idpHepsiTik = function (on) {
+            var y = idpEnsure();
+            IDP_AY.forEach(function (a) { idpMaddeler(a[0]).forEach(function (m) { y.secim[m.id] = !!on; }); });
+            idpKaydet(); updateUI();
+        };
+        window.idpVarsayilan = function () {
+            showCustomConfirm('Önerilen İşaretlere Dön', 'Bütün işaretler profilinize göre önerilen hâle döner (zorunlu maddeler işaretli, öneri maddeleri işaretsiz). Kendi eklediğiniz maddeler ve metin düzeltmeleri korunur. Devam edilsin mi?', function (ok) {
+                if (!ok) return; idpEnsure().secim = {}; idpKaydet(); updateUI();
+            });
+        };
+        window.idpAyar = function (k, v) { idpEnsure()[k] = v; idpKaydet(); updateUI(); };
+        window.idpProje = function (id) { var y = idpEnsure(); y.projeler[id] = !y.projeler[id]; idpKaydet(); updateUI(); };
+        window.idpEkle = function (ay) {
+            showModal((IDP_AY.find(function (a) { return a[0] === ay; }) || ['', ''])[1] + ' — Çalışma Ekle', [{ key: 't', label: 'Yapılacak çalışma', type: 'textarea' }], function (d) {
+                var t = String(d.t || '').trim(); if (!t) return;
+                var y = idpEnsure();
+                t.split(/\n+/).map(function (x) { return x.replace(/^\s*[-•*\d.)]+\s*/, '').trim(); }).filter(Boolean).forEach(function (x) {
+                    y.ozel.push({ id: 'o' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), ay: ay, t: x });
+                });
+                idpKaydet(); updateUI();
+            });
+        };
+        window.idpDuzenle = function (id) {
+            var y = idpEnsure();
+            var oz = y.ozel.find(function (o) { return o.id === id; });
+            var kat = IDP_MADDE.find(function (m) { return m.id === id; });
+            var eski = oz ? oz.t : (y.metin[id] || (kat && kat.t) || '');
+            showModal('Maddeyi Düzenle', [{ key: 't', label: 'Metin', type: 'textarea', value: escHtml2(eski) }], function (d) {
+                var t = String(d.t || '').trim(); if (!t) return;
+                if (oz) oz.t = t; else if (kat) { if (t === kat.t) delete y.metin[id]; else y.metin[id] = t; }
+                idpKaydet(); updateUI();
+            });
+        };
+        window.idpSil = function (id) {
+            showCustomConfirm('Maddeyi Sil', 'Bu madde plandan silinsin mi?', function (ok) {
+                if (!ok) return; var y = idpEnsure(); y.ozel = y.ozel.filter(function (o) { return o.id !== id; }); delete y.secim[id]; idpKaydet(); updateUI();
+            });
+        };
+        window.idpGunDuzenle = function (ay) {
+            var y = idpEnsure();
+            showModal('Kutlanacak Gün ve Haftalar', [{ key: 'd', label: (IDP_AY.find(function (a) { return a[0] === ay; }) || ['', ''])[1], type: 'textarea', value: escHtml2(y.gunler[ay] || '') }], function (d) {
+                y.gunler[ay] = String(d.d || '').trim(); idpKaydet(); updateUI();
+            });
+        };
+
+        window.renderYillikPlan = function () {
+            var y = idpEnsure(), pr = okulProfilEnsure();
+            var e = escHtml2;
+            var projeler = IDP_PROJE.filter(function (p) { return opUyar(p.k, ''); });
+            var projeHtml = '<div class="no-print mb-4 border border-violet-200 bg-violet-50/40 rounded-xl p-3">' +
+                '<p class="text-xs font-bold text-violet-900 mb-2">📌 Bakanlığın güncel çalışma ve projeleri <span class="font-normal text-violet-700">(kademenize uygun olanlar; seçilenlerin maddeleri ilgili aylara eklenir)</span></p>' +
+                '<div class="flex flex-wrap gap-1.5">' + projeler.map(function (p) {
+                    var on = !!y.projeler[p.id];
+                    return '<button type="button" title="' + e(p.d) + '" onclick="idpProje(\'' + p.id + '\')" class="px-2.5 py-1 rounded-full text-[11px] font-semibold border ' + (on ? 'bg-violet-600 text-white border-violet-600' : 'bg-white text-slate-500 border-slate-300 hover:border-violet-400') + '">' + (on ? '✓ ' : '+ ') + e(p.ad) + '</button>';
+                }).join('') + '</div></div>';
+            var arac = '<div class="no-print mb-4 flex flex-wrap items-center gap-1.5 text-[11px]">' +
+                '<button type="button" onclick="idpHepsiTik(true)" class="px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white font-semibold">☑ Tümünü işaretle</button>' +
+                '<button type="button" onclick="idpHepsiTik(false)" class="px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white font-semibold">☐ Tümünü kaldır</button>' +
+                '<button type="button" onclick="idpVarsayilan()" class="px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white font-semibold">↺ Önerilen işaretler</button>' +
+                '<label class="flex items-center gap-1 px-2 py-1.5 rounded-lg border border-slate-200 bg-white"><input type="checkbox" ' + (y.gizle ? 'checked' : '') + ' onchange="idpAyar(\'gizle\',this.checked)"> İşaretsizleri gizle</label>' +
+                '<label class="flex items-center gap-1 px-2 py-1.5 rounded-lg border border-slate-200 bg-white"><input type="checkbox" ' + (y.sorumlu ? 'checked' : '') + ' onchange="idpAyar(\'sorumlu\',this.checked)"> Sorumlu sütunu</label>' +
+                '<label class="flex items-center gap-1 px-2 py-1.5 rounded-lg border border-slate-200 bg-white"><input type="checkbox" ' + (y.yaz ? 'checked' : '') + ' onchange="idpAyar(\'yaz\',this.checked)"> Temmuz–Ağustos</label>' +
+                '<span class="text-slate-500 ml-1">Yalnızca işaretli maddeler yazdırılır; işaretsizler soluk görünür.</span></div>';
+            var aylar = IDP_AY.filter(function (a) { return y.yaz || (a[0] !== 'TEM' && a[0] !== 'AGU'); });
+            var GSIRA = ['yon', 'egt', 'ogr', 'kur', 'ozel', 'proje', 'ek'];
+            var bloklar = aylar.map(function (a) {
+                var l = idpMaddeler(a[0]);
+                var secN = l.filter(function (m) { return idpSecili(y, m); }).length;
+                var gruplar = GSIRA.map(function (g) {
+                    var gl = l.filter(function (m) { return m.g === g; });
+                    if (!gl.length) return '';
+                    var acik = gl.filter(function (m) { return idpSecili(y, m); }).length;
+                    return '<div class="yp-grup mb-2' + (acik ? '' : ' no-print') + '"><div class="yp-grup-baslik text-[11px] font-bold text-slate-500 uppercase tracking-wide mb-1">' + IDP_GRUP[g] + '</div>' +
+                        gl.map(function (m) {
+                            var on = idpSecili(y, m);
+                            var etiket = m.eski ? 'Önceki plan' : m.ozel ? 'Kendi maddem' : m.p ? ((IDP_PROJE.find(function (p) { return p.id === m.p; }) || {}).ad || '') : m.s ? ((OP_SART.find(function (x) { return x[0] === m.s; }) || ['', ''])[1]) : (m.k && m.k.length ? m.k.map(function (k) { return (OP_KADEME.find(function (x) { return x[0] === k; }) || ['', k])[1]; }).join('/') : '');
+                            return '<label class="yp-satir flex items-start gap-2 py-1 px-1.5 rounded hover:bg-slate-50' + (on ? '' : ' yp-pasif no-print') + '"' + (y.gizle && !on ? ' style="display:none"' : '') + '>' +
+                                '<input type="checkbox" class="no-print mt-0.5 w-4 h-4 shrink-0" ' + (on ? 'checked' : '') + ' onchange="idpTik(\'' + m.id + '\',this.checked,this)">' +
+                                '<span class="yp-metin flex-1 text-[12.5px] leading-snug text-slate-800">' + e(m.t) +
+                                (etiket ? ' <span class="no-print text-[9.5px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-500 whitespace-nowrap">' + e(etiket) + '</span>' : '') + '</span>' +
+                                (y.sorumlu && m.sor ? '<span class="yp-sor shrink-0 text-[10.5px] text-slate-500 w-20 text-right">' + e(IDP_SOR[m.sor] || m.sor) + '</span>' : '') +
+                                '<span class="no-print shrink-0 flex gap-0.5"><button type="button" onclick="event.preventDefault();idpDuzenle(\'' + m.id + '\')" class="text-blue-500 px-1" title="Düzenle"><i class="fa-solid fa-pencil text-[10px]"></i></button>' +
+                                (m.ozel ? '<button type="button" onclick="event.preventDefault();idpSil(\'' + m.id + '\')" class="text-rose-500 px-1" title="Sil"><i class="fa-solid fa-trash text-[10px]"></i></button>' : '') + '</span></label>';
+                        }).join('') + '</div>';
+                }).join('');
+                var gun = y.gunler[a[0]];
+                return '<div class="yp-ay bg-white border border-slate-200 rounded-xl p-4 shadow-sm' + (secN ? '' : ' no-print') + '" data-ay="' + a[0] + '">' +
+                    '<div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2 mb-2">' +
+                    '<h4 class="yp-ay-baslik text-base font-bold text-indigo-700 uppercase">' + a[1] + ' <span class="yp-sayac no-print text-[11px] font-semibold text-slate-400 normal-case">' + secN + ' / ' + l.length + '</span></h4>' +
+                    '<div class="no-print flex gap-1 text-[10.5px]">' +
+                    '<button type="button" onclick="idpAyTopluTik(\'' + a[0] + '\',true)" class="px-2 py-1 rounded border border-slate-200 bg-white">☑ Ayı işaretle</button>' +
+                    '<button type="button" onclick="idpAyTopluTik(\'' + a[0] + '\',false)" class="px-2 py-1 rounded border border-slate-200 bg-white">☐ Kaldır</button>' +
+                    (a[0] !== 'HER' ? '<button type="button" onclick="idpGunDuzenle(\'' + a[0] + '\')" class="px-2 py-1 rounded border border-amber-200 bg-amber-50 text-amber-800">📅 Gün/Haftalar</button>' : '') +
+                    '<button type="button" onclick="idpEkle(\'' + a[0] + '\')" class="px-2 py-1 rounded bg-indigo-600 text-white font-semibold">+ Madde</button></div></div>' +
+                    (gun ? '<p class="text-[11px] text-amber-800 mb-2"><b>Kutlanacak gün ve haftalar:</b> ' + e(gun) + '</p>' : '') +
+                    (gruplar || '<p class="text-xs text-slate-400">Bu ay için madde yok.</p>') + '</div>';
+            }).join('');
+            var css = '<style>.yp-satir{display:flex;align-items:flex-start;gap:8px}.yp-metin{flex:1}.yp-sor{flex-shrink:0;width:5.5rem;text-align:right}#tab-yillikPlan .yp-pasif{opacity:.38}#tab-yillikPlan .yp-pasif .yp-metin{text-decoration:none}' +
+                '#tab-yillikPlan .yp-ay{counter-reset:ypn}#tab-yillikPlan .yp-satir:not(.yp-pasif) .yp-metin::before{counter-increment:ypn;content:counter(ypn) ". ";font-weight:700;color:#475569}' +
+                '@media print{.yp-ay{border:none!important;box-shadow:none!important;padding:0 0 6px!important;break-inside:auto}.yp-ay-baslik{color:#000!important;font-size:11.5pt!important;border-bottom:1px solid #000;margin-top:6px}.yp-satir{padding:1px 0!important}.yp-metin{font-size:10.5pt!important;color:#000!important}.yp-grup-baslik{color:#000!important;font-size:9pt!important;margin-top:3px}.yp-sor{color:#000!important;font-size:9pt!important}}</style>';
+            return css + getOfficialPrintHeader('İDARECİ YILLIK ÇALIŞMA PLANI (' + e(state.academicYear || '') + ')') +
+                '<div class="no-print mb-3"><h3 class="text-xl font-bold text-slate-800">İdareci Yıllık Çalışma Planı (' + e(state.academicYear || '') + ')</h3>' +
+                '<p class="text-xs text-slate-500 mt-1">Maddeler okul profilinize (kademe ve şartlar) ve seçtiğiniz bakanlık projelerine göre hazırlanır. Her ayın listesinde işaretli olanlar plana girer.</p></div>' +
+                okulProfilPanel() + projeHtml +
+                '<div class="no-print mb-4 bg-sky-50 border border-sky-200 rounded-xl p-3 text-[11px] text-sky-950 leading-relaxed"><b>2026–2027 çalışma takvimi:</b> Mesleki çalışma 1 Eylül · Uyum eğitimi 7–11 Eylül · Dersler 14 Eylül · 1. ara tatil 16–20 Kasım · 1. dönem sonu 22 Ocak · Yarıyıl 25 Ocak–5 Şubat · 2. dönem 8 Şubat · 2. ara tatil 8–12 Mart · Ders yılı sonu 25 Haziran · Sene sonu mesleki çalışma 28–30 Haziran.</div>' +
+                arac + '<div class="space-y-4">' + bloklar + '</div>' + renderOfficialSignatures();
+        };
+
+        /* ---------- Görev dağılımı: profile göre öneri ve ayıklama (Müdür Yardımcısı) ---------- */
+        window.GD_KATALOG = [
+            ['ogr', '', '', 'e-Okul öğrenci kayıt, nakil, şube ve devam-devamsızlık işlemlerini yürütmek.'],
+            ['ogr', '', '', 'Not, karne, sınıf geçme ve öğrenci belgelerine ilişkin işlemleri takip etmek.'],
+            ['ogr', 'orta,lise', '', 'Yazılı/ortak sınav takvimini hazırlamak, sınavların düzenli yapılmasını ve sonuçların e-Okul’a işlenmesini sağlamak.'],
+            ['ogr', 'orta,lise', '', 'Destekleme ve Yetiştirme Kursları (DYK) iş ve işlemlerini yürütmek.'],
+            ['ogr', 'orta', '', 'LGS başvuru, sınav günü ve tercih süreçlerini takip etmek.'],
+            ['ogr', 'lise', '', 'Sorumluluk sınavları, ortalama yükseltme ve sınıf geçme işlemlerini yürütmek.'],
+            ['ogr', 'lise', '', 'YKS başvuru ve bilgilendirme süreçlerini rehberlik servisiyle koordine etmek.'],
+            ['ogr', 'ilk', '', 'İYEP öğrenci belirleme, kurs açma ve izleme işlemlerini rehberlik servisiyle yürütmek.'],
+            ['ogr', 'ilk', '', '1. sınıf uyum eğitimi ve Okuma Bayramı çalışmalarını planlamak.'],
+            ['ogr', 'oo', '', 'Okul öncesi kayıt, erteleme, uyum eğitimi ve aile katılımı çalışmalarını yürütmek.'],
+            ['ogr', 'orta', '', '5. sınıf uyum eğitimi programını yürütmek.'],
+            ['ogr', 'mes', '', 'İşletmelerde mesleki eğitim, staj, koordinatör öğretmen görevlendirmeleri ve MEB-İMES işlemlerini yürütmek.'],
+            ['ogr', '', 'kaynastirma', 'Kaynaştırma öğrencileri ile BEP geliştirme birimi çalışmalarını takip etmek.'],
+            ['ogr', '', 'ozelEgitim', 'Destek eğitim odası programı ve öğretmen görevlendirmelerini düzenlemek.'],
+            ['ogr', '', 'yabanci', 'Yabancı uyruklu öğrencilerin kayıt, uyum ve Türkçe destek işlemlerini takip etmek.'],
+            ['ogr', 'ilk', 'okulSutu', 'Okul sütü dağıtımını planlamak ve kayıtlarını tutmak.'],
+            ['per', '', '', 'Ders dağıtım çizelgesi, ders programı ve ek ders işlemlerini yürütmek.'],
+            ['per', '', '', 'Öğretmen nöbet çizelgesini hazırlamak ve nöbetleri denetlemek.'],
+            ['per', '', '', 'Personel izin, rapor ve özlük kayıtlarını takip etmek.'],
+            ['per', '', '', 'Taşınır mal işlemlerini ve yıl sonu sayımını takip etmek.'],
+            ['per', '', '', 'Gelen-giden evrak, DYS/EBYS ve arşiv işlerini düzenlemek.'],
+            ['per', '', '', 'Okulun temizlik, bakım-onarım ve bina güvenliği işlerini takip etmek.'],
+            ['per', '', '', 'Afet ve acil durum planını güncellemek, tatbikatları düzenlemek.'],
+            ['per', '', 'tasimali', 'Taşımalı eğitim öğrenci listeleri, araç-şoför denetimi, puantaj ve hakediş işlemlerini yürütmek.'],
+            ['per', '', 'tasimali', 'Taşımalı öğrencilerin öğle yemeği dağıtımını takip etmek.'],
+            ['per', '', 'kantin', 'Kantin denetimi, fiyat listesi ve kira işlemlerini takip etmek.'],
+            ['per', '', 'yemek', 'Yemekhane menüsü, numune ve gıda güvenliği kayıtlarını takip etmek.'],
+            ['per', '', 'cocukKulubu', 'Çocuk kulübü yönetim kurulu, ücret ve puantaj işlerini yürütmek.'],
+            ['per', '', 'ikili', 'İkili öğretimde sabahçı-öğlenci nöbet ve devir-teslim düzenini sağlamak.'],
+            ['sos', '', '', 'Sosyal etkinlikler kurulu, öğrenci kulüpleri ve toplum hizmeti çalışmalarını yürütmek.'],
+            ['sos', '', '', 'Belirli gün ve haftalar ile millî bayram kutlamalarını planlamak.'],
+            ['sos', '', '', 'Okul-aile birliği ve veli toplantılarına ilişkin iş ve işlemleri takip etmek.'],
+            ['sos', '', '', 'Dilimizin Zenginlikleri Okul Yürütme Komisyonuna başkanlık etmek.'],
+            ['sos', '', '', 'Bakanlık proje ve programlarını (Maarifin Kalbinde Oyun, Değerler Eğitimi, Dijital Esenlik vb.) koordine etmek.'],
+            ['sos', 'oo,ilk,orta', '', 'Yaşam Becerileri Projesi uygulama ve gözlem çalışmalarını koordine etmek.']
+        ];
+        window.GD_UYUM_KURAL = [
+            [/taşımalı|taşıma |servis aracı|servis /i, function (p) { return p.sart.tasimali; }, 'taşımalı eğitim yok'],
+            [/pansiyon|belletici|yatakhane/i, function (p) { return p.sart.pansiyon; }, 'pansiyon yok'],
+            [/kantin/i, function (p) { return p.sart.kantin; }, 'kantin yok'],
+            [/yemekhane|öğle yemeği|yemek listesi|yemek numune/i, function (p) { return p.sart.yemek || p.sart.tasimali; }, 'yemek verilmiyor'],
+            [/okul sütü/i, function (p) { return p.sart.okulSutu && p.kademe.ilk; }, 'okul sütü yok'],
+            [/okul öncesi|ana sınıf|anasınıf/i, function (p) { return p.kademe.oo; }, 'okul öncesi yok'],
+            [/İYEP|okuma bayramı|1\. sınıf/i, function (p) { return p.kademe.ilk; }, 'ilkokul değil'],
+            [/LGS|5\. sınıf/i, function (p) { return p.kademe.orta; }, 'ortaokul değil'],
+            [/sorumluluk sınav|YKS|ortalama yükseltme|onur belgesi/i, function (p) { return p.kademe.lise; }, 'lise değil'],
+            [/DYK|destekleme ve yetiştirme kurs/i, function (p) { return p.kademe.orta || p.kademe.lise; }, 'ortaokul/lise değil'],
+            [/işletmede|staj|MEB-İMES|beceri eğitimi|koordinatör öğretmen/i, function (p) { return p.kademe.mes; }, 'mesleki lise değil'],
+            [/çocuk kulüb/i, function (p) { return p.sart.cocukKulubu; }, 'çocuk kulübü yok'],
+            [/kaynaştırma|BEP/i, function (p) { return p.sart.kaynastirma || p.sart.ozelEgitim; }, 'kaynaştırma öğrencisi yok'],
+            [/destek eğitim oda/i, function (p) { return p.sart.ozelEgitim; }, 'destek eğitim odası yok'],
+            [/ikili öğretim|sabahçı|öğlenci/i, function (p) { return p.sart.ikili; }, 'ikili öğretim yok'],
+            [/birleştirilmiş/i, function (p) { return p.sart.birlestirilmis; }, 'birleştirilmiş sınıf yok'],
+            [/yabancı uyruklu/i, function (p) { return p.sart.yabanci; }, 'yabancı uyruklu öğrenci yok']
+        ];
+        window.gdUyumsuz = function (t) {
+            var p = okulProfilEnsure();
+            for (var i = 0; i < GD_UYUM_KURAL.length; i++) if (GD_UYUM_KURAL[i][0].test(t) && !GD_UYUM_KURAL[i][1](p)) return GD_UYUM_KURAL[i][2];
+            return '';
+        };
+        var gdNorm = function (t) { return String(t || '').toLocaleLowerCase('tr-TR').replace(/[^a-zçğıöşü0-9]+/g, ' ').trim(); };
+        window.gdMyTumGorevler = function () {
+            var l = (state.unassignedVpTasks || []).map(function (t) { return { t: t, kim: null }; });
+            Object.keys(state.vpAssignments || {}).forEach(function (sid) { (state.vpAssignments[sid] || []).forEach(function (t) { l.push({ t: t, kim: sid }); }); });
+            return l;
+        };
+        window.gdOneriler = function () {
+            var var_ = gdMyTumGorevler().map(function (x) { return gdNorm(x.t.text); });
+            return GD_KATALOG.filter(function (r) { return opUyar(r[1] ? r[1].split(',') : [], r[2]); }).filter(function (r) { return var_.indexOf(gdNorm(r[3])) < 0; });
+        };
+        window.gdOneriEkle = function (idx) {
+            var l = gdOneriler(); var sec = idx === 'hepsi' ? l : [l[idx]].filter(Boolean);
+            if (!state.unassignedVpTasks) state.unassignedVpTasks = [];
+            sec.forEach(function (r) { state.unassignedVpTasks.push({ id: generateId(), text: r[3], alan: r[0] }); });
+            try { saveAllData(); } catch (e) {} updateUI();
+        };
+        window.gdUyumsuzKaldir = function (id) {
+            var hepsi = id === 'hepsi';
+            state.unassignedVpTasks = (state.unassignedVpTasks || []).filter(function (t) { return !((hepsi || t.id == id) && gdUyumsuz(t.text)); });
+            Object.keys(state.vpAssignments || {}).forEach(function (sid) { state.vpAssignments[sid] = (state.vpAssignments[sid] || []).filter(function (t) { return !(!hepsi && t.id == id); }); });
+            try { saveAllData(); } catch (e) {} updateUI();
+        };
+        var gdAlan = function (t) {
+            if (t.alan) return t.alan;
+            var s = String(t.text || '');
+            if (/öğrenci|e-Okul|devam|sınav|kayıt|nakil|karne|LGS|YKS|DYK|İYEP|rehberlik|BEP|uyum/i.test(s)) return 'ogr';
+            if (/sosyal|kulüp|belirli gün|bayram|tören|proje|veli|okul-aile|değerler/i.test(s)) return 'sos';
+            return 'per';
+        };
+        window.gdOneriDagit = function () {
+            var my = gdStaffForRole('my');
+            if (my.length < 2) { showCustomAlert('Önerilen Dağılım', 'Önerilen dağılım için personel havuzunda en az iki müdür yardımcısı olmalı.'); return; }
+            var plan = my.length === 2 ? { ogr: 0, sos: 0, per: 1 } : { ogr: 0, per: 1, sos: 2 };
+            var ad = function (i) { return my[i] ? my[i].name : ''; };
+            var aciklama = my.length === 2 ? (ad(0) + ': öğrenci işleri, sınavlar, sosyal etkinlik ve projeler; ' + ad(1) + ': personel, mali işler, bina ve okul şartlarına özel işler (taşımalı, kantin, yemekhane…).') :
+                (ad(0) + ': öğrenci işleri ve sınavlar; ' + ad(1) + ': personel, mali işler ve okul şartlarına özel işler; ' + ad(2) + ': sosyal etkinlik, kurul ve projeler.');
+            showCustomConfirm('Önerilen Dağılımı Uygula', 'Havuzdaki atanmamış görevler alanlarına göre dağıtılacak:\n\n' + aciklama + '\n\nDaha önce atanmış görevler değişmez. Devam edilsin mi?', function (ok) {
+                if (!ok) return;
+                var kalan = [];
+                (state.unassignedVpTasks || []).forEach(function (t) {
+                    if (gdUyumsuz(t.text)) { kalan.push(t); return; }
+                    var hedef = my[plan[gdAlan(t)]] || my[0];
+                    if (!state.vpAssignments[hedef.id]) state.vpAssignments[hedef.id] = [];
+                    state.vpAssignments[hedef.id].push(t);
+                });
+                state.unassignedVpTasks = kalan;
+                try { saveAllData(); } catch (e) {} updateUI();
+            });
+        };
+        window.gdProfilKart = function () {
+            var oneri = gdOneriler();
+            var uy = gdMyTumGorevler().filter(function (x) { return gdUyumsuz(x.t.text); });
+            var my = gdStaffForRole('my');
+            var e = escHtml2;
+            var kisi = function (sid) { var s = (state.staff || []).find(function (x) { return String(x.id) === String(sid); }); return s ? s.name : ''; };
+            return '<details class="no-print mb-4 border border-indigo-200 bg-indigo-50/40 rounded-xl"' + ((oneri.length || uy.length) ? ' open' : '') + '>' +
+                '<summary class="cursor-pointer px-4 py-2.5 text-sm font-bold text-indigo-900">🧭 Profile göre görev önerileri <span class="font-normal text-[11px] text-indigo-700">(' + oneri.length + ' öneri · ' + uy.length + ' uyumsuz görev)</span></summary>' +
+                '<div class="px-4 pb-3 grid md:grid-cols-2 gap-3">' +
+                '<div><div class="flex items-center justify-between mb-1"><p class="text-[11px] font-bold text-slate-700">Okulunuza uygun, havuzda olmayan görevler</p>' +
+                (oneri.length ? '<button type="button" onclick="gdOneriEkle(\'hepsi\')" class="text-[10.5px] px-2 py-1 rounded bg-indigo-600 text-white">+ Tümünü havuza ekle</button>' : '') + '</div>' +
+                (oneri.length ? '<div class="space-y-1 max-h-60 overflow-y-auto">' + oneri.map(function (r, i) { return '<div class="flex items-start gap-1.5 text-[11px] bg-white border border-slate-200 rounded p-1.5"><span class="flex-1">' + e(r[3]) + '</span><button type="button" onclick="gdOneriEkle(' + i + ')" class="shrink-0 text-indigo-600 font-bold px-1">+ Ekle</button></div>'; }).join('') + '</div>' : '<p class="text-[11px] text-slate-500">Uygun görevlerin hepsi havuzda ya da atanmış.</p>') + '</div>' +
+                '<div><div class="flex items-center justify-between mb-1"><p class="text-[11px] font-bold text-slate-700">Okul profiline uymayan görevler</p>' +
+                (uy.some(function (x) { return !x.kim; }) ? '<button type="button" onclick="gdUyumsuzKaldir(\'hepsi\')" class="text-[10.5px] px-2 py-1 rounded bg-rose-600 text-white">Havuzdakileri kaldır</button>' : '') + '</div>' +
+                (uy.length ? '<div class="space-y-1 max-h-60 overflow-y-auto">' + uy.map(function (x) { return '<div class="flex items-start gap-1.5 text-[11px] bg-white border border-rose-200 rounded p-1.5"><span class="flex-1">' + e(x.t.text) + ' <span class="text-rose-600">(' + e(gdUyumsuz(x.t.text)) + (x.kim ? ' · atanmış: ' + e(kisi(x.kim)) : ' · havuzda') + ')</span></span><button type="button" onclick="gdUyumsuzKaldir(' + JSON.stringify(x.t.id).replace(/"/g, '&quot;') + ')" class="shrink-0 text-rose-600 font-bold px-1">Kaldır</button></div>'; }).join('') + '</div>' : '<p class="text-[11px] text-emerald-700">Uyumsuz görev yok.</p>') + '</div>' +
+                '<div class="md:col-span-2 flex flex-wrap items-center gap-2 border-t border-indigo-100 pt-2">' +
+                '<button type="button" onclick="gdOneriDagit()" class="text-[11px] px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-semibold"' + (my.length < 2 ? ' disabled style="opacity:.5"' : '') + '>⚖️ Önerilen dağılımı uygula (' + my.length + ' MY)</button>' +
+                '<span class="text-[10.5px] text-slate-500">' + (my.length < 2 ? 'Tek müdür yardımcısında tüm görevler ona atanır; sürükleyerek ya da “Hızlı ata” ile dağıtın.' : 'Havuzdaki atanmamış görevler alanlarına göre (öğrenci işleri / personel-mali-bina / sosyal-proje) müdür yardımcılarına dağıtılır.') + '</span></div>' +
+                '</div></details>';
+        };
+        /* ==================== /v7.2.8 ==================== */
+
         /* ========== GÖREV DAĞILIMI (genişletilmiş) ========== */
         window.GD_ROLE_META = {
             mudur: { label: 'Okul Müdürü', icon: '🏫', filter: function(s) {
@@ -11397,6 +11991,7 @@ window.staffTcTemizle = function(v) { return String(v == null ? '' : v).replace(
             if (!g.assignments) g.assignments = {};
             if (!g.activeSub) g.activeSub = 'my';
             if (typeof g.pansiyonlu !== 'boolean') g.pansiyonlu = false;
+            if (state.okulProfil && state.okulProfil.sart) g.pansiyonlu = !!state.okulProfil.sart.pansiyon;
             Object.keys(GD_DEFAULT_POOLS).forEach(function(role) {
                 if (role === 'my') return;
                 if (!Array.isArray(g.pools[role])) {
@@ -11425,6 +12020,7 @@ window.staffTcTemizle = function(v) { return String(v == null ? '' : v).replace(
         window.gdSetPansiyonlu = function(val) {
             var g = gdEnsure();
             g.pansiyonlu = !!val;
+            try { okulProfilEnsure().sart.pansiyon = !!val; } catch (e) {}
             if (!g.pansiyonlu && g.activeSub === 'pansiyon_my') g.activeSub = 'my';
             try { if (typeof saveAllData === 'function') saveAllData(); } catch (e) {}
             updateUI();
@@ -11805,7 +12401,7 @@ window.staffTcTemizle = function(v) { return String(v == null ? '' : v).replace(
                 '</div>' +
                 '<div class="flex flex-wrap gap-1.5">' + tabBtns + '</div>' +
                 '<p class="text-[10px] text-slate-400">Typ ve hizmetli görev tebliğleri <b>İşçi İşlemleri</b> modülündedir.</p>' +
-                '</div>' + body;
+                '</div>' + (typeof okulProfilPanel === 'function' ? okulProfilPanel() : '') + (sub === 'my' && typeof gdProfilKart === 'function' ? gdProfilKart() : '') + body;
         };
 
         window.addNewVpTask = function() {
@@ -11900,13 +12496,161 @@ window.staffTcTemizle = function(v) { return String(v == null ? '' : v).replace(
             updateUI();
         };
 
+        /* ==================== v7.2.9: BELİRLİ GÜN VE HAFTALAR KÜTÜPHANESİ ====================
+           Biçim: ay(1-12)|ad|tarih|tür  (o = okullarda yaygın kutlanan, d = diğer/uluslararası gün)
+           Kullanıcı istediği günü kütüphaneden ekler, istediği zaman çıkarır; eklenen gün öğretim yılı
+           ay sırasına (Eylül → Ağustos) göre listeye yerleşir. */
+        window.BGH_KUT_HAM = [
+            '9|İlköğretim Haftası|Eylül ayının 3. haftası|o', '9|Öğrenciler Günü|İlköğretim Haftasının son günü|o', '9|15 Temmuz Demokrasi ve Millî Birlik Günü|Ders yılının başladığı ikinci hafta|o',
+            '9|Mevlid-i Nebi Haftası|Hicri takvime göre (her yıl değişir)|o', '9|Gaziler Günü|19 Eylül|o', '9|Türk Dil Bayramı|26 Eylül|o', '9|Yangından Korunma Haftası (İtfaiyecilik Haftası)|25 Eylül - 1 Ekim|o',
+            '9|Dünya Barış Günü|1 Eylül|d', '9|Uluslararası Temiz Hava Günü|7 Eylül|d', '9|Dünya Turizm Günü|27 Eylül|d', '9|Hayvanları Koruma Haftası|Eylül ayının son haftası|d',
+            '10|Hayvanları Koruma Günü|4 Ekim|o', '10|Dünya Çocuk Günü|Ekim ayının ilk pazartesi|o', '10|Camiler ve Din Görevlileri Haftası|Ekim ayının ilk haftası|o', '10|Ahilik Kültürü Haftası|8-12 Ekim|o',
+            '10|Afet Riskini Azaltma Günü|13 Ekim|o', '10|Ankara’nın Başkent Oluşu|13 Ekim|o', '10|Dünya Gıda Günü|16 Ekim|o', '10|Cumhuriyet Bayramı|29 Ekim|o', '10|Kızılay Haftası|29 Ekim - 4 Kasım|o',
+            '10|Uluslararası Öğretmenler Günü|5 Ekim|d', '10|Dünya Ruh Sağlığı Günü|10 Ekim|d', '10|Dünya Kız Çocukları Günü|11 Ekim|d', '10|Dünya Standartlar Günü|14 Ekim|d', '10|Standartlar Haftası|Ekim ayının 3. haftası|d',
+            '10|Birleşmiş Milletler Günü|24 Ekim|d', '10|Dünya Tasarruf Günü|31 Ekim|d', '10|Dünya Mimarlık Günü|Ekim ayının ilk pazartesi|d',
+            '11|Türk Harf İnkılabı Haftası|1-7 Kasım|o', '11|Lösemili Çocuklar Haftası|2-8 Kasım|o', '11|Organ Bağışı ve Nakli Haftası|3-9 Kasım|o', '11|Atatürk Haftası|10-16 Kasım|o',
+            '11|Afet Eğitimi Hazırlık Günü|12 Kasım|o', '11|Dünya Diyabet Günü|14 Kasım|o', '11|Dünya Çocuk Kitapları Haftası|Kasım ayının 2. pazartesisi başlayan hafta|o', '11|Dünya Çocuk Hakları Günü|20 Kasım|o',
+            '11|Ağız ve Diş Sağlığı Haftası|21-27 Kasım|o', '11|Öğretmenler Günü|24 Kasım|o', '11|Kadına Yönelik Şiddete Karşı Uluslararası Mücadele Günü|25 Kasım|d',
+            '11|Dünya Şehircilik Günü|8 Kasım|d', '11|UNESCO’nun Kuruluş Günü|16 Kasım|d', '11|Dünya Felsefe Günü|Kasım ayının 3. perşembesi|d',
+            '12|Dünya Engelliler Günü|3 Aralık|o', '12|Mevlana Haftası|2-17 Aralık|o', '12|Türk Kadınına Seçme ve Seçilme Hakkının Verilişi|5 Aralık|o', '12|İnsan Hakları ve Demokrasi Haftası|10 Aralık gününü içine alan hafta|o',
+            '12|Tutum, Yatırım ve Türk Malları Haftası|12-18 Aralık|o', '12|Mehmet Akif Ersoy’u Anma Haftası|20-27 Aralık|o', '12|Atatürk’ün Ankara’ya Gelişi|27 Aralık|o',
+            '12|Dünya AIDS Günü|1 Aralık|d', '12|Dünya Madenciler Günü|4 Aralık|d', '12|Dünya Kooperatifçilik Günü|21 Aralık|d',
+            '1|Enerji Tasarrufu Haftası|Ocak ayının 2. haftası|o', '1|Verem Eğitimi Haftası|Ocak ayının ilk haftası|o', '1|Gazeteciler Günü|10 Ocak|d', '1|Dünya Gümrük Günü|26 Ocak|d', '1|Cüzzam Haftası|25-31 Ocak|d',
+            '2|Sivil Savunma Günü|28 Şubat|o', '2|Millî Eğitim Vakfı Kuruluş Günü|19 Şubat|d', '2|Güvenli İnternet Günü|Şubat ayının 2. salısı|o', '2|Dünya Kanser Günü|4 Şubat|d', '2|Uluslararası Anadil Günü|21 Şubat|o',
+            '3|Yeşilay Haftası|1 Mart gününü içine alan hafta|o', '3|Deprem Haftası|1-7 Mart|o', '3|Girişimcilik Haftası|Mart ayının ilk haftası|o', '3|Dünya Kadınlar Günü|8 Mart|o', '3|Bilim ve Teknoloji Haftası|8-14 Mart|o',
+            '3|İstiklâl Marşı’nın Kabulü ve Mehmet Âkif Ersoy’u Anma Günü|12 Mart|o', '3|Tıp Bayramı|14 Mart|o', '3|Tüketiciyi Koruma Haftası|15-21 Mart|o', '3|Şehitler Günü (Çanakkale Zaferi)|18 Mart|o',
+            '3|Yaşlılara Saygı Haftası|18-24 Mart|o', '3|Nevruz Bayramı|21 Mart|o', '3|Türk Dünyası ve Toplulukları Haftası|Nevruz gününü içine alan hafta|o', '3|Orman Haftası|21-26 Mart|o',
+            '3|Dünya Down Sendromu Farkındalık Günü|21 Mart|o', '3|Dünya Su Günü|22 Mart|o', '3|Dünya Çocuk Şiirleri Günü|22 Mart|d', '3|Dünya Meteoroloji Günü|23 Mart|d', '3|Dünya Tiyatrolar Günü|27 Mart|o',
+            '3|Kütüphaneler Haftası|Mart ayının son pazartesi başlayan hafta|o', '3|Vergi Haftası|Mart ayının son haftası|d', '3|Uluslararası Sıfır Atık Günü|30 Mart|o', '3|Öğretmen Okullarının Kuruluş Yıl Dönümü|16 Mart|d',
+            '4|Kanserle Savaş Haftası|1-7 Nisan|o', '4|Dünya Otizm Farkındalık Günü|2 Nisan|o', '4|Dünya Sağlık Günü|7 Nisan|o', '4|Sağlık Haftası|7-13 Nisan|o', '4|Polis Teşkilatının Kuruluş Yıl Dönümü|10 Nisan|d',
+            '4|Turizm Haftası|15-22 Nisan|o', '4|Ulusal Egemenlik ve Çocuk Bayramı|23 Nisan|o', '4|Dünya Kitap Günü|23 Nisan gününü içine alan hafta|o', '4|Kardeşlik Haftası|28 Nisan - 4 Mayıs|o',
+            '4|Okuma Bayramı (1. sınıflar)|Sınıf öğretmeninin belirleyeceği gün|o', '4|Ebeler Haftası|21-28 Nisan|d', '4|Avukatlar Günü|5 Nisan|d',
+            '5|Emek ve Dayanışma Günü|1 Mayıs|d', '5|Trafik ve İlk Yardım Haftası|Mayıs ayının ilk haftası|o', '5|Bilişim Haftası|Mayıs ayının ilk haftası|o', '5|İş Sağlığı ve Güvenliği Haftası|4-10 Mayıs|o',
+            '5|Hıdırellez|6 Mayıs|d', '5|Anneler Günü|Mayıs ayının 2. pazarı|o', '5|Vakıflar Haftası|Mayıs ayının 2. haftası|o', '5|Engelliler Haftası|10-16 Mayıs|o', '5|Hemşireler Haftası|12-18 Mayıs|d',
+            '5|Dünya Çiftçiler Günü|14 Mayıs|d', '5|Aile Haftası|15 Mayıs’ı içine alan hafta|o', '5|Hava Şehitlerini Anma Günü|15 Mayıs|d', '5|Müzeler Haftası|18-24 Mayıs|o',
+            '5|Atatürk’ü Anma, Gençlik ve Spor Bayramı|19 Mayıs|o', '5|Gençlik Haftası|19-25 Mayıs|o', '5|Dünya Arı Günü|20 Mayıs|d', '5|Etik Günü|25 Mayıs|d', '5|İstanbul’un Fethi|29 Mayıs|o', '5|Avrupa Günü|5 Mayıs|d',
+            '6|Dünya Süt Günü|1 Haziran|o', '6|Dünya Çevre Günü|5 Haziran|o', '6|Çevre ve İklim Değişikliği Haftası|Haziran ayının 2. haftası|o', '6|Babalar Günü|Haziran ayının 3. pazarı|o',
+            '6|Uluslararası Uyuşturucu Kullanımı ve Kaçakçılığı ile Mücadele Günü|26 Haziran|o',
+            '7|Kabotaj ve Denizcilik Bayramı|1 Temmuz|d', '7|Dünya Nüfus Günü|11 Temmuz|d', '7|15 Temmuz Demokrasi ve Millî Birlik Günü (yıl dönümü)|15 Temmuz|d', '7|Basın Bayramı|24 Temmuz|d',
+            '8|Zafer Haftası|26-30 Ağustos|d', '8|Zafer Bayramı|30 Ağustos|d'
+        ];
+        window.BGH_AY = ['', 'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+        window.BGH_SIRA = [9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8];
+        window.BGH_KUT = BGH_KUT_HAM.map(function (r) { var p = r.split('|'); return { ay: +p[0], ad: p[1], tarih: p[2], okul: p[3] === 'o' }; });
+        var bghNorm = function (s) { return String(s || '').toLocaleLowerCase('tr-TR').replace(/[’'`.,()]/g, '').replace(/[âà]/g, 'a').replace(/[îì]/g, 'i').replace(/[ûù]/g, 'u').replace(/\s+/g, ' ').trim(); };
+        /* Bir günün ayını ad/tarih metninden bul (1-12; bulunamazsa 0) */
+        window.bghAyBul = function (d) {
+            if (d.kutAy) return d.kutAy;
+            var k = BGH_KUT.find(function (x) { return bghNorm(x.ad) === bghNorm(d.name); });
+            if (k) return k.ay;
+            var t = bghNorm((d.date || '') + ' ' + (d.name || ''));
+            for (var i = 1; i <= 12; i++) if (t.indexOf(bghNorm(BGH_AY[i])) >= 0) return i;
+            return 0;
+        };
+        var bghSiraNo = function (ay) { var i = BGH_SIRA.indexOf(ay); return i < 0 ? 99 : i; };
+        window.bghEkliMi = function (k) { return (state.specialDays || []).find(function (d) { return bghNorm(d.name) === bghNorm(k.ad); }); };
+        window.bghKutEkle = function (idx) {
+            var k = BGH_KUT[idx]; if (!k || bghEkliMi(k)) return;
+            if (!Array.isArray(state.specialDays)) state.specialDays = [];
+            var yeni = { id: generateId(), name: k.ad, date: k.tarih, assigned: [], kutAy: k.ay };
+            var sn = bghSiraNo(k.ay), yer = state.specialDays.length;
+            for (var i = 0; i < state.specialDays.length; i++) { var a = bghAyBul(state.specialDays[i]); if (a && bghSiraNo(a) > sn) { yer = i; break; } }
+            state.specialDays.splice(yer, 0, yeni);
+            try { saveAllData(); } catch (e) {}
+            updateUI();
+        };
+        window.bghKutCikar = function (idx) {
+            var k = BGH_KUT[idx]; var d = k && bghEkliMi(k); if (!d) return;
+            var cikar = function () { state.specialDays = state.specialDays.filter(function (x) { return x !== d; }); try { saveAllData(); } catch (e) {} updateUI(); };
+            if ((d.assigned || []).length) showCustomConfirm('Günü Çıkar', '“' + d.name + '” için ' + d.assigned.length + ' görevli atanmış. Gün ve atamaları listeden çıkarılsın mı?', function (ok) { if (ok) cikar(); });
+            else cikar();
+        };
+        window.bghKutTopluEkle = function () {
+            var u = window.__bghKut || {};
+            var l = bghKutSuz(u).filter(function (x) { return !bghEkliMi(x.k); });
+            if (!l.length) return;
+            showCustomConfirm('Toplu Ekle', 'Listede görünen ' + l.length + ' gün/hafta eklensin mi?', function (ok) {
+                if (!ok) return;
+                l.forEach(function (x) { state.specialDays.push({ id: generateId(), name: x.k.ad, date: x.k.tarih, assigned: [], kutAy: x.k.ay }); });
+                bghAySirala(true);
+            });
+        };
+        /* Listeyi öğretim yılı ay sırasına göre diz (ayı bulunamayanlar en sona) */
+        window.bghAySirala = function (sessiz) {
+            var l = (state.specialDays || []).map(function (d, i) { return { d: d, i: i, s: bghSiraNo(bghAyBul(d)) }; });
+            l.sort(function (a, b) { return a.s - b.s || a.i - b.i; });
+            state.specialDays = l.map(function (x) { return x.d; });
+            try { saveAllData(); } catch (e) {}
+            updateUI();
+        };
+        var bghKutSuz = function (u) {
+            var q = bghNorm(u.q || '');
+            return BGH_KUT.map(function (k, i) { return { k: k, i: i }; }).filter(function (x) {
+                if (u.ay && x.k.ay !== u.ay) return false;
+                if (u.yalnizOkul && !x.k.okul) return false;
+                if (q && bghNorm(x.k.ad + ' ' + x.k.tarih).indexOf(q) < 0) return false;
+                return true;
+            });
+        };
+        window.bghKutAyar = function (k, v) { window.__bghKut = window.__bghKut || { acik: true, yalnizOkul: false }; __bghKut[k] = v; updateUI(); };
+        /* Arama: yeniden çizmeden satırları süzer */
+        window.bghKutAra = function (v) {
+            window.__bghKut = window.__bghKut || {}; __bghKut.q = v;
+            var q = bghNorm(v);
+            Array.prototype.forEach.call(document.querySelectorAll('#bgh-kut-liste [data-ara]'), function (r) { r.style.display = !q || r.getAttribute('data-ara').indexOf(q) >= 0 ? '' : 'none'; });
+            Array.prototype.forEach.call(document.querySelectorAll('#bgh-kut-liste [data-ay-blok]'), function (b) { b.style.display = b.querySelector('[data-ara]:not([style*="none"])') ? '' : 'none'; });
+        };
+        window.bghKutupHtml = function () {
+            var u = window.__bghKut || {};
+            var e = escHtml2;
+            if (!u.acik) return '';
+            var l = bghKutSuz({ ay: u.ay, yalnizOkul: u.yalnizOkul });
+            var q = bghNorm(u.q || '');
+            var ekliN = BGH_KUT.filter(function (k) { return bghEkliMi(k); }).length;
+            var ayBtn = function (ay, ad) { return '<button type="button" onclick="bghKutAyar(\'ay\',' + ay + ')" class="px-2 py-1 rounded-md text-[11px] font-semibold border ' + ((u.ay || 0) === ay ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-slate-600 border-slate-200') + '">' + ad + '</button>'; };
+            var bloklar = BGH_SIRA.map(function (ay) {
+                var al = l.filter(function (x) { return x.k.ay === ay; });
+                if (!al.length) return '';
+                return '<div data-ay-blok="' + ay + '" class="mb-2"><div class="text-[11px] font-bold text-indigo-700 uppercase mb-1">' + BGH_AY[ay] + '</div>' +
+                    al.map(function (x) {
+                        var ekli = !!bghEkliMi(x.k);
+                        var ara = bghNorm(x.k.ad + ' ' + x.k.tarih);
+                        return '<div data-ara="' + e(ara) + '" class="flex items-center gap-2 py-1 px-2 rounded ' + (ekli ? 'bg-emerald-50' : 'hover:bg-slate-50') + '"' + (q && ara.indexOf(q) < 0 ? ' style="display:none"' : '') + '>' +
+                            '<div class="flex-1 min-w-0"><span class="text-[12px] font-semibold text-slate-800">' + e(x.k.ad) + '</span> <span class="text-[11px] text-slate-500">· ' + e(x.k.tarih) + '</span>' +
+                            (x.k.okul ? '' : ' <span class="text-[9.5px] px-1 rounded bg-slate-100 text-slate-500">diğer</span>') + '</div>' +
+                            (ekli ? '<button type="button" onclick="bghKutCikar(' + x.i + ')" class="shrink-0 text-[11px] px-2 py-1 rounded border border-rose-200 text-rose-600 bg-white font-semibold">✓ Ekli · Çıkar</button>'
+                                  : '<button type="button" onclick="bghKutEkle(' + x.i + ')" class="shrink-0 text-[11px] px-2 py-1 rounded bg-indigo-600 text-white font-semibold">+ Ekle</button>') + '</div>';
+                    }).join('') + '</div>';
+            }).join('');
+            return '<div class="no-print mb-5 border border-indigo-200 bg-indigo-50/40 rounded-xl p-3">' +
+                '<div class="flex flex-wrap items-center justify-between gap-2 mb-2"><p class="text-sm font-bold text-indigo-900">📚 Belirli Gün ve Haftalar Kütüphanesi <span class="font-normal text-[11px] text-indigo-700">(' + BGH_KUT.length + ' kayıt · ' + ekliN + ' tanesi listenizde)</span></p>' +
+                '<button type="button" onclick="bghKutAyar(\'acik\',false)" class="text-[11px] text-slate-500 underline">Kapat</button></div>' +
+                '<div class="flex flex-wrap gap-1 mb-2">' + ayBtn(0, 'Tümü') + BGH_SIRA.map(function (a) { return ayBtn(a, BGH_AY[a]); }).join('') + '</div>' +
+                '<div class="flex flex-wrap items-center gap-2 mb-2">' +
+                '<input type="search" id="bgh-kut-ara" value="' + e(u.q || '') + '" oninput="bghKutAra(this.value)" placeholder="Ara: orman, deprem, kitap…" class="flex-1 min-w-[160px] border border-slate-300 rounded-lg px-2 py-1.5 text-xs">' +
+                '<label class="flex items-center gap-1 text-[11px] text-slate-700"><input type="checkbox" ' + (u.yalnizOkul ? 'checked' : '') + ' onchange="bghKutAyar(\'yalnizOkul\',this.checked)"> Yalnızca okullarda yaygın kutlananlar</label>' +
+                '<button type="button" onclick="bghKutTopluEkle()" class="text-[11px] px-2 py-1.5 rounded-lg border border-indigo-300 bg-white text-indigo-700 font-semibold">+ Görünenlerin tümünü ekle</button></div>' +
+                '<div id="bgh-kut-liste" class="max-h-[55vh] overflow-y-auto overscroll-contain bg-white border border-slate-200 rounded-lg p-2">' + (bloklar || '<p class="text-xs text-slate-400">Kayıt yok.</p>') + '</div>' +
+                '<p class="text-[10.5px] text-slate-500 mt-1.5">Eklenen gün, listede öğretim yılı ay sırasına göre yerine konur. Tarihi “her yıl değişen” günler için tabloda Düzenle ile kesin tarihi yazabilirsiniz. Liste, MEB belirli gün ve haftalar çizelgesi ile yaygın kutlanan ulusal/uluslararası günlerden derlenmiştir.</p></div>';
+        };
+        /* ==================== /v7.2.9 ==================== */
+
+        window.bghTumunuTemizle = function () {
+            showCustomConfirm('Listeyi Boşalt', 'Bütün günler ve görevli atamaları listeden çıkarılsın mı? (Kütüphaneden yeniden ekleyebilirsiniz.)', function (ok) { if (!ok) return; state.specialDays = []; try { saveAllData(); } catch (e) {} updateUI(); });
+        };
         window.renderBelirliGunler = function() {
             return `
                 ${getOfficialPrintHeader("BELİRLİ GÜN VE HAFTALAR KUTLAMA GÖREVLENDİRME ÇİZELGESİ")}
                 <div class="flex justify-between items-center mb-6 no-print">
-                    <h3 class="text-xl font-bold text-slate-800">Belirli Gün ve Haftalar</h3>
-                    <button onclick="addSpecialDay()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 text-xs font-semibold shadow">+ Yeni Gün Ekle</button>
+                    <h3 class="text-xl font-bold text-slate-800">Belirli Gün ve Haftalar <span class="text-sm font-normal text-slate-500">(${(state.specialDays || []).length})</span></h3>
+                    <div class="flex flex-wrap gap-1.5 justify-end">
+                        <button onclick="bghKutAyar('acik', !(window.__bghKut && __bghKut.acik))" class="bg-white border border-indigo-300 text-indigo-700 px-3 py-2 rounded-lg hover:bg-indigo-50 text-xs font-semibold shadow-sm">📚 Kütüphane</button>
+                        <button onclick="bghAySirala()" class="bg-white border border-slate-300 text-slate-700 px-3 py-2 rounded-lg hover:bg-slate-50 text-xs font-semibold shadow-sm" title="Listeyi Eylül → Ağustos sırasına diz">↕ Ay sırasına diz</button>
+                        <button onclick="bghTumunuTemizle()" class="bg-white border border-rose-200 text-rose-600 px-3 py-2 rounded-lg hover:bg-rose-50 text-xs font-semibold shadow-sm">Listeyi boşalt</button>
+                        <button onclick="addSpecialDay()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 text-xs font-semibold shadow">+ Elle Gün Ekle</button>
+                    </div>
                 </div>
+                ${typeof bghKutupHtml === 'function' ? bghKutupHtml() : ''}
                 <div class="overflow-x-auto border border-slate-200 rounded-xl shadow-sm bg-white print:border-none print:shadow-none">
                     <table class="w-full text-left border-collapse text-sm print:border-black bgh-print-table">
                         <tr class="bg-slate-100 text-slate-700 text-xs font-bold uppercase border-b border-slate-200 print:bg-gray-100 print:border-black">
@@ -11915,7 +12659,7 @@ window.staffTcTemizle = function(v) { return String(v == null ? '' : v).replace(
                             <th class="p-3 border-r w-1/2">Sorumlu / Görevlendirilen Personel</th>
                             <th class="p-3 no-print text-center">İşlem</th>
                         </tr>
-                        ${state.specialDays.map((d, i) => {
+                        ${(state.specialDays || []).map((d, i) => {
                             const assignedStaffs = d.assigned.map(id => {
                                 if (typeof id === 'object' && id.manual) return id;
                                 return state.staff.find(s => s.id === id);
@@ -33427,7 +34171,7 @@ window.okUpdateKulupAdi = function(idx, value) {
                 { id: 'egzersiz', ico: '🏅', ad: 'Ders Dışı Egzersiz Çalışma Planı', alt: [] }
             ]},
             { baslik: 'Etkinlik & Eğitim Planlama', ico: '📅', modüller: [
-                { id: 'yillikPlan', ico: '📅', ad: 'Yıllık Çalışma Planı', alt: [] },
+                { id: 'yillikPlan', ico: '📅', ad: 'İdareci Yıllık Çalışma Planı', alt: [] },
                 { id: 'rehberlikCerceve', ico: '🧭', ad: 'Rehberlik Yıllık Çerçeve Planı', alt: ['RÖ olan okul', 'RÖ olmayan okul', 'Kademe planları', 'Görevlendirme'] },
                 { id: 'belirliGunler', ico: '🇹🇷', ad: 'Belirli Gün ve Haftalar (Atamalı)', alt: [] },
                 { id: 'sosyalEtkinlik', ico: '🎨', ad: 'Sosyal Etkinlikler', alt: ['Etkinlikler Kütüphanesi', 'Yıllık Çalışma Planı', 'Toplum Hizmeti', 'Okul Temelli Eylem Planı', 'SE Kurulu Tutanağı', 'Öğrenci Kulüpleri (48 kulüp)', 'Maarifin Kalbinde Oyun', 'Yaşam Becerileri (faaliyet havuzu, yıllık plan, gözlem formu, yıl sonu raporu)'] },
@@ -35547,7 +36291,9 @@ function isgUyumSec(id, on){
   g.uyumSecili = g.uyumSecili.filter(x=>String(x)!==k);
   if(on) g.uyumSecili.push(k);
   try{saveAllData();}catch(e){}
-  updateUI();
+  /* Ekran yeniden çizilmez: liste yerinde kalır, yalnızca sayaç güncellenir */
+  const b = document.getElementById('isg-uyum-toplu-btn');
+  if(b) b.textContent = '🖨 Seçilenleri Toplu Yazdır (' + g.uyumSecili.filter(id=>isgPerson(id)).length + ')';
 }
 function isgUyumSecToplu(tur){
   const g = isgEnsure();
@@ -35589,8 +36335,8 @@ function isgUyumKartIc(g){
         <span class="text-xs font-bold text-slate-700 mr-1">Toplu yazdırılacak personel:</span>
         ${btn('Tümü',"isgUyumSecToplu('hepsi')")}${btn('Öğretmenler',"isgUyumSecToplu('ogretmen')")}${btn('Diğer personel',"isgUyumSecToplu('diger')")}${btn('Temizle',"isgUyumSecToplu('temizle')")}
       </div>
-      <div class="max-h-64 overflow-y-auto">${grup('Diğer Personel', diger)}${grup('Öğretmenler', ogr)}${(state.staff||[]).length?'':'<p class="text-xs text-slate-400">Personel havuzu boş.</p>'}</div>
-      <button type="button" onclick="isgUyumTopluYazdir()" class="mt-2 px-3 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white text-sm rounded-lg font-semibold">🖨 Seçilenleri Toplu Yazdır (${sec.filter(id=>isgPerson(id)).length})</button>
+      <div class="max-h-[60vh] overflow-y-auto overscroll-contain">${grup('Diğer Personel', diger)}${grup('Öğretmenler', ogr)}${(state.staff||[]).length?'':'<p class="text-xs text-slate-400">Personel havuzu boş.</p>'}</div>
+      <button type="button" id="isg-uyum-toplu-btn" onclick="isgUyumTopluYazdir()" class="mt-2 px-3 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white text-sm rounded-lg font-semibold">🖨 Seçilenleri Toplu Yazdır (${sec.filter(id=>isgPerson(id)).length})</button>
     </div>`;
 }
 function isgPrintHead(title){
@@ -38829,7 +39575,7 @@ function isgPrint(kind){
         /* TEK SÜRÜM KAYNAĞI — bu değeri değiştir, her yer (sekme başlığı + sol menü
            etiketi) otomatik güncellenir. Dosya adı da hep bu numarayla aynı olmalı:
            İDARE ASİSTANI v<PORTAL_SURUM>. Sıralama: v6.5.0, v6.5.1 … v6.5.9, v6.6.0 … */
-        window.PORTAL_SURUM = '7.2.6';
+        window.PORTAL_SURUM = '7.2.9';
 
         /* ==================== GENEL BELGE DÜZENLEME ====================
            Programdaki evrakların çoğu salt çıktıydı (yalnızca bazılarında
@@ -39109,6 +39855,9 @@ function isgPrint(kind){
             } catch(e){}
         })();
         window.PORTAL_SURUM_NOTLARI = [
+            'Belirli Gün ve Haftalar → 📚 Kütüphane: aylara göre gruplu 130’u aşkın gün/hafta (MEB belirli gün ve haftalar çizelgesi + yaygın ulusal/uluslararası günler); ay sekmeleri, arama, “yalnızca okullarda yaygın kutlananlar” süzgeci; her günü tek dokunuşla ekleme / “✓ Ekli · Çıkar” ile çıkarma (görevli atanmışsa onay sorar), görünenlerin tümünü toplu ekleme. Eklenen gün öğretim yılı ay sırasına (Eylül → Ağustos) göre yerine konur; “Ay sırasına diz” ve “Listeyi boşalt” düğmeleri eklendi',
+            'Yeni Okul Profili (kademe: okul öncesi, ilkokul, ortaokul, lise, imam hatip, mesleki; şartlar: taşımalı, yemekhane, kantin, pansiyon, okul sütü, ikili öğretim, birleştirilmiş sınıf, kaynaştırma, destek eğitim odası, çocuk kulübü, yabancı uyruklu öğrenci, hemşire, rehber öğretmen). İdareci Yıllık Çalışma Planı baştan yazıldı: “Her ay” ve Eylül–Haziran (isteğe bağlı Temmuz–Ağustos) için alt alta maddeler, başlarında işaret kutusu; işaretsizler soluk görünür ve yazdırılmaz; maddeler profile göre süzülür (servisi, kantini, yemeği olmayan okulda ilgili maddeler çıkmaz); kademeye uygun bakanlık projeleri (Dilimizin Zenginlikleri, Maarifin Kalbinde Oyun, Yaşam Becerileri, Dijital Esenlik, Ailemle Eğitim Yolculuğum, Beyaz Bayrak, Sıfır Atık, TÜBİTAK 4006, eTwinning…) seçilince maddeleri ilgili aylara eklenir; sorumlu sütunu, madde düzenleme ve kendi maddesini ekleme; eski plan silinmeden “Önceki plan” olarak taşındı. Görev Dağılımı (Müdür Yardımcısı): profile uygun görev önerileri, profile uymayan görevlerin listelenip kaldırılması, iki/üç müdür yardımcısında alana göre önerilen dağılım',
+            'Ekran titremesi ve kayma giderildi (tüm modüller): her tıklamada 37 modülün tamamı yeniden çiziliyordu; artık yalnızca açık modül çizilir (yaklaşık 7 kat hızlı). Sayfanın ve açık modüldeki kaydırılabilir listelerin kaydırma konumu ile odaktaki alan korunur; işaretleme yapınca ekran yerinde kalır. İSG Uyum ve İşbaşı Eğitim Formu’nda personel işaretlemek ekranı hiç yenilemez (liste yerinde kalır, yalnızca sayaç güncellenir), liste kutusu büyütüldü. İşçi puantaj takviminde gün işaretleme anlık',
             'İSG → Uyum ve İş Başı Eğitim Formu: seçilen personel için toplu yazdırma (Tümü / Öğretmenler / Diğer personel / tek tek seçim); her personel ayrı sayfada. Tüm formlara uygulanan isteğe bağlı eğitim tarihi alanı (boşsa “…/…/20…”). Öğrenim durumu satırı boş bırakıldı. Form sıkılaştırıldı: her zaman tek sayfa A4 dikey, üç imza (Eğitimi Alan, İşveren Vekili, Okul Müdürü) tek satırda ve ikinci sayfaya taşmaz',
             'Her evrakın araç çubuğuna ve EBYS dönüştürücüsüne “HTML Kodu” düğmesi eklendi: yazının (gövde modu ve karakter düzeltmeleri uygulanmış) HTML kodu panoya kopyalanır; EBYS editöründe Kaynak’a basıp yapıştırınca, tekrar Kaynak’a basınca yazı biçimli görünür. EBYS’nin yapıştırma süzgecine takılmadığı için düzenin en az bozulduğu yöntemdir; nasıl yapılacağı “?” düğmesinde anlatılır',
             'EBYS’ye yapıştırma düzeltildi: satır sonları (<br>) artık ayrı paragraf olarak gider, tablo başlık hücreleri normal kalın hücreye, kutular paragrafa çevrilir, kenarlıklı tablolara border özniteliği eklenir, ekranda gizli bölümler kopyalanmaz — başlık satırlarının ve “Ad SOYADUnvan” gibi bitişmeler giderildi. Yeni EBYS gövde modu (varsayılan açık, EBYS Evrak Oluştur sayfasından kapatılabilir): EBYS üst yazıya kendisi eklediği için kurum başlığı, Sayı-Tarih-Konu, muhatap ve okul müdürü / müdür yardımcısı ad-imzası kopyalanmaz; yalnızca yazının gövdesi, tabloları ve ekleri gider',
@@ -42650,5 +43399,87 @@ function isgPrint(kind){
 
 </script>
 
+
+<script>
+/* ==================== v7.2.7: SAKİN YENİLEME ====================
+   updateUI her tıklamada 37 modülün tamamını yeniden çiziyordu; telefonda ekran titriyor, kayıyor,
+   kaydırılan listeler başa dönüyordu. Artık:
+   • yalnızca açık olan modül yeniden çizilir (gizli modüllere yazım atlanır; modüle geçilince
+     switchTab → updateUI zaten o modülü çizer),
+   • sayfanın ve açık modüldeki kaydırılabilir kutuların kaydırma konumu korunur,
+   • odaktaki alan (id'liyse) geri odaklanır. */
+(function () {
+    var IH = Object.getOwnPropertyDescriptor(Element.prototype, 'innerHTML');
+    if (!IH || !IH.set) return;
+    var yol = function (el, kok) { var y = []; while (el && el !== kok) { var p = el.parentElement; if (!p) return null; y.unshift(Array.prototype.indexOf.call(p.children, el)); el = p; } return el === kok ? y : null; };
+    var bul = function (kok, y) { var el = kok; for (var i = 0; i < y.length && el; i++) el = el.children[y[i]]; return el; };
+    var kur = function () {
+        var gercek = window.updateUI;
+        if (typeof gercek !== 'function' || gercek.__sakin) return;
+        var sakin = function () {
+            if (window.__tamYenile || typeof state === 'undefined') return gercek.apply(this, arguments);
+            var wrap = document.getElementById('main-content-wrapper');
+            var aktif = document.getElementById('tab-' + state.activeTab);
+            var acikMi = aktif && !aktif.classList.contains('hidden');
+            /* Kaydırma konumlarını al */
+            var sx = window.scrollX, sy = window.scrollY, kutular = [];
+            if (acikMi) {
+                Array.prototype.forEach.call(aktif.querySelectorAll('*'), function (el) {
+                    if (el.scrollTop > 0 || el.scrollLeft > 0) { var y = yol(el, aktif); if (y) kutular.push({ y: y, id: el.id, cls: el.className, t: el.scrollTop, l: el.scrollLeft }); }
+                });
+            }
+            var odak = document.activeElement, odakId = odak && odak.id && aktif && aktif.contains(odak) ? odak.id : null;
+            var selBas = null, selSon = null;
+            try { if (odakId && typeof odak.selectionStart === 'number') { selBas = odak.selectionStart; selSon = odak.selectionEnd; } } catch (e) {}
+            /* Gizli modüllere yazımı atla (yalnızca bu yenileme süresince) */
+            var atlanan = [];
+            if (wrap && aktif) {
+                Array.prototype.forEach.call(wrap.querySelectorAll('.tab-pane'), function (pn) {
+                    if (pn === aktif || pn.id === 'tab-iyepPlanlama') return;
+                    if (!pn.__cizildi) return; /* hiç çizilmemiş modül bir kez çizilsin (arama, köprü, toplu yazdırma için içerik olsun) */
+                    try { Object.defineProperty(pn, 'innerHTML', { configurable: true, get: function () { return IH.get.call(pn); }, set: function () {} }); atlanan.push(pn); } catch (e) {}
+                });
+            }
+            /* Gizli modüllerin çizim fonksiyonlarını da bu süre için boşa al (açık modül içinden çağrılanlar hariç) */
+            var susan = [];
+            try {
+                if (atlanan.length && typeof HARITA_RENDER === 'object') {
+                    var aktifFn = window[HARITA_RENDER[state.activeTab]];
+                    var aktifKaynak = typeof aktifFn === 'function' ? String(aktifFn) : '';
+                    if (aktifKaynak) Object.keys(HARITA_RENDER).forEach(function (tid) {
+                        var ad = HARITA_RENDER[tid], pn = document.getElementById('tab-' + tid);
+                        if (!pn || atlanan.indexOf(pn) < 0 || tid === state.activeTab || aktifKaynak.indexOf(ad) >= 0) return;
+                        var f = window[ad]; if (typeof f !== 'function') return;
+                        susan.push([ad, f]); window[ad] = function () { return ''; };
+                    });
+                }
+            } catch (e) {}
+            var sonuc;
+            try { sonuc = gercek.apply(this, arguments); }
+            finally {
+                susan.forEach(function (x) { window[x[0]] = x[1]; });
+                atlanan.forEach(function (pn) { try { delete pn.innerHTML; } catch (e) {} });
+                if (wrap) Array.prototype.forEach.call(wrap.querySelectorAll('.tab-pane'), function (pn) { if (atlanan.indexOf(pn) < 0) pn.__cizildi = true; });
+            }
+            /* Kaydırma ve odağı geri yükle */
+            var yeniAktif = document.getElementById('tab-' + state.activeTab);
+            if (acikMi && yeniAktif === aktif) {
+                kutular.forEach(function (k) {
+                    var el = (k.id && document.getElementById(k.id)) || bul(aktif, k.y);
+                    if (el && (k.id || el.className === k.cls)) { el.scrollTop = k.t; el.scrollLeft = k.l; }
+                });
+                if (window.scrollX !== sx || window.scrollY !== sy) window.scrollTo(sx, sy);
+                if (odakId) { var o = document.getElementById(odakId); if (o && o !== document.activeElement) { try { o.focus({ preventScroll: true }); if (selBas !== null && o.setSelectionRange) o.setSelectionRange(selBas, selSon); } catch (e) {} } }
+            }
+            return sonuc;
+        };
+        sakin.__sakin = true;
+        window.updateUI = sakin;
+        try { updateUI = sakin; } catch (e) {}
+    };
+    if (document.readyState === 'complete') setTimeout(kur, 0);
+    else window.addEventListener('load', function () { setTimeout(kur, 0); });
+})();
+</script>
 </body>
 </html>

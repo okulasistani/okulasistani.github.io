@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#14213d">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Okul Asistanı">
 <title>Okul Asistanı — İdare ve Öğretmen Araçları</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2314213d'/%3E%3Cpath d='M32 13 9 25l23 12 23-12z' fill='%23f2b544'/%3E%3Cpath d='M18 31v10c0 4 7 8 14 8s14-4 14-8V31l-14 7z' fill='%23fff'/%3E%3C/svg%3E">
 <style>
@@ -193,6 +196,18 @@ body.uygulama-modu{overflow:hidden}
 .sohbet-alt .say.dolu{color:#b42318;font-weight:700}
 .sohbet-kilit{border:0;background:none;font-size:13px;opacity:.45;padding:2px 4px}
 .sohbet-kilit:hover{opacity:1}
+/* ===== KISAYOL PENCERESİ ===== */
+.ks-kart{--renk:var(--lacivert);--acik:#e9ecf3;border:1px solid var(--cizgi);border-radius:14px;padding:12px 14px;margin-bottom:10px;background:#fff}
+.ks-kart h4{margin:0 0 3px;font-size:14.5px;display:flex;align-items:center;gap:7px}
+.ks-kart p{margin:0 0 9px;font-size:13px;color:var(--soluk);line-height:1.45}
+.ks-kart .ks-adim{font-size:13px;line-height:1.5;color:var(--metin);background:var(--zemin);border-radius:9px;padding:8px 10px;margin:0}
+.ks-kart kbd{font:inherit;font-weight:800;background:#fff;border:1px solid var(--cizgi2);border-bottom-width:2px;border-radius:6px;padding:0 6px}
+.ks-dugmeler{display:flex;gap:8px;flex-wrap:wrap}
+.ks-dugmeler .btn{padding:9px 13px;font-size:13.5px}
+.ks-surukle{display:inline-flex;align-items:center;gap:6px;border:1px dashed var(--lacivert);color:var(--lacivert);border-radius:9px;padding:6px 11px;font-weight:700;font-size:13px;text-decoration:none;cursor:grab;margin-top:8px}
+.ks-not{font-size:12px;color:var(--soluk);margin:4px 0 0}
+body.kurulu #kisayol-btn{display:none}
+
 /* Geniş ekranda sohbet: sağda sabit dikey panel */
 @media (min-width:1200px){
   :root{--sohbet-gen:clamp(330px,24vw,400px)}
@@ -256,6 +271,9 @@ body.uygulama-modu{overflow:hidden}
       <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#fff"/><path d="M5.4 11.8l11.1-4.3c.5-.2 1 .1.8.9l-1.9 8.9c-.1.6-.5.8-1 .5l-2.9-2.1-1.4 1.3c-.2.2-.3.3-.6.3l.2-2.9 5.3-4.8c.2-.2 0-.3-.3-.1l-6.6 4.1-2.8-.9c-.6-.2-.6-.6.1-.9z" fill="#229ED9"/></svg>
       <span>Telegram</span>
     </a>
+    <button class="ikon-btn" id="kisayol-btn" onclick="kisayolPenceresi()" title="Kısayol ekle: masaüstü, ana ekran, yer imi" aria-label="Kısayol ekle">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M9 3h6l-1 6 4 4v2H6v-2l4-4z"/></svg>
+    </button>
     <button class="ikon-btn" onclick="aramaOdakla()" title="Ara" aria-label="Ara">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
     </button>
@@ -850,8 +868,8 @@ function yonlendir(sadeceCiz) {
     if (id) sonEkle(app + ':' + id);
     if (!c.hazir) { $('yukleniyor-metin').textContent = UYG[app].ad + ' yükleniyor…'; $('yukleniyor').classList.add('acik'); if (id) c.bekleyen = id; }
     else { $('yukleniyor').classList.remove('acik'); if (id) modulCalistir(app, id); }
-    document.title = UYG[app].ad + ' — Okul Asistanı';
     const mAd = id && DIZIN_MAP[app + ':' + id] ? DIZIN_MAP[app + ':' + id].ad : '';
+    document.title = (mAd ? mAd + ' — ' + UYG[app].ad : UYG[app].ad + ' — Okul Asistanı');   /* yer imi bu adla kaydedilir */
     sayacSay('/' + app + (id ? '/' + id : '/ac'), UYG[app].ad + (mAd ? ' › ' + mAd : ' (uygulama)'));
   } else {
     document.body.classList.remove('uygulama-modu');
@@ -1375,6 +1393,94 @@ function sohbetSusturmaKaldir() {
         modalKapat();
         try { await sohbetIstek({ islem: 'susturmaKaldir' }, sohbetYoneticiSifre()); bildir('Tüm susturmalar kaldırıldı.'); } catch (err) { bildir('⚠️ ' + err.message); }
       } }]);
+}
+
+/* =====================================================================
+   9) KISAYOL — uygulama olarak yükleme, masaüstü kısayolu, yer imi
+   Kendiliğinden hiçbir şey göstermez; yalnızca üst çubuktaki 📌 düğmesiyle açılır.
+   Site uygulama olarak açıldıysa düğme gizlenir.
+   ===================================================================== */
+let yuklemeIstemi = null;
+const kuruluMu = () => (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+if (kuruluMu()) document.body.classList.add('kurulu');
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); yuklemeIstemi = e; });   /* Chrome'un kendi çubuğunu bastırır */
+window.addEventListener('appinstalled', () => {
+  yuklemeIstemi = null; document.body.classList.add('kurulu');
+  sayacGonder({ path: 'kisayol/yuklendi', title: 'Uygulama olarak yüklendi', event: true });
+});
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js').catch(() => {}); });
+}
+function cihazTuru() {
+  const u = navigator.userAgent || '';
+  const ios = /iPhone|iPad|iPod/.test(u) || (/Macintosh/.test(u) && navigator.maxTouchPoints > 1);
+  return { ios, android: /Android/.test(u), mobil: ios || /Android|Mobile/.test(u), windows: /Windows/.test(u), mac: /Macintosh/.test(u) && !ios };
+}
+/* Şu an açık sayfanın adı ve adresi (modül kartından açıldıysa modül adresi) */
+function sayfaBilgisi() {
+  const p = (location.hash || '#/').replace(/^#\/?/, '').split('/').filter(Boolean);
+  const app = UYG[p[0]] ? p[0] : null;
+  const temel = location.origin + location.pathname;
+  if (!app) return { ad: 'Okul Asistanı', adres: temel, ana: true };
+  const id = p[1] === 'ac' && p[2] ? decodeURIComponent(p[2]) : '';
+  const m = id && DIZIN_MAP[app + ':' + id];
+  return { ad: m ? m.ad + ' (' + UYG[app].ad + ')' : UYG[app].ad, adres: location.href, ana: false };
+}
+function dosyaAdiTemizle(s) { return String(s).replace(/[çÇğĞıİöÖşŞüÜâÂîÎûÛ]/g, h => ({ ç:'c',Ç:'C',ğ:'g',Ğ:'G',ı:'i',İ:'I',ö:'o',Ö:'O',ş:'s',Ş:'S',ü:'u',Ü:'U',â:'a',Â:'A',î:'i',Î:'I',û:'u',Û:'U' }[h])).replace(/[^\x20-\x7e]/g, '').replace(/[\\/:*?"<>|]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 80) || 'Okul Asistani'; }
+function masaustuKisayoluIndir(buSayfa) {
+  const b = buSayfa ? sayfaBilgisi() : { ad: 'Okul Asistanı', adres: location.origin + '/' };
+  const simge = location.origin + '/favicon.ico';
+  const icerik = '[InternetShortcut]\r\nURL=' + b.adres + '\r\nIconFile=' + simge + '\r\nIconIndex=0\r\n';
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([icerik], { type: 'application/octet-stream' }));
+  a.download = dosyaAdiTemizle(b.ad === 'Okul Asistanı' ? b.ad : 'Okul Asistanı - ' + b.ad) + '.url';
+  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+  bildir('İnen dosyayı masaüstüne taşıyın; çift tıklayınca açılır.');
+  sayacGonder({ path: 'kisayol/masaustu', title: 'Masaüstü kısayolu indirildi', event: true });
+}
+async function uygulamaYukle() {
+  if (!yuklemeIstemi) return;
+  modalKapat();
+  yuklemeIstemi.prompt();
+  try { await yuklemeIstemi.userChoice; } catch (e) {}
+  yuklemeIstemi = null;
+}
+async function adresKopyala() {
+  const b = sayfaBilgisi();
+  try { await navigator.clipboard.writeText(b.adres); bildir('Adres kopyalandı.'); }
+  catch (e) { prompt('Adresi kopyalayın:', b.adres); }
+}
+function kisayolPenceresi() {
+  const c = cihazTuru(), b = sayfaBilgisi();
+  const kartlar = [];
+  /* 1) Uygulama olarak yükle */
+  let yukle;
+  if (kuruluMu()) yukle = '<p class="ks-adim">✓ Okul Asistanı bu cihazda uygulama olarak açık.</p>';
+  else if (yuklemeIstemi) yukle = `<div class="ks-dugmeler"><button class="btn btn-dolu" onclick="uygulamaYukle()">⬇️ ${c.mobil ? 'Ana ekrana ekle' : 'Bilgisayara yükle'}</button></div>`;
+  else if (c.ios) yukle = '<p class="ks-adim">Safari\'de alttaki <b>Paylaş</b> (□↑) düğmesine, sonra <b>Ana Ekrana Ekle</b>\'ye dokunun.</p>';
+  else if (c.mobil) yukle = '<p class="ks-adim">Chrome\'da sağ üstteki <b>⋮</b> menüsünden <b>Uygulamayı yükle</b> ya da <b>Ana ekrana ekle</b>\'ye dokunun.</p>';
+  else yukle = '<p class="ks-adim">Chrome veya Edge\'de adres çubuğunun sağındaki <b>yükle</b> simgesine tıklayın ya da <b>⋮</b> menüsünde <b>Kaydet ve paylaş → Uygulama olarak yükle</b>\'yi seçin.</p>';
+  kartlar.push(`<div class="ks-kart"><h4>📲 ${c.mobil ? 'Ana ekrana ekle' : 'Uygulama olarak yükle'}</h4>
+    <p>${c.mobil ? 'Ana ekranınıza simge gelir; site adres çubuğu olmadan tam ekran açılır.' : 'Masaüstüne ve görev çubuğuna simge gelir; site kendi penceresinde açılır.'} Verileriniz aynı kalır.</p>${yukle}</div>`);
+  /* 2) Masaüstü kısayol dosyası (Windows) */
+  if (c.windows) {
+    kartlar.push(`<div class="ks-kart"><h4>🖥️ Masaüstü kısayolu</h4>
+      <p>Hiçbir şey kurulmaz; inen küçük dosyayı masaüstüne koyun, çift tıklayınca açılır. Yükleme izni olmayan okul bilgisayarları için uygundur.</p>
+      <div class="ks-dugmeler"><button class="btn btn-dolu" onclick="masaustuKisayoluIndir(false)">⬇️ Okul Asistanı kısayolu</button>${b.ana ? '' : `<button class="btn btn-hayalet" onclick="masaustuKisayoluIndir(true)">⬇️ Bu sayfanın kısayolu</button>`}</div>
+      ${b.ana ? '' : `<p class="ks-not">Bu sayfa: ${kacis(b.ad)}</p>`}</div>`);
+  }
+  /* 3) Yer imi */
+  let yerImi;
+  if (c.ios) yerImi = '<p class="ks-adim"><b>Paylaş</b> (□↑) → <b>Yer İşareti Ekle</b>.</p>';
+  else if (c.mobil) yerImi = '<p class="ks-adim">Chrome\'da <b>⋮</b> menüsünün üstündeki <b>☆</b> yıldıza dokunun.</p>';
+  else yerImi = `<p class="ks-adim">Klavyede <kbd>${c.mac ? '⌘' : 'Ctrl'}</kbd> + <kbd>D</kbd> tuşlarına basıp <b>Bitti</b> deyin.</p>
+      <a class="ks-surukle" href="${kacis(b.adres)}" draggable="true" onclick="event.preventDefault();bildir('Bu düğmeyi tıklamayın; yer imleri çubuğuna sürükleyin.')" title="Yer imleri çubuğuna sürükleyin">📌 ${kacis(b.ana ? 'Okul Asistanı' : b.ad)}</a>
+      <p class="ks-not">ya da bu düğmeyi yer imleri çubuğuna sürükleyin (çubuk görünmüyorsa <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd>).</p>`;
+  kartlar.push(`<div class="ks-kart"><h4>⭐ Yer imi</h4>
+    <p>${b.ana ? 'Ana sayfayı yer imlerine ekleyin.' : 'Şu an açık sayfa kaydedilir: <b>' + kacis(b.ad) + '</b>. Tıklayınca doğrudan buraya gelir.'}</p>${yerImi}
+    <div class="ks-dugmeler" style="margin-top:8px"><button class="btn btn-hayalet" onclick="adresKopyala()">🔗 Adresi kopyala</button></div></div>`);
+  modalAc('📌 Kısayol ekle', kartlar.join('') + '<p class="ks-not">İpucu: Modüle sitenin modül kartından girdiğinizde adres o modüle özel olur; o sayfayı kaydederseniz doğrudan modül açılır.</p>',
+    [{ ad: 'Kapat', tik: modalKapat }]);
 }
 
 /* ---------- başlat ---------- */
