@@ -53,3 +53,13 @@ window.oaModulAc = function (id) { /* id'si verilen modülü aç */ };
 - Kullanıcı verileri her kişinin kendi cihazında saklanır; siteye/GitHub'a gitmez.
 - Site her açılışta uygulama dosyalarını hafif bir kontrolle (HEAD isteği) yoklar; dosya değişmediyse yeniden indirmez.
 - `uygulamalar.json` silinir veya bozulursa site, içine kayıtlı İdare ve Öğretmen asistanlarıyla çalışmaya devam eder.
+
+## İndirilebilir program (ör. Tahta Yönetim Sistemi)
+Sitede açılmayan, bilgisayara kurulan programlar `uygulamalar.json`'da `"tur": "indir"` ile eklenir. Ana sayfada "İndirilebilir Programlar" bölümünde kart, `#/indir/<id>` adresinde ayrıntı sayfası çıkar.
+
+**Yeni sürüm yüklerken:**
+1. Zip'in adını aynı bırakın (`TahtaYonetim.zip`) ve GitHub'a yükleyin. Kılavuz değiştiyse `tahta-kilavuz.html` adıyla yükleyin.
+2. `uygulamalar.json` içindeki `tahta` kaydında `surum` ve `indirAdi` değerlerini güncelleyin (ör. `"3.2"`, `"TahtaYonetim-3.2.zip"`).
+3. `sha256` değerini yeni dosyanın parmak iziyle değiştirin (Windows PowerShell: `Get-FileHash TahtaYonetim.zip`) ya da bilmiyorsanız satırı tamamen silin. Eski parmak izi kalırsa kullanıcılar yanlış değer görür.
+
+Dosya boyutu sitede kendiliğinden hesaplanır.

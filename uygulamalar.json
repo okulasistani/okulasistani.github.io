@@ -51,5 +51,88 @@
     "depoOnekleri": [
       "dogrudanTeminAsistani"
     ]
+  },
+  {
+    "id": "tahta",
+    "tur": "indir",
+    "ad": "Tahta Yönetim Sistemi",
+    "kisaAd": "Tahta",
+    "ico": "🖥️",
+    "renk": "#1d4e89",
+    "dosya": "TahtaYonetim.zip",
+    "indirAdi": "TahtaYonetim-3.1.zip",
+    "kilavuz": "tahta-kilavuz.html",
+    "surum": "3.1",
+    "boyut": "1,4 MB",
+    "sha256": "2105a5c600e532eb8fcb646e4f07be0de1e9bcc88b8c9217ac5658957ca5037e",
+    "platform": [
+      "Windows 10/11 (yönetim)",
+      "Pardus / ETAP tahtalar"
+    ],
+    "aciklama": "Okuldaki akıllı tahtaları tek panelden yönetin: kilit, duyuru, dosya gönderme, zil programı, sınav modu ve raporlar.",
+    "uzunAciklama": "İdareci bilgisayarına kurulan bir yönetim paneli ve her tahtaya bir kez kurulan küçük bir ajandan oluşur. Tahtaları okul ağı üzerinden kilitler, duyuru ve dosya gönderir, zil programını tahtalarda çalıştırır; telefondan da yönetilebilir. İnternete veri göndermez.",
+    "ozellikler": [
+      {
+        "ad": "Kilit ekranı",
+        "acik": "Şifre veya PIN ile açılır; saat, okul adı ve duyurular görünür"
+      },
+      {
+        "ad": "Duyuru",
+        "acik": "Tam ekran ya da köşe mesajı, hazır şablonlar"
+      },
+      {
+        "ad": "Dosya gönderme",
+        "acik": "Sunum, PDF, video tahtaların masaüstüne"
+      },
+      {
+        "ad": "Zil programı ve zamanlayıcı",
+        "acik": "Ders saatlerine göre zil, kilit, kapatma"
+      },
+      {
+        "ad": "Ortak Klasör",
+        "acik": "Windows bilgisayarlar ve tahtalar arasında paylaşım"
+      },
+      {
+        "ad": "Sınav modu",
+        "acik": "Tahtalarda büyük geri sayım; süre bitince “SÜRE DOLDU”"
+      },
+      {
+        "ad": "Dijital saat ve ekran koruyucu",
+        "acik": "Tören ve teneffüste tam ekran saat ve tarih"
+      },
+      {
+        "ad": "Site engelleme",
+        "acik": "Sosyal medya, video, oyun; her zaman ya da belirli saatlerde"
+      },
+      {
+        "ad": "Uzaktan açma ve kapatma",
+        "acik": "Sabah açma, akşam kapatma (Wake-on-LAN)"
+      },
+      {
+        "ad": "Arıza bildirimi",
+        "acik": "Öğretmen tahtadan bildirir, panele düşer"
+      },
+      {
+        "ad": "Raporlar",
+        "acik": "Tahta kullanım süreleri ve olay günlüğü, Excel'e aktarım"
+      },
+      {
+        "ad": "Telefondan yönetim",
+        "acik": "QR kodla okul ağındaki telefondan"
+      }
+    ],
+    "adimlar": [
+      "Zip dosyasını indirip yönetim bilgisayarında bir klasöre çıkarın.",
+      "KUR.bat dosyasına çift tıklayın, “1” yazıp Enter'a basın; Windows izin sorusuna “Evet” deyin.",
+      "Açılan panelde okul adını ve yönetici şifresini belirleyin.",
+      "Paneldeki “Tahta Ekle” sayfasında gösterilen komutu her tahtanın Terminal'inde bir kez çalıştırın."
+    ],
+    "gereksinimler": [
+      "Yönetim bilgisayarı: Windows 10 veya 11",
+      "Tahtalar: Pardus / ETAP (Python 3.7 ve üstü, ek paket gerekmez)",
+      "Tüm cihazlar aynı okul ağında olmalı",
+      "İlk kurulumda internet (Python yoksa resmî kaynaktan kurulur)"
+    ],
+    "not": "Resmî MEB yazılımı değildir. Kurulum ve kullanım okul idaresinin sorumluluğundadır. Kilit ekranı öğrencilerin izinsiz kullanımını önlemek içindir; teknik bilgisi olan birine karşı tam güvenlik sağlamaz."
   }
 ]
