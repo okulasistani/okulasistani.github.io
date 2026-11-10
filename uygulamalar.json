@@ -60,17 +60,18 @@
     "ico": "🖥️",
     "renk": "#1d4e89",
     "dosya": "TahtaYonetim.zip",
-    "indirAdi": "TahtaYonetim-3.1.3.zip",
+    "indirAdi": "TahtaYonetim-3.2.0.zip",
     "kilavuz": "tahta-kilavuz.html",
-    "surum": "3.1.3",
-    "boyut": "1,3 MB",
-    "sha256": "8d82fd4d46c68422912f580986a1ad4a632fe561937d3fa78d2eb894e0b866d8",
+    "surum": "3.2.0",
+    "boyut": "1,6 MB",
+    "sha256": "6e68553b8d7283a99967dd7b2b26e9918a399e83da01aa6e3d141bfe01cecc7f",
     "platform": [
       "Windows 10/11 (yönetim)",
-      "Pardus / ETAP tahtalar"
+      "Pardus / ETAP tahtalar",
+      "Windows tahtalar"
     ],
     "aciklama": "Okuldaki akıllı tahtaları tek panelden yönetin: kilit, duyuru, dosya gönderme, zil programı, sınav modu ve raporlar.",
-    "uzunAciklama": "İdareci bilgisayarına kurulan bir yönetim paneli ve her tahtaya bir kez kurulan küçük bir ajandan oluşur. Tahtaları okul ağı üzerinden kilitler, duyuru ve dosya gönderir, zil programını tahtalarda çalıştırır; telefondan da yönetilebilir. İnternete veri göndermez.",
+    "uzunAciklama": "İdareci bilgisayarına kurulan bir yönetim paneli ve her tahtaya (Pardus/ETAP veya Windows) bir kez kurulan küçük bir ajandan oluşur. Tahtaları okul ağı üzerinden kilitler, duyuru ve dosya gönderir, zil programını tahtalarda çalıştırır; telefondan da yönetilebilir. İnternete veri göndermez.",
     "ozellikler": [
       {
         "ad": "Kilit ekranı",
@@ -125,11 +126,11 @@
       "Zip dosyasını indirip yönetim bilgisayarında bir klasöre çıkarın.",
       "KUR.bat dosyasına çift tıklayın, “1” yazıp Enter'a basın; Windows izin sorusuna “Evet” deyin.",
       "Açılan panelde okul adını ve yönetici şifresini belirleyin.",
-      "Paneldeki “Tahta Ekle” sayfasında gösterilen komutu her tahtanın Terminal'inde bir kez çalıştırın."
+      "Panelde “Tahta Ekle” sayfasında tahtanın adını yazın. Pardus/ETAP: oluşan komutu tahtanın Terminal'inde bir kez çalıştırın. Windows: “Windows” düğmesiyle gösterilen adresi tahtada açın, inen dosyayı çalıştırıp “Evet” deyin."
     ],
     "gereksinimler": [
       "Yönetim bilgisayarı: Windows 10 veya 11",
-      "Tahtalar: Pardus / ETAP (Python 3.7 ve üstü, ek paket gerekmez)",
+      "Tahtalar: Pardus / ETAP (Python 3.7 ve üstü, ek paket gerekmez) veya Windows 10/11",
       "Tüm cihazlar aynı okul ağında olmalı",
       "İlk kurulumda internet (Python yoksa resmî kaynaktan kurulur)"
     ],
