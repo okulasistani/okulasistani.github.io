@@ -850,25 +850,82 @@ function cerceveAl(appId) {
   const c = { iframe: f, hazir: false, bekleyen: null };
   f.addEventListener('load', () => {
     c.hazir = true;
-    setTimeout(() => { if (aktifApp === appId) $('yukleniyor').classList.remove('acik'); if (c.bekleyen) { const id = c.bekleyen; c.bekleyen = null; modulCalistir(appId, id); } }, 350);
+    setTimeout(() => {
+      if (aktifApp === appId) $('yukleniyor').classList.remove('acik');
+      ADRES_SENK.bekle = Date.now() + 1800;
+      if (c.bekleyen) { const b = c.bekleyen; c.bekleyen = null; modulCalistir(appId, b.id, b.alt); }
+    }, 350);
   });
   f.src = u.dosya;
   $('uygulama-alani').appendChild(f);
   cerceveler[appId] = c;
   return c;
 }
-function modulCalistir(appId, id) {
+function modulCalistir(appId, id, alt) {
   const c = cerceveler[appId], u = UYG[appId];
+  ADRES_SENK.bekle = Date.now() + 1800;   /* modül açılırken adres çubuğu geri yazılmasın */
   try {
     const w = c.iframe.contentWindow;
     const fn = [u.acFonksiyon, 'oaModulAc'].find(n => n && typeof w[n] === 'function');
     if (!fn) throw new Error('fonksiyon yok');
     w[fn](id);
+    const as = alt && (ALT_SEKMELER[appId] || {})[id];
+    if (as) setTimeout(() => { try { if (typeof w[as[0]] === 'function') w[as[0]](alt); } catch (e) {} }, 120);
     try { w.scrollTo(0, 0); } catch (e) {}
   } catch (e) {
     bildir('Modül otomatik açılamadı. Uygulama içindeki menüden seçebilirsiniz.');
   }
 }
+
+/* =====================================================================
+   4a) ADRES ÇUBUĞU — uygulamanın içinde gezinilen modül (ve sekme) adrese yazılır;
+   böylece kopyalanan/paylaşılan bağlantı tam olur. Sayfa yenilenmez, geçmiş kirlenmez.
+   ===================================================================== */
+const MODUL_OKU = { idare: 'state.activeTab', ogretmen: 'state.aktifModul' };   /* diğerleri: window.oaAktifModul() varsa */
+/* Tek düzeyli sekmeler: modül → [sekme açma fonksiyonu, açık sekmeyi okuyan ifade] */
+const ALT_SEKMELER = {
+  idare: {
+    sosyalEtkinlik: ['sosyalEtkinlikSetSub', 'state.sosyalEtkinlikSub'],
+    okulGuvenligi: ['ogView', '(state.okulGuv||{}).view'],
+    nobet: ['nbSetView', '(state.nobet||{}).activeView'],
+    gezi: ['geziSetView', '(state.gezi||{}).activeView'],
+    kurulToplanti: ['boardSetView', '(state.boardMeetings||{}).activeView'],
+    aileBirligi: ['abSetTab', '(state.aileBirligi||{}).activeTab'],
+    sivilSavunma: ['ssSetView', '(state.sivilSavunma||{}).activeView'],
+    egzersiz: ['egSetView', '(state.egzersiz||{}).activeView'],
+    destekEgitim: ['destSetView', '(state.destekEgitim||{}).activeView'],
+    ogrenciIsleri: ['oiSetView', '(state.ogrenciIsleri||{}).activeView'],
+    pansiyonBellet: ['pbSetSub', '(state.pansiyonBellet||{}).sub'],
+    kantinKira: ['abKantinSetView', '(state.canteenRent||{}).viewMode'],
+    dogumIzni: ['diSetTur', '(state.dogumIzni||{}).tur'],
+    gorevDagilimi: ['gdSetSub', '(state.gorevDagilimi||{}).activeSub']
+  }
+};
+const altGecerli = s => typeof s === 'string' && /^[A-Za-z0-9_-]{1,40}$/.test(s);
+const ADRES_SENK = { bekle: 0 };
+function acikKonum(appId) {
+  const c = cerceveler[appId]; if (!c || !c.hazir) return null;
+  const w = c.iframe.contentWindow;
+  let id = null, alt = null;
+  try {
+    if (MODUL_OKU[appId]) id = w.eval('(function(){try{return ' + MODUL_OKU[appId] + '}catch(e){return null}})()');
+    else if (typeof w.oaAktifModul === 'function') id = w.oaAktifModul();
+  } catch (e) { return null; }
+  if (!idGecerli(id)) return { id: null, alt: null };
+  const as = (ALT_SEKMELER[appId] || {})[id];
+  if (as) { try { alt = w.eval('(function(){try{return ' + as[1] + '}catch(e){return null}})()'); } catch (e) {} }
+  return { id, alt: altGecerli(alt) ? alt : null };
+}
+function adresSenkronla() {
+  if (aktifGorunum !== 'uygulama' || !aktifApp || Date.now() < ADRES_SENK.bekle || document.visibilityState === 'hidden') return;
+  const k = acikKonum(aktifApp); if (!k || !k.id) return;
+  const yeni = '#/' + aktifApp + '/ac/' + encodeURIComponent(k.id) + (k.alt ? '/' + encodeURIComponent(k.alt) : '');
+  if (location.hash === yeni) return;
+  try { history.replaceState(history.state, '', yeni); } catch (e) { return; }
+  const m = DIZIN_MAP[aktifApp + ':' + k.id];
+  document.title = (m ? m.ad + ' — ' : '') + UYG[aktifApp].ad;
+}
+setInterval(adresSenkronla, 1000);
 
 /* =====================================================================
    4b) ZİYARET SAYACI (GoatCounter) — okul-asistani.com.tr, Vercel ve Netlify adreslerinde
@@ -937,9 +994,11 @@ function yonlendir(sadeceCiz) {
     const c = cerceveAl(app);
     Object.keys(cerceveler).forEach(k => cerceveler[k].iframe.classList.toggle('gorunur', k === app));
     const id = p[2] && idGecerli(decodeURIComponent(p[2])) ? decodeURIComponent(p[2]) : null;
+    const alt = id && p[3] && altGecerli(decodeURIComponent(p[3])) ? decodeURIComponent(p[3]) : null;
     if (id) sonEkle(app + ':' + id);
-    if (!c.hazir) { $('yukleniyor-metin').textContent = UYG[app].ad + ' yükleniyor…'; $('yukleniyor').classList.add('acik'); if (id) c.bekleyen = id; }
-    else { $('yukleniyor').classList.remove('acik'); if (id) modulCalistir(app, id); }
+    ADRES_SENK.bekle = Date.now() + (c.hazir ? 1800 : 600000);
+    if (!c.hazir) { $('yukleniyor-metin').textContent = UYG[app].ad + ' yükleniyor…'; $('yukleniyor').classList.add('acik'); c.bekleyen = id ? { id, alt } : null; }
+    else { $('yukleniyor').classList.remove('acik'); if (id) modulCalistir(app, id, alt); }
     const mAd = id && DIZIN_MAP[app + ':' + id] ? DIZIN_MAP[app + ':' + id].ad : '';
     document.title = (mAd ? mAd + ' — ' + UYG[app].ad : UYG[app].ad + ' — Okul Asistanı');   /* yer imi bu adla kaydedilir */
     sayacSay('/' + app + (id ? '/' + id : '/ac'), UYG[app].ad + (mAd ? ' › ' + mAd : ' (uygulama)'));
