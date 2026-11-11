@@ -527,10 +527,13 @@ function uygulamalariAyarla(liste) {
   const temiz = [], indir = [];
   (Array.isArray(liste) ? liste : []).forEach(u => {
     if (u && u.tur === 'indir') {
-      if (!idGecerli(u.id) || !yolGecerli(u.dosya) || indir.some(x => x.id === u.id)) return;
+      const baglantilar = (Array.isArray(u.baglantilar) ? u.baglantilar : []).filter(b => b && /^https:\/\/[^\s"'<>]+$/.test(String(b.url || '')))
+        .map(b => ({ ad: String(b.ad || 'İndir'), ico: String(b.ico || '⬇️'), url: String(b.url), kod: idGecerli(b.kod) ? b.kod : 'baglanti' }));
+      if (!idGecerli(u.id) || (!yolGecerli(u.dosya) && !baglantilar.length) || indir.some(x => x.id === u.id)) return;
       indir.push({
-        id: u.id, ad: String(u.ad || u.id), ico: u.ico || '⬇️', renk: u.renk || '#14213d', dosya: u.dosya,
-        indirAdi: String(u.indirAdi || u.dosya.split('/').pop()), kilavuz: yolGecerli(u.kilavuz) ? u.kilavuz : '',
+        id: u.id, ad: String(u.ad || u.id), ico: u.ico || '⬇️', renk: u.renk || '#14213d', dosya: yolGecerli(u.dosya) ? u.dosya : '', baglantilar,
+        indirAdi: String(u.indirAdi || (yolGecerli(u.dosya) ? u.dosya.split('/').pop() : '')), kilavuz: yolGecerli(u.kilavuz) ? u.kilavuz : '',
+        uyarilar: metinListesi(u.uyarilar).map(x => x.ad),
         surum: String(u.surum || ''), boyut: String(u.boyut || ''), sha256: /^[a-f0-9]{64}$/i.test(u.sha256 || '') ? u.sha256.toLowerCase() : '',
         aciklama: String(u.aciklama || ''), uzunAciklama: String(u.uzunAciklama || u.aciklama || ''),
         platform: metinListesi(u.platform).map(x => x.ad), ozellikler: metinListesi(u.ozellikler),
@@ -1565,7 +1568,7 @@ function kisayolPenceresi() {
 const indirBoyut = {};
 function boyutYaz(b) { return b >= 1048576 ? (b / 1048576).toLocaleString('tr-TR', { maximumFractionDigits: 1 }) + ' MB' : Math.max(1, Math.round(b / 1024)) + ' KB'; }
 async function boyutBul(u) {
-  if (indirBoyut[u.id] !== undefined) return;
+  if (indirBoyut[u.id] !== undefined || !u.dosya) return;
   indirBoyut[u.id] = '';
   try {
     const r = await fetch(u.dosya, { method: 'HEAD', cache: 'no-store' });
@@ -1577,8 +1580,12 @@ async function boyutBul(u) {
   } catch (e) {}
 }
 const boyutMetni = u => indirBoyut[u.id] || u.boyut;
-function indirSay(id, ne) { sayacGonder({ path: 'indir/' + id + '/' + ne, title: (INDIR[id] ? INDIR[id].ad : id) + (ne === 'zip' ? ' indirildi' : ' kılavuzu açıldı'), event: true }); }
+function indirSay(id, ne) { sayacGonder({ path: 'indir/' + id + '/' + ne, title: (INDIR[id] ? INDIR[id].ad : id) + (ne === 'kilavuz' ? ' kılavuzu açıldı' : ne === 'zip' ? ' indirildi' : ' indirildi (' + ne + ')'), event: true }); }
 function indirDugmeleri(u, buyuk) {
+  if (u.baglantilar.length) {   /* Drive gibi dış bağlantılar: yeni sekmede açılır */
+    return u.baglantilar.map((b, i) => `<a class="btn ${buyuk ? 'btn-beyaz' : 'btn-dolu'}" href="${kacis(b.url)}" target="_blank" rel="noopener" onclick="indirSay('${u.id}','${b.kod}')">${kacis(b.ico)} ${kacis(b.ad)}</a>`).join('') +
+      (u.kilavuz ? `<a class="btn ${buyuk ? 'btn-seffaf' : 'btn-hayalet'}" href="${kacis(u.kilavuz)}" target="_blank" rel="noopener" onclick="indirSay('${u.id}','kilavuz')">📖 Kurulum kılavuzu</a>` : '');
+  }
   const b = boyutMetni(u);
   return `<a class="btn ${buyuk ? 'btn-beyaz' : 'btn-dolu'}" href="${kacis(u.dosya)}" download="${kacis(u.indirAdi)}" onclick="indirSay('${u.id}','zip');indirSonrasi('${u.id}')">⬇️ İndir${b || !buyuk ? ` <span style="font-weight:600;opacity:.75" data-boyut="${u.id}">${kacis(b)}</span>` : ''}</a>` +
     (u.kilavuz ? `<a class="btn ${buyuk ? 'btn-seffaf' : 'btn-hayalet'}" href="${kacis(u.kilavuz)}" target="_blank" rel="noopener" onclick="indirSay('${u.id}','kilavuz')">📖 Kurulum kılavuzu</a>` : '');
@@ -1599,7 +1606,7 @@ function indirAra(q) {
     return parcalar.every(p => metin.includes(p));
   });
 }
-function indirSonrasi(id) {
+function indirSonrasi(id) {  /* yalnızca sitedeki dosya için */
   const u = INDIR[id]; if (!u) return;
   setTimeout(() => bildir('İndirme başladı. Tarayıcı uyarı verirse “Sakla / Yine de indir” seçin.'), 300);
 }
@@ -1614,11 +1621,13 @@ function indirSayfaCiz(id) {
   const adim = u.adimlar.length ? `<div class="indir-panel"><h3>🧭 Kurulum ${u.adimlar.length} adımda</h3><ol class="adim-liste">${u.adimlar.map(a => `<li>${kacis(a)}</li>`).join('')}</ol>
       ${u.kilavuz ? `<a class="btn btn-hayalet" style="text-decoration:none" href="${kacis(u.kilavuz)}" target="_blank" rel="noopener" onclick="indirSay('${u.id}','kilavuz')">📖 Resimli kılavuzu aç</a>` : ''}</div>` : '';
   const gerek = u.gereksinimler.length ? `<div class="indir-panel"><h3>🖥️ Gereksinimler</h3><ul class="duz">${u.gereksinimler.map(g => `<li>${kacis(g)}</li>`).join('')}</ul></div>` : '';
-  const uyari = `<div class="indir-panel"><h3>⚠️ İndirirken uyarı çıkarsa</h3><div class="uyari-kutu">
-      Program yeni bir siteden indirildiği ve içinde kurulum betikleri (.bat) bulunduğu için Chrome veya Windows uyarı verebilir:
-      <ul style="margin:6px 0 0;padding-left:18px"><li><b>Chrome:</b> indirilenler listesinde <b>Sakla</b> / <b>Yine de indir</b>.</li>
+  const uyariMaddeleri = u.uyarilar.length ? u.uyarilar.map(x => `<li>${kacis(x)}</li>`).join('') :
+      `<li><b>Chrome:</b> indirilenler listesinde <b>Sakla</b> / <b>Yine de indir</b>.</li>
       <li><b>Windows “bilgisayarınız korundu” ekranı:</b> <b>Ek bilgi → Yine de çalıştır</b>.</li>
-      <li>Zip'i çalıştırmadan önce <b>bir klasöre çıkarın</b>; zip içinden çalıştırmayın.</li></ul></div>
+      <li>Zip'i çalıştırmadan önce <b>bir klasöre çıkarın</b>; zip içinden çalıştırmayın.</li>`;
+  const uyari = `<div class="indir-panel"><h3>⚠️ İndirirken uyarı çıkarsa</h3><div class="uyari-kutu">
+      ${u.uyarilar.length ? '' : 'Program yeni bir siteden indirildiği ve içinde kurulum betikleri (.bat) bulunduğu için Chrome veya Windows uyarı verebilir:'}
+      <ul style="margin:${u.uyarilar.length ? 0 : '6px'} 0 0;padding-left:18px">${uyariMaddeleri}</ul></div>
       ${u.sha256 ? `<p style="font-size:12.5px;color:var(--soluk);margin:12px 0 0">Dosyanın değişmediğini doğrulamak için parmak izi (SHA-256):</p><div class="parmak">${u.sha256}</div>
         <button class="btn btn-hayalet" style="padding:6px 10px;font-size:12px" onclick="parmakKopyala('${u.id}')">Kopyala</button>
         <p style="font-size:12px;color:var(--soluk);margin:8px 0 0">Windows'ta kontrol: PowerShell'de <code>Get-FileHash dosya.zip</code></p>` : ''}</div>`;

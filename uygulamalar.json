@@ -135,5 +135,98 @@
       "İlk kurulumda internet (Python yoksa resmî kaynaktan kurulur)"
     ],
     "not": "Resmî MEB yazılımı değildir. Kurulum ve kullanım okul idaresinin sorumluluğundadır. Kilit ekranı öğrencilerin izinsiz kullanımını önlemek içindir; teknik bilgisi olan birine karşı tam güvenlik sağlamaz."
+  },
+  {
+    "id": "zil",
+    "tur": "indir",
+    "ad": "Zil Asistanı",
+    "kisaAd": "Zil",
+    "ico": "🔔",
+    "renk": "#b45309",
+    "surum": "1.3",
+    "platform": [
+      "Windows 10/11",
+      "Pardus / ETAP"
+    ],
+    "baglantilar": [
+      {
+        "ad": "Windows için indir",
+        "ico": "🪟",
+        "kod": "windows",
+        "url": "https://drive.google.com/file/d/1flDNlNUToKMGht4B6fIG2HVAg3Q5vw_f/view?usp=drivesdk"
+      },
+      {
+        "ad": "Pardus / ETAP için indir",
+        "ico": "🐧",
+        "kod": "pardus",
+        "url": "https://drive.google.com/file/d/1kWkez5u7CL4XjVjVNdRXRw7Y4yvRNC_6/view?usp=drivesdk"
+      }
+    ],
+    "aciklama": "Okul zil programı: ders öncesi giriş ve öğretmen zilleri, tekli/ikili eğitim, tören, İstiklal Marşı, anonslar.",
+    "uzunAciklama": "Okulun zil saatlerini kendisi çalan masaüstü programı. Ders saatlerini girersiniz; öğrenci ve öğretmen zilleri dersten önce, çıkış zili ders sonunda kendiliğinden çalar. MEB zil sesleri, İstiklal Marşı ve saygı duruşu kayıtları programın içinde hazır gelir.",
+    "ozellikler": [
+      {
+        "ad": "Ders öncesi ziller",
+        "acik": "Öğrenci ve öğretmen zili dersten önce, dakikaları ayarlanabilir"
+      },
+      {
+        "ad": "Tekli / ikili eğitim",
+        "acik": "Günde iki ayrı zil programı, sınırsız ders"
+      },
+      {
+        "ad": "Esnek teneffüsler",
+        "acik": "Her teneffüs ve öğle arası ayrı ayarlanır"
+      },
+      {
+        "ad": "Hazır zil sesleri",
+        "acik": "MEB zil sesleri ve anonslu ziller; istenen ses seçilebilir"
+      },
+      {
+        "ad": "Tek dokunuşla",
+        "acik": "İstiklal Marşı (sözlü/sözsüz), saygı duruşu, siren"
+      },
+      {
+        "ad": "Tören ve sınav",
+        "acik": "Tören, okuma saati ve deneme sınavında zil çalmaz"
+      },
+      {
+        "ad": "Anonslar",
+        "acik": "Anons kaydı, hazır anonslar ve zamanlama"
+      },
+      {
+        "ad": "Ders sırasında sessizlik",
+        "acik": "Derste bilgisayar sesi kapanır, teneffüste açılır"
+      },
+      {
+        "ad": "Bugün ekranı",
+        "acik": "Günün tüm zilleri; çalanlar işaretli, sıradaki öne çıkar"
+      },
+      {
+        "ad": "Haftalık plan",
+        "acik": "Pazartesi ayarlarını diğer günlere aktarma, hafta sonu programı"
+      },
+      {
+        "ad": "Yedekleme",
+        "acik": "Tüm ayarları yedekleyip başka bilgisayara aktarma"
+      }
+    ],
+    "adimlar": [
+      "Windows: zip'i indirip kalıcı bir klasöre çıkarın (ör. C:\\ZilAsistani) ve ZilAsistani.exe'yi çalıştırın.",
+      "Pardus / ETAP: .deb dosyasına çift tıklayıp kurun, sonra Uygulamalar menüsünden “Zil Asistanı”nı açın.",
+      "İlk açılıştaki kurulum sihirbazında okul adını, eğitim türünü ve ders saatlerini girin.",
+      "Bilgisayar açılınca programın kendiliğinden başlamasını seçin; program penceresi açık kaldığı sürece ziller çalar."
+    ],
+    "gereksinimler": [
+      "Windows 10 veya 11 (eski 32 bit Windows için zip içinde ayrı sürüm var)",
+      "Pardus / ETAP (64 bit)",
+      "Hoparlör veya okul anons sistemine bağlı bilgisayar"
+    ],
+    "uyarilar": [
+      "İndirme Google Drive'da açılır: sağ üstteki ⬇️ İndir düğmesine basın.",
+      "Drive “virüs taraması yapılamadı” derse “Yine de indir”i seçin.",
+      "Windows “bilgisayarınız korundu” derse: Ek bilgi → Yine de çalıştır.",
+      "Drive günlük indirme sınırına ulaşırsa bir süre sonra tekrar deneyin."
+    ],
+    "not": "Resmî MEB yazılımı değildir. Kurulum ve kullanım okul idaresinin sorumluluğundadır. Program penceresi kapatılırsa zil çalmaz."
   }
 ]
