@@ -153,13 +153,13 @@
         "ad": "Windows için indir",
         "ico": "🪟",
         "kod": "windows",
-        "url": "https://drive.google.com/file/d/1flDNlNUToKMGht4B6fIG2HVAg3Q5vw_f/view?usp=drivesdk"
+        "url": "https://drive.usercontent.google.com/download?id=1flDNlNUToKMGht4B6fIG2HVAg3Q5vw_f&export=download&confirm=t"
       },
       {
         "ad": "Pardus / ETAP için indir",
         "ico": "🐧",
         "kod": "pardus",
-        "url": "https://drive.google.com/file/d/1kWkez5u7CL4XjVjVNdRXRw7Y4yvRNC_6/view?usp=drivesdk"
+        "url": "https://drive.usercontent.google.com/download?id=1kWkez5u7CL4XjVjVNdRXRw7Y4yvRNC_6&export=download&confirm=t"
       }
     ],
     "aciklama": "Okul zil programı: ders öncesi giriş ve öğretmen zilleri, tekli/ikili eğitim, tören, İstiklal Marşı, anonslar.",
@@ -222,9 +222,10 @@
       "Hoparlör veya okul anons sistemine bağlı bilgisayar"
     ],
     "uyarilar": [
-      "İndirme Google Drive'da açılır: sağ üstteki ⬇️ İndir düğmesine basın.",
-      "Drive “virüs taraması yapılamadı” derse “Yine de indir”i seçin.",
+      "Düğmeye basınca dosya doğrudan iner; Google Drive sayfası açılmaz.",
+      "Drive “virüs taraması yapılamadı” sayfası çıkarsa “Yine de indir”i seçin.",
       "Windows “bilgisayarınız korundu” derse: Ek bilgi → Yine de çalıştır.",
+      "Program bilgisayar içindir; telefonda indirdiyseniz dosyayı bilgisayara aktarın.",
       "Drive günlük indirme sınırına ulaşırsa bir süre sonra tekrar deneyin."
     ],
     "not": "Resmî MEB yazılımı değildir. Kurulum ve kullanım okul idaresinin sorumluluğundadır. Program penceresi kapatılırsa zil çalmaz."
