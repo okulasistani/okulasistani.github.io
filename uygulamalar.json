@@ -60,17 +60,17 @@
     "ico": "🖥️",
     "renk": "#1d4e89",
     "dosya": "TahtaYonetim.zip",
-    "indirAdi": "TahtaYonetim-3.2.0.zip",
+    "indirAdi": "TahtaYonetim-3.3.0.zip",
     "kilavuz": "tahta-kilavuz.html",
-    "surum": "3.2.0",
-    "boyut": "1,6 MB",
-    "sha256": "6e68553b8d7283a99967dd7b2b26e9918a399e83da01aa6e3d141bfe01cecc7f",
+    "surum": "3.3.0",
+    "boyut": "1,7 MB",
+    "sha256": "e9e0a999360ed451f1548ba7494b6c321cbe31e243d6239077b751f46fd97423",
     "platform": [
       "Windows 10/11 (yönetim)",
       "Pardus / ETAP tahtalar",
       "Windows tahtalar"
     ],
-    "aciklama": "Okuldaki akıllı tahtaları tek panelden yönetin: kilit, duyuru, dosya gönderme, zil programı, sınav modu ve raporlar.",
+    "aciklama": "Okuldaki akıllı tahtaları tek panelden yönetin: kilit, duyuru, dosya gönderme, zil programı, canlı ekran, uzaktan güncelleme ve raporlar.",
     "uzunAciklama": "İdareci bilgisayarına kurulan bir yönetim paneli ve her tahtaya (Pardus/ETAP veya Windows) bir kez kurulan küçük bir ajandan oluşur. Tahtaları okul ağı üzerinden kilitler, duyuru ve dosya gönderir, zil programını tahtalarda çalıştırır; telefondan da yönetilebilir. İnternete veri göndermez.",
     "ozellikler": [
       {
@@ -86,8 +86,8 @@
         "acik": "Sunum, PDF, video tahtaların masaüstüne"
       },
       {
-        "ad": "Zil programı ve zamanlayıcı",
-        "acik": "Ders saatlerine göre zil, kilit, kapatma"
+        "ad": "Zil programı",
+        "acik": "Ders saatlerinden ziller kendiliğinden oluşur; ses kitaplığı, tatil günleri"
       },
       {
         "ad": "Ortak Klasör",
