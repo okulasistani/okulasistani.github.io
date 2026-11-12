@@ -186,6 +186,8 @@ body.uygulama-modu{overflow:hidden}
 .msj.gel .msj-alinti{background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
 .msj.gel .msj-alinti b{color:#f2b544}
 .msj-alinti i{color:#8a8f9c}
+.msj-link{color:hsl(var(--h) 75% 32%);text-decoration:underline;text-underline-offset:2px;word-break:break-all;font-weight:600}
+.msj.gel .msj-link{color:#f2b544}
 .msj-metin.silindi{color:#8a8f9c;font-style:italic;font-size:13.5px}
 .msj-duz{color:#8a8f9c;font-size:11px;font-style:italic}
 .msj.gel .msj-duz{color:rgba(255,255,255,.55)}
@@ -1317,6 +1319,33 @@ const gunAdi = t => {
 };
 const saatYaz = t => new Date(t).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
 const SOH_DUZENLEME_SURESI = 15 * 60 * 1000;
+/* Tıklanabilir bağlantılar — sunucudaki IZINLI_ALANLAR ile aynı. Geliştirici mesajlarında her bağlantı tıklanır. */
+const LINK_IZINLI = ['okul-asistani.com.tr', 'meb.gov.tr', 'meb.k12.tr', 'eba.gov.tr', 'mevzuat.gov.tr', 'resmigazete.gov.tr',
+  'turkiye.gov.tr', 'youtube.com', 'youtu.be', 'drive.google.com', 'drive.usercontent.google.com', 'docs.google.com'];
+const LINK_RE = /(?:https?:\/\/)?(?:[a-z0-9-]+\.)+[a-z]{2,}(?::\d+)?(?:\/[^\s<>"']*)?/gi;
+const LINK_UZANTI = /\.(com|net|org|tr|xyz|info|io|me|ly|gl|co|site|online|link|biz|ru|top|shop|app|dev|be|cc|tv|us|uk|de|eu|gov|edu|club|live|click|vip|pro|ws|to)$/i;
+function linkIzinli(ham) {
+  const s = ham.replace(/^https?:\/\//i, ''), host = s.split(/[/:?#]/)[0].toLowerCase(), yol = s.slice(host.length);
+  if (host === 't.me' || host === 'telegram.me') return /^\/okulprogram\b/i.test(yol);
+  return LINK_IZINLI.some(d => host === d || host.endsWith('.' + d));
+}
+/* Metni güvenle HTML'e çevirir; izinli bağlantıları tıklanabilir yapar */
+function sohbetMetinHtml(metin, gelistirici) {
+  const t = String(metin || ''); let o = '', son = 0;
+  t.replace(LINK_RE, (b, i) => {
+    let url = b, kuyruk = '';
+    const k = url.match(/[.,;:!?)\]}'"»]+$/); if (k) { kuyruk = k[0]; url = url.slice(0, -kuyruk.length); }
+    const host = url.replace(/^https?:\/\//i, '').split(/[/:?#]/)[0];
+    const bag = /^https?:\/\//i.test(url) || /^www\./i.test(host) || LINK_UZANTI.test(host);
+    if (!bag || !(gelistirici || linkIzinli(url))) return b;
+    const href = /^https?:\/\//i.test(url) ? url : 'https://' + url;
+    let hedef = ' target="_blank" rel="noopener noreferrer nofollow ugc"';
+    try { const u = new URL(href); if (u.host === location.host || /(^|\.)okul-asistani\.com\.tr$/i.test(u.hostname)) hedef = ''; } catch (e) { return b; }
+    o += kacis(t.slice(son, i)) + `<a class="msj-link" href="${kacis(href)}"${hedef}>${kacis(url)}</a>` + kacis(kuyruk);
+    son = i + b.length; return b;
+  });
+  return o + kacis(t.slice(son));
+}
 const sohbetBenimMi = m => !!m && !m.g && !!SOH.benAd && m.a === SOH.benAd;
 function sohbetMesajHtml(m, yon) {
   const ben = sohbetBenimMi(m) && !yon;
@@ -1325,7 +1354,7 @@ function sohbetMesajHtml(m, yon) {
   const menuBtn = ben && !m.sil ? `<button onclick="sohbetMenu(${m.id})" title="Düzenle / sil" aria-label="Mesaj seçenekleri">⋯</button>` : '';
   const bildirBtn = !yon && !m.g && !ben && !m.sil ? `<button onclick="sohbetBildir(${m.id})" title="Uygunsuz olarak bildir" aria-label="Bildir">⚑</button>` : '';
   const alinti = m.r ? `<button type="button" class="msj-alinti" onclick="sohbetMesajaGit(${+m.r})">↩ <b>${kacis(m.ra || '')}</b> ${m.rs || !m.rm ? '<i>Silinmiş mesaj</i>' : kacis(m.rm)}</button>` : '';
-  const metin = m.sil ? '<div class="msj-metin silindi">🚫 Bu mesaj silindi</div>' : `<div class="msj-metin">${kacis(m.m)}</div>`;
+  const metin = m.sil ? '<div class="msj-metin silindi">🚫 Bu mesaj silindi</div>' : `<div class="msj-metin">${sohbetMetinHtml(m.m, m.g)}</div>`;
   return `<div class="msj${ben ? ' ben' : ''}${m.g ? ' gel' : ''}" data-id="${m.id}" style="--h:${(+m.h || 0) % 360}"><span class="kaydir-ok">↩</span>
     <div class="msj-bas"><span class="msj-ad">${kacis(m.a)}</span>${m.g ? '<span class="rozet" title="Site geliştiricisi">✔</span>' : ''}<span class="msj-zaman">${saatYaz(m.t)}</span>${m.d ? '<span class="msj-duz">düzenlendi</span>' : ''}
       <span class="msj-islem">${yanitBtn}${menuBtn}${bildirBtn}${yonBtn}</span></div>
