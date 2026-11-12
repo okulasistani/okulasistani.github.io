@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İdare Asistanı 7.2.9 — MEB Yönetim Portalı & Resmi Evrak</title>
+    <title>İdare Asistanı 7.3.0 — MEB Yönetim Portalı & Resmi Evrak</title>
     <!-- Tailwind CSS -->
     
 <style id="critical-offline-css">
@@ -787,7 +787,7 @@ tailwind.config = {
             <p id="son-yedek-bilgi" class="text-[9px] text-center text-slate-500"></p>
         </div>
         <div class="px-2.5 py-2 border-t border-slate-800 text-center flex-shrink-0">
-            <p class="text-[9px] text-slate-500 truncate">Mehmet Can Öztürk-Cuma Çetinkaya <span class="text-slate-400 font-normal" style="cursor:pointer;text-decoration:underline dotted" title="Yenilikleri göster" onclick="portalSurumPopupGoster(true)">· v<span id="portal-surum-etiket">7.2.9</span></span></p>
+            <p class="text-[9px] text-slate-500 truncate">Mehmet Can Öztürk-Cuma Çetinkaya <span class="text-slate-400 font-normal" style="cursor:pointer;text-decoration:underline dotted" title="Yenilikleri göster" onclick="portalSurumPopupGoster(true)">· v<span id="portal-surum-etiket">7.3.0</span></span></p>
             <p class="text-[9px] text-slate-400 font-semibold mt-1 uppercase tracking-wide">İletişim</p>
             <div class="flex items-center justify-center gap-2 flex-wrap text-[9px] text-slate-500 mt-0.5">
                 <a href="mailto:cann201921@gmail.com" class="text-sky-400 hover:text-sky-300 underline" title="E-posta gönder"><i class="fa-solid fa-envelope mr-0.5"></i>cann201921@gmail.com</a>
@@ -7815,7 +7815,7 @@ window.boardSetKademe = function(kademe) {
             degerlerEgitimi: 'Ne işe yarar: Değerler eğitimi planı ve kayıtları.\nNasıl: Plan satırlarını doldurun; sorumlu öğretmen atayın; yazdırın.',
             destekEgitim: 'Ne işe yarar: Destek eğitim odası ve evde eğitim evrakları.\nNasıl: Destek veya Evde Eğitim sekmesini seçin; öğrenci planlama → çizelge → dilekçe sırasını izleyin.',
             sorumlulukSinavi: 'Ne işe yarar: Ortaöğretim sorumluluk sınavı listesi, program, komisyon ve tutanaklar.\nNasıl: Öğrenci/ders bilgisini girin; komisyonu kurun; program ve tutanakları yazdırın.',
-            disiplinIslemleri: 'Ne işe yarar: Kademeye göre disiplin / ödül evrakları.\nNasıl: İlkokul, ortaokul veya ortaöğretim seçin; ilgili belgeyi doldurup yazdırın.',
+            disiplinIslemleri: 'Ne işe yarar: Kademeye göre disiplin / ödül evrakları; ortaokulda Öğrenci Davranışlarını Değerlendirme Kurulu (kurulun seçimi, olay dosyaları ve süre takibi, EK-9/EK-10, tebliğ, itiraz, ilçe kurulu, arama tutanağı, yıl sonu raporu). Kademe Okul Profili’nden gelir.\nNasıl: İlkokul, ortaokul veya ortaöğretim seçin; ilgili belgeyi doldurup yazdırın.',
             tasimaliEgitim: 'Ne işe yarar: Taşımalı eğitim planlama, denetim ve puantaj evrakları.\nNasıl: Araç/şoför bilgisi girin; tutanak ve puantaj formlarını kullanın.',
             gezi: 'Ne işe yarar: Okul gezisi planı, izin ve güvenlik kontrolü.\nNasıl: Güzergâh, tarih, öğrenci ve görevli öğretmenleri doldurun; kontrol listesini işaretleyin.',
             yolluk: 'Ne işe yarar: Sürekli görev yolluk / harcırah hesabı.\nNasıl: Personel, güzergâh ve gün bilgisini girin; hesabı yazdırın.',
@@ -11448,6 +11448,9 @@ window.staffTcTemizle = function(v) { return String(v == null ? '' : v).replace(
             'EYL|kur|*|*|-|MY|0|Zümre öğretmenler kurulu toplantıları yapılır; yıllık planlar incelenip onaylanır.',
             'EYL|kur|*|*|-|M|0|Okul kurul ve komisyonları oluşturularak görevlendirmeler tebliğ edilir.',
             'EYL|kur|*|*|-|R|1|Rehberlik ve psikolojik danışma hizmetleri yürütme komisyonu toplanır.',
+            'EYL|kur|orta,ih|*|-|M|0|Öğrenci davranışlarını değerlendirme kurulunun öğretmen üyeleri öğretmenler kurulunda gizli oyla seçilir (3 asıl, 3 yedek); veli üye okul-aile birliğinden istenir, görevlendirmeler tebliğ edilir.',
+            'OCA|kur|orta,ih|*|-|MY|0|Öğrenci davranışlarını değerlendirme kurulu dönem sonunda toplanarak iyi hâl gösteren öğrencilerin yaptırımlarının kaldırılmasını görüşür.',
+            'HAZ|kur|orta,ih|*|-|MY|0|Öğrenci davranışlarını değerlendirme kurulu yıl sonu raporunu hazırlar; yaptırımların kaldırılması görüşülür, dosyalar arşivlenir.',
             'EYL|egt|*|*|-|MY|0|Ders kitapları dağıtılır, dağıtım tutanakları düzenlenir.',
             'EYL|egt|orta,lise|*|-|MY|0|Türk Dünyası materyalleri ders kitaplarıyla birlikte öğrencilere ulaştırılır.',
             'EYL|egt|*|*|-|MY|0|Millî birlik ve beraberlik etkinlikleri yılın ilk haftası yapılır.',
@@ -38918,6 +38921,7 @@ function isgPrint(kind){
         window.disiplinSetKademe = function(k) {
             var d = disiplinEnsure();
             d.kademe = k;
+            d.kademeElle = true;
             d.activeDoc = 'liste';
             if (typeof updateUI === 'function') updateUI();
         };
@@ -38973,6 +38977,519 @@ function isgPrint(kind){
             degistir: 'Okul değiştirme (Madde 164/3) — İlçe öğrenci disiplin kurulu onayı',
             orgun: 'Örgün eğitim dışına çıkarma (Madde 164/4) — İl öğrenci disiplin kurulu onayı'
         };
+        /* ==================== v7.3.0: ÖĞRENCİ DAVRANIŞLARINI DEĞERLENDİRME KURULU (ÖDDK) ====================
+           Dayanak: MEB Okul Öncesi Eğitim ve İlköğretim Kurumları Yönetmeliği md. 51–65 (28.07.2026 tarihli ve
+           33323 sayılı RG değişiklikleriyle: karar defteri yerine tutanak, EK-10, rehber öğretmen eşliğinde
+           ifade, md. 55/1-b-16 bilişim araçları, md. 78 arama tutanağı). Yaptırımlar yalnızca ortaokul ve imam
+           hatip ortaokulunda uygulanır. Kurul üyeleri Kurul ve Komisyonlar'daki 441 numaralı kurulla ortaktır. */
+        var OD_KOM_ID = 441;
+        window.OD_DAVRANIS = [
+            ['U1', 'uyarma', 'Okula geç gelmek, özürsüz devamsızlık yapmak'],
+            ['U2', 'uyarma', 'Okula, yönetimce yasaklanan araç-gereç ve malzeme getirmek'],
+            ['U3', 'uyarma', 'Yalan söylemek'],
+            ['U4', 'uyarma', 'Genel ahlak ve görgü kurallarına uymamak'],
+            ['U5', 'uyarma', 'Ders sırasında cep telefonunu açık tutmak'],
+            ['U6', 'uyarma', 'Kılık ve kıyafete ilişkin kurallara uymamak'],
+            ['U7', 'uyarma', 'Okul içinde ve dışında okul kurallarına aykırı davranmak'],
+            ['K1', 'kinama', 'Okul yöneticilerine, öğretmenlerine, personele ve arkadaşlarına kaba ve saygısız davranmak'],
+            ['K2', 'kinama', 'Dersin ve etkinliklerin akışını bozmak, engellemek'],
+            ['K3', 'kinama', 'Okul yönetimini yanlış bilgilendirmek'],
+            ['K4', 'kinama', 'Okulda tütün ve tütün mamulleri kullanmak'],
+            ['K5', 'kinama', 'Resmî belgelerde değişiklik yapmak'],
+            ['K6', 'kinama', 'Okulda kavga etmek'],
+            ['K7', 'kinama', 'İzinsiz ses ve görüntü kaydı almak, yaymak'],
+            ['K8', 'kinama', 'Okul araç-gereç ve eşyasına kasıtlı olarak zarar vermek'],
+            ['K9', 'kinama', 'Okul kaynaklarını izinsiz kullanmak'],
+            ['K10', 'kinama', 'Sınavlarda kopya çekmek veya çekilmesine yardım etmek'],
+            ['K11', 'kinama', 'Bilişim araçlarını okul yönetimince belirlenen usul ve esaslara aykırı şekilde kullanmak (md. 55/1-b-16)'],
+            ['D1', 'degistir', 'Anayasa’nın temel ilkelerine aykırı davranmak'],
+            ['D2', 'degistir', 'Sarkıntılık, hakaret, tehdit veya taciz etmek'],
+            ['D3', 'degistir', 'Okula yaralayıcı, öldürücü alet ve patlayıcı madde getirmek'],
+            ['D4', 'degistir', 'Kasıtlı olarak yangın çıkarmak'],
+            ['D5', 'degistir', 'Siyasi propaganda yapmak, izinsiz para toplamak'],
+            ['D6', 'degistir', 'Ayrımcılık yapmak veya ayrımcılığı kışkırtmak'],
+            ['D7', 'degistir', 'Okul eşyasına zarar vermeyi alışkanlık hâline getirmek'],
+            ['D8', 'degistir', 'Derslere girilmesini engellemek, şiddet uygulamak'],
+            ['D9', 'degistir', 'Okula yabancı kişileri getirmek veya barındırmak'],
+            ['D10', 'degistir', 'Sınavlarda başkasının yerine girmek veya yerine başkasını sokmak'],
+            ['D11', 'degistir', 'Alkollü içki ya da bağımlılık yapan madde kullanmak, bulundurmak, kullanımını teşvik etmek'],
+            ['X', '', 'Diğer (olay özetinde açıklanacak)']
+        ];
+        window.OD_YAPTIRIM = { uyarma: 'Uyarma', kinama: 'Kınama', degistir: 'Okul değiştirme', yok: 'Yaptırım uygulanmasına yer olmadığı', odul: 'Ödüllendirme' };
+        var OD_SIRA = { uyarma: 1, kinama: 2, degistir: 3 };
+        window.OD_BELGE = [
+            ['Uyarma süreci', [['sozlu', 'Sözlü Uyarma Kayıt Formu'], ['sozlesme', 'Öğrenci Davranış Sözleşmesi (EK-9)'], ['veliGorusme', 'Veli Görüşme Tutanağı'], ['arabulucu', 'Arabuluculuk / Çatışma Çözme Kayıt Formu']]],
+            ['Kurula sevk ve inceleme', [['havale', 'Kurula Havale Yazısı'], ['kurulCagri', 'Kurul Üyelerine Toplantı Çağrısı'], ['cagri', 'Öğrenci ve Veliye Çağrı Yazısı'], ['ifadeOgrenci', 'Öğrenci İfade ve Savunma Tutanağı'], ['ifadeMagdur', 'Mağdur İfade Tutanağı'], ['ifadeTanik', 'Tanık İfade Tutanağı'], ['gelmedi', 'Çağrıya Uymama / İfade Vermeme Tutanağı']]],
+            ['Karar ve sonrası', [['karar', 'Karar Tutanağı (EK-10)'], ['mudurOnay', 'Müdür Onayı / Kurula İade'], ['tebligVeli', 'Veliye Tebliğ Yazısı ve Tebliğ Şerhi'], ['itiraz', 'İtiraz Dilekçesi (Veli) Örneği'], ['ilce', 'İlçe Kuruluna Gönderme Yazısı ve Dosya Dizi Pusulası']]],
+            ['Diğer', [['arama', 'Arama Tutanağı (md. 78 — iki nüsha)'], ['zarar', 'Zarar Ödetme Yazısı (md. 65)'], ['kaldirma', 'Yaptırımın Kaldırılması Kararı (md. 62)'], ['odul', 'Ödül Kararı (md. 58)']]]
+        ];
+        var odEsc = function (t) { return escHtml2(t == null ? '' : String(t)); };
+        var odTr = function (t) { try { return String(t || '').toLocaleUpperCase('tr-TR'); } catch (e) { return String(t || '').toUpperCase(); } };
+        var odNorm = function (t) { return String(t || '').toLocaleLowerCase('tr-TR').replace(/\s+/g, ' ').trim(); };
+        window.odTarih = function (iso) { var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || ''); return m ? m[3] + '.' + m[2] + '.' + m[1] : (iso || '…/…/20…'); };
+        window.odIsGunuEkle = function (iso, n) {
+            var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || ''); if (!m) return '';
+            var d = new Date(+m[1], +m[2] - 1, +m[3]), k = 0;
+            while (k < n) { d.setDate(d.getDate() + 1); var w = d.getDay(); if (w !== 0 && w !== 6) k++; }
+            return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+        };
+        var odBugun = function () { var d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+        var odGunFark = function (iso) { var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || ''); if (!m) return null; var a = new Date(+m[1], +m[2] - 1, +m[3]), b = new Date(); b.setHours(0, 0, 0, 0); return Math.round((a - b) / 86400000); };
+        window.odEnsure = function () {
+            if (!state.oddk || typeof state.oddk !== 'object') state.oddk = {};
+            var o = state.oddk;
+            if (!o.sub) o.sub = 'dosyalar';
+            if (!o.kurul) o.kurul = { adaylar: [], yedekler: [], veli: '', veliYedek: '', okTarih: '', oabTarih: '' };
+            if (!Array.isArray(o.kurul.adaylar)) o.kurul.adaylar = [];
+            if (!Array.isArray(o.kurul.yedekler)) o.kurul.yedekler = [];
+            if (!Array.isArray(o.dosyalar)) o.dosyalar = [];
+            if (!Array.isArray(o.toplantilar)) o.toplantilar = [];
+            if (!o.kurulBelge) o.kurulBelge = 'secim';
+            return o;
+        };
+        var odKaydet = function () { try { saveAllData(); } catch (e) {} };
+        window.odKomisyon = function () { return (state.commissions || []).find(function (c) { return c.id === OD_KOM_ID; }); };
+        var odStaffAd = function (id) { var s = (state.staff || []).find(function (x) { return String(x.id) === String(id); }); return s ? s.name : ''; };
+        /* Kurul üyeleri (tek kaynak: Kurul ve Komisyonlar 441) — [{rol, ad, unvan, yedek?}] */
+        window.odUyeler = function () {
+            var c = odKomisyon(), l = [];
+            if (c) (c.roles || []).forEach(function (r, i) {
+                var si = commissionSlotInfo((c.assigned || [])[i]);
+                l.push({ rol: r.replace(/\s*\(.*\)\s*$/, '').replace(/ \d+$/, ''), rolTam: r, ad: si.empty ? '' : si.name, unvan: si.empty ? '' : (si.title || ''), idx: i });
+            });
+            return l;
+        };
+        window.odYedekler = function () {
+            var o = odEnsure();
+            return o.kurul.yedekler.map(function (y) { return { ad: y.id != null ? odStaffAd(y.id) : (y.ad || ''), unvan: 'Yedek Üye (Öğretmen)' }; }).concat(o.kurul.veliYedek ? [{ ad: o.kurul.veliYedek, unvan: 'Yedek Üye (Veli)' }] : []);
+        };
+        /* Dosyada görev yapacak üyeler: akrabalık engelli olanların yerine yedekler sırayla girer */
+        window.odEtkinUyeler = function (f) {
+            var uy = odUyeler(), ye = odYedekler().slice(), engel = (f && f.engel) || {};
+            return uy.map(function (u, i) {
+                if (!engel[i]) return u;
+                var veliMi = /veli/i.test(u.rolTam);
+                var j = ye.findIndex(function (y) { return veliMi ? /veli/i.test(y.unvan) : !/veli/i.test(y.unvan); });
+                if (j < 0) return { rol: u.rol, rolTam: u.rolTam, ad: '', unvan: '', idx: i, yedekYok: true };
+                var y = ye.splice(j, 1)[0];
+                return { rol: u.rol + ' (yedek)', rolTam: u.rolTam, ad: y.ad, unvan: y.unvan, idx: i, yedekten: true };
+            });
+        };
+        window.odSet = function (k, v, yenile) { odEnsure()[k] = v; odKaydet(); if (yenile !== false) updateUI(); };
+        window.odKurulSet = function (k, v) { odEnsure().kurul[k] = v; odKaydet(); updateUI(); };
+        window.odAktif = function () { var o = odEnsure(); return o.dosyalar.find(function (f) { return f.id === o.aktif; }); };
+        window.odDosyaYeni = function (tur) {
+            var o = odEnsure();
+            var no = (o.dosyalar.reduce(function (m, f) { return Math.max(m, f.no || 0); }, 0)) + 1;
+            var f = { id: 'od' + Date.now().toString(36), no: no, tur: tur || 'yaptirim', acilis: odBugun(), ogrenci: { ad: '', sinif: '', no: '', veli: '', veliTel: '', adres: '' }, olayTarih: odBugun(), olaySaat: '', yer: '', ozet: '', bildiren: '', magdur: '', taniklar: '', davranis: '', t: {}, karar: { yaptirim: '', gerekce: '', oy: {}, karsi: '' }, onay: '', engel: {}, zarar: { tutar: '', aciklama: '' }, arama: { yerler: '', bulunan: '', gerekce: '' }, belge: 'karar' };
+            if (tur === 'odul') { f.karar.yaptirim = 'odul'; f.belge = 'odul'; }
+            if (tur === 'arabulucu') f.belge = 'arabulucu';
+            o.dosyalar.unshift(f); o.aktif = f.id; o.sub = 'dosya';
+            odKaydet(); updateUI();
+        };
+        window.odDosyaAc = function (id) { var o = odEnsure(); o.aktif = id; o.sub = 'dosya'; odKaydet(); updateUI(); };
+        window.odDosyaSil = function (id) {
+            showCustomConfirm('Dosyayı Sil', 'Bu olay dosyası ve içindeki bütün kayıtlar silinsin mi?', function (ok) {
+                if (!ok) return; var o = odEnsure(); o.dosyalar = o.dosyalar.filter(function (f) { return f.id !== id; }); if (o.aktif === id) { o.aktif = null; o.sub = 'dosyalar'; } odKaydet(); updateUI();
+            });
+        };
+        /* Alan yazımı: "ogrenci.ad", "t.havale", "karar.gerekce" … yeniden çizmeden kaydeder */
+        window.odF = function (yol, v, yenile) {
+            var f = odAktif(); if (!f) return;
+            var p = yol.split('.'), h = f;
+            for (var i = 0; i < p.length - 1; i++) { if (!h[p[i]] || typeof h[p[i]] !== 'object') h[p[i]] = {}; h = h[p[i]]; }
+            h[p[p.length - 1]] = v;
+            if (yol === 'davranis') { var d = OD_DAVRANIS.find(function (x) { return x[0] === v; }); if (d && d[1] && !f.karar.yaptirim) f.karar.yaptirim = odOnerilen(f) || d[1]; }
+            odKaydet(); if (yenile) updateUI();
+        };
+        /* Aynı yıl içinde aynı öğrencinin önceki yaptırımları */
+        window.odOnceki = function (f) {
+            var ad = odNorm(f.ogrenci && f.ogrenci.ad); if (!ad) return [];
+            return odEnsure().dosyalar.filter(function (x) { return x !== f && x.tur === 'yaptirim' && odNorm(x.ogrenci && x.ogrenci.ad) === ad && OD_SIRA[x.karar && x.karar.yaptirim] && x.onay === 'onay' && !(x.t && x.t.kaldirma); });
+        };
+        window.odOnerilen = function (f) {
+            var d = OD_DAVRANIS.find(function (x) { return x[0] === f.davranis; }); if (!d || !d[1]) return '';
+            var temel = d[1], onc = odOnceki(f).filter(function (x) { var dx = OD_DAVRANIS.find(function (y) { return y[0] === x.davranis; }); return dx && dx[0] === d[0]; });
+            if (onc.length && OD_SIRA[temel] < 3) return temel === 'uyarma' ? 'kinama' : 'degistir';
+            return temel;
+        };
+        window.odDurum = function (f) {
+            var t = f.t || {};
+            if (f.tur === 'odul') return { ad: f.onay === 'onay' ? 'Ödül onaylandı' : 'Ödül kararı', renk: 'emerald' };
+            if (f.tur === 'arabulucu') return { ad: t.uzlasma ? 'Uzlaşma sağlandı' : 'Arabuluculuk', renk: 'sky' };
+            if (t.kaldirma) return { ad: 'Yaptırım kaldırıldı', renk: 'slate' };
+            if (t.ilce) return { ad: 'İlçe kurulunda', renk: 'violet' };
+            if (t.itiraz) return { ad: 'İtiraz edildi', renk: 'amber' };
+            if (t.teblig) return { ad: 'Tebliğ edildi', renk: 'emerald' };
+            if (f.onay === 'onay') return { ad: 'Müdür onayladı', renk: 'emerald' };
+            if (f.onay === 'iade') return { ad: 'Kurula iade', renk: 'amber' };
+            if (t.karar) return { ad: 'Karar verildi', renk: 'indigo' };
+            if (t.havale) return { ad: 'Kurulda inceleniyor', renk: 'indigo' };
+            if (t.veliGorusme || t.sozlesme || t.sozlu) return { ad: 'Uyarma süreci', renk: 'sky' };
+            return { ad: 'Açık', renk: 'slate' };
+        };
+        /* Süre takibi: [ad, son gün ISO] */
+        window.odSureler = function (f) {
+            var t = f.t || {}, l = [];
+            if (f.tur !== 'yaptirim') return l;
+            if (t.havale && !t.karar) l.push(['İnceleme ve karar (5 iş günü, md. 59)', odIsGunuEkle(t.havale, 5)]);
+            if (t.karar && !f.onay) l.push(['Kararın müdürlüğe bildirimi (2 iş günü, md. 59)', odIsGunuEkle(t.karar, 2)]);
+            if (f.onay === 'iade' && t.iade && !t.karar2) l.push(['İade edilen dosyanın yeniden görüşülmesi', odIsGunuEkle(t.iade, 5)]);
+            if (t.teblig && !t.itiraz && !t.kesin) l.push(['Veli itiraz süresi (5 iş günü, md. 56) — dolmadan yaptırım uygulanmaz', odIsGunuEkle(t.teblig, 5)]);
+            if (f.karar.yaptirim === 'degistir' && (f.onay === 'onay' || t.itiraz) && !t.ilce) l.push(['Dosyanın ilçe kuruluna gönderilmesi (5 iş günü, md. 61)', odIsGunuEkle(t.itiraz || t.onay || t.karar, 5)]);
+            return l;
+        };
+        var odSureRozet = function (son) {
+            var g = odGunFark(son); if (g == null) return '';
+            var renk = g < 0 ? 'bg-rose-600 text-white' : g <= 1 ? 'bg-amber-400 text-amber-950' : 'bg-slate-100 text-slate-600';
+            return '<span class="px-1.5 py-0.5 rounded text-[10px] font-bold ' + renk + '">' + odTarih(son) + (g < 0 ? ' · ' + (-g) + ' gün geçti' : g === 0 ? ' · bugün' : ' · ' + g + ' gün') + '</span>';
+        };
+
+        /* ---------- Kurul oluşumu ---------- */
+        window.odAdayEkle = function () {
+            var sel = document.getElementById('od-aday-sec'); if (!sel || !sel.value) return;
+            var o = odEnsure(); if (o.kurul.adaylar.some(function (a) { return String(a.id) === sel.value; })) return;
+            o.kurul.adaylar.push({ id: sel.value, oy: 0, kidem: '' }); odKaydet(); updateUI();
+        };
+        window.odAdaySet = function (i, k, v) { var a = odEnsure().kurul.adaylar[i]; if (a) { a[k] = v; odKaydet(); var s = document.getElementById('od-siralama'); if (s) s.innerHTML = odSiralamaHtml(); } };
+        window.odAdaySil = function (i) { odEnsure().kurul.adaylar.splice(i, 1); odKaydet(); updateUI(); };
+        window.odSiralama = function () {
+            return odEnsure().kurul.adaylar.map(function (a, i) { return { id: a.id, oy: +a.oy || 0, kidem: +a.kidem || 0, kura: a.kura || '', i: i }; })
+                .sort(function (x, y) { return y.oy - x.oy || y.kidem - x.kidem || String(x.kura).localeCompare(String(y.kura)) || x.i - y.i; });
+        };
+        window.odSiralamaHtml = function () {
+            var s = odSiralama();
+            if (!s.length) return '<p class="text-[11px] text-slate-400">Aday ekleyip oylarını girin.</p>';
+            var esit = [];
+            for (var i = 0; i < s.length - 1; i++) if (s[i].oy === s[i + 1].oy && s[i].oy > 0 && (i === 2 || i === 5 || i < 6) && s[i].kidem === s[i + 1].kidem) esit.push(odStaffAd(s[i].id) + ' – ' + odStaffAd(s[i + 1].id));
+            return '<ol class="text-[12px] space-y-0.5">' + s.map(function (x, i) {
+                return '<li><b>' + (i + 1) + '.</b> ' + odEsc(odStaffAd(x.id)) + ' <span class="text-slate-500">(' + x.oy + ' oy)</span> ' + (i < 3 ? '<span class="text-[10px] px-1.5 rounded bg-emerald-100 text-emerald-800">Asıl</span>' : i < 6 ? '<span class="text-[10px] px-1.5 rounded bg-amber-100 text-amber-800">Yedek ' + (i - 2) + '</span>' : '') + '</li>';
+            }).join('') + '</ol>' + (esit.length ? '<p class="text-[10.5px] text-rose-600 mt-1">⚠ Oy eşitliği: ' + odEsc(esit.join('; ')) + '. Yönetmeliğe göre seçim yenilenir; yine eşitlikte kıdemi fazla olan, kıdem de eşitse kura ile belirlenen seçilir (kıdem ve kura sütunlarını doldurun).</p>' : '');
+        };
+        window.odSecimiIsle = function () {
+            var o = odEnsure(), s = odSiralama(), c = odKomisyon();
+            if (s.length < 3) { showCustomAlert('Seçim', 'En az 3 aday ve oy girilmeli.'); return; }
+            if (!c) { showCustomAlert('Kurul bulunamadı', 'Kurul ve Komisyonlar’da “Öğrenci Davranışlarını Değerlendirme Kurulu” bulunamadı.'); return; }
+            showCustomConfirm('Seçimi Kurula İşle', 'İlk üç aday asıl üye, sonraki üç aday yedek üye olarak kaydedilecek ve Kurul ve Komisyonlar’daki üye listesi güncellenecek. Devam edilsin mi?', function (ok) {
+                if (!ok) return;
+                if (!Array.isArray(c.assigned)) c.assigned = [];
+                for (var i = 0; i < 3; i++) c.assigned[1 + i] = parseInt(s[i].id, 10) || s[i].id;
+                if (o.kurul.veli) c.assigned[4] = { id: 'manual_' + generateId(), name: o.kurul.veli, title: 'Okul-Aile Birliği Temsilcisi Veli', manual: true };
+                if (o.kurul.baskanId) c.assigned[0] = parseInt(o.kurul.baskanId, 10) || o.kurul.baskanId;
+                o.kurul.yedekler = s.slice(3, 6).map(function (x) { return { id: x.id }; });
+                odKaydet(); updateUI();
+            });
+        };
+
+        /* ---------- Belge yardımcıları ---------- */
+        var odUst = function () {
+            return '<div style="text-align:center;font-weight:bold;line-height:1.35">T.C.<br>' + odEsc(makamUstSatir()) + '<br>' + odEsc(odTr(state.schoolName || '………………')) + ' MÜDÜRLÜĞÜ</div>';
+        };
+        var odSayi = function (konu, tarih) {
+            return '<table style="width:100%;border-collapse:collapse;margin:10px 0 14px;font-size:11pt"><tr><td style="border:none;padding:0">Sayı&nbsp;: ……………………</td><td style="border:none;padding:0;text-align:right">' + odTarih(tarih) + '</td></tr><tr><td colspan="2" style="border:none;padding:0">Konu : ' + odEsc(konu) + '</td></tr></table>';
+        };
+        var odBaslik = function (t) { return '<p style="text-align:center;font-weight:bold;margin:10px 0 12px">' + odEsc(t) + '</p>'; };
+        var odP = function (t) { return '<p style="text-indent:1.25cm;text-align:justify;margin:0 0 6px">' + t + '</p>'; };
+        var odMudur = function () { var m = (typeof gdDirectorStaff === 'function' && gdDirectorStaff()) || {}; return m.name || '……………………'; };
+        var odBaskan = function (f) { var u = (f ? odEtkinUyeler(f) : odUyeler())[0]; return u && u.ad ? u.ad : '……………………'; };
+        var odImzaSatir = function (l) {
+            var g = 100 / Math.max(1, l.length);
+            return '<table style="width:100%;border-collapse:collapse;margin-top:22px;font-size:10.5pt"><tr>' + l.map(function (x) {
+                return '<td style="border:none;width:' + g + '%;text-align:center;vertical-align:top;padding:0 3px"><div style="height:30px"></div><b>' + odEsc(x[0] || '……………………') + '</b><br>' + odEsc(x[1] || '') + '</td>';
+            }).join('') + '</tr></table>';
+        };
+        var odMudurImza = function (tarih) { return '<table style="width:100%;border-collapse:collapse;margin-top:20px"><tr><td style="border:none;width:55%"></td><td style="border:none;text-align:center">' + (tarih ? odTarih(tarih) + '<br>' : '') + '<div style="height:28px"></div><b>' + odEsc(odMudur()) + '</b><br>Okul Müdürü</td></tr></table>'; };
+        var odKurulImza = function (f) { return odImzaSatir(odEtkinUyeler(f).map(function (u, i) { return [u.ad, i === 0 ? 'Kurul Başkanı' : 'Üye']; })); };
+        var odOgrSatir = function (f) {
+            var o = f.ogrenci || {};
+            return '<table style="width:100%;border-collapse:collapse;margin:6px 0 10px;font-size:10.5pt">' +
+                [['Öğrencinin adı soyadı', o.ad], ['Sınıfı / şubesi', o.sinif], ['Okul numarası', o.no], ['Velisinin adı soyadı', o.veli], ['Veli telefon / adres', [o.veliTel, o.adres].filter(Boolean).join(' · ')]].map(function (r) {
+                    return '<tr><td style="border:1px solid #000;padding:3px 6px;width:38%">' + r[0] + '</td><td style="border:1px solid #000;padding:3px 6px">' + odEsc(r[1] || '') + '</td></tr>';
+                }).join('') + '</table>';
+        };
+        var odDavranisMetin = function (f) { var d = OD_DAVRANIS.find(function (x) { return x[0] === f.davranis; }); return d ? (d[0] === 'X' ? (f.ozet || '') : d[2]) : '……………………………………'; };
+        var odMadde = function (y) { return y === 'uyarma' ? '55 inci maddesinin birinci fıkrasının (a) bendi' : y === 'kinama' ? '55 inci maddesinin birinci fıkrasının (b) bendi' : y === 'degistir' ? '55 inci maddesinin birinci fıkrasının (c) bendi' : '58 inci maddesi'; };
+        var odIfade = function (f, kim, ad) {
+            return odBaslik(kim.toLocaleUpperCase('tr-TR') + ' İFADE TUTANAĞI') + odOgrSatir(f) +
+                '<p style="margin:0 0 6px"><b>İfadesi alınan:</b> ' + odEsc(ad || '……………………') + ' &nbsp; <b>Tarih/Saat:</b> ' + odTarih(f.t.ifade || f.t.havale) + ' / ……:……</p>' +
+                odP('Okul Öncesi Eğitim ve İlköğretim Kurumları Yönetmeliğinin 60 ıncı maddesi gereğince ' + odEsc(odTarih(f.olayTarih)) + ' tarihinde ' + odEsc(f.yer || '………') + ' yerinde meydana gelen olayla ilgili olarak ifadesine başvurulmuştur. Olay hakkında bildiklerini anlatması istendi; anlattıkları aşağıya yazılmıştır.') +
+                '<div style="border:1px solid #000;min-height:150px;padding:6px;margin:6px 0">&nbsp;</div>' +
+                '<p style="margin:0 0 4px;font-size:10pt">Okunarak imza altına alınmıştır. (İfade, kurul başkanı tarafından rehberlik öğretmeni eşliğinde alınmıştır.)</p>' +
+                odImzaSatir([[ad, 'İfade Veren'], [odBaskan(f), 'Kurul Başkanı'], ['', 'Rehberlik Öğretmeni'], [f.ogrenci.veli, 'Veli (varsa)']]);
+        };
+
+        window.odBelgeHtml = function (f, id) {
+            var o = f.ogrenci || {}, k = f.karar || {}, t = f.t || {}, y = k.yaptirim;
+            var ogr = odEsc(o.sinif || '…') + ' sınıfı ' + odEsc(o.no || '…') + ' numaralı öğrencisi ' + odEsc(o.ad || '……………………');
+            switch (id) {
+                case 'sozlu': return odUst() + odBaslik('SÖZLÜ UYARMA KAYIT FORMU') + odOgrSatir(f) +
+                    odP('Öğrencinin ' + odTarih(f.olayTarih) + ' tarihinde “' + odEsc(odDavranisMetin(f)) + '” davranışı tespit edilmiştir. Yönetmeliğin 54 üncü maddesine göre uyarma sürecinin ilk aşaması olarak öğrenci ' + odTarih(t.sozlu) + ' tarihinde sözlü olarak uyarılmış, davranışın sonuçları ve okul kuralları kendisine açıklanmıştır.') +
+                    '<p style="margin:6px 0"><b>Görüşme notları:</b></p><div style="border:1px solid #000;min-height:90px;padding:6px">' + odEsc(f.ozet || '') + '</div>' + odImzaSatir([[o.ad, 'Öğrenci'], ['', 'Uyarmayı Yapan Öğretmen/İdareci']]);
+                case 'sozlesme': return odUst() + odBaslik('ÖĞRENCİ DAVRANIŞ SÖZLEŞMESİ (EK-9)') + odOgrSatir(f) +
+                    odP('Ben, ' + ogr + ', okul kurallarına uymayı, “' + odEsc(odDavranisMetin(f)) + '” davranışını tekrarlamamayı; arkadaşlarıma, öğretmenlerime ve okul personeline saygılı davranmayı, okul eşyasını korumayı ve olumsuz davranışlarımı düzeltmek için öğretmenim ve rehberlik servisi ile iş birliği yapmayı kabul ediyorum.') +
+                    odP('Bu sözleşmeye uymadığım takdirde durumun velime bildirileceğini ve dosyamın Öğrenci Davranışlarını Değerlendirme Kuruluna gönderileceğini biliyorum.') +
+                    '<p style="margin:8px 0 4px"><b>Öğrencinin hedef davranışları:</b></p><div style="border:1px solid #000;min-height:70px;padding:6px">1- ………………………………………<br>2- ………………………………………<br>3- ………………………………………</div>' +
+                    '<p style="margin:8px 0 0">Sözleşme tarihi: ' + odTarih(t.sozlesme) + ' &nbsp;·&nbsp; Değerlendirme tarihi: …/…/20…</p>' + odImzaSatir([[o.ad, 'Öğrenci'], [o.veli, 'Veli'], ['', 'Sınıf Rehber Öğretmeni'], ['', 'Müdür Yardımcısı']]);
+                case 'veliGorusme': return odUst() + odBaslik('VELİ GÖRÜŞME TUTANAĞI') + odOgrSatir(f) +
+                    odP('Okulumuz ' + ogr + 'nin “' + odEsc(odDavranisMetin(f)) + '” davranışı nedeniyle sözlü uyarı ve sözleşme aşamalarından sonra velisi ' + odEsc(o.veli || '……………') + ' ile ' + odTarih(t.veliGorusme) + ' tarihinde görüşülmüştür. Öğrencinin davranışının devam etmesi hâlinde dosyasının Öğrenci Davranışlarını Değerlendirme Kuruluna gönderileceği veliye bildirilmiştir.') +
+                    '<p style="margin:6px 0"><b>Görüşmede alınan kararlar / velinin görüşü:</b></p><div style="border:1px solid #000;min-height:110px;padding:6px">&nbsp;</div>' + odImzaSatir([[o.veli, 'Veli'], ['', 'Sınıf Rehber Öğretmeni'], ['', 'Müdür Yardımcısı']]);
+                case 'arabulucu': return odUst() + odBaslik('ARABULUCULUK / ÇATIŞMA ÇÖZME KAYIT FORMU') +
+                    '<p style="margin:0 0 6px"><b>Taraflar:</b> ' + odEsc(o.ad || '………') + ' (' + odEsc(o.sinif || '…') + ') — ' + odEsc(f.magdur || '………') + ' &nbsp; <b>Tarih:</b> ' + odTarih(t.arabulucu || f.olayTarih) + '</p>' +
+                    odP('Yönetmeliğin 58 inci maddesi gereğince yaptırım yerine öncelikle çatışma çözme ve arabuluculuk yöntemi uygulanmıştır. Olayın özeti: ' + odEsc(f.ozet || '……………………')) +
+                    '<table style="width:100%;border-collapse:collapse;font-size:10.5pt;margin:6px 0">' + [['Tarafların ifade ettiği sorun', ''], ['Tarafların ihtiyaçları ve önerileri', ''], ['Varılan uzlaşma / ortak karar', t.uzlasma ? 'Uzlaşma sağlanmıştır.' : ''], ['İzleme tarihi', '…/…/20…']].map(function (r) { return '<tr><td style="border:1px solid #000;padding:4px 6px;width:38%">' + r[0] + '</td><td style="border:1px solid #000;padding:4px 6px;height:42px">' + r[1] + '</td></tr>'; }).join('') + '</table>' +
+                    odImzaSatir([[o.ad, 'Taraf'], [f.magdur, 'Taraf'], ['', 'Arabulucu (Öğretmen/Akran)'], ['', 'Rehberlik Öğretmeni']]);
+                case 'havale': return odUst() + odSayi('Öğrenci davranışının değerlendirilmesi', t.havale) + '<p style="text-align:center;font-weight:bold;margin:8px 0">ÖĞRENCİ DAVRANIŞLARINI DEĞERLENDİRME KURULU BAŞKANLIĞINA</p>' +
+                    odP('Okulumuz ' + ogr + 'nin ' + odTarih(f.olayTarih) + ' tarihinde ' + odEsc(f.yer || '………') + ' yerinde “' + odEsc(odDavranisMetin(f)) + '” davranışında bulunduğu ' + odEsc(f.bildiren || '………………') + ' tarafından bildirilmiştir.') +
+                    odP('Olayın Okul Öncesi Eğitim ve İlköğretim Kurumları Yönetmeliğinin 58 ve 59 uncu maddeleri gereğince incelenerek beş iş günü içinde karara bağlanması ve kararın en geç iki iş günü içinde Müdürlüğümüze bildirilmesi hususunda gereğini rica ederim.') +
+                    odMudurImza() + '<p style="margin-top:10px;font-size:10pt"><u>Ek:</u> Olay tutanağı ve ilgili belgeler</p>';
+                case 'kurulCagri': return odUst() + odSayi('Kurul toplantısı', t.cagriKurul || t.havale) + '<p style="text-align:center;font-weight:bold;margin:8px 0">SAYIN KURUL ÜYESİ</p>' +
+                    odP('Müdürlüğümüzce havale edilen ' + ogr + 'ne ait dosyayı görüşmek üzere Öğrenci Davranışlarını Değerlendirme Kurulu ' + odTarih(t.toplanti) + ' tarihinde saat ……:…… da ……………… odasında toplanacaktır. Yönetmeliğin 59 uncu maddesi gereğince kabul edilebilir bir özrünüz olmadıkça toplantıya katılmanızı rica ederim.') +
+                    '<p style="margin:6px 0"><b>Gündem:</b> 1- Açılış ve yoklama 2- Dosyanın incelenmesi, ifade ve savunmanın alınması 3- Değerlendirme ve karar 4- Kapanış</p>' +
+                    '<table style="width:100%;border-collapse:collapse;font-size:10.5pt;margin-top:6px"><tr><th style="border:1px solid #000;padding:3px">Görevi</th><th style="border:1px solid #000;padding:3px">Adı Soyadı</th><th style="border:1px solid #000;padding:3px">Tebliğ tarihi</th><th style="border:1px solid #000;padding:3px">İmza</th></tr>' +
+                    odEtkinUyeler(f).map(function (u, i) { return '<tr><td style="border:1px solid #000;padding:3px 5px">' + (i === 0 ? 'Kurul Başkanı' : 'Üye') + '</td><td style="border:1px solid #000;padding:3px 5px">' + odEsc(u.ad) + '</td><td style="border:1px solid #000;padding:3px 5px"></td><td style="border:1px solid #000;padding:3px 5px;width:22%"></td></tr>'; }).join('') + '</table>' +
+                    '<table style="width:100%;margin-top:16px"><tr><td style="border:none;width:55%"></td><td style="border:none;text-align:center"><div style="height:24px"></div><b>' + odEsc(odBaskan(f)) + '</b><br>Kurul Başkanı</td></tr></table>';
+                case 'cagri': return odUst() + odSayi('İfade ve savunma için çağrı', t.cagri || t.havale) + '<p style="margin:8px 0"><b>Sayın ' + odEsc(o.veli || '……………………') + '</b><br>' + odEsc(o.adres || '') + '</p>' +
+                    odP('Okulumuz ' + ogr + 'nin “' + odEsc(odDavranisMetin(f)) + '” davranışıyla ilgili dosyası Öğrenci Davranışlarını Değerlendirme Kurulunca incelenmektedir. Öğrencinin ifadesinin ve savunmasının alınması için ' + odTarih(t.ifade || t.toplanti) + ' tarihinde saat ……:…… da öğrencinizle birlikte okulumuzda bulunmanız gerekmektedir.') +
+                    odP('Özürsüz olarak gelinmemesi, savunma yapılmaması veya ifade verilmemesi hâlinde bu durum tutanakla tespit edilecek ve dosyadaki bilgi ve belgelere göre karar verilecektir (md. 60).') +
+                    '<table style="width:100%;margin-top:16px"><tr><td style="border:none;width:55%"></td><td style="border:none;text-align:center"><div style="height:24px"></div><b>' + odEsc(odBaskan(f)) + '</b><br>Kurul Başkanı</td></tr></table>' +
+                    '<p style="margin-top:14px;font-size:10pt">Tebellüğ eden veli: ……………………… &nbsp; Tarih: …/…/20… &nbsp; İmza: ………</p>';
+                case 'ifadeOgrenci': return odUst() + odIfade(f, 'Öğrenci (savunma)', o.ad);
+                case 'ifadeMagdur': return odUst() + odIfade(f, 'Mağdur', f.magdur);
+                case 'ifadeTanik': return odUst() + (String(f.taniklar || '').split(/[,;\n]+/).map(function (x) { return x.trim(); }).filter(Boolean).concat(f.taniklar ? [] : ['']).map(function (tn, i) { return (i ? '<div style="break-before:page;page-break-before:always"></div>' + odUst() : '') + odIfade(f, 'Tanık', tn); }).join(''));
+                case 'gelmedi': return odUst() + odBaslik('ÇAĞRIYA UYMAMA / İFADE VERMEME TUTANAĞI') + odOgrSatir(f) +
+                    odP('Öğrenci Davranışlarını Değerlendirme Kurulunca ' + odTarih(t.cagri) + ' tarihli yazı ile ifade ve savunması için çağrılan yukarıda kimliği yazılı öğrenci/veli, ' + odTarih(t.ifade || t.toplanti) + ' tarihinde belirtilen saatte özürsüz olarak gelmemiş / ifade vermekten kaçınmıştır.') +
+                    odP('Yönetmeliğin 60 ıncı maddesi gereğince durum tutanakla tespit edilmiş olup dosya, mevcut bilgi ve belgelere göre değerlendirilecektir.') + odKurulImza(f);
+                case 'karar': {
+                    var uy = odEtkinUyeler(f), oy = k.oy || {};
+                    var kabul = uy.filter(function (u, i) { return oy[i] === 'kabul'; }).length, ret = uy.filter(function (u, i) { return oy[i] === 'ret'; }).length;
+                    return odUst() + odBaslik('ÖĞRENCİ DAVRANIŞLARINI DEĞERLENDİRME KURULU KARAR TUTANAĞI') +
+                        '<table style="width:100%;border-collapse:collapse;font-size:10.5pt;margin-bottom:8px">' +
+                        [['Karar tarihi / no', odTarih(t.karar) + ' / ' + (k.no || f.no)], ['Öğrencinin adı soyadı, sınıfı, numarası', (o.ad || '') + ' · ' + (o.sinif || '') + ' · ' + (o.no || '')], ['Velisi', o.veli], ['Olay tarihi ve yeri', odTarih(f.olayTarih) + ' · ' + (f.yer || '')], ['Davranış', odDavranisMetin(f)], ['Dayanak', 'Okul Öncesi Eğitim ve İlköğretim Kurumları Yönetmeliği ' + odMadde(y) + ' ve 54, 56 ncı maddeleri'], ['Verilen karar', OD_YAPTIRIM[y] || '……………']].map(function (r) {
+                            return '<tr><td style="border:1px solid #000;padding:3px 6px;width:38%"><b>' + r[0] + '</b></td><td style="border:1px solid #000;padding:3px 6px">' + odEsc(r[1] || '') + '</td></tr>';
+                        }).join('') + '</table>' +
+                        '<p style="margin:4px 0"><b>Olayın özeti ve inceleme:</b></p>' + odP(odEsc(f.ozet || '……………………………………………………')) +
+                        '<p style="margin:4px 0"><b>Gerekçe:</b></p>' + odP(odEsc(k.gerekce || 'Öğrencinin ifadesi, tanık ifadeleri ve dosyadaki belgeler birlikte değerlendirilmiş; davranışın niteliği, öğrencinin yaşı, başarı durumu, sosyal etkinliklere katılımı ve aynı ders yılında daha önce yaptırım alıp almadığı göz önünde bulundurulmuştur.')) +
+                        odP('Yukarıda kimliği yazılı öğrenciye Yönetmeliğin ' + odMadde(y) + ' uyarınca <b>' + odEsc(OD_YAPTIRIM[y] || '……………') + '</b> yaptırımı uygulanmasına ' + (kabul && !ret ? 'oy birliği' : 'oy çokluğu') + ' ile karar verilmiştir (kabul: ' + kabul + ', ret: ' + ret + '; çekimser oy kullanılamaz).' +
+                            (y === 'degistir' ? ' Karar, okul müdürünün onayından sonra ilçe öğrenci davranışlarını değerlendirme kuruluna gönderilecektir.' : ' Karar, okul müdürünün onayı ile uygulanacaktır.') + ' Velinin kararın tebliğinden itibaren beş iş günü içinde okul müdürlüğüne itiraz hakkı bulunmaktadır.') +
+                        (k.karsi ? '<p style="margin:6px 0"><b>Karşı oy gerekçesi:</b> ' + odEsc(k.karsi) + '</p>' : '') + odKurulImza(f) +
+                        '<p style="margin-top:12px;font-size:9.5pt">Karar, tutanak altına alınarak dosyalanır (md. 60/3, 28.07.2026 tarihli değişiklik). Kurul toplantısına rehberlik öğretmeni oy hakkı olmaksızın katılabilir.</p>';
+                }
+                case 'mudurOnay': return odUst() + odSayi(f.onay === 'iade' ? 'Kararın kurula iadesi' : 'Kurul kararının onayı', t.onay || t.iade) + '<p style="text-align:center;font-weight:bold;margin:8px 0">ÖĞRENCİ DAVRANIŞLARINI DEĞERLENDİRME KURULU BAŞKANLIĞINA</p>' +
+                    (f.onay === 'iade'
+                        ? odP('Kurulunuzun ' + odTarih(t.karar) + ' tarihli ve ' + odEsc(k.no || f.no) + ' sayılı kararı uygun bulunmamıştır. İade gerekçesi: ' + odEsc(k.iadeGerekce || '……………………') + '. Yönetmeliğin 60 ıncı maddesi gereğince dosyanın yeniden görüşülmesini rica ederim. (Kurulun ikinci görüşmede vereceği karar kesindir.)')
+                        : odP('Kurulunuzun ' + odTarih(t.karar) + ' tarihli ve ' + odEsc(k.no || f.no) + ' sayılı kararı ile ' + ogr + 'ne verilen <b>' + odEsc(OD_YAPTIRIM[y] || '') + '</b> yaptırımı uygun görülerek onaylanmıştır.' + (y === 'degistir' ? ' Dosya, Yönetmeliğin 61 inci maddesi gereğince beş iş günü içinde ilçe öğrenci davranışlarını değerlendirme kuruluna gönderilecektir.' : ' Kararın veliye tebliği ve e-Okul’a işlenmesi hususunda gereğini rica ederim.'))) +
+                    '<table style="width:100%;margin-top:18px"><tr><td style="border:none;width:55%"></td><td style="border:none;text-align:center"><b>' + (f.onay === 'iade' ? 'İADE' : 'OLUR') + '</b><br>' + odTarih(t.onay || t.iade) + '<div style="height:26px"></div><b>' + odEsc(odMudur()) + '</b><br>Okul Müdürü</td></tr></table>';
+                case 'tebligVeli': return odUst() + odSayi('Kurul kararının tebliği', t.teblig) + '<p style="margin:8px 0"><b>Sayın ' + odEsc(o.veli || '……………………') + '</b><br>' + odEsc(o.adres || '') + '</p>' +
+                    odP('Velisi bulunduğunuz ' + ogr + 'ne, Öğrenci Davranışlarını Değerlendirme Kurulunun ' + odTarih(t.karar) + ' tarihli kararı ve okul müdürünün ' + odTarih(t.onay) + ' tarihli onayı ile Okul Öncesi Eğitim ve İlköğretim Kurumları Yönetmeliğinin ' + odMadde(y) + ' gereğince <b>' + odEsc(OD_YAPTIRIM[y] || '') + '</b> yaptırımı verilmiştir.') +
+                    odP('Karara, tebliğ tarihinden itibaren beş iş günü içinde Müdürlüğümüze yazılı olarak itiraz edebilirsiniz. İtiraz sonuçlanıncaya kadar yaptırım uygulanmaz. ' + (y === 'kinama' || y === 'degistir' ? 'Kınama veya okul değiştirme yaptırımı alan öğrenciye o ders yılı teşekkür ve takdir belgesi verilmez. ' : '') + 'Yaptırım e-Okul’a işlenir; dönem sonunda davranışını tekrarlamayan ve iyi hâl gösteren öğrencinin yaptırımı kurulca kaldırılabilir.') +
+                    odMudurImza(t.teblig) +
+                    '<div style="border:1px solid #000;padding:8px;margin-top:16px;font-size:10.5pt"><b>TEBLİĞ ŞERHİ</b><br>İşbu yazının bir örneğini …/…/20… tarihinde elden teslim aldım.<br><br>Veli adı soyadı: ……………………… &nbsp;&nbsp; İmza: ………………<br><span style="font-size:9.5pt">Veli gelmezse 7201 sayılı Tebligat Kanunu hükümlerine göre tebligat yapılır.</span></div>';
+                case 'itiraz': return '<p style="text-align:center;font-weight:bold;margin:6px 0 14px">' + odEsc(odTr(state.schoolName || '………………')) + ' MÜDÜRLÜĞÜNE</p>' +
+                    odP('Velisi bulunduğum ' + ogr + 'ne, Öğrenci Davranışlarını Değerlendirme Kurulunun ' + odTarih(t.karar) + ' tarihli kararıyla verilen ve ' + odTarih(t.teblig) + ' tarihinde tarafıma tebliğ edilen <b>' + odEsc(OD_YAPTIRIM[y] || '') + '</b> yaptırımına aşağıdaki gerekçelerle itiraz ediyorum.') +
+                    '<p style="margin:6px 0"><b>İtiraz gerekçeleri:</b></p><div style="border:1px solid #000;min-height:140px;padding:6px">&nbsp;</div>' + odP('Gereğini arz ederim.') +
+                    '<table style="width:100%;margin-top:14px"><tr><td style="border:none;width:55%;font-size:10pt">Adres: ' + odEsc(o.adres || '……………………') + '<br>Telefon: ' + odEsc(o.veliTel || '……………') + '</td><td style="border:none;text-align:center">…/…/20…<div style="height:26px"></div><b>' + odEsc(o.veli || '……………………') + '</b><br>Veli</td></tr></table>';
+                case 'ilce': return odUst() + odSayi('Okul değiştirme yaptırımı', t.ilce || t.onay) + '<p style="text-align:center;font-weight:bold;margin:8px 0">İLÇE MİLLÎ EĞİTİM MÜDÜRLÜĞÜNE<br>(İlçe Öğrenci Davranışlarını Değerlendirme Kurulu Başkanlığı)</p>' +
+                    odP('Okulumuz ' + ogr + 'ne Öğrenci Davranışlarını Değerlendirme Kurulunun ' + odTarih(t.karar) + ' tarihli kararıyla okul değiştirme yaptırımı verilmiş ve karar ' + odTarih(t.onay) + ' tarihinde Müdürlüğümüzce onaylanmıştır.' + (t.itiraz ? ' Velinin ' + odTarih(t.itiraz) + ' tarihli itiraz dilekçesi de ektedir.' : '')) +
+                    odP('Okul Öncesi Eğitim ve İlköğretim Kurumları Yönetmeliğinin 61 ve 64 üncü maddeleri gereğince dosyanın incelenerek karara bağlanması ve öğrencinin naklen gideceği okulun belirlenmesi hususunda gereğini arz ederim.') + odMudurImza() +
+                    '<p style="margin:14px 0 4px"><b><u>DİZİ PUSULASI (Ekler)</u></b></p><table style="width:100%;border-collapse:collapse;font-size:10.5pt"><tr><th style="border:1px solid #000;padding:3px;width:8%">S.N.</th><th style="border:1px solid #000;padding:3px">Belgenin adı</th><th style="border:1px solid #000;padding:3px;width:16%">Sayfa</th></tr>' +
+                    ['Kurula havale yazısı ve olay tutanağı', 'Öğrencinin ifade ve savunma tutanağı', 'Mağdur ve tanık ifade tutanakları', 'Varsa mahkeme kararı ve diğer belgeler', 'Kurul karar tutanağının onaylı örneği (EK-10)', 'Müdür onayı', 'Kararın veliye tebliğine ilişkin belge', 'Varsa itiraz dilekçesi'].map(function (b, i) { return '<tr><td style="border:1px solid #000;padding:3px;text-align:center">' + (i + 1) + '</td><td style="border:1px solid #000;padding:3px 6px">' + b + '</td><td style="border:1px solid #000;padding:3px"></td></tr>'; }).join('') + '</table>';
+                case 'arama': { var a = f.arama || {}; var nusha = function (n) {
+                    return odUst() + odBaslik('ARAMA TUTANAĞI (' + n + '. nüsha)') +
+                        '<table style="width:100%;border-collapse:collapse;font-size:10.5pt">' + [['Arama tarihi ve saati', odTarih(t.arama) + ' / ……:……'], ['Aramanın gerekçesi (ihbar, şikâyet, önleyici tedbir)', a.gerekce], ['Aranan yerler (sıra, masa, dolap vb.)', a.yerler], ['Bulunan malzemeler', a.bulunan || 'Bulunmadı']].map(function (r) { return '<tr><td style="border:1px solid #000;padding:4px 6px;width:38%"><b>' + r[0] + '</b></td><td style="border:1px solid #000;padding:4px 6px;height:36px">' + odEsc(r[1] || '') + '</td></tr>'; }).join('') + '</table>' +
+                        odP('Okul Öncesi Eğitim ve İlköğretim Kurumları Yönetmeliğinin 78 inci maddesinin dokuzuncu ve onuncu fıkraları gereğince okulun ve öğrencilerin güvenliğini sağlamak amacıyla öğrencilerin kişilik ve onurunu rencide etmeyecek şekilde arama yapılmış, sonuç tutanakla kayda geçirilmiştir.') +
+                        odImzaSatir([['', 'Müdür Yardımcısı'], ['', 'Kurul Üyesi / Görevli Öğretmen'], ['', 'Görevli Öğretmen']]) + odMudurImza() ; };
+                    return nusha(1) + '<div style="break-before:page;page-break-before:always"></div>' + nusha(2); }
+                case 'zarar': return odUst() + odSayi('Okul eşyasına verilen zarar', t.zarar) + '<p style="margin:8px 0"><b>Sayın ' + odEsc(o.veli || '……………………') + '</b><br>' + odEsc(o.adres || '') + '</p>' +
+                    odP('Velisi bulunduğunuz ' + ogr + 'nin ' + odTarih(f.olayTarih) + ' tarihinde okul eşyasına/öğrenci malına verdiği zarar (' + odEsc(f.zarar && f.zarar.aciklama || '……………………') + ') tespit edilmiş ve bedeli <b>' + odEsc(f.zarar && f.zarar.tutar || '………') + ' TL</b> olarak belirlenmiştir.') +
+                    odP('Okul Öncesi Eğitim ve İlköğretim Kurumları Yönetmeliğinin 65 inci maddesi gereğince zararın tarafınızca karşılanması gerekmektedir. Ödemeden kaçınılması hâlinde kamu zararlarının tahsiline ilişkin mevzuat hükümleri uygulanacaktır. Bilgilerinize rica ederim.') + odMudurImza(t.zarar);
+                case 'kaldirma': return odUst() + odBaslik('YAPTIRIMIN KALDIRILMASI KARARI') + odOgrSatir(f) +
+                    odP('Öğrenciye ' + odTarih(t.karar) + ' tarihli kurul kararıyla verilen <b>' + odEsc(OD_YAPTIRIM[y] || '') + '</b> yaptırımı, Yönetmeliğin 62 nci maddesi gereğince dönem sonunda değerlendirilmiştir. Öğrencinin aynı davranışı tekrarlamadığı ve iyi hâl gösterdiği tespit edildiğinden yaptırımın kaldırılmasına, kaldırılan yaptırımın e-Okul kaydından silinmesine ' + odTarih(t.kaldirma) + ' tarihinde oy birliği ile karar verilmiştir.') + odKurulImza(f) + odMudurImza();
+                case 'odul': return odUst() + odBaslik('ÖDÜLLENDİRME KARARI') + odOgrSatir(f) +
+                    odP('Okulumuz ' + ogr + 'nin ' + odEsc(f.ozet || '…………………… alanındaki üstün başarısı / örnek davranışı') + ' dikkate alınarak Okul Öncesi Eğitim ve İlköğretim Kurumları Yönetmeliğinin 53 ve 58 inci maddeleri gereğince ödüllendirilmesine ' + odTarih(t.karar || f.acilis) + ' tarihinde karar verilmiştir.') +
+                    '<p style="margin:6px 0"><b>Ödülün türü:</b> ' + odEsc(k.gerekce || 'Belge / teşekkür / okul panosunda ilan …………') + '</p>' + odKurulImza(f) + odMudurImza();
+            }
+            return '<p>Belge bulunamadı.</p>';
+        };
+
+        /* ---------- Kurul oluşumu belgeleri ---------- */
+        window.odKurulBelgeHtml = function (id) {
+            var o = odEnsure(), s = odSiralama(), uy = odUyeler(), ye = odYedekler();
+            if (id === 'secim') return odUst() + odBaslik(odTr((state.academicYear || '') + ' EĞİTİM ÖĞRETİM YILI ÖĞRENCİ DAVRANIŞLARINI DEĞERLENDİRME KURULU ÜYE SEÇİM TUTANAĞI')) +
+                odP('Okul Öncesi Eğitim ve İlköğretim Kurumları Yönetmeliğinin 57 nci maddesi gereğince ders yılının ilk öğretmenler kurulu toplantısında (' + odTarih(o.kurul.okTarih) + ') kurulun öğretmen üyeleri gizli oyla seçilmiştir. Kullanılan oylar sayılmış ve sonuç aşağıya yazılmıştır.') +
+                '<table style="width:100%;border-collapse:collapse;font-size:10.5pt;margin:6px 0"><tr>' + ['Sıra', 'Adı Soyadı', 'Branşı', 'Aldığı oy', 'Sonuç'].map(function (h) { return '<th style="border:1px solid #000;padding:3px">' + h + '</th>'; }).join('') + '</tr>' +
+                s.map(function (x, i) { var st = (state.staff || []).find(function (y) { return String(y.id) === String(x.id); }) || {}; return '<tr><td style="border:1px solid #000;padding:3px;text-align:center">' + (i + 1) + '</td><td style="border:1px solid #000;padding:3px 6px">' + odEsc(st.name || '') + '</td><td style="border:1px solid #000;padding:3px 6px">' + odEsc(st.title || '') + '</td><td style="border:1px solid #000;padding:3px;text-align:center">' + x.oy + '</td><td style="border:1px solid #000;padding:3px 6px">' + (i < 3 ? 'Asıl üye' : i < 6 ? (i - 2) + '. yedek üye' : '—') + '</td></tr>'; }).join('') + '</table>' +
+                odP('Oy eşitliği hâlinde seçim yenilenmiş; yine eşitlik olması hâlinde kıdemi fazla olan, kıdemlerin eşitliği hâlinde kura ile belirlenen öğretmen seçilmiş sayılmıştır. Velilerden bir üye okul-aile birliğince belirlenecektir.') +
+                odImzaSatir([['', 'Tasnif Görevlisi'], ['', 'Tasnif Görevlisi'], ['', 'Yazman']]) + odMudurImza(o.kurul.okTarih);
+            if (id === 'veli') return odUst() + odSayi('Öğrenci davranışlarını değerlendirme kurulu veli üyesi', o.kurul.okTarih) + '<p style="text-align:center;font-weight:bold;margin:8px 0">OKUL-AİLE BİRLİĞİ BAŞKANLIĞINA</p>' +
+                odP('Okul Öncesi Eğitim ve İlköğretim Kurumları Yönetmeliğinin 57 nci maddesi gereğince ' + odEsc(state.academicYear || '') + ' eğitim öğretim yılında görev yapacak Öğrenci Davranışlarını Değerlendirme Kurulunun velilerden bir üyesinin (ve yedeğinin) birliğinizce belirlenerek Müdürlüğümüze bildirilmesini rica ederim.') + odMudurImza();
+            if (id === 'teblig') return odUst() + odSayi('Kurul görevlendirmesi', o.kurul.okTarih) +
+                odP('Okul Öncesi Eğitim ve İlköğretim Kurumları Yönetmeliğinin 57–60 ıncı maddeleri gereğince ' + odEsc(state.academicYear || '') + ' eğitim öğretim yılında Öğrenci Davranışlarını Değerlendirme Kurulu aşağıdaki şekilde oluşturulmuştur. Kurul, yeni kurul oluşturuluncaya kadar görev yapar; üyeler kabul edilebilir bir özür olmadıkça görevden ayrılamaz ve toplantıya katılmaktan kaçınamaz. Kurul toplantılarına rehberlik öğretmeni gerektiğinde oy hakkı olmaksızın katılır.') +
+                '<table style="width:100%;border-collapse:collapse;font-size:10.5pt;margin:6px 0"><tr>' + ['Görevi', 'Adı Soyadı', 'Unvanı', 'Tebliğ tarihi', 'İmza'].map(function (h) { return '<th style="border:1px solid #000;padding:3px">' + h + '</th>'; }).join('') + '</tr>' +
+                uy.map(function (u) { return { g: u.rol, ad: u.ad, un: u.unvan }; }).concat(ye.map(function (y) { return { g: y.unvan, ad: y.ad, un: '' }; })).map(function (r) { return '<tr><td style="border:1px solid #000;padding:3px 6px">' + odEsc(r.g) + '</td><td style="border:1px solid #000;padding:3px 6px">' + odEsc(r.ad) + '</td><td style="border:1px solid #000;padding:3px 6px">' + odEsc(r.un) + '</td><td style="border:1px solid #000;padding:3px"></td><td style="border:1px solid #000;padding:3px;width:18%"></td></tr>'; }).join('') + '</table>' + odMudurImza(o.kurul.okTarih);
+            return '';
+        };
+
+        /* ---------- Toplantı tutanağı ve yıl sonu raporu ---------- */
+        window.odToplantiYeni = function () { var o = odEnsure(); o.toplantilar.unshift({ id: 'ot' + Date.now().toString(36), tarih: odBugun(), saat: '', yer: '', dosyalar: [], gundem: '', kararlar: '' }); o.aktifTop = o.toplantilar[0].id; odKaydet(); updateUI(); };
+        window.odTopSet = function (k, v, yenile) { var o = odEnsure(), tp = o.toplantilar.find(function (x) { return x.id === o.aktifTop; }); if (!tp) return; tp[k] = v; odKaydet(); if (yenile) updateUI(); };
+        window.odTopDosya = function (id, on) { var o = odEnsure(), tp = o.toplantilar.find(function (x) { return x.id === o.aktifTop; }); if (!tp) return; tp.dosyalar = tp.dosyalar.filter(function (x) { return x !== id; }); if (on) tp.dosyalar.push(id); odKaydet(); updateUI(); };
+        window.odToplantiHtml = function (tp) {
+            var o = odEnsure(), uy = odUyeler();
+            var dl = o.dosyalar.filter(function (f) { return tp.dosyalar.indexOf(f.id) >= 0; });
+            return odUst() + odBaslik('ÖĞRENCİ DAVRANIŞLARINI DEĞERLENDİRME KURULU TOPLANTI TUTANAĞI') +
+                '<p style="margin:0 0 6px"><b>Toplantı tarihi/saati:</b> ' + odTarih(tp.tarih) + ' ' + odEsc(tp.saat || '') + ' &nbsp; <b>Yeri:</b> ' + odEsc(tp.yer || '……………') + '</p>' +
+                '<p style="margin:0 0 4px"><b>Katılanlar:</b> ' + uy.map(function (u) { return odEsc(u.ad || '…') + ' (' + odEsc(u.rol) + ')'; }).join(', ') + '</p>' +
+                '<p style="margin:8px 0 4px"><b>GÜNDEM</b></p><ol style="margin:0 0 6px 18px">' + ['Açılış ve yoklama'].concat(dl.map(function (f) { return odEsc((f.ogrenci.ad || '…') + ' (' + (f.ogrenci.sinif || '…') + ') — ' + (f.tur === 'odul' ? 'ödüllendirme' : odDavranisMetin(f))) + ' dosyasının görüşülmesi'; })).concat(String(tp.gundem || '').split('\n').filter(Boolean).map(odEsc)).concat(['Okul düzenine ilişkin görüş ve öneriler', 'Kapanış']).map(function (g) { return '<li>' + g + '</li>'; }).join('') + '</ol>' +
+                '<p style="margin:8px 0 4px"><b>GÖRÜŞMELER VE KARARLAR</b></p>' +
+                dl.map(function (f, i) { return odP((i + 2) + '. ' + odEsc(f.ogrenci.ad || '…') + ' dosyası incelendi. ' + (f.karar.yaptirim ? 'Öğrenciye <b>' + odEsc(OD_YAPTIRIM[f.karar.yaptirim]) + '</b> ' + (f.karar.yaptirim === 'odul' ? 'kararı' : 'yaptırımı uygulanmasına') + ' karar verildi (ayrıntılar karar tutanağındadır).' : 'Değerlendirme sürmektedir.')); }).join('') +
+                (tp.kararlar ? odP(odEsc(tp.kararlar).replace(/\n/g, '<br>')) : '') +
+                '<p style="margin:6px 0;font-size:10pt">Görüş ve kararlar kurulca seçilen yazman tarafından tutanağa geçirilmiştir; kararlar oy çokluğu ile alınmış, çekimser oy kullanılmamıştır.</p>' +
+                odImzaSatir(uy.map(function (u, i) { return [u.ad, i === 0 ? 'Kurul Başkanı' : 'Üye']; }));
+        };
+        window.odRaporHtml = function () {
+            var o = odEnsure(), d = o.dosyalar;
+            var say = function (fn) { return d.filter(fn).length; };
+            var y = function (k) { return say(function (f) { return f.karar.yaptirim === k && f.onay === 'onay'; }); };
+            var dav = {}; d.forEach(function (f) { if (f.tur === 'yaptirim' && f.davranis) dav[f.davranis] = (dav[f.davranis] || 0) + 1; });
+            var davL = Object.keys(dav).sort(function (a, b) { return dav[b] - dav[a]; });
+            return odUst() + odBaslik(odTr((state.academicYear || '') + ' EĞİTİM ÖĞRETİM YILI ÖĞRENCİ DAVRANIŞLARINI DEĞERLENDİRME KURULU YIL SONU RAPORU')) +
+                '<table style="width:100%;border-collapse:collapse;font-size:10.5pt;margin:6px 0">' + [['Açılan dosya', d.length], ['Arabuluculuk / çatışma çözme', say(function (f) { return f.tur === 'arabulucu'; })], ['Uzlaşma sağlanan', say(function (f) { return f.tur === 'arabulucu' && f.t.uzlasma; })], ['Uyarma (onaylı)', y('uyarma')], ['Kınama (onaylı)', y('kinama')], ['Okul değiştirme (onaylı)', y('degistir')], ['Yaptırıma yer olmadığı', say(function (f) { return f.karar.yaptirim === 'yok'; })], ['İtiraz edilen', say(function (f) { return f.t.itiraz; })], ['Kaldırılan yaptırım', say(function (f) { return f.t.kaldirma; })], ['Ödüllendirme', say(function (f) { return f.tur === 'odul'; })], ['Toplantı sayısı', o.toplantilar.length]].map(function (r) {
+                    return '<tr><td style="border:1px solid #000;padding:3px 6px;width:60%">' + r[0] + '</td><td style="border:1px solid #000;padding:3px 6px;text-align:center">' + r[1] + '</td></tr>';
+                }).join('') + '</table>' +
+                (davL.length ? '<p style="margin:8px 0 4px"><b>En sık görülen davranışlar</b></p><ol style="margin:0 0 6px 18px">' + davL.slice(0, 6).map(function (k) { var dd = OD_DAVRANIS.find(function (x) { return x[0] === k; }); return '<li>' + odEsc(dd ? dd[2] : k) + ' — ' + dav[k] + '</li>'; }).join('') + '</ol>' : '') +
+                odP('Kurul, yıl boyunca rehberlik servisi ile eş güdümlü çalışmış; yaptırımdan önce çatışma çözme ve arabuluculuk yöntemlerine öncelik vermiştir. Gelecek yıl için öneriler: ……………………………………………………') +
+                odImzaSatir(odUyeler().map(function (u, i) { return [u.ad, i === 0 ? 'Kurul Başkanı' : 'Üye']; })) + odMudurImza();
+        };
+
+        /* ---------- Ekran ---------- */
+        var odDoc = function (id, inner) {
+            return '<div class="official-letter-page bg-white border border-slate-200 rounded-xl shadow-sm p-5 md:p-8 mt-3 font-serif text-[11pt] leading-relaxed" id="' + id + '" contenteditable="true" spellcheck="true" style="font-family:\'Times New Roman\',serif;color:#000">' + inner + '</div>';
+        };
+        window.odProfilBilgi = function () {
+            var p = okulProfilEnsure(), orta = p.kademe.orta || p.kademe.ih;
+            return '<div class="no-print mb-3 flex items-start gap-2 bg-sky-50 border border-sky-200 rounded-lg px-3 py-2 text-[11.5px] text-sky-950"><span>ℹ️</span><span>Bu modül <b>Okul Profili</b>ne göre oluşur. ' +
+                (orta ? 'Profilde ortaokul / imam hatip ortaokulu seçili olduğu için <b>Öğrenci Davranışlarını Değerlendirme Kurulu</b> (uyarma, kınama, okul değiştirme) bölümü açıldı.' : 'Profilinizde ortaokul seçili değil: yaptırımlar (uyarma, kınama, okul değiştirme) yalnızca ortaokul ve imam hatip ortaokulunda uygulanır; ilkokulda olumsuz davranışlar rehberlik ve veli iş birliği ile ele alınır.') +
+                ' Kademeyi Okul Profili’nden (Görev Dağılımı veya Yıllık Çalışma Planı sayfasının üstünde) değiştirebilirsiniz; aşağıdaki kademe düğmeleriyle başka kademenin evrakına da bakabilirsiniz.</span></div>';
+        };
+        window.renderOddk = function () {
+            var o = odEnsure(), e = odEsc;
+            var uy = odUyeler(), ye = odYedekler();
+            var eksik = uy.filter(function (u) { return !u.ad; }).length;
+            var sekme = function (id, ad, n) { return '<button type="button" onclick="odSet(\'sub\',\'' + id + '\')" class="px-3 py-1.5 text-[12px] font-bold rounded-lg border ' + (o.sub === id || (id === 'dosyalar' && o.sub === 'dosya') ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-slate-600 border-slate-200') + '">' + ad + (n != null ? ' <span class="opacity-70">(' + n + ')</span>' : '') + '</button>'; };
+            var uyariN = o.dosyalar.reduce(function (a, f) { return a + odSureler(f).filter(function (s) { var g = odGunFark(s[1]); return g != null && g <= 1; }).length; }, 0);
+            var ust = '<div class="no-print mb-3"><h3 class="text-xl font-bold text-slate-800">⚖️ Öğrenci Davranışlarını Değerlendirme Kurulu</h3>' +
+                '<p class="text-[11px] text-slate-500">Okul Öncesi Eğitim ve İlköğretim Kurumları Yönetmeliği md. 51–65 (28.07.2026 tarihli ve 33323 sayılı RG değişiklikleriyle). Kararlar tutanak altına alınıp dosyalanır; ifadeler kurul başkanınca rehber öğretmen eşliğinde alınır.</p></div>' +
+                '<div class="no-print flex flex-wrap items-center gap-2 mb-3 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-[11.5px]"><b>Kurul:</b> ' +
+                uy.map(function (u) { return '<span class="px-2 py-0.5 rounded-full ' + (u.ad ? 'bg-white border border-slate-200' : 'bg-rose-50 border border-rose-200 text-rose-700') + '">' + e(u.rol) + ': ' + e(u.ad || 'boş') + '</span>'; }).join('') +
+                (ye.length ? '<span class="text-slate-500">Yedekler: ' + e(ye.map(function (y) { return y.ad; }).join(', ')) + '</span>' : '<span class="text-amber-700">Yedek üye yok</span>') +
+                '<button type="button" onclick="switchTab(\'komisyonlar\')" class="ml-auto text-indigo-600 underline">Kurul ve Komisyonlar’da aç ↗</button></div>' +
+                (uyariN ? '<div class="no-print mb-3 bg-rose-50 border border-rose-200 text-rose-800 rounded-lg px-3 py-2 text-[12px] font-semibold">⏰ Süresi bugün dolan veya geçen ' + uyariN + ' işlem var — Olay Dosyaları’na bakın.</div>' : '') +
+                '<div class="no-print flex flex-wrap gap-1.5 mb-3">' + sekme('dosyalar', '📁 Olay Dosyaları', o.dosyalar.length) + sekme('kurul', '👥 Kurulun Oluşumu') + sekme('toplanti', '📝 Toplantı Tutanağı', o.toplantilar.length) + sekme('rapor', '📊 Yıl Sonu Raporu') + '</div>';
+            var govde = '';
+            if (o.sub === 'kurul') {
+                var ogr = (typeof getOgretmenStaff === 'function' ? getOgretmenStaff() : (state.staff || []));
+                var my = (state.staff || []).filter(function (s) { return /müdür yard|başyard/i.test(s.title || ''); });
+                govde = '<div class="no-print grid md:grid-cols-2 gap-3 mb-3">' +
+                    '<div class="bg-white border border-slate-200 rounded-xl p-3 text-xs"><p class="font-bold text-slate-700 mb-2">1) Öğretmen üyelerin gizli oyla seçimi <span class="font-normal text-slate-500">(ilk öğretmenler kurulu)</span></p>' +
+                    '<label class="block mb-2">Öğretmenler kurulu tarihi <input type="date" value="' + e(o.kurul.okTarih) + '" onchange="odKurulSet(\'okTarih\',this.value)" class="border rounded px-2 py-1 ml-1"></label>' +
+                    '<label class="block mb-2">Kurul başkanı (müdür başyardımcısı / görevlendirilen MY) <select onchange="odKurulSet(\'baskanId\',this.value)" class="w-full border rounded px-2 py-1 mt-0.5"><option value="">— seçin —</option>' + my.map(function (s) { return '<option value="' + s.id + '"' + (String(o.kurul.baskanId) === String(s.id) ? ' selected' : '') + '>' + e(s.name) + '</option>'; }).join('') + '</select></label>' +
+                    '<div class="flex gap-1 mb-2"><select id="od-aday-sec" class="flex-1 border rounded px-2 py-1"><option value="">— aday öğretmen —</option>' + ogr.filter(function (s) { return !o.kurul.adaylar.some(function (a) { return String(a.id) === String(s.id); }); }).map(function (s) { return '<option value="' + s.id + '">' + e(s.name) + ' (' + e(s.title || '') + ')</option>'; }).join('') + '</select><button type="button" onclick="odAdayEkle()" class="px-2 py-1 rounded bg-indigo-600 text-white font-bold">+ Aday</button></div>' +
+                    '<table class="w-full text-[11px]"><tr class="text-slate-500"><th class="text-left">Aday</th><th>Oy</th><th title="Eşitlikte kıdem (yıl)">Kıdem</th><th title="Kıdem de eşitse kura sırası">Kura</th><th></th></tr>' +
+                    o.kurul.adaylar.map(function (a, i) { return '<tr><td>' + e(odStaffAd(a.id)) + '</td><td><input type="number" min="0" value="' + (a.oy || 0) + '" oninput="odAdaySet(' + i + ',\'oy\',this.value)" class="w-14 border rounded px-1"></td><td><input type="number" min="0" value="' + e(a.kidem) + '" oninput="odAdaySet(' + i + ',\'kidem\',this.value)" class="w-14 border rounded px-1"></td><td><input value="' + e(a.kura || '') + '" oninput="odAdaySet(' + i + ',\'kura\',this.value)" class="w-10 border rounded px-1"></td><td><button type="button" onclick="odAdaySil(' + i + ')" class="text-rose-500">×</button></td></tr>'; }).join('') + '</table>' +
+                    '<div id="od-siralama" class="mt-2 bg-slate-50 rounded p-2">' + odSiralamaHtml() + '</div></div>' +
+                    '<div class="bg-white border border-slate-200 rounded-xl p-3 text-xs"><p class="font-bold text-slate-700 mb-2">2) Veli üye <span class="font-normal text-slate-500">(okul-aile birliğince belirlenir)</span></p>' +
+                    '<label class="block mb-2">Asıl veli üye <input value="' + e(o.kurul.veli) + '" onchange="odKurulSet(\'veli\',this.value)" class="w-full border rounded px-2 py-1 mt-0.5"></label>' +
+                    '<label class="block mb-3">Yedek veli üye <input value="' + e(o.kurul.veliYedek) + '" onchange="odKurulSet(\'veliYedek\',this.value)" class="w-full border rounded px-2 py-1 mt-0.5"></label>' +
+                    '<button type="button" onclick="odSecimiIsle()" class="w-full px-3 py-2 rounded-lg bg-emerald-600 text-white font-bold">✓ Seçim sonucunu kurula işle</button>' +
+                    '<p class="text-[10.5px] text-slate-500 mt-2">İlk üç aday asıl, sonraki üç aday sırasıyla yedek üye olur. Asıl üye listesi Kurul ve Komisyonlar’daki kurulla ortaktır; orada yapılan değişiklik burada da görünür. İkili öğretim yapan okullarda ayrı kurul oluşturulabilir. Rehber öğretmen toplantılara oy hakkı olmadan katılır.</p></div></div>' +
+                    '<div class="no-print flex flex-wrap gap-1.5 mb-1">' + [['secim', 'Seçim Tutanağı'], ['veli', 'OAB’ye Veli Üye Yazısı'], ['teblig', 'Görevlendirme Tebliği']].map(function (b) { return '<button type="button" onclick="odSet(\'kurulBelge\',\'' + b[0] + '\')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg ' + (o.kurulBelge === b[0] ? 'bg-amber-500 text-white' : 'bg-slate-100 text-slate-700') + '">' + b[1] + '</button>'; }).join('') + '</div>' +
+                    odDoc('od-kurul-belge', odKurulBelgeHtml(o.kurulBelge));
+            } else if (o.sub === 'toplanti') {
+                var tp = o.toplantilar.find(function (x) { return x.id === o.aktifTop; }) || o.toplantilar[0];
+                if (tp) o.aktifTop = tp.id;
+                govde = '<div class="no-print flex flex-wrap items-center gap-1.5 mb-2">' + o.toplantilar.map(function (x) { return '<button type="button" onclick="odSet(\'aktifTop\',\'' + x.id + '\')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg ' + (tp && x.id === tp.id ? 'bg-amber-500 text-white' : 'bg-slate-100 text-slate-700') + '">' + odTarih(x.tarih) + '</button>'; }).join('') +
+                    '<button type="button" onclick="odToplantiYeni()" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-indigo-600 text-white">+ Yeni toplantı</button></div>' +
+                    (tp ? '<div class="no-print grid md:grid-cols-3 gap-2 text-xs bg-slate-50 border border-slate-200 rounded-xl p-3 mb-2">' +
+                        '<label>Tarih <input type="date" value="' + e(tp.tarih) + '" onchange="odTopSet(\'tarih\',this.value,true)" class="w-full border rounded px-2 py-1"></label>' +
+                        '<label>Saat <input value="' + e(tp.saat) + '" onchange="odTopSet(\'saat\',this.value,true)" class="w-full border rounded px-2 py-1"></label>' +
+                        '<label>Yer <input value="' + e(tp.yer) + '" onchange="odTopSet(\'yer\',this.value,true)" class="w-full border rounded px-2 py-1"></label>' +
+                        '<div class="md:col-span-3"><span class="font-bold">Görüşülecek dosyalar:</span> ' + (o.dosyalar.length ? o.dosyalar.map(function (f) { return '<label class="inline-flex items-center gap-1 mr-2"><input type="checkbox" ' + (tp.dosyalar.indexOf(f.id) >= 0 ? 'checked' : '') + ' onchange="odTopDosya(\'' + f.id + '\',this.checked)">' + e((f.ogrenci.ad || 'Dosya ' + f.no)) + '</label>'; }).join('') : '<span class="text-slate-400">Dosya yok</span>') + '</div>' +
+                        '<label class="md:col-span-3">Ek gündem maddeleri (her satır bir madde)<textarea rows="2" onchange="odTopSet(\'gundem\',this.value,true)" class="w-full border rounded px-2 py-1">' + e(tp.gundem) + '</textarea></label>' +
+                        '<label class="md:col-span-3">Diğer görüşme ve kararlar<textarea rows="2" onchange="odTopSet(\'kararlar\',this.value,true)" class="w-full border rounded px-2 py-1">' + e(tp.kararlar) + '</textarea></label></div>' + odDoc('od-toplanti', odToplantiHtml(tp))
+                        : '<p class="text-xs text-slate-500">Henüz toplantı yok.</p>');
+            } else if (o.sub === 'rapor') {
+                govde = odDoc('od-rapor', odRaporHtml());
+            } else if (o.sub === 'dosya' && odAktif()) {
+                govde = odDosyaEkran(odAktif());
+            } else {
+                o.sub = 'dosyalar';
+                govde = '<div class="no-print flex flex-wrap gap-1.5 mb-3"><button type="button" onclick="odDosyaYeni(\'yaptirim\')" class="px-3 py-2 rounded-lg bg-indigo-600 text-white text-xs font-bold">+ Olay dosyası</button>' +
+                    '<button type="button" onclick="odDosyaYeni(\'arabulucu\')" class="px-3 py-2 rounded-lg bg-sky-600 text-white text-xs font-bold">+ Arabuluculuk</button>' +
+                    '<button type="button" onclick="odDosyaYeni(\'odul\')" class="px-3 py-2 rounded-lg bg-emerald-600 text-white text-xs font-bold">+ Ödül dosyası</button></div>' +
+                    (o.dosyalar.length ? '<div class="no-print space-y-2">' + o.dosyalar.map(function (f) {
+                        var du = odDurum(f), su = odSureler(f);
+                        return '<div class="bg-white border border-slate-200 rounded-xl p-3 flex flex-wrap items-center gap-2"><div class="flex-1 min-w-[200px]"><div class="font-bold text-sm text-slate-800">#' + f.no + ' · ' + e(f.ogrenci.ad || '(öğrenci adı girilmedi)') + ' <span class="text-slate-500 font-normal">' + e(f.ogrenci.sinif || '') + '</span></div>' +
+                            '<div class="text-[11px] text-slate-500">' + odTarih(f.olayTarih) + ' · ' + e(f.tur === 'odul' ? 'Ödül' : f.tur === 'arabulucu' ? 'Arabuluculuk' : odDavranisMetin(f)) + (f.karar.yaptirim && f.tur === 'yaptirim' ? ' · <b>' + e(OD_YAPTIRIM[f.karar.yaptirim]) + '</b>' : '') + '</div>' +
+                            (su.length ? '<div class="mt-1 flex flex-wrap gap-1">' + su.map(function (s) { return '<span class="text-[10.5px] text-slate-600">' + e(s[0]) + ':</span>' + odSureRozet(s[1]); }).join('') + '</div>' : '') + '</div>' +
+                            '<span class="text-[10.5px] font-bold px-2 py-0.5 rounded bg-' + du.renk + '-100 text-' + du.renk + '-800">' + e(du.ad) + '</span>' +
+                            '<button type="button" onclick="odDosyaAc(\'' + f.id + '\')" class="px-3 py-1.5 rounded-lg bg-slate-800 text-white text-[11px] font-bold">Aç</button>' +
+                            '<button type="button" onclick="odDosyaSil(\'' + f.id + '\')" class="text-rose-500 text-[11px]">Sil</button></div>';
+                    }).join('') + '</div>' : '<p class="no-print text-xs text-slate-500 bg-slate-50 border border-dashed border-slate-300 rounded-xl p-4">Henüz dosya yok. Olumsuz bir davranışta önce sözlü uyarma, sözleşme ve veli görüşmesi yapılır; davranış sürerse dosya kurula havale edilir. Yönetmelik, yaptırımdan önce çatışma çözme ve arabuluculuğun denenmesini ister.</p>') +
+                    '<p class="no-print text-[10.5px] text-slate-500 mt-3">🔒 Öğrenci bilgileri yalnızca bu cihazda saklanır; 6698 sayılı KVKK gereğince yalnızca kurul işleri için kullanın.</p>';
+            }
+            return ust + govde;
+        };
+        window.odDosyaEkran = function (f) {
+            var e = odEsc, o = odEnsure(), t = f.t || {}, k = f.karar;
+            var inp = function (yol, val, ph, tip, gen) { return '<input ' + (tip ? 'type="' + tip + '"' : '') + ' value="' + e(val) + '" placeholder="' + e(ph || '') + '" onchange="odF(\'' + yol + '\',this.value,true)" class="w-full border rounded px-2 py-1">'; };
+            var tarih = function (k2, ad) { return '<label class="flex items-center justify-between gap-1 bg-white border border-slate-200 rounded px-2 py-1"><span>' + ad + '</span><input type="date" value="' + e(t[k2] || '') + '" onchange="odF(\'t.' + k2 + '\',this.value,true)" class="border rounded px-1 py-0.5 text-[11px]"></label>'; };
+            var onceki = odOnceki(f), oneri = odOnerilen(f);
+            var uyeler = odUyeler(), etkin = odEtkinUyeler(f);
+            var belgeler = OD_BELGE.map(function (g) {
+                var l = g[1].filter(function (b) {
+                    if (f.tur === 'odul') return ['odul', 'havale', 'kurulCagri'].indexOf(b[0]) >= 0;
+                    if (f.tur === 'arabulucu') return ['arabulucu', 'veliGorusme', 'sozlesme', 'arama'].indexOf(b[0]) >= 0;
+                    if (b[0] === 'ilce') return k.yaptirim === 'degistir';
+                    if (b[0] === 'odul') return false;
+                    return true;
+                });
+                return l.length ? '<div class="mb-1"><span class="text-[10px] font-bold text-slate-500 uppercase mr-1">' + g[0] + ':</span>' + l.map(function (b) { return '<button type="button" onclick="odF(\'belge\',\'' + b[0] + '\',true)" class="px-2 py-1 mr-1 mb-1 text-[11px] font-bold rounded-lg ' + (f.belge === b[0] ? 'bg-amber-500 text-white' : 'bg-slate-100 text-slate-700') + '">' + b[1] + '</button>'; }).join('') + '</div>' : '';
+            }).join('');
+            var adim = f.tur === 'yaptirim' ? '<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-1.5 text-[11px]">' +
+                tarih('sozlu', 'Sözlü uyarma') + tarih('sozlesme', 'Sözleşme (EK-9)') + tarih('veliGorusme', 'Veli görüşmesi') + tarih('havale', 'Kurula havale') + tarih('toplanti', 'Kurul toplantısı') + tarih('cagri', 'Öğrenci/veli çağrısı') + tarih('ifade', 'İfade/savunma') + tarih('karar', 'Kurul kararı') +
+                '<label class="flex items-center justify-between gap-1 bg-white border border-slate-200 rounded px-2 py-1"><span>Müdür</span><select onchange="odF(\'onay\',this.value,true)" class="border rounded text-[11px]"><option value="">bekliyor</option><option value="onay"' + (f.onay === 'onay' ? ' selected' : '') + '>onayladı</option><option value="iade"' + (f.onay === 'iade' ? ' selected' : '') + '>kurula iade</option></select></label>' +
+                (f.onay === 'iade' ? tarih('iade', 'İade tarihi') + tarih('karar2', 'İkinci görüşme (kesin)') : tarih('onay', 'Onay tarihi')) +
+                tarih('teblig', 'Veliye tebliğ') + tarih('itiraz', 'İtiraz (varsa)') + (k.yaptirim === 'degistir' ? tarih('ilce', 'İlçe kuruluna gönderim') : '') + tarih('arama', 'Arama (varsa)') + tarih('zarar', 'Zarar yazısı (varsa)') + tarih('kaldirma', 'Yaptırımın kaldırılması') + '</div>' :
+                f.tur === 'arabulucu' ? '<div class="grid sm:grid-cols-3 gap-1.5 text-[11px]">' + tarih('arabulucu', 'Görüşme') + tarih('veliGorusme', 'Veli görüşmesi') + '<label class="flex items-center gap-2 bg-white border border-slate-200 rounded px-2 py-1"><input type="checkbox" ' + (t.uzlasma ? 'checked' : '') + ' onchange="odF(\'t.uzlasma\',this.checked,true)"> Uzlaşma sağlandı</label></div>' :
+                '<div class="grid sm:grid-cols-3 gap-1.5 text-[11px]">' + tarih('karar', 'Ödül kararı') + '<label class="flex items-center justify-between gap-1 bg-white border border-slate-200 rounded px-2 py-1"><span>Müdür</span><select onchange="odF(\'onay\',this.value,true)" class="border rounded text-[11px]"><option value="">bekliyor</option><option value="onay"' + (f.onay === 'onay' ? ' selected' : '') + '>onayladı</option></select></label></div>';
+            var form = '<div class="no-print bg-slate-50 border border-slate-200 rounded-xl p-3 mb-3 text-xs space-y-3">' +
+                '<div class="flex flex-wrap items-center gap-2"><button type="button" onclick="odSet(\'sub\',\'dosyalar\')" class="px-2 py-1 rounded bg-white border border-slate-300 font-bold">← Dosyalar</button><b class="text-sm">Dosya #' + f.no + '</b><span class="text-[10.5px] font-bold px-2 py-0.5 rounded bg-' + odDurum(f).renk + '-100 text-' + odDurum(f).renk + '-800">' + e(odDurum(f).ad) + '</span></div>' +
+                '<div class="grid sm:grid-cols-3 gap-2">' +
+                '<label>Öğrenci adı soyadı' + inp('ogrenci.ad', f.ogrenci.ad, '', '', true) + '</label><label>Sınıf / şube' + inp('ogrenci.sinif', f.ogrenci.sinif, '7-A') + '</label><label>Okul no' + inp('ogrenci.no', f.ogrenci.no) + '</label>' +
+                '<label>Veli' + inp('ogrenci.veli', f.ogrenci.veli) + '</label><label>Veli telefon' + inp('ogrenci.veliTel', f.ogrenci.veliTel) + '</label><label>Veli adresi' + inp('ogrenci.adres', f.ogrenci.adres) + '</label>' +
+                '<label>Olay tarihi' + inp('olayTarih', f.olayTarih, '', 'date', true) + '</label><label>Olay yeri' + inp('yer', f.yer, 'Okul bahçesi, 7-A sınıfı…') + '</label><label>Bildiren / şikâyetçi' + inp('bildiren', f.bildiren) + '</label>' +
+                (f.tur !== 'odul' ? '<label>Mağdur / diğer taraf' + inp('magdur', f.magdur) + '</label><label class="sm:col-span-2">Tanıklar (virgülle)' + inp('taniklar', f.taniklar) + '</label>' : '') +
+                (f.tur === 'yaptirim' ? '<label class="sm:col-span-3">Davranış (md. 55)<select onchange="odF(\'davranis\',this.value,true)" class="w-full border rounded px-2 py-1"><option value="">— seçin —</option>' +
+                    [['uyarma', 'Uyarma gerektiren'], ['kinama', 'Kınama gerektiren'], ['degistir', 'Okul değiştirme gerektiren'], ['', 'Diğer']].map(function (g) { return '<optgroup label="' + g[1] + '">' + OD_DAVRANIS.filter(function (d) { return d[1] === g[0]; }).map(function (d) { return '<option value="' + d[0] + '"' + (f.davranis === d[0] ? ' selected' : '') + '>' + e(d[2]) + '</option>'; }).join('') + '</optgroup>'; }).join('') + '</select></label>' : '') +
+                '<label class="sm:col-span-3">' + (f.tur === 'odul' ? 'Ödül gerekçesi (başarı / örnek davranış)' : 'Olayın özeti') + '<textarea rows="2" onchange="odF(\'ozet\',this.value,true)" class="w-full border rounded px-2 py-1">' + e(f.ozet) + '</textarea></label></div>' +
+                (onceki.length ? '<div class="bg-amber-50 border border-amber-200 rounded px-2 py-1 text-amber-900">⚠ Bu öğrencinin bu yıl ' + onceki.length + ' onaylı yaptırımı var (' + e(onceki.map(function (x) { return OD_YAPTIRIM[x.karar.yaptirim]; }).join(', ')) + '). Aynı davranış tekrarlanırsa bir üst yaptırım uygulanır; Çocuk Koruma Kanunu gözetilerek bir alt yaptırım da verilebilir (md. 56).</div>' : '') +
+                '<div><p class="font-bold mb-1">Süreç tarihleri</p>' + adim + '</div>' +
+                (odSureler(f).length ? '<div class="flex flex-wrap gap-1 items-center"><b>Süreler:</b> ' + odSureler(f).map(function (s) { return '<span class="text-[10.5px]">' + e(s[0]) + '</span> ' + odSureRozet(s[1]); }).join(' ') + '</div>' : '') +
+                (f.tur !== 'arabulucu' ? '<div class="grid sm:grid-cols-2 gap-2"><div><p class="font-bold mb-1">Kurul ve akrabalık engeli (md. 59)</p>' +
+                    uyeler.map(function (u, i) { return '<label class="flex items-center gap-1.5"><input type="checkbox" ' + (f.engel[i] ? 'checked' : '') + ' onchange="odF(\'engel.' + i + '\',this.checked,true)"> ' + e(u.ad || u.rol) + ' <span class="text-slate-400">— şikâyetçi/zarar gören/öğrencinin 2. dereceye kadar akrabası</span></label>'; }).join('') +
+                    '<p class="mt-1 text-slate-600">Bu dosyada görev yapacaklar: ' + etkin.map(function (u) { return '<b>' + e(u.ad || (u.yedekYok ? 'YEDEK YOK' : '…')) + '</b>' + (u.yedekten ? ' (yedek)' : ''); }).join(', ') + '</p></div>' +
+                    '<div><p class="font-bold mb-1">Karar</p><label>Yaptırım <select onchange="odF(\'karar.yaptirim\',this.value,true)" class="border rounded px-1 py-0.5">' + (f.tur === 'odul' ? '<option value="odul" selected>Ödüllendirme</option>' : ['', 'uyarma', 'kinama', 'degistir', 'yok'].map(function (y) { return '<option value="' + y + '"' + (k.yaptirim === y ? ' selected' : '') + '>' + (y ? OD_YAPTIRIM[y] : '— seçin —') + '</option>'; }).join('')) + '</select></label>' +
+                    (oneri && f.tur === 'yaptirim' ? ' <span class="text-indigo-700">Önerilen: <b>' + e(OD_YAPTIRIM[oneri]) + '</b></span>' : '') +
+                    '<label class="block mt-1">Karar no <input value="' + e(k.no || '') + '" onchange="odF(\'karar.no\',this.value)" class="border rounded px-1 py-0.5 w-20"></label>' +
+                    '<div class="mt-1 space-y-0.5">' + etkin.map(function (u, i) { return '<label class="flex items-center gap-1.5">' + e(u.ad || '…') + ': <select onchange="odF(\'karar.oy.' + i + '\',this.value,true)" class="border rounded text-[11px]"><option value="">—</option><option value="kabul"' + ((k.oy || {})[i] === 'kabul' ? ' selected' : '') + '>Kabul</option><option value="ret"' + ((k.oy || {})[i] === 'ret' ? ' selected' : '') + '>Ret</option></select></label>'; }).join('') + '</div>' +
+                    '<label class="block mt-1">' + (f.tur === 'odul' ? 'Ödülün türü' : 'Gerekçe') + '<textarea rows="2" onchange="odF(\'karar.gerekce\',this.value,true)" class="w-full border rounded px-1">' + e(k.gerekce) + '</textarea></label>' +
+                    (f.tur === 'yaptirim' ? '<label class="block">Karşı oy gerekçesi<textarea rows="1" onchange="odF(\'karar.karsi\',this.value,true)" class="w-full border rounded px-1">' + e(k.karsi) + '</textarea></label>' + (f.onay === 'iade' ? '<label class="block">Müdürün iade gerekçesi<textarea rows="1" onchange="odF(\'karar.iadeGerekce\',this.value,true)" class="w-full border rounded px-1">' + e(k.iadeGerekce || '') + '</textarea></label>' : '') : '') + '</div></div>' : '') +
+                (f.tur === 'yaptirim' ? '<div class="grid sm:grid-cols-2 gap-2"><label>Arama: aranan yerler' + inp('arama.yerler', f.arama.yerler) + '</label><label>Arama: bulunanlar' + inp('arama.bulunan', f.arama.bulunan) + '</label><label>Arama gerekçesi' + inp('arama.gerekce', f.arama.gerekce) + '</label><label>Zarar: açıklama / tutar (TL)<div class="flex gap-1">' + inp('zarar.aciklama', f.zarar.aciklama) + '<input value="' + e(f.zarar.tutar) + '" onchange="odF(\'zarar.tutar\',this.value)" class="w-24 border rounded px-2 py-1"></div></label></div>' : '') +
+                '</div>';
+            return form + '<div class="no-print">' + belgeler + '</div>' + odDoc('od-belge-' + f.belge, odBelgeHtml(f, f.belge));
+        };
+        /* ==================== /v7.3.0 ÖDDK ==================== */
+
         window.renderDisiplinIslemleri = function() {
             var d = disiplinEnsure();
             var o = d.olay || {};
@@ -39211,6 +39728,23 @@ function isgPrint(kind){
 
             return kademeBar + '<p class="text-sm text-slate-500">Belge bulunamadı. Listeye dönün.</p><button type="button" onclick="disiplinSetDoc(\'liste\')" class="text-indigo-600 text-xs font-bold">← Liste</button>';
         };
+        /* v7.3.0: kademe Okul Profili'nden gelir; ortaokulda ÖDDK modülü açılır */
+        (function () {
+            var eski = window.renderDisiplinIslemleri;
+            window.renderDisiplinIslemleri = function () {
+                var d = disiplinEnsure();
+                try {
+                    var p = okulProfilEnsure();
+                    if (!d.kademeElle) d.kademe = (p.kademe.orta || p.kademe.ih) ? 'ortaokul' : p.kademe.lise ? 'ortaogretim' : 'ilkokul';
+                } catch (e) {}
+                var bilgi = typeof odProfilBilgi === 'function' ? odProfilBilgi() : '';
+                if (d.kademe !== 'ortaokul' || typeof renderOddk !== 'function') return bilgi + eski.apply(this, arguments);
+                var bar = '<div class="no-print flex flex-wrap gap-2 mb-3">' + [['ilkokul', 'İlkokul'], ['ortaokul', 'Ortaokul — ÖDDK'], ['ortaogretim', 'Ortaöğretim']].map(function (x) {
+                    return '<button type="button" onclick="disiplinSetKademe(\'' + x[0] + '\')" class="px-4 py-2 text-xs font-bold rounded-xl border-2 ' + (d.kademe === x[0] ? 'bg-indigo-600 text-white border-indigo-600 shadow' : 'bg-white text-slate-700 border-slate-200') + '">' + x[1] + '</button>';
+                }).join('') + '</div>';
+                return bilgi + bar + renderOddk();
+            };
+        })();
 
         updateUI = function() {
             try { if (typeof portalAccCaptureAll === 'function') portalAccCaptureAll(); } catch (_e) {}
@@ -39575,7 +40109,7 @@ function isgPrint(kind){
         /* TEK SÜRÜM KAYNAĞI — bu değeri değiştir, her yer (sekme başlığı + sol menü
            etiketi) otomatik güncellenir. Dosya adı da hep bu numarayla aynı olmalı:
            İDARE ASİSTANI v<PORTAL_SURUM>. Sıralama: v6.5.0, v6.5.1 … v6.5.9, v6.6.0 … */
-        window.PORTAL_SURUM = '7.2.9';
+        window.PORTAL_SURUM = '7.3.0';
 
         /* ==================== GENEL BELGE DÜZENLEME ====================
            Programdaki evrakların çoğu salt çıktıydı (yalnızca bazılarında
@@ -39855,6 +40389,7 @@ function isgPrint(kind){
             } catch(e){}
         })();
         window.PORTAL_SURUM_NOTLARI = [
+            'Disiplin İşlemleri → Ortaokul artık tam bir Öğrenci Davranışlarını Değerlendirme Kurulu modülü (OÖKY md. 51–65, 28.07.2026 tarihli ve 33323 sayılı RG değişiklikleriyle): kurulun oluşumu (öğretmenler kurulunda gizli oy, 3 asıl + 3 yedek, eşitlikte kıdem/kura, OAB veli üyesi; seçim sonucu Kurul ve Komisyonlar’a işlenir), olay / arabuluculuk / ödül dosyaları, md. 55 davranış listesi (yeni bilişim araçları maddesi dahil) ve önerilen yaptırım, aynı yıl tekrarında üst yaptırım uyarısı, akrabalık engelinde yedek üyenin otomatik girmesi, oylama (çekimser yok), süre sayaçları (5 iş günü inceleme, 2 iş günü bildirim, 5 iş günü itiraz, 5 iş günü ilçe kurulu). Belgeler: sözlü uyarma, sözleşme (EK-9), veli görüşmesi, havale, çağrılar, ifade ve savunma tutanakları (rehber öğretmen eşliğinde), çağrıya uymama, karar tutanağı (EK-10), müdür onayı/iade, tebliğ ve tebliğ şerhi, itiraz dilekçesi, ilçe kuruluna gönderme ve dizi pusulası, arama tutanağı (md. 78, iki nüsha), zarar ödetme, yaptırımın kaldırılması, ödül kararı, toplantı tutanağı, yıl sonu raporu. Disiplin modülünün kademesi artık Okul Profili’nden gelir (bilgilendirme notuyla); yıllık plana ÖDDK maddeleri eklendi',
             'Belirli Gün ve Haftalar → 📚 Kütüphane: aylara göre gruplu 130’u aşkın gün/hafta (MEB belirli gün ve haftalar çizelgesi + yaygın ulusal/uluslararası günler); ay sekmeleri, arama, “yalnızca okullarda yaygın kutlananlar” süzgeci; her günü tek dokunuşla ekleme / “✓ Ekli · Çıkar” ile çıkarma (görevli atanmışsa onay sorar), görünenlerin tümünü toplu ekleme. Eklenen gün öğretim yılı ay sırasına (Eylül → Ağustos) göre yerine konur; “Ay sırasına diz” ve “Listeyi boşalt” düğmeleri eklendi',
             'Yeni Okul Profili (kademe: okul öncesi, ilkokul, ortaokul, lise, imam hatip, mesleki; şartlar: taşımalı, yemekhane, kantin, pansiyon, okul sütü, ikili öğretim, birleştirilmiş sınıf, kaynaştırma, destek eğitim odası, çocuk kulübü, yabancı uyruklu öğrenci, hemşire, rehber öğretmen). İdareci Yıllık Çalışma Planı baştan yazıldı: “Her ay” ve Eylül–Haziran (isteğe bağlı Temmuz–Ağustos) için alt alta maddeler, başlarında işaret kutusu; işaretsizler soluk görünür ve yazdırılmaz; maddeler profile göre süzülür (servisi, kantini, yemeği olmayan okulda ilgili maddeler çıkmaz); kademeye uygun bakanlık projeleri (Dilimizin Zenginlikleri, Maarifin Kalbinde Oyun, Yaşam Becerileri, Dijital Esenlik, Ailemle Eğitim Yolculuğum, Beyaz Bayrak, Sıfır Atık, TÜBİTAK 4006, eTwinning…) seçilince maddeleri ilgili aylara eklenir; sorumlu sütunu, madde düzenleme ve kendi maddesini ekleme; eski plan silinmeden “Önceki plan” olarak taşındı. Görev Dağılımı (Müdür Yardımcısı): profile uygun görev önerileri, profile uymayan görevlerin listelenip kaldırılması, iki/üç müdür yardımcısında alana göre önerilen dağılım',
             'Ekran titremesi ve kayma giderildi (tüm modüller): her tıklamada 37 modülün tamamı yeniden çiziliyordu; artık yalnızca açık modül çizilir (yaklaşık 7 kat hızlı). Sayfanın ve açık modüldeki kaydırılabilir listelerin kaydırma konumu ile odaktaki alan korunur; işaretleme yapınca ekran yerinde kalır. İSG Uyum ve İşbaşı Eğitim Formu’nda personel işaretlemek ekranı hiç yenilemez (liste yerinde kalır, yalnızca sayaç güncellenir), liste kutusu büyütüldü. İşçi puantaj takviminde gün işaretleme anlık',
