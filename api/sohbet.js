@@ -82,15 +82,34 @@ const KOK = ['orospu', 'siktir', 'sikerim', 'sikeyim', 'sikiyim', 'sikim', 'siki
   'amcik', 'pezevenk', 'kahpe', 'ibne', 'serefsiz', 'gavat', 'yavsak', 'surtuk', 'kaltak', 'godos', 'tasak', 'gotveren', 'pust'];
 const TAM = ['amk', 'aq', 'mk', 'sik', 'pic', 'got', 'gotu', 'gotun', 'oc', 'amq'];
 
+/* Paylaşılmasına izin verilen bağlantılar (alt alan adları dahil). Arayüzdeki LINK_IZINLI ile aynı tutulmalı. */
+const IZINLI_ALANLAR = ['okul-asistani.com.tr', 'meb.gov.tr', 'meb.k12.tr', 'eba.gov.tr', 'mevzuat.gov.tr', 'resmigazete.gov.tr',
+  'turkiye.gov.tr', 'youtube.com', 'youtu.be', 'drive.google.com', 'drive.usercontent.google.com', 'docs.google.com'];
+const BAGLANTI_RE = /(?:https?:\/\/)?(?:[a-z0-9-]+\.)+[a-z]{2,}(?::\d+)?(?:\/[^\s<>"']*)?/gi;
+const ALAN_UZANTI = /\.(com|net|org|tr|xyz|info|io|me|ly|gl|co|site|online|link|biz|ru|top|shop|app|dev|be|cc|tv|us|uk|de|eu|gov|edu|club|live|click|vip|pro|ws|to)$/i;
+function baglantiIzinli(ham) {
+  const s = ham.replace(/^https?:\/\//i, ''), host = s.split(/[/:?#]/)[0].toLowerCase(), yol = s.slice(host.length);
+  if (host === 't.me' || host === 'telegram.me') return /^\/okulprogram\b/i.test(yol);
+  return IZINLI_ALANLAR.some(d => host === d || host.endsWith('.' + d));
+}
+/* Metindeki bağlantı adaylarından izinli olmayan var mı? (v7.2.9, idare.html gibi şeyler bağlantı sayılmaz) */
+function izinsizBaglantiVar(m) {
+  /* http(s):// ile başlayan her adres (IP adresleri dahil) izinli olmalı */
+  if ((String(m).match(/https?:\/\/[^\s<>"']+/gi) || []).some(b => !baglantiIzinli(b))) return true;
+  return (String(m).match(BAGLANTI_RE) || []).some(b => {
+    const host = b.replace(/^https?:\/\//i, '').split(/[/:?#]/)[0];
+    const bag = /^https?:\/\//i.test(b) || /^www\./i.test(host) || ALAN_UZANTI.test(host);
+    return bag && !baglantiIzinli(b);
+  });
+}
 /* Metni kontrol eder; sorun varsa kullanıcıya gösterilecek açıklamayı döndürür */
 function metinSorunu(m) {
   if (!m) return 'Mesaj boş.';
   if (m.length > MAKS_UZUNLUK) return 'Mesaj en fazla ' + MAKS_UZUNLUK + ' karakter olabilir.';
   if (/[^\s@]+@[^\s@]+\.[a-z]{2,}/i.test(m)) return 'Güvenliğiniz için e-posta adresi paylaşılamaz.';
   if (/(?:\d[\s\-.()/]*){10,}/.test(m)) return 'Telefon, T.C. kimlik no gibi uzun numaralar paylaşılamaz.';
-  const linksiz = m.replace(/(https?:\/\/)?(www\.)?okul-asistani\.com\.tr\S*/gi, '').replace(/(https?:\/\/)?t\.me\/okulprogram\S*/gi, '');
-  if (/https?:\/\/|www\.|\b[a-z0-9-]+\.(com|net|org|tr|xyz|info|io|me|ly|gl|co|site|online|link|biz|ru|top|shop)\b/i.test(linksiz))
-    return 'Sohbete bağlantı (link) eklenemez.';
+  if (izinsizBaglantiVar(m))
+    return 'Bu bağlantı paylaşılamaz. İzin verilenler: okul-asistani.com.tr, MEB ve okul siteleri, EBA, mevzuat, Resmî Gazete, e-Devlet, YouTube, Google Drive.';
   const kelimeler = sade(m).split(/[^a-z]+/).filter(Boolean);
   if (kelimeler.some(k => TAM.includes(k) || KOK.some(r => k.startsWith(r)))) return 'Mesajınız uygunsuz ifade içeriyor.';
   return '';
