@@ -32,6 +32,8 @@ const SAKLA = 1000;            // en fazla bu kadar mesaj tutulur
 const SAYFA = 50;              // bir seferde gelen mesaj
 const MAKS_UZUNLUK = 500;
 const BILDIRIM_ESIGI = 3;      // bu kadar farklı kişi bildirirse mesaj gizlenir
+const DUZENLEME_SURESI = 15 * 60 * 1000;   // kendi mesajını düzenleme süresi
+const ALINTI_UZUNLUK = 120;
 
 /* ---------- Redis (REST) ---------- */
 async function redis(komutlar) {
@@ -97,7 +99,32 @@ function temizle(m) {
   return String(m || '').replace(/\r\n?/g, '\n').replace(/[\u0000-\u0009\u000b-\u001f\u007f​-‏‪-‮⁦-⁩]/g, '')
     .replace(/\n{3,}/g, '\n\n').replace(/[ \t]{3,}/g, '  ').trim();
 }
-const disaVer = j => { try { const x = JSON.parse(j); return { id: x.id, t: x.t, m: x.m, a: x.a, h: x.h, g: !!x.g }; } catch (e) { return null; } };
+/* Dışarı verilen alanlar: cihaz ve IP özetleri asla verilmez */
+const disaVer = j => {
+  try {
+    const x = JSON.parse(j), o = { id: x.id, t: x.t, m: x.sil ? '' : x.m, a: x.a, h: x.h, g: !!x.g };
+    if (x.sil) o.sil = true;
+    if (x.d && !x.sil) o.d = x.d;
+    if (x.r && !x.sil) { o.r = x.r; o.ra = x.ra || ''; o.rm = x.rs ? '' : (x.rm || ''); if (x.rs) o.rs = true; }
+    return o;
+  } catch (e) { return null; }
+};
+const alintiMetni = m => { const t = String(m || '').replace(/\s+/g, ' ').trim(); return t.length > ALINTI_UZUNLUK ? t.slice(0, ALINTI_UZUNLUK) + '…' : t; };
+/* Bir mesaj değişince/silinince ona verilmiş yanıtlardaki alıntıyı da güncelle (silinen metin alıntılarda kalmasın) */
+async function alintilariGuncelle(id, yeniMetin, silindi) {
+  const hepsi = await tek('ZRANGE', K.msj, 0, -1) || [];
+  const k = [];
+  hepsi.forEach(j => {
+    let x; try { x = JSON.parse(j); } catch (e) { return; }
+    if (x.r !== id) return;
+    const y = Object.assign({}, x, silindi ? { rm: '', rs: true } : { rm: alintiMetni(yeniMetin), rs: false });
+    k.push(['ZREMRANGEBYSCORE', K.msj, x.id, x.id], ['ZADD', K.msj, x.id, JSON.stringify(y)]);
+  });
+  if (k.length) await redis(k);
+}
+async function mesajDegistir(eskiHam, yeni) {
+  await redis([['ZREMRANGEBYSCORE', K.msj, yeni.id, yeni.id], ['ZADD', K.msj, yeni.id, JSON.stringify(yeni)], ['INCR', K.deg]]);
+}
 
 function sifreDogru(s) {
   if (!SIFRE || !s) return false;
@@ -196,10 +223,43 @@ module.exports = async function (req, res) {
       }
       if (!metin) return yanit(res, 400, { hata: 'Mesaj boş.' });
       if (metin.length > (yonetici ? 2000 : MAKS_UZUNLUK)) return yanit(res, 400, { hata: 'Mesaj çok uzun.' });
+      let yanitBilgi = {};
+      const rid = parseInt(g.yanit, 10);
+      if (rid > 0) {
+        const asil = await mesajBul(rid);
+        if (asil) { const x = JSON.parse(asil); if (!x.sil) yanitBilgi = { r: rid, ra: x.a, rm: alintiMetni(x.m) }; }
+      }
       const id = await tek('INCR', K.seq);
-      const kayit = { id, t: Date.now(), m: metin, a: ad, h: ton, g: yonetici, c, ip };
+      const kayit = Object.assign({ id, t: Date.now(), m: metin, a: ad, h: ton, g: yonetici, c, ip }, yanitBilgi);
       await redis([['ZADD', K.msj, id, JSON.stringify(kayit)], ['ZREMRANGEBYRANK', K.msj, 0, -(SAKLA + 1)]]);
       return yanit(res, 200, { mesaj: disaVer(JSON.stringify(kayit)) });
+    }
+
+    if (islem === 'duzenle' || islem === 'kendiSil') {
+      const id = parseInt(g.id, 10);
+      if (!id || !cihazGecerli(g.cihaz)) return yanit(res, 400, { hata: 'Geçersiz istek.' });
+      if (await sinirAsildi('kendi', ip, 40, 3600)) return yanit(res, 429, { hata: 'Çok fazla işlem yaptınız, biraz sonra deneyin.' });
+      const ham = await mesajBul(id);
+      if (!ham) return yanit(res, 404, { hata: 'Mesaj bulunamadı.' });
+      const x = JSON.parse(ham);
+      if (x.g || x.c !== hex(ozet('cihaz:' + g.cihaz))) return yanit(res, 403, { hata: 'Yalnızca kendi mesajınızı değiştirebilirsiniz.' });
+      if (x.sil) return yanit(res, 409, { hata: 'Bu mesaj zaten silinmiş.' });
+      if (islem === 'kendiSil') {
+        const y = Object.assign({}, x, { sil: true, m: '', st: Date.now() });
+        delete y.r; delete y.ra; delete y.rm; delete y.rs;
+        await mesajDegistir(ham, y);
+        await alintilariGuncelle(id, '', true);
+        return yanit(res, 200, { mesaj: disaVer(JSON.stringify(y)) });
+      }
+      if (Date.now() - x.t > DUZENLEME_SURESI) return yanit(res, 403, { hata: 'Mesajlar yalnızca gönderildikten sonraki 15 dakika içinde düzenlenebilir.' });
+      const metin = temizle(g.metin);
+      const sorun = metinSorunu(metin);
+      if (sorun) return yanit(res, 400, { hata: sorun });
+      if (metin === x.m) return yanit(res, 200, { mesaj: disaVer(ham) });
+      const y = Object.assign({}, x, { m: metin, d: Date.now() });
+      await mesajDegistir(ham, y);
+      await alintilariGuncelle(id, metin, false);
+      return yanit(res, 200, { mesaj: disaVer(JSON.stringify(y)) });
     }
 
     if (islem === 'bildir') {
@@ -208,10 +268,11 @@ module.exports = async function (req, res) {
       if (await sinirAsildi('bildir', ip, 20, 3600)) return yanit(res, 429, { hata: 'Çok fazla bildirim yaptınız.' });
       const ham = await mesajBul(id);
       if (!ham) return yanit(res, 200, { tamam: true });
-      if (JSON.parse(ham).g) return yanit(res, 200, { tamam: true });
+      if (JSON.parse(ham).g || JSON.parse(ham).sil) return yanit(res, 200, { tamam: true });
       const [, sayi] = await redis([['SADD', K.bildir(id), ip], ['SCARD', K.bildir(id)], ['EXPIRE', K.bildir(id), 2592000]]);
       if (sayi >= BILDIRIM_ESIGI) {
         await redis([['ZREMRANGEBYSCORE', K.msj, id, id], ['HSET', K.gizli, id, ham], ['INCR', K.deg]]);
+        await alintilariGuncelle(id, '', true);
         return yanit(res, 200, { tamam: true, gizlendi: true });
       }
       return yanit(res, 200, { tamam: true });
@@ -230,6 +291,7 @@ module.exports = async function (req, res) {
       const k = [['ZREMRANGEBYSCORE', K.msj, id, id], ['HDEL', K.gizli, id], ['DEL', K.bildir(id)], ['INCR', K.deg]];
       if (islem === 'sustur' && !x.g) k.push(['SADD', K.sus, 'c:' + x.c, 'i:' + x.ip]);
       await redis(k);
+      await alintilariGuncelle(id, '', true);
       return yanit(res, 200, { tamam: true });
     }
     if (islem === 'gizlenenler') {
@@ -245,6 +307,7 @@ module.exports = async function (req, res) {
       const ham = await tek('HGET', K.gizli, id);
       if (!ham) return yanit(res, 404, { hata: 'Mesaj bulunamadı.' });
       await redis([['ZADD', K.msj, id, ham], ['HDEL', K.gizli, id], ['DEL', K.bildir(id)], ['INCR', K.deg]]);
+      await alintilariGuncelle(id, JSON.parse(ham).m, false);
       return yanit(res, 200, { tamam: true });
     }
     if (islem === 'susturmaKaldir') {
