@@ -60,11 +60,11 @@
     "ico": "🖥️",
     "renk": "#1d4e89",
     "dosya": "TahtaYonetim.zip",
-    "indirAdi": "TahtaYonetim-3.3.0.zip",
+    "indirAdi": "TahtaYonetim-3.4.0.zip",
     "kilavuz": "tahta-kilavuz.html",
-    "surum": "3.3.0",
-    "boyut": "1,7 MB",
-    "sha256": "e9e0a999360ed451f1548ba7494b6c321cbe31e243d6239077b751f46fd97423",
+    "surum": "3.4.0",
+    "boyut": "1,9 MB",
+    "sha256": "6ff2d0e21ef915d6d80dbc80a4584750b51bf07fa114b7bd5376edbd9dcfa83f",
     "platform": [
       "Windows 10/11 (yönetim)",
       "Pardus / ETAP tahtalar",
@@ -116,6 +116,10 @@
       {
         "ad": "Raporlar",
         "acik": "Tahta kullanım süreleri ve olay günlüğü, Excel'e aktarım"
+      },
+      {
+        "ad": "Birden fazla yönetici",
+        "acik": "Müdür yardımcıları kendi adı ve şifresiyle panele girer"
       },
       {
         "ad": "Telefondan yönetim",
