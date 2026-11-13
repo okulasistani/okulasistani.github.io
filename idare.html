@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İdare Asistanı 7.3.0 — MEB Yönetim Portalı & Resmi Evrak</title>
+    <title>İdare Asistanı 7.3.2 — MEB Yönetim Portalı & Resmi Evrak</title>
     <!-- Tailwind CSS -->
     
 <style id="critical-offline-css">
@@ -787,7 +787,7 @@ tailwind.config = {
             <p id="son-yedek-bilgi" class="text-[9px] text-center text-slate-500"></p>
         </div>
         <div class="px-2.5 py-2 border-t border-slate-800 text-center flex-shrink-0">
-            <p class="text-[9px] text-slate-500 truncate">Mehmet Can Öztürk-Cuma Çetinkaya <span class="text-slate-400 font-normal" style="cursor:pointer;text-decoration:underline dotted" title="Yenilikleri göster" onclick="portalSurumPopupGoster(true)">· v<span id="portal-surum-etiket">7.3.0</span></span></p>
+            <p class="text-[9px] text-slate-500 truncate">Mehmet Can Öztürk-Cuma Çetinkaya <span class="text-slate-400 font-normal" style="cursor:pointer;text-decoration:underline dotted" title="Yenilikleri göster" onclick="portalSurumPopupGoster(true)">· v<span id="portal-surum-etiket">7.3.2</span></span></p>
             <p class="text-[9px] text-slate-400 font-semibold mt-1 uppercase tracking-wide">İletişim</p>
             <div class="flex items-center justify-center gap-2 flex-wrap text-[9px] text-slate-500 mt-0.5">
                 <a href="mailto:cann201921@gmail.com" class="text-sky-400 hover:text-sky-300 underline" title="E-posta gönder"><i class="fa-solid fa-envelope mr-0.5"></i>cann201921@gmail.com</a>
@@ -32477,6 +32477,436 @@ window.okUpdateKulupAdi = function(idx, value) {
             });
         };
 
+        /* ==================== v7.3.1: ŞABLONLA TOPLU ÖĞRENCİ EKLEME · TOPLU SİLME · KÖPRÜ ==================== */
+        window.OI_SABLON = [
+            ['ad', 'Ad Soyad', /^(ad ?soyad|adi ?soyadi|ogrenci ?adi ?soyadi|ogrenci ?adi|ogrenci|ad)$/],
+            ['sinif', 'Sınıf/Şube', /^(sinif ?\/? ?sube|sinifi|sinif|sube|sinif ?sube)$/],
+            ['no', 'Okul No', /^(okul ?no|okul ?numarasi|ogrenci ?no|numara|no)$/],
+            ['cinsiyet', 'Cinsiyet', /^(cinsiyet|cinsiyeti)$/],
+            ['tc', 'Öğrenci T.C.', /^(ogrenci ?t ?c.*|t ?c ?kimlik ?no|tc ?no|t ?c|kimlik ?no|tckn)$/],
+            ['dogumTarihi', 'Doğum Tarihi', /^dogum ?tarihi$/],
+            ['dogumYeri', 'Doğum Yeri', /^dogum ?yeri$/],
+            ['babaAdi', 'Baba Adı', /^baba ?adi$/],
+            ['anneAdi', 'Anne Adı', /^anne ?adi$/],
+            ['veliAd', 'Veli Adı', /^(veli ?adi ?soyadi|veli ?adi|veli)$/],
+            ['veliTc', 'Veli T.C.', /^veli ?t ?c.*$/],
+            ['veliTel', 'Veli Tel', /^(veli ?tel.*|veli ?telefon.*|telefon|tel)$/],
+            ['babaTel', 'Baba Tel', /^baba ?tel.*$/],
+            ['anneTel', 'Anne Tel', /^anne ?tel.*$/],
+            ['veliAdres', 'Veli Adres', /^(veli ?adres.*|adres|ev ?adresi)$/]
+        ];
+        var oiBasNorm = function (s) {
+            return String(s == null ? '' : s).toLocaleLowerCase('tr-TR').replace(/ç/g, 'c').replace(/ğ/g, 'g').replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ş/g, 's').replace(/ü/g, 'u')
+                .replace(/[._:*()\-]+/g, ' ').replace(/\s+/g, ' ').trim();
+        };
+        window.oiSablonIndir = function () {
+            var bas = OI_SABLON.map(function (c) { return c[1]; });
+            var ornek = ['ÖRNEK Öğrenci (bu satır içe aktarılmaz)', '3/A', '123', 'Kız', '', '01.09.2018', '', '', '', 'Örnek Veli', '', '05xx xxx xx xx', '', '', ''];
+            try {
+                if (typeof XLSX === 'undefined') throw new Error('xlsx yok');
+                var ws = XLSX.utils.aoa_to_sheet([bas, ornek]);
+                ws['!cols'] = OI_SABLON.map(function (c, i) { return { wch: i === 0 ? 34 : (c[0] === 'veliAdres' ? 40 : 16) }; });
+                var wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'Ogrenciler');
+                var bilgi = XLSX.utils.aoa_to_sheet([['Açıklama'], ['Yalnızca "Ad Soyad" zorunludur; diğer sütunlar boş bırakılabilir.'], ['Sütunların sırası değişebilir; başlık adları tanınır (Adı Soyadı, Sınıfı, No …).'], ['Sınıf/Şube örnekleri: 1/A, 7-B, 10 C. Kademe sınıftan otomatik bulunur.'], ['Doğum tarihi: gg.aa.yyyy veya Excel tarih biçimi.'], ['"ÖRNEK" ile başlayan satırlar içe aktarılmaz.']]);
+                bilgi['!cols'] = [{ wch: 90 }];
+                XLSX.utils.book_append_sheet(wb, bilgi, 'Aciklama');
+                XLSX.writeFile(wb, 'ogrenci_sablon.xlsx');
+            } catch (e) {
+                /* Excel kütüphanesi yoksa (çevrimdışı) CSV şablon */
+                var csv = '﻿' + [bas, ornek].map(function (r) { return r.map(function (x) { return '"' + String(x).replace(/"/g, '""') + '"'; }).join(';'); }).join('\r\n');
+                var a = document.createElement('a');
+                a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+                a.download = 'ogrenci_sablon.csv'; document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+                showCustomAlert('Şablon (CSV)', 'Excel kütüphanesi yüklenemediği için şablon CSV olarak indirildi. Excel ile açıp doldurduktan sonra aynı biçimde (CSV) kaydedip yükleyebilirsiniz.');
+            }
+        };
+        var oiTarihCoz = function (v) {
+            if (v == null || v === '') return '';
+            if (v instanceof Date && !isNaN(v)) return v.getFullYear() + '-' + String(v.getMonth() + 1).padStart(2, '0') + '-' + String(v.getDate()).padStart(2, '0');
+            if (typeof v === 'number' && v > 20000 && v < 80000) { var d = new Date(Math.round((v - 25569) * 86400000)); return d.getUTCFullYear() + '-' + String(d.getUTCMonth() + 1).padStart(2, '0') + '-' + String(d.getUTCDate()).padStart(2, '0'); }
+            var s = String(v).trim(), m;
+            if ((m = /^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{4})$/.exec(s))) return m[3] + '-' + m[2].padStart(2, '0') + '-' + m[1].padStart(2, '0');
+            if ((m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s))) return m[1] + '-' + m[2] + '-' + m[3];
+            return '';
+        };
+        var oiCsvCoz = function (metin) {
+            var satirlar = String(metin || '').replace(/^﻿/, '').split(/\r?\n/).filter(function (s) { return s.trim(); });
+            if (!satirlar.length) return [];
+            var ayr = satirlar[0].indexOf('\t') >= 0 ? '\t' : (satirlar[0].split(';').length >= satirlar[0].split(',').length ? ';' : ',');
+            return satirlar.map(function (s) {
+                var out = [], cur = '', q = false;
+                for (var i = 0; i < s.length; i++) {
+                    var ch = s[i];
+                    if (q) { if (ch === '"') { if (s[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += ch; }
+                    else if (ch === '"') q = true; else if (ch === ayr) { out.push(cur); cur = ''; } else cur += ch;
+                }
+                out.push(cur); return out;
+            });
+        };
+        /* Satır dizisinden öğrenci kayıtları: başlık satırını bulur, sütunları adlarından eşler */
+        window.oiSatirlardanOgrenci = function (rows) {
+            rows = (rows || []).filter(function (r) { return r && r.some(function (x) { return String(x == null ? '' : x).trim(); }); });
+            var basIdx = -1, harita = null;
+            for (var i = 0; i < Math.min(rows.length, 10) && basIdx < 0; i++) {
+                var h = {};
+                rows[i].forEach(function (cell, j) { var n = oiBasNorm(cell); OI_SABLON.forEach(function (c) { if (h[c[0]] == null && c[2].test(n)) h[c[0]] = j; }); });
+                if (h.ad != null) { basIdx = i; harita = h; }
+            }
+            if (basIdx < 0) { harita = {}; OI_SABLON.forEach(function (c, j) { harita[c[0]] = j; }); }
+            var kayit = [], hata = [];
+            rows.slice(basIdx + 1).forEach(function (r, k) {
+                var o = {};
+                OI_SABLON.forEach(function (c) { var j = harita[c[0]]; var v = j == null ? '' : r[j]; o[c[0]] = c[0] === 'dogumTarihi' ? oiTarihCoz(v) : String(v == null ? '' : (v instanceof Date ? oiTarihCoz(v) : v)).trim(); });
+                if (/^örnek/i.test(o.ad)) return;
+                if (!o.ad) { hata.push('Satır ' + (basIdx + k + 2) + ': Ad Soyad boş'); return; }
+                kayit.push(o);
+            });
+            return { kayit: kayit, hata: hata, baslikBulundu: basIdx >= 0 };
+        };
+        window.oiSablonYukle = function (input) {
+            var file = input.files && input.files[0]; input.value = '';
+            if (!file) return;
+            var bitir = function (rows) {
+                var r = oiSatirlardanOgrenci(rows), g = oiEnsure(), yeni = [], guncel = [];
+                r.kayit.forEach(function (o) {
+                    var ad = aramaNorm(o.ad);
+                    var var_ = g.ogrenciler.find(function (x) { return aramaNorm(x.ad) === ad && (!o.no || !x.no || String(x.no) === String(o.no)); }) ||
+                        yeni.find(function (x) { return aramaNorm(x.ad) === ad && (!o.no || !x.no || String(x.no) === String(o.no)); });
+                    if (var_ && yeni.indexOf(var_) < 0) { var p = {}; Object.keys(o).forEach(function (k) { if (o[k] && !var_[k]) p[k] = o[k]; }); guncel.push({ o: var_, p: p }); }
+                    else if (!var_) yeni.push(o);
+                });
+                window.__oiYukle = { dosya: file.name, yeni: yeni, guncel: guncel, hata: r.hata, baslik: r.baslikBulundu };
+                oiEnsure().activeView = 'ogrenciler'; updateUI();
+            };
+            var rd = new FileReader();
+            if (/\.(csv|txt)$/i.test(file.name) || typeof XLSX === 'undefined') {
+                if (!/\.(csv|txt)$/i.test(file.name)) { showCustomAlert('Excel okunamadı', 'Excel kütüphanesi yüklenemedi (internet bağlantısı gerekir). Dosyayı CSV olarak kaydedip yükleyebilirsiniz.'); return; }
+                rd.onload = function () { bitir(oiCsvCoz(rd.result)); }; rd.readAsText(file, 'utf-8');
+            } else {
+                rd.onload = function () {
+                    try {
+                        var wb = XLSX.read(new Uint8Array(rd.result), { type: 'array', cellDates: true });
+                        var ad = wb.SheetNames.find(function (n) { return !/aciklama|açıklama/i.test(n); }) || wb.SheetNames[0];
+                        bitir(XLSX.utils.sheet_to_json(wb.Sheets[ad], { header: 1, raw: true, defval: '' }));
+                    } catch (e) { showCustomAlert('Dosya okunamadı', e.message); }
+                };
+                rd.readAsArrayBuffer(file);
+            }
+        };
+        window.oiYukleOnayla = function () {
+            var y = window.__oiYukle; if (!y) return;
+            var g = oiEnsure();
+            y.yeni.forEach(function (o) {
+                var yid = generateId(); while (g.ogrenciler.some(function (x) { return x.id === yid; })) yid++;
+                g.ogrenciler.push(Object.assign({ id: yid, ad: '', sinif: '', no: '', veliAd: '', veliTel: '', kademe: 'ilkokul', tc: '', dogumTarihi: '', dogumYeri: '', babaAdi: '', anneAdi: '', veliTc: '', veliAdres: '', babaTel: '', anneTel: '', cinsiyet: '' }, o, { kademe: oiSiniftanKademe(o.sinif) || 'ilkokul' }));
+            });
+            y.guncel.forEach(function (u) { Object.assign(u.o, u.p); if (u.p.sinif) u.o.kademe = oiSiniftanKademe(u.o.sinif) || u.o.kademe; });
+            var msg = y.yeni.length + ' öğrenci eklendi' + (y.guncel.filter(function (u) { return Object.keys(u.p).length; }).length ? ', ' + y.guncel.filter(function (u) { return Object.keys(u.p).length; }).length + ' kayıtlı öğrencinin boş bilgileri dolduruldu' : '') + '.';
+            window.__oiYukle = null;
+            saveAllData(); updateUI();
+            showCustomAlert('Şablondan Yükleme', msg);
+        };
+        window.oiYukleIptal = function () { window.__oiYukle = null; updateUI(); };
+        window.oiYukleOnizleme = function () {
+            var y = window.__oiYukle; if (!y) return '';
+            var e = escHtml2, dolacak = y.guncel.filter(function (u) { return Object.keys(u.p).length; });
+            return '<div class="no-print bg-emerald-50 border-2 border-emerald-300 rounded-xl p-4 mb-3 text-xs">' +
+                '<p class="font-bold text-emerald-900 text-sm mb-1">📤 Yükleme önizlemesi — ' + e(y.dosya) + '</p>' +
+                (y.baslik ? '' : '<p class="text-amber-700 mb-1">Başlık satırı tanınamadı; sütunlar şablon sırasına göre okundu.</p>') +
+                '<p class="mb-2"><b class="text-emerald-700">' + y.yeni.length + '</b> yeni öğrenci eklenecek · <b>' + y.guncel.length + '</b> öğrenci zaten kayıtlı' + (dolacak.length ? ' (' + dolacak.length + ' tanesinin boş bilgileri doldurulacak)' : '') + (y.hata.length ? ' · <b class="text-rose-600">' + y.hata.length + '</b> satır atlanacak' : '') + '</p>' +
+                (y.yeni.length ? '<div class="max-h-48 overflow-y-auto bg-white border border-emerald-200 rounded p-2 mb-2"><table class="w-full text-[11px]"><tr class="text-slate-500 text-left"><th>Ad Soyad</th><th>Sınıf</th><th>No</th><th>Veli</th><th>' + (y.kunye ? 'T.C.' : 'Tel') + '</th></tr>' +
+                    y.yeni.slice(0, 300).map(function (o) { var tcHata = y.kunye && o.kunye && o.kunye.tcKimlikNo && !o.tc; return '<tr class="border-t border-slate-100' + (tcHata ? ' bg-rose-50 text-rose-700' : '') + '"><td>' + e(o.ad) + '</td><td>' + e(o.sinif) + '</td><td>' + e(o.no) + '</td><td>' + e(o.veliAd) + '</td><td>' + e(y.kunye ? (o.tc || (o.kunye && o.kunye.tcKimlikNo ? '⚠ ' + o.kunye.tcKimlikNo : '')) : o.veliTel) + '</td></tr>'; }).join('') + '</table></div>' : '') +
+                (y.kunye ? '<p class="text-[11px] text-sky-800 mb-2">Künye defterinde sınıf/şube bulunmaz; yeni öğrencilerin sınıfını listeden girin. Nüfus, kayıt/nakil, bursluluk ve puan bilgileri öğrencinin “Ek Bilgiler” bölümüne kaydedilir.</p>' : '') +
+                (y.hata.length ? '<details class="mb-2"><summary class="cursor-pointer text-rose-700">' + (y.kunye ? 'Uyarılar / okunamayan sayfalar' : 'Atlanan satırlar') + '</summary><p class="text-[11px] text-rose-700">' + e(y.hata.slice(0, 50).join(' · ')) + '</p></details>' : '') +
+                '<div class="flex gap-2"><button type="button" onclick="oiYukleOnayla()" class="px-4 py-2 rounded-lg bg-emerald-600 text-white font-bold"' + (y.yeni.length || dolacak.length ? '' : ' disabled style="opacity:.5"') + '>✓ Ekle</button>' +
+                '<button type="button" onclick="oiYukleIptal()" class="px-4 py-2 rounded-lg bg-white border border-slate-300 font-bold">Vazgeç</button></div></div>';
+        };
+
+        /* ---------- Süzgeç ve toplu silme ---------- */
+        window.__oiSec = window.__oiSec || {};
+        window.__oiFiltre = window.__oiFiltre || { sinif: '', q: '' };
+        window.oiGorunenOgrenciler = function () {
+            var f = window.__oiFiltre, q = aramaNorm(f.q || '');
+            return oiEnsure().ogrenciler.filter(function (o) {
+                if (f.sinif && String(o.sinif || '').replace(/\s+/g, '').toLocaleUpperCase('tr-TR') !== f.sinif) return false;
+                if (q && aramaNorm([o.ad, o.no, o.veliAd, o.sinif].join(' ')).indexOf(q) < 0) return false;
+                return true;
+            });
+        };
+        window.oiSiniflar = function () {
+            var l = []; oiEnsure().ogrenciler.forEach(function (o) { var s = String(o.sinif || '').replace(/\s+/g, '').toLocaleUpperCase('tr-TR'); if (s && l.indexOf(s) < 0) l.push(s); });
+            return l.sort(function (a, b) { return (parseInt(a, 10) || 0) - (parseInt(b, 10) || 0) || a.localeCompare(b, 'tr'); });
+        };
+        window.oiFiltreSet = function (k, v) { window.__oiFiltre[k] = v; updateUI(); };
+        window.oiSecSayac = function () {
+            var n = oiEnsure().ogrenciler.filter(function (o) { return window.__oiSec[o.id]; }).length;
+            var b = document.getElementById('oi-sil-btn'); if (b) { b.textContent = '🗑 Seçilenleri sil (' + n + ')'; b.disabled = !n; b.style.opacity = n ? '' : '.5'; }
+            return n;
+        };
+        window.oiSec = function (id, on) { if (on) window.__oiSec[id] = true; else delete window.__oiSec[id]; oiSecSayac(); };
+        window.oiSecGorunen = function (on) {
+            oiGorunenOgrenciler().forEach(function (o) { if (on) window.__oiSec[o.id] = true; else delete window.__oiSec[o.id]; });
+            Array.prototype.forEach.call(document.querySelectorAll('.oi-sec-kutu'), function (k) { k.checked = !!on; });
+            oiSecSayac();
+        };
+        var oiSilUygula = function (ids, bagli) {
+            var g = oiEnsure(), set = {}; ids.forEach(function (i) { set[i] = true; });
+            g.ogrenciler = g.ogrenciler.filter(function (o) { return !set[o.id]; });
+            if (bagli) { g.devamsizlik = g.devamsizlik.filter(function (d) { return !set[d.ogrenciId]; }); g.disiplin = g.disiplin.filter(function (d) { return !set[d.ogrenciId]; }); }
+            ids.forEach(function (i) { delete window.__oiSec[i]; });
+            saveAllData(); updateUI();
+            showCustomAlert('Silindi', ids.length + ' öğrenci silindi' + (bagli ? '; bağlı devamsızlık ve disiplin kayıtları da silindi.' : '; bağlı kayıtlar korundu.'));
+        };
+        var oiBagliSor = function (ids) {
+            var g = oiEnsure(), set = {}; ids.forEach(function (i) { set[i] = true; });
+            var n = g.devamsizlik.filter(function (d) { return set[d.ogrenciId]; }).length + g.disiplin.filter(function (d) { return set[d.ogrenciId]; }).length;
+            if (!n) { oiSilUygula(ids, false); return; }
+            setTimeout(function () {
+                showCustomConfirm('Bağlı Kayıtlar', 'Silinen öğrencilere ait ' + n + ' devamsızlık/disiplin kaydı var. Bunlar da silinsin mi?\n\n“İptal” derseniz yalnızca öğrenciler silinir, kayıtlar korunur.', function (ok) { oiSilUygula(ids, !!ok); });
+            }, 50);
+        };
+        window.oiSecilenleriSil = function () {
+            var ids = oiEnsure().ogrenciler.filter(function (o) { return window.__oiSec[o.id]; }).map(function (o) { return o.id; });
+            if (!ids.length) return;
+            showCustomConfirm('Seçilenleri Sil', ids.length + ' öğrenci listeden silinsin mi?', function (ok) { if (ok) oiBagliSor(ids); });
+        };
+        window.oiListeyiBosalt = function () {
+            var ids = oiEnsure().ogrenciler.map(function (o) { return o.id; });
+            if (!ids.length) return;
+            showCustomConfirm('Tüm Listeyi Boşalt', 'Öğrenci listesindeki ' + ids.length + ' öğrencinin TAMAMI silinecek. Devam edilsin mi?', function (ok) {
+                if (!ok) return;
+                setTimeout(function () {
+                    showCustomConfirm('Son Onay', 'Bu işlem geri alınamaz (yedeğiniz yoksa). ' + ids.length + ' öğrenci silinsin mi?', function (ok2) { if (ok2) oiBagliSor(ids); });
+                }, 50);
+            });
+        };
+
+        /* ---------- Köprü: Disiplin İşlemleri ⇄ Öğrenciler ---------- */
+        window.oiKopruAc = function (donus) {
+            oiEnsure().activeView = 'ogrenciler';
+            window.__oiDonus = donus || null;
+            switchTab('ogrenciIsleri');
+            try { window.scrollTo(0, 0); } catch (e) {}
+        };
+        window.oiKopruDon = function () { var d = window.__oiDonus; window.__oiDonus = null; if (d) switchTab(d); };
+        /* ÖDDK olay dosyasında öğrenciyi listeden seç */
+        window.odOgrenciSec = function (id) {
+            var f = odAktif(); if (!f) return;
+            var o = (oiEnsure().ogrenciler || []).find(function (x) { return String(x.id) === String(id); });
+            if (!o) return;
+            f.ogrenciId = o.id;
+            f.ogrenci = { ad: o.ad || '', sinif: o.sinif || '', no: o.no || '', veli: o.veliAd || '', veliTel: o.veliTel || '', adres: o.veliAdres || '' };
+            try { saveAllData(); } catch (e) {}
+            updateUI();
+        };
+        window.odOgrenciSecHtml = function (f) {
+            var l = (oiEnsure().ogrenciler || []).slice().sort(function (a, b) { return String(a.sinif).localeCompare(String(b.sinif), 'tr', { numeric: true }) || String(a.ad).localeCompare(String(b.ad), 'tr'); });
+            return '<div class="sm:col-span-3 flex flex-wrap items-center gap-2 bg-white border border-indigo-200 rounded-lg px-2 py-1.5">' +
+                '<span class="font-bold text-indigo-800">🎓 Öğrenci listesinden seç:</span>' +
+                (l.length ? '<select onchange="odOgrenciSec(this.value)" class="flex-1 min-w-[180px] border rounded px-2 py-1"><option value="">— ' + l.length + ' öğrenci —</option>' + l.map(function (o) { return '<option value="' + o.id + '"' + (String(f.ogrenciId) === String(o.id) ? ' selected' : '') + '>' + escHtml2((o.sinif ? o.sinif + ' · ' : '') + o.ad + (o.no ? ' (' + o.no + ')' : '')) + '</option>'; }).join('') + '</select>' : '<span class="text-slate-500">Öğrenci listesi boş.</span>') +
+                '<button type="button" onclick="oiKopruAc(\'disiplinIslemleri\')" class="px-2 py-1 rounded bg-indigo-600 text-white font-bold">+ Öğrenci ekle / listeyi aç ↗</button></div>';
+        };
+        /* ==================== /v7.3.1 ==================== */
+
+        /* ==================== v7.3.2: e-OKUL ÖĞRENCİ KÜNYE DEFTERİNDEN AKTARMA ====================
+           "Öğrenci Künye Defteri → Excel" aracındaki konum tabanlı ayrıştırıcının aynısı:
+           satırlar y'ye göre gruplanır, her satırdaki etiketler bulunur, değer = bu etiket ile
+           sonraki etiket arası. pdf.js Türkçe harfleri ayrı parçalar ("Baba Ad"+"ı"+":") ve
+           kelime aralarını ayrı " " parçası olarak verdiği için ikisi de ele alınır. */
+        window.KUNYE_FIELDS = [
+            { key: 'okulNo', label: 'Okul No:' },
+            { key: 'adi', label: 'Adı:' },
+            { key: 'soyadi', label: 'Soyadı:' },
+            { key: 'babaAdi', label: 'Baba Adı:' },
+            { key: 'anneAdi', label: 'Anne Adı:' },
+            { key: 'dogumYeriTarihi', label: 'Doğum Yeri , Tarihi:', alts: ['Doğum Yeri, Tarihi:'] },
+            { key: 'tcKimlikNo', label: 'T.C. Kimlik No:' },
+            { key: 'ciltNo', label: 'Cilt No:' },
+            { key: 'ili', label: 'İli:' },
+            { key: 'aileSiraNo', label: 'Aile Sıra No:' },
+            { key: 'ilcesi', label: 'İlçesi:' },
+            { key: 'siraNo', label: 'Sıra No:' },
+            { key: 'mahalleKoy', label: 'Mahalle / Köy:' },
+            { key: 'verNufusIdaresi', label: 'Ver. Nüfus İdaresi:' },
+            { key: 'cuzKayNo', label: 'Cüz. Kay.No:' },
+            { key: 'verilisTarihi', label: 'Veriliş Tarihi:' },
+            { key: 'yeniKayitNakil', label: 'Yeni Kayıt / Nakil:' },
+            { key: 'kabulEdSinif', label: 'Kabul Ed. Sınıf:' },
+            { key: 'getOgrBelgesi', label: 'Get. Öğr. Belgesi:' },
+            { key: 'sinavliSinavsiz', label: 'Sınavlı/Sınavsız:' },
+            { key: 'tarihNumarasi', label: 'Tarih / Numarası:' },
+            { key: 'yatiliGunduzlu', label: 'Yatılı/Gündüzlü:' },
+            { key: 'veliAdiSoyadi', label: 'Veli Adı, Soyadı:' },
+            { key: 'burslulukDurumu', label: 'Bursluluk Durumu:' },
+            { key: 'nakilOkuluTarihi', label: 'Nakil Gelmiş İse' },
+            { key: 'adresi', label: 'Adresi:' }
+        ];
+        window.KUNYE_SINIF_KEYS = ['sinif4', 'sinif5', 'sinif6', 'sinif7', 'sinif8'];
+        window.KUNYE_BASLIK = {
+            okulNo: 'Okul No', adi: 'Adı', soyadi: 'Soyadı', babaAdi: 'Baba Adı', anneAdi: 'Anne Adı', dogumYeriTarihi: 'Doğum Yeri / Tarihi',
+            tcKimlikNo: 'T.C. Kimlik No', ciltNo: 'Cilt No', ili: 'İli', aileSiraNo: 'Aile Sıra No', ilcesi: 'İlçesi', siraNo: 'Sıra No',
+            mahalleKoy: 'Mahalle / Köy', verNufusIdaresi: 'Ver. Nüfus İdaresi', cuzKayNo: 'Cüz. Kay. No', verilisTarihi: 'Veriliş Tarihi',
+            yeniKayitNakil: 'Yeni Kayıt / Nakil', kabulEdSinif: 'Kabul Ed. Sınıf', getOgrBelgesi: 'Get. Öğr. Belgesi', sinavliSinavsiz: 'Sınavlı / Sınavsız',
+            tarihNumarasi: 'Tarih / Numarası', yatiliGunduzlu: 'Yatılı / Gündüzlü', veliAdiSoyadi: 'Veli Adı Soyadı', burslulukDurumu: 'Bursluluk Durumu',
+            nakilOkuluTarihi: 'Nakil Okulu / Tarihi', adresi: 'Adres',
+            sinif4: '4. Sınıf Puan', sinif5: '5. Sınıf Puan', sinif6: '6. Sınıf Puan', sinif7: '7. Sınıf Puan', sinif8: '8. Sınıf Puan'
+        };
+        window.kunyeMatchLabel = function (line, label) {
+            var norm = function (s) { return s.replace(/\s+/g, ''); };
+            var target = norm(label);
+            for (var i = 0; i < line.length; i++) {
+                if (line[i].isSpace) continue;
+                var acc = '';
+                for (var j = i; j < line.length; j++) {
+                    acc += norm(line[j].str);
+                    if (acc === target) return { startIdx: i, endIdx: j };
+                    if (acc.length > target.length || target.indexOf(acc) !== 0) break;
+                }
+            }
+            return null;
+        };
+        window.kunyeJoinWords = function (ws) {
+            var out = '', prevEnd = null;
+            ws.forEach(function (w) {
+                if (w.isSpace) { if (out && !/ $/.test(out)) out += ' '; return; }
+                if (prevEnd !== null && !/ $/.test(out) && (w.x - prevEnd) >= 1.5) out += ' ';
+                out += w.str;
+                prevEnd = w.x + w.w;
+            });
+            return out.replace(/\s+/g, ' ').trim();
+        };
+        window.kunyeParsePage = function (items) {
+            var words = items.filter(function (it) { return it.str && it.str.length > 0; }).map(function (it) {
+                return { str: it.str, x: it.transform[4], y: it.transform[5], w: it.width || 0, isSpace: !it.str.trim() };
+            });
+            words.sort(function (a, b) { return (b.y - a.y) || (a.x - b.x); });
+            var lines = [];
+            words.forEach(function (w) {
+                var last = lines[lines.length - 1];
+                if (last && Math.abs(last[0].y - w.y) < 3) last.push(w); else lines.push([w]);
+            });
+            lines.forEach(function (l) { l.sort(function (a, b) { return a.x - b.x; }); });
+            var data = {};
+            KUNYE_FIELDS.forEach(function (f) { data[f.key] = ''; });
+            KUNYE_SINIF_KEYS.forEach(function (k) { data[k] = ''; });
+            lines.forEach(function (line) {
+                var hits = [];
+                KUNYE_FIELDS.forEach(function (field) {
+                    var vs = [field.label].concat(field.alts || []);
+                    for (var v = 0; v < vs.length; v++) { var m = kunyeMatchLabel(line, vs[v]); if (m) { hits.push({ field: field, startIdx: m.startIdx, endIdx: m.endIdx }); break; } }
+                });
+                if (!hits.length) return;
+                hits.sort(function (a, b) { return a.startIdx - b.startIdx; });
+                var clean = hits.filter(function (h) { return !hits.some(function (o) { return o !== h && o.startIdx <= h.startIdx && o.endIdx >= h.endIdx && (o.endIdx - o.startIdx) > (h.endIdx - h.startIdx); }); });
+                for (var i = 0; i < clean.length; i++) {
+                    var cur = clean[i], next = clean[i + 1];
+                    var val = kunyeJoinWords(line.slice(cur.endIdx + 1, next ? next.startIdx : line.length)).replace(/^[:\s]+/, '').trim();
+                    if (val && !data[cur.field.key]) data[cur.field.key] = val;
+                }
+            });
+            if (!data.nakilOkuluTarihi) {
+                var idx = lines.findIndex(function (l) { return kunyeJoinWords(l).replace(/\s/g, '').indexOf('NakilGelmişİse') >= 0; });
+                if (idx !== -1) {
+                    for (var i2 = idx; i2 < Math.min(idx + 3, lines.length); i2++) {
+                        var txt = kunyeJoinWords(lines[i2]).replace(/Nakil\s*Gelmiş\s*İse/, '').replace(/Okulu\s*-\s*Tarihi:?/, '').replace(/Adresi:.*/, '').trim();
+                        if (txt.length > 2) { data.nakilOkuluTarihi = txt; break; }
+                    }
+                }
+            }
+            data.nakilOkuluTarihi = data.nakilOkuluTarihi.replace(/^Okulu\s*-\s*Tarihi:?\s*/, '').trim();
+            var headerIdx = lines.findIndex(function (l) { var t = kunyeJoinWords(l); return /4\.\s*Sınıf/i.test(t) && /5\.\s*Sınıf/i.test(t); });
+            if (headerIdx !== -1) {
+                var headerXs = [null, null, null, null, null];
+                lines[headerIdx].forEach(function (w) { var m = !w.isSpace && w.str.trim().match(/^([4-8])\./); if (m) headerXs[+m[1] - 4] = w.x; });
+                for (var j = headerIdx + 1; j < Math.min(headerIdx + 3, lines.length); j++) {
+                    var vText = kunyeJoinWords(lines[j]);
+                    if (!vText || /[4-8]\.\s*Sınıf/i.test(vText)) continue;
+                    if (/\d{2}\/\d{2}\/\d{4}/.test(vText) && /\d{2}:\d{2}/.test(vText)) break;
+                    lines[j].forEach(function (w) {
+                        if (w.isSpace) return;
+                        var nearest = -1, best = Infinity;
+                        headerXs.forEach(function (hx, i3) { if (hx == null) return; var d = Math.abs(w.x - hx); if (d < best) { best = d; nearest = i3; } });
+                        if (nearest !== -1 && best < 50) { var k = KUNYE_SINIF_KEYS[nearest]; data[k] = data[k] ? data[k] + w.str.trim() : w.str.trim(); }
+                    });
+                    break;
+                }
+            }
+            Object.keys(data).forEach(function (k) { data[k] = data[k].replace(/\s+/g, ' ').replace(/^[\s:.-]+|[\s:-]+$/g, '').trim(); });
+            return data;
+        };
+        /* Künye kaydı → portal öğrenci alanları */
+        window.kunyeOgrenciye = function (s) {
+            var dyt = s.dogumYeriTarihi || '', dt = '', dy = dyt;
+            var m = /(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{4})/.exec(dyt);
+            if (m) { dt = m[3] + '-' + m[2].padStart(2, '0') + '-' + m[1].padStart(2, '0'); dy = dyt.slice(0, m.index).replace(/[\s,\/-]+$/, '').trim(); }
+            var kunye = {}; Object.keys(KUNYE_BASLIK).forEach(function (k) { if (s[k]) kunye[k] = s[k]; });
+            return {
+                ad: [s.adi, s.soyadi].filter(Boolean).join(' ').trim(), no: s.okulNo || '', tc: /^\d{11}$/.test((s.tcKimlikNo || '').replace(/\D/g, '')) ? (s.tcKimlikNo || '').replace(/\D/g, '') : '', _tcHam: (s.tcKimlikNo || '').replace(/\D/g, ''),
+                babaAdi: s.babaAdi || '', anneAdi: s.anneAdi || '', dogumYeri: dy, dogumTarihi: dt, veliAd: s.veliAdiSoyadi || '', veliAdres: s.adresi || '',
+                kunye: kunye
+            };
+        };
+        window.oiKunyeYukle = async function (input) {
+            var files = Array.prototype.slice.call(input.files || []).filter(function (f) { return f.type === 'application/pdf' || /\.pdf$/i.test(f.name); });
+            input.value = '';
+            if (!files.length) { showCustomAlert('Künye Defteri', 'Lütfen e-Okul’dan indirilen Öğrenci Künye Defteri PDF dosyasını seçin.'); return; }
+            if (typeof pdfjsLib === 'undefined') { showCustomAlert('Künye Defteri', 'PDF okuyucu yüklenemedi (internet bağlantısı gerekir).'); return; }
+            var kutu = document.getElementById('oi-kunye-ilerleme');
+            var yaz = function (t) { if (kutu) { kutu.style.display = 'block'; kutu.textContent = t; } };
+            try {
+                var docs = [], toplam = 0;
+                for (var i = 0; i < files.length; i++) {
+                    yaz('PDF açılıyor: ' + files[i].name);
+                    var doc = await pdfjsLib.getDocument({ data: new Uint8Array(await files[i].arrayBuffer()) }).promise;
+                    docs.push({ file: files[i], doc: doc }); toplam += doc.numPages;
+                }
+                var kayit = [], hata = [], islenen = 0;
+                for (var d = 0; d < docs.length; d++) {
+                    for (var p = 1; p <= docs[d].doc.numPages; p++) {
+                        var page = await docs[d].doc.getPage(p);
+                        var tc = await page.getTextContent();
+                        var s = kunyeParsePage(tc.items);
+                        islenen++;
+                        if (s.adi || s.soyadi || s.tcKimlikNo || s.okulNo) {
+                            var o = kunyeOgrenciye(s);
+                            if (!o.ad) hata.push(docs[d].file.name + ' s.' + p + ': ad okunamadı');
+                            else { o._kaynak = docs[d].file.name + ' s.' + p; kayit.push(o); }
+                        }
+                        if (islenen % 5 === 0 || islenen === toplam) yaz(islenen + '/' + toplam + ' sayfa · ' + kayit.length + ' öğrenci');
+                    }
+                }
+                if (kutu) kutu.style.display = 'none';
+                if (!kayit.length) { showCustomAlert('Künye Defteri', 'Hiç öğrenci bilgisi çıkarılamadı. Dosya Öğrenci Künye Defteri raporu olmayabilir.'); return; }
+                /* Eşleştirme: önce T.C., sonra ad + okul no */
+                var g = oiEnsure(), yeni = [], guncel = [];
+                kayit.forEach(function (o) {
+                    var bul = function (l) { return l.find(function (x) { return (o.tc && x.tc && String(x.tc) === o.tc) || (aramaNorm(x.ad) === aramaNorm(o.ad) && (!o.no || !x.no || String(x.no) === String(o.no))); }); };
+                    var var_ = bul(g.ogrenciler), ayni = bul(yeni);
+                    if (ayni) return;
+                    if (var_) { var pt = {}; Object.keys(o).forEach(function (k) { if (k === '_kaynak' || k === '_tcHam') return; if (k === 'kunye') { if (!var_.kunye || !Object.keys(var_.kunye).length) pt.kunye = o.kunye; } else if (o[k] && !var_[k]) pt[k] = o[k]; }); guncel.push({ o: var_, p: pt }); }
+                    else yeni.push(o);
+                });
+                var uyari = kayit.filter(function (o) { return o._tcHam && o._tcHam.length !== 11; }).map(function (o) { return o.ad + ': T.C. ' + o._tcHam.length + ' haneli okundu — öğrenci kaydına yazılmadı, künye bilgisinde duruyor'; });
+                kayit.forEach(function (o) { delete o._kaynak; delete o._tcHam; });
+                window.__oiYukle = { dosya: files.length + ' künye PDF dosyası (' + toplam + ' sayfa)', yeni: yeni, guncel: guncel, hata: hata.concat(uyari), baslik: true, kunye: true };
+                oiEnsure().activeView = 'ogrenciler'; updateUI();
+            } catch (err) {
+                if (kutu) kutu.style.display = 'none';
+                showCustomAlert('Künye Defteri', 'PDF işlenirken hata: ' + err.message);
+            }
+        };
+        /* Öğrenci ek bilgilerinde künye özeti */
+        window.oiKunyeOzet = function (o) {
+            var k = o && o.kunye; if (!k || !Object.keys(k).length) return '';
+            var ATLA = { okulNo: 1, adi: 1, soyadi: 1, babaAdi: 1, anneAdi: 1, dogumYeriTarihi: 1, tcKimlikNo: 1, veliAdiSoyadi: 1, adresi: 1 };
+            var l = Object.keys(KUNYE_BASLIK).filter(function (x) { return k[x] && !ATLA[x]; });
+            if (!l.length) return '';
+            return '<div class="mt-2 pt-2 border-t border-indigo-100"><p class="text-[10px] text-indigo-700 font-bold uppercase mb-1">e-Okul künye bilgileri</p><div class="grid grid-cols-2 md:grid-cols-4 gap-x-3 gap-y-0.5 text-[11px]">' +
+                l.map(function (x) { return '<div><span class="text-slate-400">' + escHtml2(KUNYE_BASLIK[x]) + ':</span> ' + escHtml2(k[x]) + '</div>'; }).join('') + '</div></div>';
+        };
+        /* ==================== /v7.3.2 ==================== */
+
         window.oiDevamsizlikEkle = function() {
             const g = oiEnsure();
             if (!g.ogrenciler.length) { showCustomAlert("Önce Öğrenci Ekleyin", "Devamsızlık kaydı eklemeden önce Öğrenciler sekmesinden en az bir öğrenci ekleyiniz."); return; }
@@ -33661,23 +34091,40 @@ window.okUpdateKulupAdi = function(idx, value) {
             let body = '';
             if (view === 'ogrenciler') {
                 body = `
+                    ${window.__oiDonus ? `<div class="no-print mb-3"><button type="button" onclick="oiKopruDon()" class="px-3 py-2 rounded-lg bg-indigo-600 text-white text-xs font-bold shadow">← Disiplin İşlemlerine dön</button></div>` : ''}
+                    ${oiYukleOnizleme()}
                     <div class="no-print bg-white border border-slate-200 rounded-xl p-4">
-                        <div class="flex justify-between items-center mb-3">
+                        <div class="flex flex-wrap justify-between items-center gap-2 mb-3">
                             <h4 class="font-bold text-slate-800 text-sm">Öğrenci Listesi (${g.ogrenciler.length})</h4>
-                            <div class="flex gap-1.5">
+                            <div class="flex flex-wrap gap-1.5">
+                                <button onclick="oiSablonIndir()" class="px-3 py-1.5 bg-white border border-slate-300 text-slate-700 rounded-lg text-xs font-bold hover:bg-slate-50" title="Excel şablonu: yalnızca Ad Soyad zorunlu">📥 Şablon İndir</button>
+                                <label class="px-3 py-1.5 bg-white border border-emerald-400 text-emerald-800 rounded-lg text-xs font-bold hover:bg-emerald-50 cursor-pointer" title="Doldurulmuş şablonu (xlsx, xls, ods, csv) yükleyin">📤 Şablondan Yükle<input type="file" accept=".xlsx,.xls,.ods,.csv,.txt" class="hidden" onchange="oiSablonYukle(this)"></label>
+                                <label class="px-3 py-1.5 bg-white border border-sky-400 text-sky-800 rounded-lg text-xs font-bold hover:bg-sky-50 cursor-pointer" title="e-Okul → Öğrenci Künye Defteri raporunu PDF olarak indirip seçin (birden çok dosya seçilebilir)">📄 Künye Defterinden Aktar<input type="file" accept=".pdf,application/pdf" multiple class="hidden" onchange="oiKunyeYukle(this)"></label>
                                 <button onclick="oiTopluOgrenciEkle()" class="px-3 py-1.5 bg-white border border-emerald-300 text-emerald-800 rounded-lg text-xs font-bold hover:bg-emerald-50" title="Excel veya e-Okul listesinden kopyalayıp yapıştırın"><i class="fa-solid fa-paste mr-1"></i> Toplu Yapıştır</button>
                                 <button onclick="oiOgrenciEkle()" class="px-3 py-1.5 bg-emerald-600 text-white rounded-lg text-xs font-bold hover:bg-emerald-700"><i class="fa-solid fa-plus mr-1"></i> Öğrenci Ekle</button>
                             </div>
                         </div>
+                        <div id="oi-kunye-ilerleme" class="mb-2 px-3 py-2 rounded-lg bg-sky-50 border border-sky-200 text-sky-900 text-xs font-semibold" style="display:none"></div>
+                        <div class="flex flex-wrap items-center gap-1.5 mb-2 text-xs">
+                            <select onchange="oiFiltreSet('sinif',this.value)" class="border border-slate-300 rounded-lg px-2 py-1.5"><option value="">Tüm sınıflar</option>${oiSiniflar().map(s2 => `<option value="${escHtml2(s2)}" ${window.__oiFiltre.sinif === s2 ? 'selected' : ''}>${escHtml2(s2)}</option>`).join('')}</select>
+                            <input type="search" id="oi-ara" value="${escHtml2(window.__oiFiltre.q || '')}" onchange="oiFiltreSet('q',this.value)" placeholder="Ara: ad, no, veli…" class="flex-1 min-w-[140px] border border-slate-300 rounded-lg px-2 py-1.5">
+                            <button type="button" onclick="oiSecGorunen(true)" class="px-2 py-1.5 rounded-lg border border-slate-300 bg-white font-semibold">☑ Görünenleri seç</button>
+                            <button type="button" onclick="oiSecGorunen(false)" class="px-2 py-1.5 rounded-lg border border-slate-300 bg-white font-semibold">☐ Seçimi kaldır</button>
+                            <button type="button" id="oi-sil-btn" onclick="oiSecilenleriSil()" class="px-2 py-1.5 rounded-lg bg-rose-600 text-white font-bold" ${g.ogrenciler.some(o => window.__oiSec[o.id]) ? '' : 'disabled style="opacity:.5"'}>🗑 Seçilenleri sil (${g.ogrenciler.filter(o => window.__oiSec[o.id]).length})</button>
+                            <button type="button" onclick="oiListeyiBosalt()" class="px-2 py-1.5 rounded-lg border border-rose-300 text-rose-600 bg-white font-semibold">Tüm listeyi boşalt</button>
+                            ${(window.__oiFiltre.sinif || window.__oiFiltre.q) ? `<span class="text-slate-500">${oiGorunenOgrenciler().length} / ${g.ogrenciler.length} gösteriliyor</span>` : ''}
+                        </div>
                         <div class="overflow-x-auto">
                         <table class="w-full text-xs border-collapse">
                             <tr class="text-left text-slate-500 border-b border-slate-200">
+                                <th class="py-1.5 pr-1 w-6"><input type="checkbox" title="Görünenlerin tümünü seç" onchange="oiSecGorunen(this.checked)" class="w-4 h-4"></th>
                                 <th class="py-1.5 pr-2">Adı Soyadı</th><th class="py-1.5 pr-2">Kademe</th><th class="py-1.5 pr-2">Sınıf</th><th class="py-1.5 pr-2">No</th><th class="py-1.5 pr-2">Veli Adı</th><th class="py-1.5 pr-2">Veli Tel</th><th class="py-1.5 pr-2">Özürsüz (Yıl)</th><th></th>
                             </tr>
-                            ${g.ogrenciler.map(o => {
+                            ${oiGorunenOgrenciler().map(o => {
                                 const ozursuz = oiOzursuzToplam(o.id);
                                 const acikMi = g.acikOgrenciDetayId === o.id;
                                 return `<tr class="border-b border-slate-100">
+                                    <td class="py-1 pr-1"><input type="checkbox" class="oi-sec-kutu w-4 h-4" ${window.__oiSec[o.id] ? 'checked' : ''} onchange="oiSec(${o.id},this.checked)"></td>
                                     <td class="py-1 pr-2"><input value="${escHtml2(o.ad)}" onchange="oiOgrenciGuncelle(${o.id},'ad',this.value)" class="w-32 border border-slate-200 rounded px-1.5 py-1"></td>
                                     <td class="py-1 pr-2"><select onchange="oiOgrenciGuncelle(${o.id},'kademe',this.value)" class="border border-slate-200 rounded px-1.5 py-1">
                                         <option value="ilkokul" ${(o.kademe || 'ilkokul') === 'ilkokul' ? 'selected' : ''}>İlkokul</option>
@@ -33692,7 +34139,7 @@ window.okUpdateKulupAdi = function(idx, value) {
                                     <td class="py-1 whitespace-nowrap"><button onclick="oiOgrenciDetayAc(${o.id})" class="text-indigo-500 hover:text-indigo-700 px-1" title="Dilekçelerde kullanılan ek bilgiler (T.C., doğum, veli detayları)"><i class="fa-solid fa-${acikMi ? 'chevron-up' : 'id-card'}"></i></button> <button onclick="oiOgrenciSil(${o.id})" class="text-rose-500 hover:text-rose-700 px-1"><i class="fa-solid fa-trash"></i></button></td>
                                 </tr>
                                 ${acikMi ? `<tr class="bg-indigo-50/40 border-b border-slate-100">
-                                    <td colspan="8" class="p-3">
+                                    <td colspan="9" class="p-3">
                                         <p class="text-[10px] text-indigo-700 font-bold uppercase mb-2">Ek Bilgiler <span class="font-normal normal-case">— dilekçelerde (kayıt, nakil, erteleme) otomatik kullanılır</span></p>
                                         <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
                                             <label class="block text-[10px] text-slate-400">Öğrenci T.C. No<input value="${escHtml2(o.tc)}" onchange="oiOgrenciGuncelle(${o.id},'tc',this.value)" class="mt-0.5 w-full border border-slate-200 rounded px-1.5 py-1"></label>
@@ -33708,9 +34155,10 @@ window.okUpdateKulupAdi = function(idx, value) {
                                             <label class="block text-[10px] text-slate-400">Anne Telefon<input value="${escHtml2(o.anneTel)}" onchange="oiOgrenciGuncelle(${o.id},'anneTel',this.value)" class="mt-0.5 w-full border border-slate-200 rounded px-1.5 py-1"></label>
                                             <label class="block text-[10px] text-slate-400 md:col-span-4">Veli Adres<input value="${escHtml2(o.veliAdres)}" onchange="oiOgrenciGuncelle(${o.id},'veliAdres',this.value)" class="mt-0.5 w-full border border-slate-200 rounded px-1.5 py-1"></label>
                                         </div>
+                                        ${oiKunyeOzet(o)}
                                     </td>
                                 </tr>` : ''}`;
-                            }).join('') || '<tr><td colspan="8" class="text-center text-slate-400 py-4">Henüz öğrenci eklenmedi.</td></tr>'}
+                            }).join('') || '<tr><td colspan="9" class="text-center text-slate-400 py-4">' + (g.ogrenciler.length ? 'Süzgece uyan öğrenci yok.' : 'Henüz öğrenci eklenmedi. “📥 Şablon İndir” ile Excel şablonunu doldurup “📤 Şablondan Yükle” ile toplu ekleyebilirsiniz.') + '</td></tr>'}
                         </table>
                         </div>
                         <p class="text-[10px] text-slate-400 mt-2">Sarı/kırmızı rozet: bilgilendirici eşik göstergesidir (5 ve 10 gün) — kesin yasal işlem sınırları için güncel mevzuatı kontrol ediniz.</p>
@@ -39464,7 +39912,7 @@ function isgPrint(kind){
                 '<div class="grid sm:grid-cols-3 gap-1.5 text-[11px]">' + tarih('karar', 'Ödül kararı') + '<label class="flex items-center justify-between gap-1 bg-white border border-slate-200 rounded px-2 py-1"><span>Müdür</span><select onchange="odF(\'onay\',this.value,true)" class="border rounded text-[11px]"><option value="">bekliyor</option><option value="onay"' + (f.onay === 'onay' ? ' selected' : '') + '>onayladı</option></select></label></div>';
             var form = '<div class="no-print bg-slate-50 border border-slate-200 rounded-xl p-3 mb-3 text-xs space-y-3">' +
                 '<div class="flex flex-wrap items-center gap-2"><button type="button" onclick="odSet(\'sub\',\'dosyalar\')" class="px-2 py-1 rounded bg-white border border-slate-300 font-bold">← Dosyalar</button><b class="text-sm">Dosya #' + f.no + '</b><span class="text-[10.5px] font-bold px-2 py-0.5 rounded bg-' + odDurum(f).renk + '-100 text-' + odDurum(f).renk + '-800">' + e(odDurum(f).ad) + '</span></div>' +
-                '<div class="grid sm:grid-cols-3 gap-2">' +
+                '<div class="grid sm:grid-cols-3 gap-2">' + odOgrenciSecHtml(f) +
                 '<label>Öğrenci adı soyadı' + inp('ogrenci.ad', f.ogrenci.ad, '', '', true) + '</label><label>Sınıf / şube' + inp('ogrenci.sinif', f.ogrenci.sinif, '7-A') + '</label><label>Okul no' + inp('ogrenci.no', f.ogrenci.no) + '</label>' +
                 '<label>Veli' + inp('ogrenci.veli', f.ogrenci.veli) + '</label><label>Veli telefon' + inp('ogrenci.veliTel', f.ogrenci.veliTel) + '</label><label>Veli adresi' + inp('ogrenci.adres', f.ogrenci.adres) + '</label>' +
                 '<label>Olay tarihi' + inp('olayTarih', f.olayTarih, '', 'date', true) + '</label><label>Olay yeri' + inp('yer', f.yer, 'Okul bahçesi, 7-A sınıfı…') + '</label><label>Bildiren / şikâyetçi' + inp('bildiren', f.bildiren) + '</label>' +
@@ -39737,7 +40185,8 @@ function isgPrint(kind){
                     var p = okulProfilEnsure();
                     if (!d.kademeElle) d.kademe = (p.kademe.orta || p.kademe.ih) ? 'ortaokul' : p.kademe.lise ? 'ortaogretim' : 'ilkokul';
                 } catch (e) {}
-                var bilgi = typeof odProfilBilgi === 'function' ? odProfilBilgi() : '';
+                var bilgi = (typeof odProfilBilgi === 'function' ? odProfilBilgi() : '') +
+                    '<div class="no-print mb-3 flex flex-wrap items-center gap-2"><button type="button" onclick="oiKopruAc(\'disiplinIslemleri\')" class="px-3 py-2 rounded-lg bg-emerald-600 text-white text-xs font-bold shadow">🎓 Öğrenci listesini aç / öğrenci ekle ↗</button><span class="text-[11px] text-slate-500">Öğrenci İşleri’ndeki liste (' + ((state.ogrenciIsleri && state.ogrenciIsleri.ogrenciler) || []).length + ' öğrenci); şablonla toplu ekleme oradadır.</span></div>';
                 if (d.kademe !== 'ortaokul' || typeof renderOddk !== 'function') return bilgi + eski.apply(this, arguments);
                 var bar = '<div class="no-print flex flex-wrap gap-2 mb-3">' + [['ilkokul', 'İlkokul'], ['ortaokul', 'Ortaokul — ÖDDK'], ['ortaogretim', 'Ortaöğretim']].map(function (x) {
                     return '<button type="button" onclick="disiplinSetKademe(\'' + x[0] + '\')" class="px-4 py-2 text-xs font-bold rounded-xl border-2 ' + (d.kademe === x[0] ? 'bg-indigo-600 text-white border-indigo-600 shadow' : 'bg-white text-slate-700 border-slate-200') + '">' + x[1] + '</button>';
@@ -40109,7 +40558,7 @@ function isgPrint(kind){
         /* TEK SÜRÜM KAYNAĞI — bu değeri değiştir, her yer (sekme başlığı + sol menü
            etiketi) otomatik güncellenir. Dosya adı da hep bu numarayla aynı olmalı:
            İDARE ASİSTANI v<PORTAL_SURUM>. Sıralama: v6.5.0, v6.5.1 … v6.5.9, v6.6.0 … */
-        window.PORTAL_SURUM = '7.3.0';
+        window.PORTAL_SURUM = '7.3.2';
 
         /* ==================== GENEL BELGE DÜZENLEME ====================
            Programdaki evrakların çoğu salt çıktıydı (yalnızca bazılarında
@@ -40389,6 +40838,8 @@ function isgPrint(kind){
             } catch(e){}
         })();
         window.PORTAL_SURUM_NOTLARI = [
+            'Öğrenci İşleri → Öğrenciler: 📄 Künye Defterinden Aktar — e-Okul Öğrenci Künye Defteri PDF’lerinden (birden çok dosya, uzun PDF’lerde sayfa sayfa) öğrenciler konum tabanlı okunur (Künye → Excel aracındaki ayrıştırıcının aynısı). Ad soyad, okul no, T.C., anne-baba adı, doğum yeri ve tarihi, veli adı ve adres öğrenci kaydına; nüfus kayıt bilgileri, yeni kayıt/nakil, kabul edildiği sınıf, yatılı/gündüzlü, bursluluk ve 4–8. sınıf puanları “Ek Bilgiler”deki künye bölümüne aktarılır. Yüklemeden önce önizleme; kayıtlı öğrenci T.C. veya ad+no ile tanınır, yalnızca boş bilgileri doldurulur; 11 hanesiz okunan T.C. kırmızı işaretlenir',
+            'Öğrenci İşleri → Öğrenciler: 📥 Excel şablonu (yalnızca Ad Soyad zorunlu; sınıf, no, cinsiyet, T.C., doğum tarihi/yeri, anne-baba adı, veli bilgileri, telefonlar, adres isteğe bağlı) ve 📤 şablondan toplu yükleme (xlsx/xls/ods/csv; sütun başlıkları sıradan bağımsız tanınır; yüklemeden önce önizleme: yeni / zaten kayıtlı / atlanan; kayıtlı öğrencinin yalnızca boş bilgileri doldurulur). Toplu silme: satır işaret kutuları, sınıf süzgeci ve arama, “Görünenleri seç”, “Seçilenleri sil” (bağlı devamsızlık/disiplin kayıtlarının silinip silinmeyeceği sorulur), iki onaylı “Tüm listeyi boşalt”. Disiplin İşlemleri’ne öğrenci listesine köprü ve geri dönüş düğmesi; ÖDDK olay dosyasında öğrenci listeden seçilince sınıf, no, veli, telefon ve adres otomatik dolar',
             'Disiplin İşlemleri → Ortaokul artık tam bir Öğrenci Davranışlarını Değerlendirme Kurulu modülü (OÖKY md. 51–65, 28.07.2026 tarihli ve 33323 sayılı RG değişiklikleriyle): kurulun oluşumu (öğretmenler kurulunda gizli oy, 3 asıl + 3 yedek, eşitlikte kıdem/kura, OAB veli üyesi; seçim sonucu Kurul ve Komisyonlar’a işlenir), olay / arabuluculuk / ödül dosyaları, md. 55 davranış listesi (yeni bilişim araçları maddesi dahil) ve önerilen yaptırım, aynı yıl tekrarında üst yaptırım uyarısı, akrabalık engelinde yedek üyenin otomatik girmesi, oylama (çekimser yok), süre sayaçları (5 iş günü inceleme, 2 iş günü bildirim, 5 iş günü itiraz, 5 iş günü ilçe kurulu). Belgeler: sözlü uyarma, sözleşme (EK-9), veli görüşmesi, havale, çağrılar, ifade ve savunma tutanakları (rehber öğretmen eşliğinde), çağrıya uymama, karar tutanağı (EK-10), müdür onayı/iade, tebliğ ve tebliğ şerhi, itiraz dilekçesi, ilçe kuruluna gönderme ve dizi pusulası, arama tutanağı (md. 78, iki nüsha), zarar ödetme, yaptırımın kaldırılması, ödül kararı, toplantı tutanağı, yıl sonu raporu. Disiplin modülünün kademesi artık Okul Profili’nden gelir (bilgilendirme notuyla); yıllık plana ÖDDK maddeleri eklendi',
             'Belirli Gün ve Haftalar → 📚 Kütüphane: aylara göre gruplu 130’u aşkın gün/hafta (MEB belirli gün ve haftalar çizelgesi + yaygın ulusal/uluslararası günler); ay sekmeleri, arama, “yalnızca okullarda yaygın kutlananlar” süzgeci; her günü tek dokunuşla ekleme / “✓ Ekli · Çıkar” ile çıkarma (görevli atanmışsa onay sorar), görünenlerin tümünü toplu ekleme. Eklenen gün öğretim yılı ay sırasına (Eylül → Ağustos) göre yerine konur; “Ay sırasına diz” ve “Listeyi boşalt” düğmeleri eklendi',
             'Yeni Okul Profili (kademe: okul öncesi, ilkokul, ortaokul, lise, imam hatip, mesleki; şartlar: taşımalı, yemekhane, kantin, pansiyon, okul sütü, ikili öğretim, birleştirilmiş sınıf, kaynaştırma, destek eğitim odası, çocuk kulübü, yabancı uyruklu öğrenci, hemşire, rehber öğretmen). İdareci Yıllık Çalışma Planı baştan yazıldı: “Her ay” ve Eylül–Haziran (isteğe bağlı Temmuz–Ağustos) için alt alta maddeler, başlarında işaret kutusu; işaretsizler soluk görünür ve yazdırılmaz; maddeler profile göre süzülür (servisi, kantini, yemeği olmayan okulda ilgili maddeler çıkmaz); kademeye uygun bakanlık projeleri (Dilimizin Zenginlikleri, Maarifin Kalbinde Oyun, Yaşam Becerileri, Dijital Esenlik, Ailemle Eğitim Yolculuğum, Beyaz Bayrak, Sıfır Atık, TÜBİTAK 4006, eTwinning…) seçilince maddeleri ilgili aylara eklenir; sorumlu sütunu, madde düzenleme ve kendi maddesini ekleme; eski plan silinmeden “Önceki plan” olarak taşındı. Görev Dağılımı (Müdür Yardımcısı): profile uygun görev önerileri, profile uymayan görevlerin listelenip kaldırılması, iki/üç müdür yardımcısında alana göre önerilen dağılım',
