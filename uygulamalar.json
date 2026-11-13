@@ -60,11 +60,11 @@
     "ico": "🖥️",
     "renk": "#1d4e89",
     "dosya": "TahtaYonetim.zip",
-    "indirAdi": "TahtaYonetim-3.4.0.zip",
+    "indirAdi": "TahtaYonetim-3.5.0.zip",
     "kilavuz": "tahta-kilavuz.html",
-    "surum": "3.4.0",
-    "boyut": "1,9 MB",
-    "sha256": "6ff2d0e21ef915d6d80dbc80a4584750b51bf07fa114b7bd5376edbd9dcfa83f",
+    "surum": "3.5.0",
+    "boyut": "2,0 MB",
+    "sha256": "8cef44e8cb14d7b011d6c654ea5af3357dae700352f342c06d1840a224bf6e9f",
     "platform": [
       "Windows 10/11 (yönetim)",
       "Pardus / ETAP tahtalar",
@@ -120,6 +120,10 @@
       {
         "ad": "Birden fazla yönetici",
         "acik": "Müdür yardımcıları kendi adı ve şifresiyle panele girer"
+      },
+      {
+        "ad": "Birden fazla yönetim bilgisayarı",
+        "acik": "Biri kapanırsa diğeri devralır; ayarlar dakikada bir eşitlenir"
       },
       {
         "ad": "Telefondan yönetim",
