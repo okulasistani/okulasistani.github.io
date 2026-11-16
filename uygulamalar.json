@@ -55,22 +55,22 @@
   {
     "id": "tahta",
     "tur": "indir",
-    "ad": "Tahta Yönetim Sistemi",
+    "ad": "Tahta Yönetim Asistanı",
     "kisaAd": "Tahta",
     "ico": "🖥️",
     "renk": "#1d4e89",
     "dosya": "TahtaYonetim.zip",
-    "indirAdi": "TahtaYonetim-3.5.0.zip",
+    "indirAdi": "TahtaYonetimAsistani-3.6.zip",
     "kilavuz": "tahta-kilavuz.html",
-    "surum": "3.5.0",
-    "boyut": "2,0 MB",
-    "sha256": "8cef44e8cb14d7b011d6c654ea5af3357dae700352f342c06d1840a224bf6e9f",
+    "surum": "3.6",
+    "boyut": "2,6 MB",
+    "sha256": "842161d2c32126ec5ac421b90d29f716309788c8861cef2001b55133ea248a4f",
     "platform": [
       "Windows 10/11 (yönetim)",
       "Pardus / ETAP tahtalar",
       "Windows tahtalar"
     ],
-    "aciklama": "Okuldaki akıllı tahtaları tek panelden yönetin: kilit, duyuru, dosya gönderme, zil programı, canlı ekran, uzaktan güncelleme ve raporlar.",
+    "aciklama": "Okuldaki akıllı tahtaları tek panelden yönetin: kilit, duyuru, zil programı, uygulama ve yazıcı kurulumu, USB virüs koruması, canlı ekran ve raporlar.",
     "uzunAciklama": "İdareci bilgisayarına kurulan bir yönetim paneli ve her tahtaya (Pardus/ETAP veya Windows) bir kez kurulan küçük bir ajandan oluşur. Tahtaları okul ağı üzerinden kilitler, duyuru ve dosya gönderir, zil programını tahtalarda çalıştırır; telefondan da yönetilebilir. İnternete veri göndermez.",
     "ozellikler": [
       {
@@ -90,6 +90,14 @@
         "acik": "Ders saatlerinden ziller kendiliğinden oluşur; ses kitaplığı, tatil günleri"
       },
       {
+        "ad": "Canlı tahta ekranı",
+        "acik": "Tahtanın ekranını panelde büyük ve yakınlaştırarak izleyin"
+      },
+      {
+        "ad": "Uzaktan güncelleme",
+        "acik": "Pardus ve Windows güncellemeleri; şifre girmeden, zamanlanabilir"
+      },
+      {
         "ad": "Ortak Klasör",
         "acik": "Windows bilgisayarlar ve tahtalar arasında paylaşım"
       },
@@ -104,6 +112,22 @@
       {
         "ad": "Site engelleme",
         "acik": "Sosyal medya, video, oyun; her zaman ya da belirli saatlerde"
+      },
+      {
+        "ad": "USB Koruma",
+        "acik": "Flash'taki kısayol virüslerini temizler, kaynağı olan bilgisayarı raporlar"
+      },
+      {
+        "ad": "Yazıcı Merkezi",
+        "acik": "USB yazıcıyı algılar, uzaktan kurar, tahtalar arasında paylaştırır"
+      },
+      {
+        "ad": "Uygulama Merkezi",
+        "acik": "Uygulama kurma/kaldırma, tarayıcı ve başlangıç yönetimi"
+      },
+      {
+        "ad": "Oturum ve arka plan",
+        "acik": "Oturumu kapatma, kullanıcıya geçiş, sınıfa özel arka plan"
       },
       {
         "ad": "Uzaktan açma ve kapatma",
