@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İdare Asistanı 7.3.4 — MEB Yönetim Portalı & Resmi Evrak</title>
+    <title>İdare Asistanı 7.3.6 — MEB Yönetim Portalı & Resmi Evrak</title>
     <!-- Tailwind CSS -->
     
 <style id="critical-offline-css">
@@ -748,7 +748,7 @@ tailwind.config = {
 /* v7.3.4 aranabilir seçici */
 .secim-ara{width:7.5em;max-width:40%;margin-right:4px;padding:3px 6px;border:1.5px solid #7dd3fc;border-radius:6px;font-size:12px;background:#f0f9ff;vertical-align:middle}
 .secim-ara:focus{outline:none;border-color:#0284c7;background:#fff}
-/* v7.3.3 tam ekran evrak düzenleyici */
+/* v7.3.3–7.3.5 tam ekran evrak düzenleyici */
 body.evd-acik{overflow:hidden!important}
 #evd-ov{position:fixed;inset:0;z-index:2147483000;background:#525659;display:flex;flex-direction:column;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 #evd-ov .evd-ust{display:flex;flex-wrap:wrap;gap:6px;padding:6px 8px;background:#1e293b;align-items:center}
@@ -768,11 +768,6 @@ body.evd-acik{overflow:hidden!important}
 #evd-ov .evd-alan{flex:1;overflow:auto;padding:16px 8px 60px;-webkit-overflow-scrolling:touch}
 #evd-ov .evd-olcek{width:max-content;margin:0 auto}
 #evd-ov .evd-kagit{position:relative;background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.45);box-sizing:border-box;color:#000}
-#evd-ov .evd-icerik{position:relative;z-index:1;outline:none;min-height:20mm;overflow-wrap:break-word}
-#evd-ov .evd-icerik .no-print{display:none!important}
-#evd-ov .evd-icerik .print-only{display:block!important}
-#evd-ov .evd-icerik table{max-width:100%}
-#evd-ov .evd-icerik td,#evd-ov .evd-icerik th{overflow-wrap:anywhere}
 #evd-ov .evd-icerik .evd-secili-tablo{outline:2px dashed #2563eb;outline-offset:2px}
 #evd-ov .evd-kagit.evd-izgara .evd-icerik td,#evd-ov .evd-kagit.evd-izgara .evd-icerik th{box-shadow:inset 0 0 0 1px rgba(37,99,235,.28)}
 #evd-ov .evd-kagit.evd-izgara .evd-icerik > *, #evd-ov .evd-kagit.evd-izgara .evd-icerik p, #evd-ov .evd-kagit.evd-izgara .evd-icerik div{outline:1px dotted rgba(100,116,139,.35)}
@@ -796,17 +791,30 @@ body.evd-acik{overflow:hidden!important}
 .evd-rozet button{text-decoration:underline;color:#b91c1c;font-weight:700}
 .evrak-arac-btn.evrak-duzenle{background:#1d4ed8!important;color:#fff!important;border-color:#1e40af!important}
 @media print{#evd-ov{display:none!important}}
-/* düzenlenmiş evrakın temel tablo görünümü = genel baskı kuralı (önem işaretsiz, elle ayar kazanır) */
-.evd-icerik table{border-collapse:collapse;width:100%;margin-top:10px;margin-bottom:15px}
-.evd-icerik th,.evd-icerik td{border:1px solid #000;color:#000;padding:8px 12px;font-size:11px;line-height:1.4}
-.evd-icerik th{font-weight:bold;background-color:#f3f4f6}
-@media print{.evd-icerik th,.evd-icerik td{background:transparent}.evd-icerik th{background-color:#f3f4f6}}
 @media (max-width:760px){
 #evd-ov .evd-ust{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:4px;padding:5px 6px}
 #evd-ov .evd-grup{flex-shrink:0}
 #evd-ov .evd-b{height:36px;min-width:36px;padding:0 8px;font-size:12px}
 #evd-ov .evd-ipucu{display:none}
 }
+/* v7.3.5: düzenleyici kâğıdı (yalnız görsel; yerleşimi etkileyen kural yok) */
+#evd-ov .evd-kagit > .evd-icerik{z-index:1;outline:none;cursor:text}
+#evd-ov .evd-icerik .evd-secili-tablo{outline:2px dashed #2563eb;outline-offset:2px}
+/* düzenlenmiş evrak: kendi A4 sayfası — modüllerin @page kenar boşlukları değiştiremez */
+@page evddikey{size:A4 portrait;margin:12mm 15mm}
+@page evdyatay{size:A4 landscape;margin:10mm}
+/* ekranda: düzenlenmiş evrak kabına sığacak kadar küçültülür (baskıyı etkilemez) */
+@media screen{.evd-duzenli > .evd-ekran{zoom:var(--evd-ek,1)}}
+/* baskıda: kap ve sarmalayıcı nötr; evrakın genişliği/kenarları kendi içinde sabit */
+@media print{
+.evd-duzenli:is(#evd-z1,.evd-duzenli):is(#evd-z2,.evd-duzenli):is(#evd-z3,.evd-duzenli),
+.evd-ekran:is(#evd-z1,.evd-ekran):is(#evd-z2,.evd-ekran):is(#evd-z3,.evd-ekran){display:block!important;padding:0!important;margin:0!important;border:0!important;width:auto!important;min-width:0!important;max-width:none!important;height:auto!important;min-height:0!important;max-height:none!important;box-shadow:none!important;zoom:1!important;transform:none!important;columns:auto!important;position:static!important;float:none!important;overflow:visible!important;background:none!important;page-break-before:auto!important;break-before:auto!important}
+}
+/* İSG önizleme kutusunun düzenleme çerçevesi (kesikli yeşil kenar, kaydırma sınırı) baskıya girmesin */
+@media print{#isg-preview-edit{border:0!important;box-shadow:none!important;max-height:none!important;overflow:visible!important;border-radius:0!important}}
+#evd-ov .evd-zorunlu{position:absolute;height:22px;pointer-events:none;z-index:3}
+#evd-ov .evd-zorunlu button{pointer-events:auto;font:700 10px system-ui;color:#fff;background:#7c3aed;border:0;border-radius:10px;padding:3px 8px;box-shadow:0 1px 3px rgba(0,0,0,.25);cursor:pointer}
+#evd-ov .evd-oran{color:#fbbf24;font-weight:600}
 </style>
 </head>
 <body class="bg-slate-50 h-screen flex overflow-hidden text-slate-800">
@@ -851,7 +859,7 @@ body.evd-acik{overflow:hidden!important}
             <p id="son-yedek-bilgi" class="text-[9px] text-center text-slate-500"></p>
         </div>
         <div class="px-2.5 py-2 border-t border-slate-800 text-center flex-shrink-0">
-            <p class="text-[9px] text-slate-500 truncate">Mehmet Can Öztürk-Cuma Çetinkaya <span class="text-slate-400 font-normal" style="cursor:pointer;text-decoration:underline dotted" title="Yenilikleri göster" onclick="portalSurumPopupGoster(true)">· v<span id="portal-surum-etiket">7.3.4</span></span></p>
+            <p class="text-[9px] text-slate-500 truncate">Mehmet Can Öztürk-Cuma Çetinkaya <span class="text-slate-400 font-normal" style="cursor:pointer;text-decoration:underline dotted" title="Yenilikleri göster" onclick="portalSurumPopupGoster(true)">· v<span id="portal-surum-etiket">7.3.6</span></span></p>
             <p class="text-[9px] text-slate-400 font-semibold mt-1 uppercase tracking-wide">İletişim</p>
             <div class="flex items-center justify-center gap-2 flex-wrap text-[9px] text-slate-500 mt-0.5">
                 <a href="mailto:cann201921@gmail.com" class="text-sky-400 hover:text-sky-300 underline" title="E-posta gönder"><i class="fa-solid fa-envelope mr-0.5"></i>cann201921@gmail.com</a>
@@ -40623,7 +40631,7 @@ function isgPrint(kind){
         /* TEK SÜRÜM KAYNAĞI — bu değeri değiştir, her yer (sekme başlığı + sol menü
            etiketi) otomatik güncellenir. Dosya adı da hep bu numarayla aynı olmalı:
            İDARE ASİSTANI v<PORTAL_SURUM>. Sıralama: v6.5.0, v6.5.1 … v6.5.9, v6.6.0 … */
-        window.PORTAL_SURUM = '7.3.4';
+        window.PORTAL_SURUM = '7.3.6';
 
         /* ==================== GENEL BELGE DÜZENLEME ====================
            Programdaki evrakların çoğu salt çıktıydı (yalnızca bazılarında
@@ -40903,6 +40911,10 @@ function isgPrint(kind){
             } catch(e){}
         })();
         window.PORTAL_SURUM_NOTLARI = [
+            'Ekranda evrakı görünmeyen sayfalara da ✏️ Düzenle eklendi (“Bu sayfanın evrakı” çubuğu): Personel Havuzu, İdareci Yıllık Çalışma Planı, Rehberlik Çerçeve Planı, Görev Dağılımı, Belirli Gün ve Haftalar, Kurul ve Komisyonlar, Sosyal Etkinlikler planları ve tutanağı, Kantin, Öğretmenler Kurulu tutanağı, Okul Aile Birliği listeleri/bütçe/denetim formu, Sorumluluk Sınavları belgeleri, Pansiyon Belletici ve diğerleri. Sayfanın yazdırınca çıkan hâli aynı düzenleyicide açılır; kaydedilen hâl o sayfanın Yazdır/PDF/Word düğmelerinde, modülün kendi Yazdır düğmesinde ve tarayıcı menüsünden yazdırmada kullanılır. Çubukta “✏️ Elle düzenlendi · Şablona dön” görünür.',
+            'Düzenleyici: kaydırma kutusu veya köşeli kart içindeki uzun içerik artık baskıda sayfalara düzgün bölünür (dilimlenmez); sayfa sayısı tahmini bu durumlarda da baskıyla aynı.',
+            'Evrak düzenleyici yenilendi: ✏️ Düzenle ekranındaki sayfa sayısı ve kırmızı sayfa sonu çizgileri artık yazıcıdan çıkanla birebir aynı. Evrak açılırken baskıdaki görünümüyle sabitlenir; modüllerin baskı ayarları düzenlenmiş evrakı değiştiremez. Yeni ⤓ 1 sayfa / ⤓ 2 sayfa: tablolar ve düzen bozulmadan evrak orantılı küçültülerek sığdırılır (%100 ile geri alınır). Zorunlu sayfa sonları “✕ Sayfa sonunu kaldır” ile kaldırılabilir; imza bloğu bölünür veya tek başına kalırsa uyarılır; sayfa sonuna çok yakın içerik “sınırda” diye işaretlenir. 🧹 Sıkıştır art arda boş satırları ve büyük aralıkları azaltır; ↕ Boşluklar birleşen kenar boşluklarını da hesaba katar; yapıştırılan metin biçimsiz eklenir. Önceki sürümde düzenlenmiş evraklar ilk açılışta otomatik yeni biçime taşınır.',
+            'İSG belge önizleme kutusunun kesikli yeşil çerçevesi artık baskıya girmiyor.',
             'Öğrenci İşleri → Öğrenciler: arama artık yazdıkça çalışır (klavye kapanmaz); ad, sınıf, numara, veli adı, T.C. ve telefonla aranır, birden çok kelime birlikte kullanılabilir (ör. “6a elif”); kaç öğrencinin gösterildiği sayaçta görünür. Disiplin İşlemleri, Destek Eğitim ve diğer modüllerdeki uzun öğrenci açılır listelerinin yanına 🔍 Ara kutusu eklendi (Enter ilk eşleşeni seçer).',
             'Yenilikler penceresinde modül adları mavi bağlantıya dönüştü: dokununca doğrudan o modül açılır.',
             'Yeni tam ekran evrak düzenleyici: her evrakın üstündeki ✏️ Düzenle evrakı A4 kâğıt görünümünde açar. Her yer yazılabilir; tablolarda mavi çizgileri sürükleyerek sütun/satır boyutlandırılır, + Satır/Sütun ile eklenir-silinir. Yazdırma alanı ve sayfa sonları kırmızı çizgiyle görünür, imza bloğu sayfa sonuna düşerse uyarılır. ↕ Boşluklar ile bloklar arası boşluk azaltılır/eklenir (alttakiler kendiliğinden kayar); ⤓ Tek sayfaya sığdır boşlukları ve aralığı otomatik sıkıştırır. Izgara isteğe bağlıdır, yazdırılmaz. Düzenlenen evrak kaydedilir, modül her açıldığında o hâliyle gelir; ↺ Şablona dön ile modülün ürettiği hâle dönülür. Üst menüdeki Belgeyi Düzenle ve Tablo Boyutlandır düğmeleri kaldırıldı (eski düzenlemeler korunur).',
@@ -43343,7 +43355,7 @@ function isgPrint(kind){
             return '<button type="button" onclick="' + fn + '" class="evrak-arac-btn ' + renk + '"><i class="fa-solid ' + ikon + '"></i><span>' + yazi + '</span></button>';
         };
         return '<span class="evrak-arac-etiket"><i class="fa-regular fa-file-lines"></i> ' + (kapsam === 'evrak' ? 'Evrak' : 'Bu sayfanın evrakı') + '</span>' +
-            (kapsam === 'evrak' ? btn('fa-pen-to-square', 'Düzenle', "evdAc('" + key + "')", 'evrak-duzenle') : '') +
+            ((kapsam === 'evrak' || !(state && state.activeTab === 'dergi')) ? btn('fa-pen-to-square', 'Düzenle', (kapsam === 'evrak' ? "evdAc('" : "evdSayfaAc('") + key + "')", 'evrak-duzenle') : '') +
             btn('fa-print', 'Yazdır', "evrakYazdir('" + key + "','" + kapsam + "')", 'evrak-yazdir') +
             btn('fa-file-pdf', 'PDF İndir', "evrakPdfIndir('" + key + "','" + kapsam + "')", 'evrak-pdf') +
             btn('fa-file-word', 'Word İndir', "evrakWordIndir('" + key + "','" + kapsam + "')", 'evrak-word') +
@@ -44538,109 +44550,456 @@ function isgPrint(kind){
 </script>
 <script>
 
-/* ==================== v7.3.3: TAM EKRAN EVRAK DÜZENLEYİCİ ====================
-   Her evrakın araç çubuğundaki "✏️ Düzenle" evrakı tam ekran, gerçek A4 kâğıt görünümünde açar.
-   • Yazdırma alanı (@page kenar boşlukları) ve sayfa sonları çizgiyle gösterilir; imza bloğu
-     sayfa sonuna denk gelirse uyarılır.
-   • Evrak normal metin akışında durduğu için boşluk silinince alttakiler yukarı, eklenince aşağı kayar.
-   • Tablolarda sütun/satır sınırları sürüklenir; hücre metni sarılır, taşmaz. Satır/sütun ekle-sil.
-   • "Tek sayfaya sığdır": boş satırları ve fazla aralıkları sıkıştırır, gerekirse satır aralığını
-     ve ölçeği kademeli küçültür.
-   • Izgara isteğe bağlıdır ve yalnızca ekranda görünür.
-   Kayıt: state.evrakDuzen[anahtar] — evrak her çizildiğinde düzenlenmiş hâli geri konur. */
+/* ==================== v7.3.3: TAM EKRAN EVRAK DÜZENLEYİCİ (v7.3.5 çekirdeği) ====================
+   Amaç: düzenleyicide görülen = yazıcıdan çıkan.
+   1) BİÇİM DONDURMA: Düzenle'ye ilk basıldığında evrak, gerçek baskı ortamı taklit edilerek
+      (#print-root + print-isolated + @media print kuralları etkin, ekran kuralları kapalı) hesaplanır;
+      her öğenin hesaplanmış biçimi evraka özel !important sınıflara dondurulur. Modüllerin baskı
+      anında eklediği kurallar, Tailwind, sekme kapsamlı stiller artık evrakın içine işleyemez.
+   2) GERÇEK SAYFALAMA: Sayfa sayısı ve sayfa sonları, tarayıcının baskıda kullandığı parçalama
+      motoruyla (çok sütunlu ölçüm kabı) hesaplanır: tablo başlık tekrarı, bölünmez bloklar,
+      dul/öksüz satırlar, zorunlu sayfa sonları dahil.
+   3) ADLANDIRILMIŞ SAYFA: Düzenlenmiş evrak baskıda kendi @page kuralını (A4, 12/15 mm veya
+      yatayda 10 mm) kullanır; modüllerin @page kenar boşlukları onu değiştiremez.
+   4) SIĞDIR: 1 veya 2 sayfaya, düzeni bozmadan (tüm evrak orantılı ölçeklenir) sığdırır.
+   Kayıt: state.evrakDuzen[anahtar] = { v:2, id, css, html, yon, kaynak, tarih } */
 (function () {
     var MM = 96 / 25.4;
-    var SAYFA = { dikey: { w: 210, h: 297, mx: 15, my: 12 }, yatay: { w: 297, h: 210, mx: 10, my: 10 } };
+    var SAYFA = {
+        dikey: { ad: 'dikey', w: 210, h: 297, mt: 12, mb: 12, ml: 15, mr: 15 },
+        yatay: { ad: 'yatay', w: 297, h: 210, mt: 10, mb: 10, ml: 10, mr: 10 }
+    };
+    var icW = function (S) { return S.w - S.ml - S.mr; };   /* mm */
+    var icH = function (S) { return S.h - S.mt - S.mb; };   /* mm */
+    var GAP = 80;          /* ölçüm sütun aralığı (px) */
+    var GUVENLIK = 2.5;    /* sığdırmada sayfa altında bırakılan pay (mm) */
     var IMZA_RE = /(okul müdürü|müdür yardımcısı|müdür v\.|kurul başkanı|düzenleyen|onaylayan|olur\b|uygundur|imza\b|harcama yetkilisi|tasdik olunur|tebellüğ)/i;
-    var ED = null; /* açık düzenleyici durumu */
+    var ED = null;
 
-    /* Baskı kuralları köprüsü: @media print kurallarının .evd-icerik içine kopyası (!important'sız,
-       ekran+baskı) üretilir; orijinal baskı kuralları düzenlenmiş evrakın içine uygulanmaz.
-       Böylece düzenleyicide görülen = yazdırılan; elle verilen ölçüler baskıda ezilmez. */
-    var ALTYAPI_RE = /(^|[\s>+~,(])(body|html|:root)\b|#print-root/;
-    var islenmis = new WeakSet();
-    var evdBaskiKopru = function () {
-        var kopya = [];
-        var yurut = function (kurallar, baski) {
-            Array.prototype.forEach.call(kurallar, function (r) {
-                if (r.cssRules && r.media) { yurut(r.cssRules, baski || /print/.test(r.media.mediaText)); return; }
-                if (!baski || !r.selectorText || !r.style) return;
-                var parcalar = r.selectorText.split(/,(?![^(]*\))/).map(function (x) { return x.trim().replace(/:where\(:not\(\.evd-icerik \*\)\)$/, ''); });
-                /* kopya */
-                var kp = parcalar.filter(function (x) { return x && !ALTYAPI_RE.test(x) && x.indexOf('evd-icerik') < 0 && !/#dt-app|#main-content/.test(x); })
-                    .map(function (x) { return '.evd-icerik ' + x.replace(/^(#tab-[\w-]+|\.tab-pane(?:[.:][\w()-]+)*)\s*/, ''); })
-                    .filter(function (x) { return x.trim() !== '.evd-icerik'; });
-                if (kp.length) kopya.push(kp.join(',') + '{' + r.style.cssText.replace(/\s*!important/g, '') + '}');
-                /* orijinali düzenlenmiş evrakın dışına sınırla */
-                if (!islenmis.has(r)) {
-                    islenmis.add(r);
-                    var yeni = parcalar.map(function (x) { return (ALTYAPI_RE.test(x) || x.indexOf('::') >= 0 || x.indexOf('evd-icerik') >= 0 || !x) ? x : x + ':where(:not(.evd-icerik *))'; }).join(', ');
-                    if (yeni !== r.selectorText) { try { r.selectorText = yeni; } catch (e) {} }
-                }
-            });
+    /* ---------- Dondurulan özellikler ---------- */
+    var C = 'm'; /* computedStyleMap ile oku: auto / % / sayı korunur */
+    var KALITSIZ = [['display'], ['position'], ['top', C], ['right', C], ['bottom', C], ['left', C], ['float'], ['clear'], ['box-sizing'],
+        ['width', C], ['height', C], ['min-width', C], ['min-height', C], ['max-width', C], ['max-height', C],
+        ['margin-top', C], ['margin-right', C], ['margin-bottom', C], ['margin-left', C],
+        ['padding-top', C], ['padding-right', C], ['padding-bottom', C], ['padding-left', C],
+        ['border-top-width'], ['border-right-width'], ['border-bottom-width'], ['border-left-width'],
+        ['border-top-style'], ['border-right-style'], ['border-bottom-style'], ['border-left-style'],
+        ['border-top-color'], ['border-right-color'], ['border-bottom-color'], ['border-left-color'],
+        ['border-top-left-radius'], ['border-top-right-radius'], ['border-bottom-right-radius'], ['border-bottom-left-radius'],
+        ['overflow-x'], ['overflow-y'], ['vertical-align'], ['opacity'],
+        ['background-color'], ['background-image'], ['background-size'], ['background-position'], ['background-repeat'],
+        ['flex-direction'], ['flex-wrap'], ['justify-content'], ['align-items'], ['align-content'], ['align-self'], ['justify-items'], ['justify-self'],
+        ['flex-grow'], ['flex-shrink'], ['flex-basis', C], ['order'], ['row-gap'], ['column-gap'],
+        ['grid-template-columns', C], ['grid-template-rows', C], ['grid-auto-flow'], ['grid-auto-columns', C], ['grid-auto-rows', C],
+        ['grid-column-start'], ['grid-column-end'], ['grid-row-start'], ['grid-row-end'],
+        ['table-layout'], ['text-decoration-line'], ['text-decoration-style'], ['text-decoration-color'], ['text-decoration-thickness'],
+        ['break-before'], ['break-after'], ['break-inside'], ['column-count'], ['column-width'],
+        ['transform'], ['zoom'], ['object-fit'], ['text-overflow'], ['unicode-bidi']];
+    var KALITSAL = [['font-family'], ['font-size'], ['font-weight'], ['font-style'], ['font-variant-caps'], ['font-stretch'], ['line-height', C], ['color'],
+        ['text-align'], ['text-align-last'], ['text-transform'], ['text-indent', C], ['letter-spacing'], ['word-spacing'], ['white-space'], ['word-break'],
+        ['overflow-wrap'], ['hyphens'], ['direction'], ['writing-mode'], ['list-style-type'], ['list-style-position'], ['list-style-image'],
+        ['border-collapse'], ['border-spacing'], ['caption-side'], ['empty-cells'], ['orphans'], ['widows'], ['visibility'],
+        ['-webkit-print-color-adjust'], ['tab-size'], ['text-underline-offset'], ['text-underline-position'], ['font-variant-numeric'], ['font-kerning']];
+    var KOK_AT = /^(margin-|width$|height$|min-|max-|position$|top$|right$|bottom$|left$|float$|transform$|zoom$|overflow-|break-|clear$)/;
+
+    var oku = function (el, cs, cm, p) {
+        var v = '';
+        if (p[1] === C && cm) { try { var x = cm.get(p[0]); if (x != null) v = String(x); } catch (e) { v = ''; } }
+        if (!v) v = cs.getPropertyValue(p[0]);
+        v = String(v || '').trim();
+        if (p[0] === 'text-align' || p[0] === 'text-align-last') v = v.replace(/^-(webkit|internal)-/, '');
+        return v;
+    };
+    var REF = null;
+    var refHazirla = function () {
+        if (REF) return REF;
+        var host = document.createElement('div');
+        host.style.cssText = 'position:absolute;left:-9999px;top:0;';
+        document.body.appendChild(host);
+        var sr = host.attachShadow ? host.attachShadow({ mode: 'open' }) : host;
+        sr.innerHTML = '<div><evd-ref>x</evd-ref></div>';
+        var e = sr.querySelector('evd-ref'), cs = getComputedStyle(e), cm = e.computedStyleMap ? e.computedStyleMap() : null;
+        REF = {};
+        KALITSIZ.forEach(function (p) { REF[p[0]] = oku(e, cs, cm, p); });
+        host.remove();
+        return REF;
+    };
+    var SEC = function (s, n) { var o = '.evd-icerik '; for (var i = 1; i <= n; i++) o += ':is(#evd-z' + i + ',.' + s + ')'; return o; };
+    var tabanYaz = function () {
+        if (document.getElementById('evd-taban')) return;
+        var st = document.createElement('style'); st.id = 'evd-taban';
+        var d = KALITSIZ.map(function (p) { return p[0] + ':initial!important'; }).concat(KALITSAL.map(function (p) { return p[0] + ':inherit!important'; })).join(';');
+        var ps = SEC('evs-ps', 3);
+        st.textContent = SEC('evs', 3) + '{' + d + '}\n' + ps + '::before,' + ps + '::after{content:none!important}';
+        document.head.appendChild(st);
+    };
+    var stilHaritasi = {};
+    var stilYaz = function () {
+        var st = document.getElementById('evd-stiller');
+        if (!st) { st = document.createElement('style'); st.id = 'evd-stiller'; document.head.appendChild(st); }
+        var t = Object.keys(stilHaritasi).map(function (k) { return stilHaritasi[k]; }).join('\n');
+        if (st.textContent !== t) st.textContent = t;
+    };
+    var stilEkle = function (id, css) { tabanYaz(); if (stilHaritasi[id] === css) return; stilHaritasi[id] = css || ''; stilYaz(); };
+
+    /* ---------- Baskı ortamı taklidi ---------- */
+    var uzunlukPx = function (v) { var n = parseFloat(v); if (/em$/.test(v)) return n * 16; if (/mm$/.test(v)) return n * MM; if (/cm$/.test(v)) return n * 10 * MM; if (/in$/.test(v)) return n * 96; if (/pt$/.test(v)) return n * 96 / 72; return n; };
+    var ozellikEsle = function (f, W, H) {
+        f = f.trim();
+        var m = f.match(/^(width|height)\s*(>=|<=|>|<|=)\s*(.+)$/);
+        if (m) { var a = m[1] === 'width' ? W : H, b = uzunlukPx(m[3]); return m[2] === '>=' ? a >= b : m[2] === '<=' ? a <= b : m[2] === '>' ? a > b : m[2] === '<' ? a < b : a === b; }
+        var p = f.split(':'), ad = p[0].trim().toLowerCase(), v = (p.slice(1).join(':') || '').trim().toLowerCase();
+        switch (ad) {
+            case 'min-width': return W >= uzunlukPx(v);
+            case 'max-width': return W <= uzunlukPx(v);
+            case 'min-height': return H >= uzunlukPx(v);
+            case 'max-height': return H <= uzunlukPx(v);
+            case 'width': return Math.abs(W - uzunlukPx(v)) < 1;
+            case 'orientation': return v === (W > H ? 'landscape' : 'portrait');
+            case 'prefers-color-scheme': return v === 'light';
+            case 'hover': case 'any-hover': return v === 'none';
+            case 'pointer': case 'any-pointer': return v === 'none';
+            case 'color': return true;
+            default: try { return window.matchMedia('(' + f + ')').matches; } catch (e) { return false; }
+        }
+    };
+    var medyaEsle = function (mt, W, H) {
+        mt = String(mt || '').trim();
+        if (!mt) return true;
+        return mt.split(',').some(function (q) {
+            q = q.trim().toLowerCase(); var degil = false;
+            if (/^not\s/.test(q)) { degil = true; q = q.slice(4).trim(); }
+            q = q.replace(/^only\s+/, '');
+            var ok = true, t = q.match(/^(all|print|screen|speech|tv|projection|handheld|braille|embossed|tty)\b/);
+            if (t) { ok = t[1] === 'all' || t[1] === 'print'; q = q.slice(t[0].length); }
+            var re = /\(([^()]+)\)/g, f;
+            while ((f = re.exec(q))) ok = ok && ozellikEsle(f[1], W, H);
+            return degil ? !ok : ok;
+        });
+    };
+    var medyaCevir = function (S) {
+        var W = icW(S) * MM, H = icH(S) * MM, geri = [];
+        var ayarla = function (ml) { var eski = ml.mediaText; var yeni = medyaEsle(eski, W, H) ? 'all' : 'not all'; if (eski !== yeni) { try { ml.mediaText = yeni; geri.push([ml, eski]); } catch (e) {} } };
+        var yurut = function (kurallar) {
+            for (var i = 0; i < kurallar.length; i++) {
+                var r = kurallar[i];
+                if (r.media && r.cssRules && typeof r.media.mediaText === 'string' && r.type === 4) ayarla(r.media);
+                if (r.cssRules) { try { yurut(r.cssRules); } catch (e) {} }
+            }
         };
         Array.prototype.forEach.call(document.styleSheets, function (sh) {
-            if (sh.ownerNode && sh.ownerNode.id === 'evd-baski-kopya') return;
-            try { yurut(sh.cssRules, sh.media && /print/.test(sh.media.mediaText)); } catch (e) {}
+            try {
+                if (sh.media && sh.media.length) ayarla(sh.media);
+                yurut(sh.cssRules);
+            } catch (e) {}
         });
-        var st = document.getElementById('evd-baski-kopya');
-        if (!st) { st = document.createElement('style'); st.id = 'evd-baski-kopya'; }
-        if (document.head.lastElementChild !== st) document.head.appendChild(st); /* her zaman en sonda */
-        var metin = kopya.join('\n');
-        if (st.textContent !== metin) st.textContent = metin;
+        return geri;
     };
-    window.evdBaskiKopru = evdBaskiKopru;
-    var evdDepo = function () { if (!state.evrakDuzen || typeof state.evrakDuzen !== 'object') state.evrakDuzen = {}; return state.evrakDuzen; };
+    var medyaGeri = function (geri) { for (var i = geri.length - 1; i >= 0; i--) { try { geri[i][0].mediaText = geri[i][1]; } catch (e) {} } };
+
     var hash = function (t) { var x = 5381; t = String(t || ''); for (var i = 0; i < t.length; i++) x = ((x << 5) + x + t.charCodeAt(i)) | 0; return (x >>> 0).toString(36); };
+    var metinCoz = function (c) { try { return JSON.parse(c.replace(/^'(.*)'$/, '"$1"')); } catch (e) { return c.replace(/^["']|["']$/g, ''); } };
+    var formMetin = function (e) {
+        var t = e.tagName;
+        if (t === 'SELECT') { var o = e.options[e.selectedIndex]; return o ? o.text : ''; }
+        if (t === 'TEXTAREA') return e.value || e.textContent || '';
+        if (t === 'BUTTON') return e.textContent || '';
+        var ty = String(e.type || 'text').toLowerCase();
+        if (ty === 'checkbox') return e.checked ? '☑' : '☐';
+        if (ty === 'radio') return e.checked ? '◉' : '○';
+        if (/^(hidden|file|image|submit|reset|button|range|color)$/.test(ty)) return null;
+        return e.value || '';
+    };
+
+    /* Evrakı baskı ortamında hesaplayıp dondurur → { ic, css, id } */
+    var dondur = function (el, S, id) {
+        refHazirla(); tabanYaz();
+        var cl = el.cloneNode(true);
+        try { window.portalSyncFormValues(el, cl); } catch (e) {}
+        try {
+            var kc = el.querySelectorAll('canvas'), cc = cl.querySelectorAll('canvas');
+            for (var i = 0; i < kc.length && i < cc.length; i++) {
+                try { var im = document.createElement('img'); im.src = kc[i].toDataURL('image/png'); var rb = kc[i].getBoundingClientRect(); im.style.width = (rb.width || kc[i].width) + 'px'; im.style.height = (rb.height || kc[i].height) + 'px'; cc[i].replaceWith(im); } catch (e) {}
+            }
+        } catch (e) {}
+        Array.prototype.slice.call(cl.querySelectorAll('.no-print, .evrak-arac, .evd-rozet, script, iframe, noscript')).forEach(function (n) { if (n.parentNode) n.parentNode.removeChild(n); });
+        var kok = cl;
+        while (kok.children.length === 1 && (kok.children[0].classList.contains('evd-ekran') || kok.children[0].classList.contains('evd-icerik'))) kok = kok.children[0];
+
+        var pr = document.getElementById('print-root');
+        var kayitlar = [];
+        if (pr) {
+            var eskiler = document.createDocumentFragment();
+            while (pr.firstChild) eskiler.appendChild(pr.firstChild);
+            var prW = pr.style.width, prML = pr.style.marginLeft, prMR = pr.style.marginRight;
+            pr.style.width = icW(S) + 'mm'; pr.style.marginLeft = '0'; pr.style.marginRight = '0';
+            pr.appendChild(cl);
+            var vardi = document.body.classList.contains('print-isolated');
+            document.body.classList.add('print-isolated');
+            var geri = medyaCevir(S);
+            try { topla(kok, kayitlar); }
+            finally {
+                medyaGeri(geri);
+                if (!vardi) document.body.classList.remove('print-isolated');
+                if (cl.parentNode) cl.parentNode.removeChild(cl);
+                pr.style.width = prW; pr.style.marginLeft = prML; pr.style.marginRight = prMR;
+                pr.appendChild(eskiler);
+            }
+        } else topla(kok, kayitlar);
+
+        /* Sınıf tablosu */
+        id = id || ('x' + hash(Math.random() + '' + Date.now()).slice(0, 6));
+        var harita = {}, n = 0, css = [];
+        var sinif = function (d) {
+            var ks = Object.keys(d).sort(); if (!ks.length) return '';
+            var s = ks.map(function (k) { return k + ':' + d[k] + '!important'; }).join(';');
+            if (!(s in harita)) { var ad = 'ez' + id + '-' + (n++); harita[s] = ad; css.push(SEC(ad, 4) + '{' + s + '}'); }
+            return harita[s];
+        };
+        var kokKayit = null;
+        kayitlar.forEach(function (k) {
+            var e = k.e;
+            if (k.kok) { kokKayit = k; return; }
+            if (k.gizli) { if (e.parentNode) e.parentNode.removeChild(e); return; }
+            var hedef = e;
+            if (/^(INPUT|SELECT|TEXTAREA|BUTTON)$/.test(e.tagName)) {
+                var t = formMetin(e);
+                if (t === null) { if (e.parentNode) e.parentNode.removeChild(e); return; }
+                hedef = document.createElement('span');
+                hedef.textContent = t || ' ';
+                if (e.tagName === 'TEXTAREA') k.d['white-space'] = 'pre-wrap';
+                if (/^(checkbox|radio)$/i.test(e.type || '')) {
+                    var kd = {}; ['font-size', 'color', 'margin-right', 'margin-left', 'vertical-align'].forEach(function (p) { if (k.d[p]) kd[p] = k.d[p]; }); k.d = kd;
+                } else if (!k.d.display || k.d.display === 'inline') k.d.display = 'inline-block';
+                e.parentNode.replaceChild(hedef, e);
+            }
+            hedef.classList.add('evs');
+            var c = sinif(k.d); if (c) hedef.classList.add(c);
+            if (k.ps && k.ps.length) {
+                hedef.classList.add('evs-ps');
+                k.ps.forEach(function (p) {
+                    var sp = document.createElement('span'); sp.textContent = p.metin; sp.className = 'evs';
+                    var c2 = sinif(p.d); if (c2) sp.classList.add(c2);
+                    if (p.yer === '::before') hedef.insertBefore(sp, hedef.firstChild); else hedef.appendChild(sp);
+                });
+            }
+        });
+        /* Kök */
+        var ic = document.createElement('div');
+        ic.className = 'evd-icerik';
+        while (kok.firstChild) ic.appendChild(kok.firstChild);
+        var kd = kokKayit ? kokKayit.d : {};
+        Object.keys(kd).forEach(function (p) {
+            if (KOK_AT.test(p)) return;
+            var v = kd[p];
+            if (p === 'display' && /^(inline|inline-block|contents|none|list-item)$/.test(v)) v = 'block';
+            ic.style.setProperty(p, v, 'important');
+        });
+        if (!kd.display) ic.style.setProperty('display', 'block', 'important');
+        kokOlcuYaz(ic, S, 1);
+        ic.setAttribute('data-evd-v', '2'); ic.setAttribute('data-evd-id', id); ic.setAttribute('data-evd-yon', S.ad);
+        return { ic: ic, css: css.join('\n'), id: id };
+    };
+    var kokOlcuYaz = function (ic, S, z) {
+        var st = ic.style;
+        st.setProperty('box-sizing', 'border-box', 'important');
+        st.setProperty('position', 'relative', 'important');
+        st.setProperty('margin', '0', 'important');
+        st.setProperty('float', 'none', 'important');
+        st.setProperty('min-width', '0', 'important');
+        st.setProperty('max-width', 'none', 'important');
+        st.setProperty('height', 'auto', 'important');
+        st.setProperty('min-height', '0', 'important');
+        st.setProperty('max-height', 'none', 'important');
+        st.setProperty('overflow', 'visible', 'important');
+        st.setProperty('transform', 'none', 'important');
+        st.setProperty('break-before', 'auto', 'important');
+        st.setProperty('break-after', 'auto', 'important');
+        st.setProperty('page', S.ad === 'yatay' ? 'evdyatay' : 'evddikey', 'important');
+        st.setProperty('zoom', String(z), 'important');
+        st.setProperty('width', (icW(S) / z).toFixed(3) + 'mm', 'important');
+    };
+    var topla = function (kok, kayitlar) {
+        var gez = function (e, ebeveyn, kokMu) {
+            var cs = getComputedStyle(e);
+            if (!kokMu && cs.display === 'none' && !/^(STYLE|LINK)$/.test(e.tagName)) { kayitlar.push({ e: e, gizli: true }); return; }
+            if (/^(STYLE|LINK|BR|WBR)$/.test(e.tagName)) return;
+            var cm = e.computedStyleMap ? e.computedStyleMap() : null;
+            var degerler = {}, d = {};
+            KALITSAL.forEach(function (p) { var v = oku(e, cs, cm, p); degerler[p[0]] = v; if (v !== '' && (kokMu || v !== ebeveyn[p[0]])) d[p[0]] = v; });
+            KALITSIZ.forEach(function (p) { var v = oku(e, cs, cm, p); if (v !== '' && v !== REF[p[0]]) d[p[0]] = v; });
+            ['top', 'right', 'bottom', 'left'].forEach(function (y) {
+                var s = cs.getPropertyValue('border-' + y + '-style');
+                if (s && s !== 'none' && s !== 'hidden') d['border-' + y + '-width'] = cs.getPropertyValue('border-' + y + '-width');
+            });
+            if (d.position === 'fixed' || d.position === 'sticky') d.position = d.position === 'fixed' ? 'absolute' : 'relative';
+            /* Sabit yükseklikli ama içeriği taşan kutu (ör. "height:0" verilmiş sayfa sonu sarmalayıcısı):
+               yükseklik en az değer olarak korunur, kutu içeriği kadar uzar — üst üste binme olmaz. */
+            if (d.height && /px$/.test(d.height) && !/^table/.test(cs.display) && cs.overflowY === 'visible' && e.scrollHeight > e.clientHeight + 2) {
+                if (!d['min-height'] || parseFloat(d['min-height']) < parseFloat(d.height)) d['min-height'] = d.height;
+                delete d.height;
+            }
+            if (/^(INPUT|SELECT|TEXTAREA|BUTTON)$/.test(e.tagName)) {
+                d.width = cs.width; d['min-height'] = cs.height; delete d.height;
+            }
+            /* Kaydırma/kırpma kutuları (overflow-x-auto sarmalayıcıları, köşesi yuvarlatılmış kartlar):
+               yüksekliği serbestse içerik görünür akışa alınır. Böylece baskıda sayfalara düzgün bölünür
+               (kesilmez, satır ortasından dilimlenmez) ve düzenleyicideki sayfalama ile aynı olur. */
+            else if ((cs.overflowX !== 'visible' || cs.overflowY !== 'visible') && !/^(IMG|CANVAS|VIDEO|svg)$/i.test(e.tagName) && (!d.height || d.height === 'auto')) {
+                delete d['overflow-x']; delete d['overflow-y']; delete d['max-height'];
+                if (d.display === 'block') d.display = 'flow-root';
+            }
+            var ps = [];
+            ['::before', '::after'].forEach(function (pp) {
+                var pc = getComputedStyle(e, pp), c = pc.content;
+                if (!c || c === 'none' || c === 'normal' || !/^["']/.test(c)) return;
+                var pcm = null, pd = {};
+                KALITSAL.forEach(function (p) { var v = oku(e, pc, pcm, p); if (v !== '' && v !== degerler[p[0]]) pd[p[0]] = v; });
+                KALITSIZ.forEach(function (p) { var v = oku(e, pc, pcm, p); if (v !== '' && v !== REF[p[0]] && !/^(width|height|min-|max-)/.test(p[0])) pd[p[0]] = v; });
+                ps.push({ yer: pp, metin: metinCoz(c), d: pd });
+            });
+            kayitlar.push({ e: e, d: d, ps: ps, kok: kokMu });
+            if (e.tagName.toLowerCase() === 'svg' || (window.SVGElement && e instanceof SVGElement)) return;
+            for (var i = 0; i < e.children.length; i++) gez(e.children[i], degerler, false);
+        };
+        gez(kok, {}, true);
+    };
+
+    /* ---------- Kayıt, anahtar, uygulama ---------- */
+    var evdDepo = function () { if (!state.evrakDuzen || typeof state.evrakDuzen !== 'object') state.evrakDuzen = {}; return state.evrakDuzen; };
     var metinOz = function (el, n) { return String(el.innerText || el.textContent || '').replace(/[0-9]/g, '').replace(/[^A-Za-zÇĞİÖŞÜçğıöşü]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, n); };
     var altGorunum = function () {
         try { var s = state; return [s.activeTab, (s.destekEgitim || {}).activeView, s.sosyalEtkinlikSub, (s.boardMeetings || {}).activeView, (s.ogrenciIsleri || {}).activeView, (s.disiplinIslemleri || {}).activeDoc, (s.disiplinIslemleri || {}).kademe, (s.oddk || {}).sub, (s.oddk || {}).kurulBelge, ((s.oddk || {}).aktif || ''), (s.isg || {}).doc, (s.ebysEvrak || {}).aktif].filter(function (x) { return x != null && x !== ''; }).join('|'); } catch (e) { return ''; }
     };
-    /* Evrak kimliği: sekme + alt görünüm + (kalıcı id) + sıra + başlık imzası (ilk ~70 harf).
-       Gövdede değişen veriler (ad, tarih…) kimliği bozmaz; şablon değişikliği ayrıca izlenir. */
+    /* Evrakın bulunduğu modülün kendi alt görünümü (yalnız o modülün durumu; başka modüllerdeki
+       görünüm değişiklikleri kaydı etkilemez) */
+    var dg = function (o, k) { return o && o[k] != null ? String(o[k]) : ''; };
+    var ens = function (ad) { try { return typeof window[ad] === 'function' ? window[ad]() : null; } catch (e) { return null; } };
+    var ALT = {
+        havuz: function () { return dg(state, 'havuzActiveTab'); },
+        rehberlikCerceve: function () { return dg(ens('rcEnsure'), 'sub'); },
+        gorevDagilimi: function () { return dg(ens('gdEnsure'), 'activeSub'); },
+        sosyalEtkinlik: function () { return dg(state, 'sosyalEtkinlikSub') + '/' + dg(ens('mkoEnsure'), 'view'); },
+        cocukKulubu: function () { return dg(ens('ckEnsure'), 'activeSub'); },
+        ogrenciIsleri: function () { return dg(ens('oiEnsure'), 'activeView'); },
+        kantinKira: function () { return dg(state.canteenRent, 'viewMode'); },
+        kurulToplanti: function () { return dg(state.boardMeetings, 'activeView'); },
+        aileBirligi: function () { return dg(state.aileBirligi, 'activeTab'); },
+        imzaCizelgesi: function () { return dg(state.gorevTebligi, 'activeType') + '/' + dg(state.imzaCizelge, 'activeMainView'); },
+        dogumIzni: function () { return dg(state.dogumIzni, 'tur'); },
+        destekEgitim: function () { return dg(state.destekEgitim, 'activeView'); },
+        sorumlulukSinavi: function () { return dg(ens('sorumlulukEnsure'), 'activeDoc'); },
+        disiplinIslemleri: function () { var d = state.disiplinIslemleri || {}, o = state.oddk || {}; return [dg(d, 'activeDoc'), dg(d, 'kademe'), dg(o, 'sub'), dg(o, 'kurulBelge'), dg(o, 'aktif')].join('/'); },
+        gezi: function () { return dg(state.gezi, 'activeView') + '/' + dg(state.gezi, 'tur'); },
+        personelNakil: function () { return dg(state, 'ayrilmaSub') + '/' + dg(state.yolluk, 'activeView'); },
+        sivilSavunma: function () { return dg(state.sivilSavunma, 'activeView'); },
+        okulGuvenligi: function () { var o = ens('ogEnsure'); return dg(o, 'view') + '/' + dg(o, 'belgeId'); },
+        isg: function () { var o = ens('isgEnsure') || state.isg; return dg(o, 'mode') + '/' + dg(o, 'doc'); },
+        egzersiz: function () { return dg(state.egzersiz, 'activeView'); },
+        nobet: function () { return dg(state.nobet, 'activeView'); },
+        pansiyonBellet: function () { return dg(ens('pbEnsure'), 'sub'); },
+        ekEvraklar: function () { return dg(state.ekEvraklar, 'activeDoc'); },
+        ebysDonustur: function () { return dg(state.ebysEvrak, 'aktif'); }
+    };
+    var altDurum = function (tabId) { var f = ALT[String(tabId || '').replace(/^tab-/, '')]; try { return f ? f() : ''; } catch (e) { return ''; } };
     window.evdAnahtar = function (el) {
         if (el.__evdKey) return el.__evdKey;
         var pane = el.closest('.tab-pane'), tabId = pane ? pane.id : 'genel';
         var id = el.id && !/^evrak-oto-/.test(el.id) ? el.id : '';
         var sira = 0;
         try { sira = evrakAdaylari(pane).indexOf(el); } catch (e) {}
-        el.__evdKey = tabId + '::' + altGorunum() + '::' + (id || ('#' + sira)) + '::' + hash(metinOz(el, 70));
+        el.__evdSon = '::' + (id || ('#' + sira)) + '::' + hash(metinOz(el, 70));
+        el.__evdKey = 'e3::' + tabId + '::' + altDurum(tabId) + el.__evdSon;
+        el.__evdTab = tabId;
         el.__evdKaynak = hash(metinOz(el, 4000));
         return el.__evdKey;
     };
+    /* v7.3.3–7.3.5 anahtarları (başka modüllerin görünümüne de bağlıydı): aynı sekme + aynı evrak
+       imzasıyla tek eşleşme varsa yeni anahtara taşınır */
+    var eskiKayitTasi = function (el) {
+        var depo = evdDepo(), k = evdAnahtar(el);
+        if (depo[k]) return depo[k];
+        var bas = el.__evdTab + '::', son = el.__evdSon;
+        var aday = Object.keys(depo).filter(function (x) { return x.indexOf('e3::') !== 0 && x.indexOf('sayfa::') !== 0 && x.indexOf(bas) === 0 && x.slice(-son.length) === son; });
+        if (aday.length !== 1) return null;
+        depo[k] = depo[aday[0]]; delete depo[aday[0]];
+        try { saveAllData(); } catch (e) {}
+        return depo[k];
+    };
     window.evdDuzenliMi = function (el) { return !!(el && evdDepo()[evdAnahtar(el)]); };
-
-    /* Evrak çizildikten sonra: kayıtlı düzenlemeyi geri koy + rozet */
+    var yonBul = function (el, kayit) { if (kayit && kayit.yon && SAYFA[kayit.yon]) return SAYFA[kayit.yon]; var y = false; try { y = evrakYatayMi(el); } catch (e) {} return y ? SAYFA.yatay : SAYFA.dikey; };
+    var stillerYukle = function () { var d = evdDepo(); Object.keys(d).forEach(function (k) { var r = d[k]; if (r && r.v === 2 && r.id) { if (stilHaritasi[r.id] !== r.css) { stilHaritasi[r.id] = r.css || ''; } } }); tabanYaz(); stilYaz(); };
+    var ekranOlcekle = function (el) {
+        try {
+            var kap = el.querySelector(':scope > .evd-ekran'); if (!kap) return;
+            el.style.setProperty('--evd-ek', '1');
+            var ic = kap.querySelector(':scope > .evd-icerik'); if (!ic) return;
+            var csE = getComputedStyle(el);
+            var uygun = el.clientWidth - (parseFloat(csE.paddingLeft) || 0) - (parseFloat(csE.paddingRight) || 0);
+            var gen = ic.offsetWidth * (parseFloat(ic.style.zoom) || 1);
+            if (uygun > 50 && gen > uygun + 1) el.style.setProperty('--evd-ek', (uygun / gen).toFixed(4));
+        } catch (e) {}
+    };
+    var uygulaHtml = function (el, kayit) {
+        el.innerHTML = '<div class="evd-ekran">' + kayit.html + '</div>';
+        el.classList.add('evd-duzenli');
+        ekranOlcekle(el);
+    };
     window.evdUygula = function (pane) {
         var depo = evdDepo();
         if (!pane || !Object.keys(depo).length) return;
-        try { evdBaskiKopru(); } catch (e) {}
+        stillerYukle();
+        try {
+            var bar2 = pane.querySelector('.evrak-arac-sayfa');
+            if (bar2) {
+                var sk = depo[evdSayfaAnahtar(pane)];
+                var rz2 = bar2.querySelector('.evd-rozet');
+                if (sk && !rz2) {
+                    rz2 = document.createElement('span'); rz2.className = 'evd-rozet';
+                    rz2.innerHTML = '✏️ Elle düzenlendi' + (sk.kaynak && pane.__evdSayfaKaynak && sk.kaynak !== pane.__evdSayfaKaynak ? ' · <b title="Modüldeki bilgiler düzenlemeden sonra değişti">şablon değişti</b>' : '') +
+                        ' · <button type="button" onclick="evdSayfaSablonaDon(\'' + pane.id + '\')">Şablona dön</button>';
+                    bar2.appendChild(rz2);
+                } else if (!sk && rz2) rz2.remove();
+            }
+        } catch (e) {}
         var adaylar = [];
         try { adaylar = evrakAdaylari(pane); } catch (e) { return; }
         adaylar.forEach(function (el) {
-            var k = evdAnahtar(el), kayit = depo[k];
+            var k = evdAnahtar(el), kayit = depo[k] || eskiKayitTasi(el);
             var bar = el.previousElementSibling && el.previousElementSibling.classList.contains('evrak-arac') ? el.previousElementSibling : null;
             if (!kayit) return;
             if (!el.__evdUygulandi) {
                 el.__evdUygulandi = true;
                 el.__evdSablonDegisti = kayit.kaynak && el.__evdKaynak && kayit.kaynak !== el.__evdKaynak;
-                el.innerHTML = kayit.html;
-                el.classList.add('evd-duzenli');
+                if (kayit.v !== 2) {
+                    /* v7.3.3–7.3.4 kaydı: bir kez dondurup yeni biçime taşı */
+                    try {
+                        el.innerHTML = kayit.html;
+                        var S = yonBul(el, kayit);
+                        var r = dondur(el, S, 'k' + hash(k).slice(0, 6));
+                        kayit = depo[k] = { v: 2, id: r.id, css: r.css, html: r.ic.outerHTML, yon: S.ad, kaynak: kayit.kaynak || '', tarih: kayit.tarih || new Date().toISOString() };
+                        stilEkle(r.id, r.css);
+                        try { saveAllData(); } catch (e) {}
+                    } catch (e) { console.warn('evd taşıma', e); }
+                }
+                uygulaHtml(el, kayit);
             }
             if (bar && !bar.querySelector('.evd-rozet')) {
-                var r = document.createElement('span');
-                r.className = 'evd-rozet';
-                r.innerHTML = '✏️ Elle düzenlendi' + (el.__evdSablonDegisti ? ' · <b title="Modüldeki bilgiler düzenlemeden sonra değişti">şablon değişti</b>' : '') +
+                var rz = document.createElement('span');
+                rz.className = 'evd-rozet';
+                rz.innerHTML = '✏️ Elle düzenlendi' + (el.__evdSablonDegisti ? ' · <b title="Modüldeki bilgiler düzenlemeden sonra değişti">şablon değişti</b>' : '') +
                     ' · <button type="button" onclick="evdSablonaDon(\'' + el.id + '\')">Şablona dön</button>';
-                bar.appendChild(r);
+                bar.appendChild(rz);
             }
         });
     };
+    window.addEventListener('resize', function () { clearTimeout(window.__evdRz); window.__evdRz = setTimeout(function () { Array.prototype.forEach.call(document.querySelectorAll('.evd-duzenli'), ekranOlcekle); }, 250); });
     window.evdSablonaDon = function (id) {
         var el = document.getElementById(id); if (!el) return;
         var k = evdAnahtar(el);
         showCustomConfirm('Şablona Dön', 'Bu evrakta elle yapılan bütün düzenlemeler silinip modülün ürettiği güncel hâline dönülsün mü?', function (ok) {
             if (!ok) return;
+            var r = evdDepo()[k]; if (r && r.id) { delete stilHaritasi[r.id]; stilYaz(); }
             delete evdDepo()[k];
             try { saveAllData(); } catch (e) {}
             if (ED) evdKapat(true);
@@ -44648,22 +45007,125 @@ function isgPrint(kind){
         });
     };
 
-    /* ---------------- Düzenleyici ---------------- */
+    /* ---------- Sayfa düzeyi evrak ("Bu sayfanın evrakı") ---------- */
+    var sayfaMetni = function (pane) {
+        var l = Array.prototype.filter.call(pane.querySelectorAll('.print-only, [class*="print:block"], .official-letter-page, [data-evrak]'), function (e) { return !e.closest('.no-print, .evrak-arac'); });
+        l = l.filter(function (e) { return !l.some(function (o) { return o !== e && o.contains(e); }); });
+        if (l.length) return l.map(function (e) { return e.textContent || ''; }).join(' ');
+        var c = pane.cloneNode(true);
+        Array.prototype.forEach.call(c.querySelectorAll('.no-print, .evrak-arac, script, style'), function (n) { n.remove(); });
+        return c.textContent || '';
+    };
+    var harfOz = function (t, n) { return String(t || '').replace(/[0-9]/g, '').replace(/[^A-Za-zÇĞİÖŞÜçğıöşü]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, n); };
+    window.evdSayfaAnahtar = function (pane) {
+        var t = sayfaMetni(pane);
+        pane.__evdSayfaKaynak = hash(harfOz(t, 4000));
+        return 'sayfa::' + pane.id + '::' + altDurum(pane.id) + '::' + hash(harfOz(t, 250));
+    };
+    var sayfaYatayMi = function (pane) {
+        try { var ls = document.getElementById('yol-landscape-style'); if (ls && /landscape/i.test(ls.innerHTML || '')) return true; } catch (e) {}
+        try { return !!pane.querySelector(EVRAK_YATAY_SECICI); } catch (e) { return false; }
+    };
+    var aktifPane = function () { return document.querySelector('#main-content-wrapper .active-pane') || document.querySelector('#main-content-wrapper .tab-pane:not(.hidden)'); };
+    /* Aktif sayfanın kayıtlı düzenlemesi varsa baskıya/PDF'e/Word'e verilecek tutucu */
+    var sayfaTutucu = function (pane) {
+        if (!pane || !pane.querySelector('.evrak-arac-sayfa')) return null;
+        var kayit = evdDepo()[evdSayfaAnahtar(pane)];
+        if (!kayit || kayit.v !== 2) return null;
+        stilEkle(kayit.id, kayit.css);
+        var kap = document.getElementById('evd-sayfa-kap');
+        if (!kap) { kap = document.createElement('div'); kap.id = 'evd-sayfa-kap'; kap.className = 'no-print'; kap.setAttribute('aria-hidden', 'true'); kap.style.cssText = 'position:absolute;left:-30000px;top:0;width:300mm;pointer-events:none;'; document.body.appendChild(kap); }
+        kap.innerHTML = '<div id="evd-sayfa-tutucu" class="evd-duzenli"' + (kayit.yon === 'yatay' ? ' data-evrak-yatay="1"' : '') + '><div class="evd-ekran">' + kayit.html + '</div></div>';
+        return { el: kap.firstElementChild, yatay: kayit.yon === 'yatay' };
+    };
+    window.evdSayfaSablonaDon = function (key) {
+        var pane = document.getElementById(key); if (!pane) return;
+        var k = evdSayfaAnahtar(pane);
+        showCustomConfirm('Şablona Dön', 'Bu sayfanın evrakında elle yapılan bütün düzenlemeler silinip modülün ürettiği güncel hâline dönülsün mü?', function (ok) {
+            if (!ok) return;
+            var r = evdDepo()[k]; if (r && r.id) { delete stilHaritasi[r.id]; stilYaz(); }
+            delete evdDepo()[k];
+            try { saveAllData(); } catch (e) {}
+            if (ED) evdKapat(true);
+            updateUI();
+        });
+    };
+    /* Baskı kancaları: sayfanın kendi Yazdır düğmeleri (portalPrint / customPrint / window.print)
+       ve tarayıcı menüsünden yazdırma, kayıtlı düzenleme varsa onu basar. */
+    var baskiKancalari = function () {
+        if (window.__evdKancalar) return; window.__evdKancalar = true;
+        var asilPP = window.portalPrint;
+        if (typeof asilPP === 'function') {
+            window.portalPrint = function (kaynaklar, ayar) {
+                try {
+                    if (!(kaynaklar && kaynaklar.length)) {
+                        var w = document.getElementById('main-content-wrapper');
+                        if (!(w && w.classList.contains('print-all'))) {
+                            var h = sayfaTutucu(aktifPane());
+                            if (h) return asilPP.call(this, [h.el], { yatay: h.yatay });
+                        }
+                    }
+                } catch (e) { console.warn('evd baskı', e); }
+                return asilPP.apply(this, arguments);
+            };
+        }
+        var asilYazdir = window.print;
+        window.__evdAsilPrint = function () { return asilYazdir.call(window); };
+        var yalitik = function () { var b = document.body; return b.classList.contains('print-isolated') || /(^|\s)[\w-]+-printing(\s|$)/.test(b.className); };
+        window.print = function () {
+            try {
+                if (!yalitik()) { var h = sayfaTutucu(aktifPane()); if (h) { window.portalPrint([h.el], { yatay: h.yatay }); return; } }
+            } catch (e) { console.warn('evd baskı', e); }
+            return window.__evdAsilPrint();
+        };
+        window.addEventListener('beforeprint', function () {
+            try {
+                if (yalitik()) return;
+                var h = sayfaTutucu(aktifPane()); if (!h) return;
+                var pr = document.getElementById('print-root'); if (!pr) return;
+                pr.innerHTML = ''; pr.appendChild(h.el.cloneNode(true));
+                pr.style.width = h.yatay ? '27.7cm' : '18cm'; pr.style.marginLeft = 'auto'; pr.style.marginRight = 'auto';
+                document.body.classList.add('print-isolated');
+                window.__evdMenuBaski = true;
+            } catch (e) {}
+        });
+        window.addEventListener('afterprint', function () {
+            if (!window.__evdMenuBaski) return; window.__evdMenuBaski = false;
+            setTimeout(function () { document.body.classList.remove('print-isolated'); var pr = document.getElementById('print-root'); if (pr) { pr.innerHTML = ''; pr.style.width = ''; } }, 1200);
+        });
+        ['evrakPdfIndir', 'evrakWordIndir'].forEach(function (ad) {
+            var asil = window[ad]; if (typeof asil !== 'function') return;
+            window[ad] = function (key, kapsam) {
+                try {
+                    if (kapsam === 'sayfa') {
+                        var pane = document.getElementById(key);
+                        var h = pane && sayfaTutucu(pane);
+                        if (h) return asil.call(this, 'evd-sayfa-tutucu', 'evrak');
+                    }
+                } catch (e) { console.warn('evd', e); }
+                return asil.apply(this, arguments);
+            };
+        });
+    };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', baskiKancalari); else baskiKancalari();
+
+    /* ---------- Yardımcılar ---------- */
+    var stil = function (e, p, v) { if (v === '' || v == null) e.style.removeProperty(p); else e.style.setProperty(p, v, 'important'); };
     var akisKoku = function (ic) {
         var k = ic;
-        while (k.children.length === 1 && /^(DIV|SECTION|ARTICLE)$/.test(k.children[0].tagName) && !k.children[0].classList.contains('no-print')) k = k.children[0];
+        while (k.children.length === 1 && /^(DIV|SECTION|ARTICLE|MAIN)$/.test(k.children[0].tagName)) k = k.children[0];
         return k;
     };
     var bloklar = function () {
         var k = akisKoku(ED.ic);
         return Array.prototype.filter.call(k.children, function (c) {
-            if (c.tagName === 'STYLE' || c.tagName === 'SCRIPT' || c.classList.contains('evd-katman')) return false;
+            if (c.tagName === 'STYLE' || c.tagName === 'SCRIPT') return false;
             var cs = getComputedStyle(c);
             return cs.display !== 'none' && cs.position !== 'absolute' && cs.position !== 'fixed';
         });
     };
     var bosBlokMu = function (b) {
-        if (b.querySelector('table,img,svg,canvas,input,select,textarea,hr')) return false;
+        if (b.querySelector('table,img,svg,canvas,hr')) return false;
         return !String(b.textContent || '').replace(/[\s ]/g, '').length;
     };
     var olcek = function () { var r = ED.kagit.getBoundingClientRect(); return r.width / (ED.kagit.offsetWidth || 1) || 1; };
@@ -44673,90 +45135,174 @@ function isgPrint(kind){
         if (!ED) return;
         var s = ED.ic.innerHTML + '\u0001' + (ED.ic.getAttribute('style') || '');
         if (ED.gecmis[ED.gi] === s) return;
-        ED.gecmis = ED.gecmis.slice(0, ED.gi + 1); ED.gecmis.push(s); if (ED.gecmis.length > 80) ED.gecmis.shift(); ED.gi = ED.gecmis.length - 1;
+        ED.gecmis = ED.gecmis.slice(0, ED.gi + 1); ED.gecmis.push(s); if (ED.gecmis.length > 40) ED.gecmis.shift(); ED.gi = ED.gecmis.length - 1;
     };
-    var gecmisYukle = function (s) { var p = s.split('\u0001'); ED.ic.innerHTML = p[0]; ED.ic.setAttribute('style', p[1] || ''); ED.aktifTablo = null; ED.degisti = true; evdCiz(); };
+    var gecmisYukle = function (s) { var p = s.split('\u0001'); ED.ic.innerHTML = p[0]; ED.ic.setAttribute('style', p[1] || ''); ED.zoom = parseFloat(ED.ic.style.zoom) || 1; ED.aktifTablo = null; ED.degisti = true; evdCiz(); };
     window.evdGeri = function () { if (ED && ED.gi > 0) { ED.gi--; gecmisYukle(ED.gecmis[ED.gi]); } };
     window.evdIleri = function () { if (ED && ED.gi < ED.gecmis.length - 1) { ED.gi++; gecmisYukle(ED.gecmis[ED.gi]); } };
-    var degisti = function () { ED.degisti = true; clearTimeout(ED.zt); ED.zt = setTimeout(function () { gecmisEkle(); evdCiz(); }, 350); };
+    var degisti = function () { if (!ED) return; ED.degisti = true; clearTimeout(ED.zt); ED.zt = setTimeout(function () { gecmisEkle(); evdCiz(); }, 350); };
 
+    /* ---------- Sayfalama motoru (baskıyla aynı parçalama) ---------- */
+    var ZORUNLU = /^(page|always|left|right|recto|verso)$/;
+    var olcumDoldur = function (z, payMm) {
+        var S = ED.S, W = icW(S) * MM, H = (icH(S) - (payMm || 0)) * MM;
+        var m = ED.olcum;
+        m.style.width = W + 'px'; m.style.height = H + 'px'; m.style.columnWidth = W + 'px'; m.style.columnGap = GAP + 'px';
+        var c = ED.ic.cloneNode(true);
+        c.removeAttribute('contenteditable'); c.removeAttribute('spellcheck');
+        if (z != null) kokOlcuYaz(c, S, z);
+        m.innerHTML = '';
+        m.appendChild(c);
+        var zorunlu = [];
+        Array.prototype.forEach.call(c.querySelectorAll('*'), function (e, i) {
+            var cs = getComputedStyle(e);
+            if (ZORUNLU.test(cs.breakBefore)) { e.style.setProperty('break-before', 'column', 'important'); zorunlu.push({ i: i, tip: 'before' }); }
+            if (ZORUNLU.test(cs.breakAfter)) { e.style.setProperty('break-after', 'column', 'important'); zorunlu.push({ i: i, tip: 'after' }); }
+        });
+        var son = document.createElement('div'); son.className = 'evd-son'; son.style.cssText = 'display:block!important;height:0!important;margin:0!important;padding:0!important;border:0!important;';
+        c.appendChild(son);
+        var mr = m.getBoundingClientRect(), oran = mr.width / W || 1;
+        return { c: c, son: son, L: mr.left, T: mr.top, oran: oran, adim: (W + GAP) * oran, zorunlu: zorunlu };
+    };
+    var kolonu = function (o, r) { return Math.max(0, Math.floor((r.left - o.L + 2) / o.adim)); };
+    var sayfaSay = function (z, payMm) { var o = olcumDoldur(z, payMm); return kolonu(o, o.son.getBoundingClientRect()) + 1; };
+    /* Sayfa sayısı + her sayfanın düzenleyicideki başlangıç yüksekliği */
+    var sayfala = function () {
+        var o = olcumDoldur(null, 0);
+        var n = kolonu(o, o.son.getBoundingClientRect()) + 1;
+        var kaynak = Array.prototype.slice.call(o.c.querySelectorAll('*'));
+        var hedef = Array.prototype.slice.call(ED.ic.querySelectorAll('*'));
+        var sonuc = { n: n, y: [0], parca: null };
+        var derinlik = new Map(); derinlik.set(o.c, 0);
+        var d = function (e) { if (derinlik.has(e)) return derinlik.get(e); var v = d(e.parentElement) + 1; derinlik.set(e, v); return v; };
+        var enIyi = [];
+        var parcalar = new Array(kaynak.length);
+        kaynak.forEach(function (e, i) {
+            if (e === o.son) return;
+            var rs = e.getClientRects(); if (!rs.length) return;
+            var cs = getComputedStyle(e), dsp = cs.display;
+            if (dsp === 'inline' || dsp === 'contents') return;
+            var p = [];
+            for (var j = 0; j < rs.length; j++) { var r = rs[j]; if (r.width <= 0 && r.height <= 0) continue; p.push({ k: kolonu(o, r), top: r.top - o.T, h: r.height }); }
+            if (!p.length) return;
+            parcalar[i] = p;
+            if (n < 2 || e.closest('thead')) return;
+            var once = 0, gorulen = {};
+            p.sort(function (a, b) { return a.k - b.k || a.top - b.top; });
+            p.forEach(function (f) {
+                if (gorulen[f.k]) return; gorulen[f.k] = 1;
+                if (f.k >= 1) {
+                    var ofs = 0; p.forEach(function (g) { if (g.k < f.k) ofs += g.h; });
+                    var a = enIyi[f.k], dd = d(e);
+                    if (!a || f.top < a.top - 0.5 || (Math.abs(f.top - a.top) <= 0.5 && dd > a.d)) enIyi[f.k] = { top: f.top, d: dd, i: i, ofs: ofs };
+                }
+            });
+        });
+        for (var k = 1; k < n; k++) {
+            var a = enIyi[k];
+            if (!a || !hedef[a.i]) { sonuc.y.push(null); continue; }
+            sonuc.y.push(yerel(hedef[a.i].getBoundingClientRect()).top + a.ofs / o.oran - ED.S.mt * MM);
+        }
+        sonuc.parcalar = parcalar; sonuc.kaynak = kaynak; sonuc.hedef = hedef; sonuc.zorunlu = o.zorunlu;
+        /* sınırda mı? (2,5 mm pay ile sayfa sayısı artıyorsa) */
+        sonuc.sinirda = sayfaSay(null, GUVENLIK) > n;
+        return sonuc;
+    };
+    window.evdSayfaSayisi = function () { return ED && ED.sayfa ? ED.sayfa.n : -1; };
+
+    /* ---------- Düzenleyiciyi aç ---------- */
     window.evdAc = function (key) {
         var el = document.getElementById(key);
         if (!el) return;
+        evdAnahtar(el); eskiKayitTasi(el);
+        acIc(el, key, evdAnahtar(el), 'evrak');
+    };
+    /* "Bu sayfanın evrakı": sayfanın yazdırınca çıkan hâli düzenlenir */
+    window.evdSayfaAc = function (key) {
+        var pane = document.getElementById(key);
+        if (!pane) return;
+        acIc(pane, key, evdSayfaAnahtar(pane), 'sayfa');
+    };
+    var acIc = function (el, key, anahtar, kapsam) {
         if (ED) evdKapat(true);
-        try { evdBaskiKopru(); } catch (e) {}
-        var yatay = false; try { yatay = evrakYatayMi(el); } catch (e) {}
-        var S = yatay ? SAYFA.yatay : SAYFA.dikey;
-        var kayit = evdDepo()[evdAnahtar(el)];
+        stillerYukle();
+        var kayit = evdDepo()[anahtar];
+        var S = kapsam === 'sayfa' ? (kayit && kayit.v === 2 && SAYFA[kayit.yon] ? SAYFA[kayit.yon] : (sayfaYatayMi(el) ? SAYFA.yatay : SAYFA.dikey)) : yonBul(el, kayit && kayit.v === 2 ? kayit : null);
+        var ic, id, css;
+        if (kayit && kayit.v === 2) {
+            var tmp = document.createElement('div'); tmp.innerHTML = kayit.html;
+            ic = tmp.querySelector('.evd-icerik') || tmp.firstElementChild; id = kayit.id; css = kayit.css;
+            stilEkle(id, css);
+        } else {
+            if (kayit && kayit.v !== 2 && kapsam === 'evrak') { try { evdUygula(el.closest('.tab-pane')); kayit = evdDepo()[anahtar]; } catch (e) {} }
+            if (kayit && kayit.v === 2) { var t2 = document.createElement('div'); t2.innerHTML = kayit.html; ic = t2.firstElementChild; id = kayit.id; css = kayit.css; stilEkle(id, css); }
+            else { var r = dondur(el, S, 'k' + hash(anahtar).slice(0, 6)); ic = r.ic; id = r.id; css = r.css; stilEkle(id, css); }
+        }
         var ov = document.createElement('div');
         ov.id = 'evd-ov';
+        var B = function (ic2, yazi, fn, ek, baslik) { return '<button type="button" class="evd-b' + (ek ? ' ' + ek : '') + '"' + (baslik ? ' title="' + baslik + '"' : '') + ' onmousedown="event.preventDefault()" onclick="' + fn + '">' + yazi + '</button>'; };
         ov.innerHTML =
             '<div class="evd-ust">' +
-            '<div class="evd-grup"><button type="button" class="evd-b evd-kaydet" onclick="evdKaydet()">💾 Kaydet</button><button type="button" class="evd-b" onclick="evdKaydet(true)">🖨 Kaydet ve Yazdır</button><button type="button" class="evd-b" onclick="evdKapat()">✕ Kapat</button></div>' +
-            '<div class="evd-grup"><button type="button" class="evd-b" title="Geri al" onclick="evdGeri()">↶</button><button type="button" class="evd-b" title="Yinele" onclick="evdIleri()">↷</button></div>' +
-            '<div class="evd-grup"><button type="button" class="evd-b" onmousedown="event.preventDefault()" onclick="evdKomut(\'bold\')"><b>K</b></button><button type="button" class="evd-b" onmousedown="event.preventDefault()" onclick="evdKomut(\'italic\')"><i>İ</i></button><button type="button" class="evd-b" onmousedown="event.preventDefault()" onclick="evdKomut(\'underline\')"><u>A</u></button>' +
-            '<button type="button" class="evd-b" title="Yazıyı küçült" onmousedown="event.preventDefault()" onclick="evdYazi(-0.5)">A−</button><button type="button" class="evd-b" title="Yazıyı büyüt" onmousedown="event.preventDefault()" onclick="evdYazi(0.5)">A+</button>' +
-            '<button type="button" class="evd-b" title="Satır aralığını daralt" onmousedown="event.preventDefault()" onclick="evdAralik(-0.1)">≡−</button><button type="button" class="evd-b" title="Satır aralığını aç" onmousedown="event.preventDefault()" onclick="evdAralik(0.1)">≡+</button></div>' +
-            '<div class="evd-grup"><button type="button" class="evd-b" onmousedown="event.preventDefault()" onclick="evdKomut(\'justifyLeft\')" title="Sola">⇤</button><button type="button" class="evd-b" onmousedown="event.preventDefault()" onclick="evdKomut(\'justifyCenter\')" title="Ortala">↔</button><button type="button" class="evd-b" onmousedown="event.preventDefault()" onclick="evdKomut(\'justifyRight\')" title="Sağa">⇥</button><button type="button" class="evd-b" onmousedown="event.preventDefault()" onclick="evdKomut(\'justifyFull\')" title="İki yana">☰</button></div>' +
-            '<div class="evd-grup"><button type="button" class="evd-b" onmousedown="event.preventDefault()" onclick="evdTablo(\'satirEkle\')" title="İmlecin bulunduğu satırın altına satır ekle">+ Satır</button><button type="button" class="evd-b" onmousedown="event.preventDefault()" onclick="evdTablo(\'satirSil\')">− Satır</button><button type="button" class="evd-b" onmousedown="event.preventDefault()" onclick="evdTablo(\'sutunEkle\')">+ Sütun</button><button type="button" class="evd-b" onmousedown="event.preventDefault()" onclick="evdTablo(\'sutunSil\')">− Sütun</button></div>' +
-            '<div class="evd-grup"><button type="button" class="evd-b" id="evd-bosluk-btn" onclick="evdBoslukMod()">↕ Boşluklar</button><button type="button" class="evd-b" id="evd-izgara-btn" onclick="evdIzgara()">▦ Izgara</button><button type="button" class="evd-b evd-sigdir" onclick="evdTekSayfa()">⤓ Tek sayfaya sığdır</button></div>' +
-            '<div class="evd-grup"><button type="button" class="evd-b" onclick="evdYakin(-0.1)">🔍−</button><button type="button" class="evd-b" onclick="evdYakin(0)" id="evd-yakin-oran">%100</button><button type="button" class="evd-b" onclick="evdYakin(0.1)">🔍+</button>' +
-            (kayit ? '<button type="button" class="evd-b evd-sablon" onclick="evdSablonaDon(\'' + key + '\')">↺ Şablona dön</button>' : '') + '</div>' +
+            '<div class="evd-grup">' + B(0, '💾 Kaydet', 'evdKaydet()', 'evd-kaydet') + B(0, '🖨 Kaydet ve Yazdır', 'evdKaydet(true)') + B(0, '✕ Kapat', 'evdKapat()') + '</div>' +
+            '<div class="evd-grup">' + B(0, '↶', 'evdGeri()', '', 'Geri al') + B(0, '↷', 'evdIleri()', '', 'Yinele') + '</div>' +
+            '<div class="evd-grup">' + B(0, '<b>K</b>', "evdKomut('bold')", '', 'Kalın') + B(0, '<i>İ</i>', "evdKomut('italic')", '', 'İtalik') + B(0, '<u>A</u>', "evdKomut('underline')", '', 'Altı çizili') +
+            B(0, 'A−', 'evdYazi(-0.5)', '', 'Yazıyı küçült') + B(0, 'A+', 'evdYazi(0.5)', '', 'Yazıyı büyüt') + B(0, '≡−', 'evdAralik(-0.1)', '', 'Satır aralığını daralt') + B(0, '≡+', 'evdAralik(0.1)', '', 'Satır aralığını aç') + '</div>' +
+            '<div class="evd-grup">' + B(0, '⇤', "evdHizala('left')", '', 'Sola') + B(0, '↔', "evdHizala('center')", '', 'Ortala') + B(0, '⇥', "evdHizala('right')", '', 'Sağa') + B(0, '☰', "evdHizala('justify')", '', 'İki yana') + '</div>' +
+            '<div class="evd-grup">' + B(0, '+ Satır', "evdTablo('satirEkle')", '', 'İmlecin bulunduğu satırın altına satır ekle') + B(0, '− Satır', "evdTablo('satirSil')") + B(0, '+ Sütun', "evdTablo('sutunEkle')") + B(0, '− Sütun', "evdTablo('sutunSil')") + '</div>' +
+            '<div class="evd-grup">' + B(0, '↕ Boşluklar', 'evdBoslukMod()', '', 'Bloklar arası boşlukları göster ve ayarla').replace('<button ', '<button id="evd-bosluk-btn" ') + B(0, '🧹 Sıkıştır', 'evdSikistir()', '', 'Art arda boş satırları ve büyük aralıkları azaltır') + B(0, '▦ Izgara', 'evdIzgara()').replace('<button ', '<button id="evd-izgara-btn" ') + '</div>' +
+            '<div class="evd-grup">' + B(0, '⤓ 1 sayfa', 'evdSigdir(1)', 'evd-sigdir', 'Düzeni bozmadan, orantılı küçülterek 1 sayfaya sığdır') + B(0, '⤓ 2 sayfa', 'evdSigdir(2)', 'evd-sigdir', 'Düzeni bozmadan 2 sayfaya sığdır') + B(0, '%100', 'evdSigdir(0)', '', 'Ölçeği %100 yap').replace('<button ', '<button id="evd-olcek-btn" ') + '</div>' +
+            '<div class="evd-grup">' + B(0, '🔍−', 'evdYakin(-0.1)') + B(0, '%100', 'evdYakin(0)').replace('<button ', '<button id="evd-yakin-oran" ') + B(0, '🔍+', 'evdYakin(0.1)') +
+            (kayit ? B(0, '↺ Şablona dön', (kapsam === 'sayfa' ? "evdSayfaSablonaDon('" : "evdSablonaDon('") + key + "')", 'evd-sablon') : '') + '</div>' +
             '</div>' +
-            '<div class="evd-durum" id="evd-durum"></div>' +
+            '<div class="evd-durum" id="evd-durum">Sayfalar hesaplanıyor…</div>' +
             '<div class="evd-alan" id="evd-alan"><div class="evd-olcek" id="evd-olcek"><div class="evd-kagit" id="evd-kagit"></div></div></div>';
         document.body.appendChild(ov);
         document.body.classList.add('evd-acik');
         var kagit = ov.querySelector('#evd-kagit');
         kagit.style.width = S.w + 'mm';
-        kagit.style.padding = S.my + 'mm ' + S.mx + 'mm';
+        kagit.style.padding = S.mt + 'mm ' + S.mr + 'mm ' + S.mb + 'mm ' + S.ml + 'mm';
         kagit.style.minHeight = S.h + 'mm';
-        /* İçerik: kayıtlı düzenleme yoksa evrakın şu anki hâli */
-        var ic;
-        var tmp = document.createElement('div');
-        tmp.innerHTML = el.innerHTML;
-        var hazir = tmp.children.length === 1 && tmp.children[0].classList.contains('evd-icerik') ? tmp.children[0] : null;
-        if (hazir) ic = hazir;
-        else {
-            ic = document.createElement('div');
-            ic.className = 'evd-icerik';
-            ic.innerHTML = el.innerHTML;
-            /* Evrak kabının yazı ayarlarını taşı (Times, punto, satır aralığı) */
-            try { var cs = getComputedStyle(el); ic.style.fontFamily = cs.fontFamily; ic.style.fontSize = cs.fontSize; ic.style.lineHeight = cs.lineHeight === 'normal' ? '1.35' : cs.lineHeight; ic.style.color = '#000'; ic.style.textAlign = cs.textAlign; } catch (e) {}
-        }
-        Array.prototype.forEach.call(ic.querySelectorAll('.evrak-arac,.evd-rozet'), function (n) { n.remove(); });
         ic.setAttribute('contenteditable', 'true');
-        ic.setAttribute('spellcheck', 'true');
+        ic.setAttribute('spellcheck', 'false');
         kagit.appendChild(ic);
         var katman = document.createElement('div'); katman.className = 'evd-katman'; kagit.appendChild(katman);
-        ED = { el: el, key: key, anahtar: evdAnahtar(el), S: S, ov: ov, kagit: kagit, ic: ic, katman: katman, gecmis: [], gi: -1, bosluk: false, izgara: !!state.evdIzgara, yakin: 1, aktifTablo: null, degisti: false };
+        var olcum = document.createElement('div'); olcum.className = 'evd-olcum'; olcum.setAttribute('aria-hidden', 'true');
+        olcum.style.cssText = 'position:absolute;left:-300000px;top:0;column-fill:auto;overflow:visible;visibility:hidden;pointer-events:none;';
+        ov.appendChild(olcum);
+        ED = { el: el, key: key, anahtar: anahtar, kapsam: kapsam, S: S, ov: ov, kagit: kagit, ic: ic, katman: katman, olcum: olcum, id: id, css: css, gecmis: [], gi: -1, bosluk: false, izgara: !!state.evdIzgara, yakin: 1, aktifTablo: null, degisti: false, zoom: parseFloat(ic.style.zoom) || 1, kayitli: !!kayit };
         kagit.classList.toggle('evd-izgara', ED.izgara);
         ov.querySelector('#evd-izgara-btn').classList.toggle('evd-on', ED.izgara);
-        /* Telefonda kâğıdı ekrana sığdır */
-        var alanW = ov.querySelector('#evd-alan').clientWidth - 16;
-        var kw = S.w * MM;
-        ED.yakin = Math.min(1, Math.max(0.3, alanW / kw));
         evdYakin(0, true);
         gecmisEkle();
         ic.addEventListener('input', degisti);
+        ic.addEventListener('paste', function (e) {
+            var t = (e.clipboardData || window.clipboardData); if (!t) return;
+            var metin = t.getData('text/plain'); if (metin == null) return;
+            e.preventDefault(); document.execCommand('insertText', false, metin);
+        });
         ic.addEventListener('pointerdown', function (e) { var t = e.target.closest && e.target.closest('table'); if (t && ic.contains(t) && t !== ED.aktifTablo) { ED.aktifTablo = t; setTimeout(evdCiz, 0); } });
         ic.addEventListener('keyup', function () { var s = window.getSelection(); var n = s && s.anchorNode; var t = n && (n.nodeType === 1 ? n : n.parentElement); t = t && t.closest && t.closest('table'); if (t && ic.contains(t) && t !== ED.aktifTablo) { ED.aktifTablo = t; evdCiz(); } });
-        ED.ro = new ResizeObserver(function () { clearTimeout(ED.rt); ED.rt = setTimeout(evdCiz, 120); });
+        ED.ro = new ResizeObserver(function () { clearTimeout(ED.rt); ED.rt = setTimeout(evdCiz, 150); });
         ED.ro.observe(ic);
-        setTimeout(evdCiz, 60);
+        evdCiz();
     };
     window.evdYakin = function (d, ilk) {
         if (!ED) return;
-        if (d === 0 && !ilk) { var alanW = ED.ov.querySelector('#evd-alan').clientWidth - 16; ED.yakin = Math.min(1, Math.max(0.3, alanW / (ED.S.w * MM))); }
+        var alan = ED.ov.querySelector('#evd-alan');
+        if (d === 0) ED.yakin = Math.min(1, Math.max(0.3, (alan.clientWidth - 16) / (ED.S.w * MM)));
         else ED.yakin = Math.min(2, Math.max(0.3, ED.yakin + d));
         ED.ov.querySelector('#evd-olcek').style.zoom = ED.yakin;
         var b = ED.ov.querySelector('#evd-yakin-oran'); if (b) b.textContent = '%' + Math.round(ED.yakin * 100);
-        setTimeout(evdCiz, 30);
+        if (!ilk) setTimeout(evdCiz, 30);
     };
     window.evdKapat = function (zorla) {
         if (!ED) return;
         var kapat = function () {
             try { ED.ro.disconnect(); } catch (e) {}
+            clearTimeout(ED.zt); clearTimeout(ED.rt);
+            if (!ED.kayitli) { /* kaydedilmeyen yeni dondurmanın stilini bırakma */
+                var r = evdDepo()[ED.anahtar]; if (!r || r.id !== ED.id) { delete stilHaritasi[ED.id]; stilYaz(); }
+            }
             ED.ov.remove(); document.body.classList.remove('evd-acik'); ED = null;
         };
         if (!zorla && ED.degisti) showCustomConfirm('Kaydedilmedi', 'Yaptığınız değişiklikler kaydedilmedi. Kaydetmeden çıkılsın mı?', function (ok) { if (ok) kapat(); });
@@ -44764,60 +45310,84 @@ function isgPrint(kind){
     };
     window.evdKaydet = function (yazdir) {
         if (!ED) return;
-        var ic = ED.ic.cloneNode(true);
-        ic.removeAttribute('contenteditable'); ic.removeAttribute('spellcheck');
-        Array.prototype.forEach.call(ic.querySelectorAll('.evd-secili-tablo'), function (t) { t.classList.remove('evd-secili-tablo'); });
+        clearTimeout(ED.zt);
+        var c = ED.ic.cloneNode(true);
+        c.removeAttribute('contenteditable'); c.removeAttribute('spellcheck');
+        Array.prototype.forEach.call(c.querySelectorAll('.evd-secili-tablo'), function (t) { t.classList.remove('evd-secili-tablo'); });
         /* İmza bloğu sayfa arasında bölünmesin */
-        try { var ib = imzaBlok(); if (ib) { var i2 = Array.prototype.indexOf.call(akisKoku(ED.ic).children, ib); var k2 = akisKoku(ic).children[i2]; if (k2) { k2.style.breakInside = 'avoid'; k2.style.pageBreakInside = 'avoid'; } } } catch (e) {}
-        var html = ic.outerHTML;
-        var el = document.getElementById(ED.key) || ED.el;
-        evdDepo()[ED.anahtar] = { html: html, kaynak: ED.el.__evdKaynak || '', tarih: new Date().toISOString(), yatay: ED.S === SAYFA.yatay };
+        try { var ib = imzaBlok(); if (ib) { var yol = []; var x = ib; while (x && x !== ED.ic) { yol.unshift(Array.prototype.indexOf.call(x.parentElement.children, x)); x = x.parentElement; } var y = c; yol.forEach(function (i) { y = y && y.children[i]; }); if (y) { y.style.setProperty('break-inside', 'avoid', 'important'); } } } catch (e) {}
+        var sayfaMi = ED.kapsam === 'sayfa';
+        var kayit = { v: 2, id: ED.id, css: ED.css, html: c.outerHTML, yon: ED.S.ad, kaynak: (sayfaMi ? ED.el.__evdSayfaKaynak : ED.el.__evdKaynak) || '', tarih: new Date().toISOString() };
+        if (sayfaMi) { kayit.kapsam = 'sayfa'; kayit.sekme = ED.el.id; }
+        evdDepo()[ED.anahtar] = kayit;
+        stilEkle(ED.id, ED.css);
         try { saveAllData(); } catch (e) {}
-        if (el) { el.innerHTML = html; el.classList.add('evd-duzenli'); el.__evdUygulandi = true; el.__evdSablonDegisti = false; }
+        if (sayfaMi) {
+            var pk = ED.key, pane = ED.el;
+            ED.degisti = false; ED.kayitli = true;
+            evdKapat(true);
+            try { evdUygula(pane); } catch (e) {}
+            if (yazdir) setTimeout(function () { evrakYazdir(pk, 'sayfa'); }, 150);
+            else if (typeof showToast === 'function') showToast('Sayfanın evrakı kaydedildi');
+            return;
+        }
+        var el = document.getElementById(ED.key) || ED.el;
+        if (el) { uygulaHtml(el, kayit); el.__evdUygulandi = true; el.__evdSablonDegisti = false; }
         var key = ED.key;
-        ED.degisti = false;
+        ED.degisti = false; ED.kayitli = true;
         evdKapat(true);
         try { var pane = el.closest('.tab-pane'); var bar = el.previousElementSibling; if (bar && bar.classList.contains('evrak-arac')) { var r = bar.querySelector('.evd-rozet'); if (r) r.remove(); } evdUygula(pane); } catch (e) {}
-        if (yazdir) setTimeout(function () { evrakYazdir(key, 'evrak'); }, 120);
+        if (yazdir) setTimeout(function () { evrakYazdir(key, 'evrak'); }, 150);
         else if (typeof showToast === 'function') showToast('Evrak kaydedildi');
     };
 
     /* ---------- Biçim ---------- */
-    window.evdKomut = function (k) { if (!ED) return; try { document.execCommand('styleWithCSS', false, true); } catch (e) {} document.execCommand(k, false, null); degisti(); };
+    window.evdKomut = function (k) { if (!ED) return; gecmisEkle(); try { document.execCommand('styleWithCSS', false, false); } catch (e) {} document.execCommand(k, false, null); degisti(); };
     var seciliBloklar = function () {
         var s = window.getSelection(); if (!s || !s.rangeCount) return [];
         var r = s.getRangeAt(0);
         if (!ED.ic.contains(r.commonAncestorContainer)) return [];
-        var blok = function (n) { n = n.nodeType === 1 ? n : n.parentElement; while (n && n !== ED.ic) { var d = getComputedStyle(n).display; if (/block|list-item|table-cell/.test(d)) return n; n = n.parentElement; } return null; };
+        var blok = function (n) { n = n.nodeType === 1 ? n : n.parentElement; while (n && n !== ED.ic) { var d = getComputedStyle(n).display; if (/block|list-item|table-cell|flex|grid/.test(d) && !/inline/.test(d)) return n; n = n.parentElement; } return null; };
         if (r.collapsed) { var b = blok(r.startContainer); return b ? [b] : []; }
-        var l = Array.prototype.filter.call(ED.ic.querySelectorAll('p,li,td,th,h1,h2,h3,h4,h5,div'), function (x) { return r.intersectsNode(x) && !x.querySelector('p,li,td,th,div,table'); });
+        var l = Array.prototype.filter.call(ED.ic.querySelectorAll('p,li,td,th,h1,h2,h3,h4,h5,h6,div'), function (x) { return r.intersectsNode(x) && !x.querySelector('p,li,td,th,div,table,h1,h2,h3,h4'); });
         if (!l.length) { var b2 = blok(r.startContainer); if (b2) l = [b2]; }
         return l;
     };
+    var ptKis = function (v) { return Math.max(5, Math.min(36, Math.round(v * 2) / 2)); };
     window.evdYazi = function (d) {
         if (!ED) return;
-        var l = seciliBloklar();
-        if (!l.length) { l = [ED.ic]; }
+        gecmisEkle();
+        var l = seciliBloklar(); if (!l.length) l = [ED.ic];
         l.forEach(function (b) {
+            var ozel = Array.prototype.filter.call(b.querySelectorAll('*'), function (c) { return getComputedStyle(c).fontSize !== getComputedStyle(c.parentElement).fontSize; })
+                .map(function (c) { return [c, parseFloat(getComputedStyle(c).fontSize) * 0.75]; });
             var pt = parseFloat(getComputedStyle(b).fontSize) * 0.75;
-            b.style.fontSize = Math.max(6, Math.min(28, Math.round((pt + d) * 2) / 2)) + 'pt';
-            Array.prototype.forEach.call(b.querySelectorAll('[style*="font-size"]'), function (c) { var p2 = parseFloat(getComputedStyle(c).fontSize) * 0.75; c.style.fontSize = Math.max(6, Math.round((p2 + d) * 2) / 2) + 'pt'; });
+            stil(b, 'font-size', ptKis(pt + d) + 'pt');
+            ozel.forEach(function (x) { stil(x[0], 'font-size', ptKis(x[1] + d) + 'pt'); });
         });
         degisti();
     };
     window.evdAralik = function (d) {
         if (!ED) return;
+        gecmisEkle();
         var l = seciliBloklar(); if (!l.length) l = [ED.ic];
+        var ayarla = function (e) { var cs = getComputedStyle(e), fs = parseFloat(cs.fontSize) || 12, lh = cs.lineHeight === 'normal' ? 1.2 : parseFloat(cs.lineHeight) / fs; stil(e, 'line-height', String(Math.max(0.9, Math.min(3, Math.round((lh + d) * 100) / 100)))); };
         l.forEach(function (b) {
-            var cs = getComputedStyle(b), fs = parseFloat(cs.fontSize), lh = cs.lineHeight === 'normal' ? 1.2 : parseFloat(cs.lineHeight) / fs;
-            b.style.lineHeight = Math.max(0.9, Math.min(3, Math.round((lh + d) * 100) / 100));
+            var ozel = Array.prototype.filter.call(b.querySelectorAll('*'), function (c) { var a = getComputedStyle(c), p = getComputedStyle(c.parentElement); return a.lineHeight !== p.lineHeight && a.fontSize === p.fontSize; });
+            ayarla(b); ozel.forEach(ayarla);
         });
+        degisti();
+    };
+    window.evdHizala = function (v) {
+        if (!ED) return;
+        var l = seciliBloklar(); if (!l.length) return;
+        gecmisEkle();
+        l.forEach(function (b) { stil(b, 'text-align', v); });
         degisti();
     };
 
     /* ---------- Tablo ---------- */
     var satirSutunSayisi = function (t) { var m = 0; Array.prototype.forEach.call(t.rows, function (r) { var n = 0; Array.prototype.forEach.call(r.cells, function (c) { n += c.colSpan || 1; }); m = Math.max(m, n); }); return m; };
-    /* Her sütunun sağ kenarı (colspan/rowspan dikkate alınarak tek sütunluk hücrelerden) */
     var sutunKenarlari = function (t) {
         var n = satirSutunSayisi(t), sag = new Array(n).fill(null), dolu = [];
         Array.prototype.forEach.call(t.rows, function (r, ri) {
@@ -44832,7 +45402,6 @@ function isgPrint(kind){
             });
         });
         var L = t.getBoundingClientRect().left, R = t.getBoundingClientRect().right;
-        /* Bilinmeyen kenarları eşit böl */
         for (var i = 0; i < n; i++) if (sag[i] == null) { var j = i; while (j < n && sag[j] == null) j++; var bas = i ? sag[i - 1] : L, son = j < n ? sag[j] : R; for (var k = i; k < j; k++) sag[k] = bas + (son - bas) * (k - i + 1) / (j - i + 1); i = j; }
         sag[n - 1] = R;
         return sag;
@@ -44840,17 +45409,19 @@ function isgPrint(kind){
     var colgroupHazirla = function (t) {
         var n = satirSutunSayisi(t); if (n < 1) return null;
         var cg = t.querySelector(':scope > colgroup');
-        if (cg && cg.children.length === n && t.style.tableLayout === 'fixed') return cg;
-        /* Mevcut genişlikleri tek hücreli satırlardan ölç */
-        var tw = t.getBoundingClientRect().width || 1, sag = sutunKenarlari(t), L = t.getBoundingClientRect().left;
+        if (cg && cg.children.length === n && t.style.getPropertyValue('table-layout') === 'fixed') return cg;
+        var tr0 = t.getBoundingClientRect(), tw = tr0.width || 1, sag = sutunKenarlari(t), L = tr0.left;
         var gen = sag.map(function (x, i) { return Math.max(1, x - (i ? sag[i - 1] : L)); });
         if (cg) cg.remove();
         cg = document.createElement('colgroup');
-        gen.forEach(function (g) { var c = document.createElement('col'); c.style.width = (Math.round(g / tw * 1000) / 10) + '%'; cg.appendChild(c); });
+        gen.forEach(function (g) { var c = document.createElement('col'); c.style.setProperty('width', (Math.round(g / tw * 1000) / 10) + '%', 'important'); cg.appendChild(c); });
         t.insertBefore(cg, t.firstChild);
-        t.style.tableLayout = 'fixed';
-        if (!t.style.width) t.style.width = '100%';
-        Array.prototype.forEach.call(t.querySelectorAll('td,th'), function (c) { c.style.overflowWrap = 'anywhere'; c.style.wordBreak = 'break-word'; });
+        /* tablo genişliği: kabını dolduruyorsa %100, değilse mevcut genişlik */
+        var kap = t.parentElement, kw = kap ? kap.getBoundingClientRect().width : tw;
+        var csK = kap ? getComputedStyle(kap) : null; if (csK) kw -= ((parseFloat(csK.paddingLeft) || 0) + (parseFloat(csK.paddingRight) || 0)) * olcek();
+        stil(t, 'width', Math.abs(kw - tw) < 3 ? '100%' : (tw / olcek()).toFixed(1) + 'px');
+        stil(t, 'table-layout', 'fixed');
+        Array.prototype.forEach.call(t.querySelectorAll('td,th'), function (c) { stil(c, 'overflow-wrap', 'anywhere'); stil(c, 'word-break', 'break-word'); });
         return cg;
     };
     var aktifHucre = function () {
@@ -44863,7 +45434,8 @@ function isgPrint(kind){
         var c = aktifHucre();
         if (!c) { showCustomAlert('Tablo', 'Önce düzenlemek istediğiniz tablo hücresinin içine dokunun.'); return; }
         gecmisEkle();
-        var tr = c.parentElement, t = c.closest('table'), idx = c.cellIndex;
+        var tr = c.parentElement, t = c.closest('table'), idx = c.cellIndex, ri = tr.rowIndex;
+        var duzeniSifirla = function () { var cg = t.querySelector(':scope > colgroup'); if (cg) cg.remove(); t.style.removeProperty('table-layout'); };
         if (islem === 'satirEkle') {
             var yeni = tr.cloneNode(true);
             Array.prototype.forEach.call(yeni.cells, function (h) { h.innerHTML = '&nbsp;'; h.removeAttribute('rowspan'); });
@@ -44871,22 +45443,30 @@ function isgPrint(kind){
         } else if (islem === 'satirSil') {
             if (t.rows.length <= 1) { t.remove(); } else tr.remove();
         } else if (islem === 'sutunEkle') {
-            var cg = t.querySelector(':scope > colgroup'); if (cg) cg.remove(); t.style.tableLayout = '';
+            duzeniSifirla();
             Array.prototype.forEach.call(t.rows, function (r) {
                 var h = r.cells[Math.min(idx, r.cells.length - 1)]; if (!h) return;
-                var y = h.cloneNode(false); y.innerHTML = '&nbsp;'; y.removeAttribute('colspan'); y.removeAttribute('rowspan'); y.style.width = '';
+                var y = h.cloneNode(false); y.innerHTML = '&nbsp;'; y.removeAttribute('colspan'); y.removeAttribute('rowspan'); y.style.removeProperty('width');
                 r.insertBefore(y, h.nextSibling);
             });
         } else if (islem === 'sutunSil') {
-            var cg2 = t.querySelector(':scope > colgroup'); if (cg2) cg2.remove(); t.style.tableLayout = '';
+            duzeniSifirla();
             Array.prototype.forEach.call(t.rows, function (r) { var h = r.cells[idx]; if (h && r.cells.length > 1) h.remove(); });
             if (t.rows[0] && t.rows[0].cells.length === 0) t.remove();
         }
         ED.aktifTablo = t.isConnected ? t : null;
+        /* imleci komşu hücreye taşı (art arda işlem yapılabilsin) */
+        try {
+            if (t.isConnected && !c.isConnected) {
+                var satir = tr.isConnected ? tr : (t.rows[Math.min(Math.max(ri, 0), t.rows.length - 1)]);
+                var hc = satir && (satir.cells[Math.min(idx, satir.cells.length - 1)]);
+                if (hc) { var rg = document.createRange(); rg.selectNodeContents(hc); rg.collapse(false); var sl = window.getSelection(); sl.removeAllRanges(); sl.addRange(rg); }
+            }
+        } catch (e) {}
         degisti(); gecmisEkle();
     };
 
-    /* ---------- Boşluk ve ızgara ---------- */
+    /* ---------- Boşluk, sıkıştırma, ızgara ---------- */
     window.evdBoslukMod = function () { if (!ED) return; ED.bosluk = !ED.bosluk; ED.ov.querySelector('#evd-bosluk-btn').classList.toggle('evd-on', ED.bosluk); evdCiz(); };
     window.evdIzgara = function () {
         if (!ED) return; ED.izgara = !ED.izgara; state.evdIzgara = ED.izgara; try { saveAllData(); } catch (e) {}
@@ -44894,100 +45474,163 @@ function isgPrint(kind){
     };
     var mtPx = function (b) { return parseFloat(getComputedStyle(b).marginTop) || 0; };
     var mbPx = function (b) { return parseFloat(getComputedStyle(b).marginBottom) || 0; };
+    var gorunurBosluk = function (ust, alt) { return yerel(alt.getBoundingClientRect()).top - yerel(ust.getBoundingClientRect()).bottom; };
+    var kenarsiz = function (e, y) { var cs = getComputedStyle(e); return !(parseFloat(cs['padding' + y]) > 0) && !(parseFloat(cs['border' + y + 'Width']) > 0); };
+    /* Bloklar arası görünür boşluğu hedef değere getirir (birleşen kenar boşlukları dahil) */
+    var boslukAyarla = function (ust, alt, hedef) {
+        stil(ust, 'margin-bottom', '0px');
+        var x = ust; while (x && kenarsiz(x, 'Bottom') && x.lastElementChild) { x = x.lastElementChild; if (mbPx(x) > 0) stil(x, 'margin-bottom', '0px'); }
+        var y = alt; while (y && kenarsiz(y, 'Top') && y.firstElementChild) { y = y.firstElementChild; if (mtPx(y) > 0) stil(y, 'margin-top', '0px'); }
+        stil(alt, 'margin-top', Math.max(0, hedef).toFixed(1) + 'px');
+        var g = gorunurBosluk(ust, alt);
+        if (g > hedef + 1) {
+            var pb = parseFloat(getComputedStyle(ust).paddingBottom) || 0;
+            if (pb > 0) { stil(ust, 'padding-bottom', Math.max(0, pb - (g - hedef)).toFixed(1) + 'px'); g = gorunurBosluk(ust, alt); }
+        }
+        if (g > hedef + 1) {
+            var pt = parseFloat(getComputedStyle(alt).paddingTop) || 0;
+            if (pt > 0) { stil(alt, 'padding-top', Math.max(0, pt - (g - hedef)).toFixed(1) + 'px'); g = gorunurBosluk(ust, alt); }
+        }
+        if (g > hedef + 1) {
+            var mh = parseFloat(getComputedStyle(ust).minHeight) || 0;
+            if (mh > 0) stil(ust, 'min-height', Math.max(0, mh - (g - hedef)).toFixed(1) + 'px');
+        }
+    };
     window.evdBosluk = function (i, yon) {
         if (!ED) return;
         var bl = bloklar(), ust = bl[i], alt = bl[i + 1];
         if (!ust || !alt) return;
         gecmisEkle();
-        var adim = 2 * MM;
-        if (yon > 0) { alt.style.marginTop = (mtPx(alt) + adim) + 'px'; }
-        else if (yon === 'sil') {
-            /* Aradaki boşluğu tamamen kapat: boş blokları sil, kenar boşluklarını sıfırla */
-            alt.style.marginTop = '0px'; ust.style.marginBottom = '0px';
-            if (bosBlokMu(ust)) ust.remove();
+        var adim = 2 * MM, g = gorunurBosluk(ust, alt) / 1;
+        if (yon !== 1 && bosBlokMu(ust) && i > 0) {
+            /* boş satır: önce onu kaldır */
+            ust.remove();
+            if (yon === 'sil') { var bl2 = bloklar(), u2 = bl2[i - 1], a2 = bl2[i]; if (u2 && a2) boslukAyarla(u2, a2, 0); }
         } else {
-            if (bosBlokMu(ust)) { ust.remove(); }
-            else if (mtPx(alt) > 0.5) alt.style.marginTop = Math.max(0, mtPx(alt) - adim) + 'px';
-            else if (mbPx(ust) > 0.5) ust.style.marginBottom = Math.max(0, mbPx(ust) - adim) + 'px';
-            else {
-                var pb = parseFloat(getComputedStyle(ust).paddingBottom) || 0;
-                if (pb > 0.5) ust.style.paddingBottom = Math.max(0, pb - adim) + 'px';
-                else { var h = parseFloat(ust.style.height || ust.style.minHeight) || 0; if (h > 0) { ust.style.height = ''; ust.style.minHeight = Math.max(0, h - adim) + 'px'; } }
-            }
+            var hedef = yon === 1 || yon > 0 ? g + adim : (yon === 'sil' ? 0 : Math.max(0, g - adim));
+            boslukAyarla(ust, alt, hedef);
         }
         degisti(); gecmisEkle(); evdCiz();
+    };
+    window.evdSikistir = function () {
+        if (!ED) return;
+        gecmisEkle();
+        var bl = bloklar(), silinen = 0, daraltilan = 0;
+        bl.forEach(function (b, i) { if (bosBlokMu(b) && i > 0 && bosBlokMu(bl[i - 1])) { b.remove(); silinen++; } });
+        bloklar().forEach(function (b) {
+            if (mtPx(b) > 3 * MM) { stil(b, 'margin-top', (2 * MM).toFixed(1) + 'px'); daraltilan++; }
+            if (mbPx(b) > 3 * MM) { stil(b, 'margin-bottom', (2 * MM).toFixed(1) + 'px'); daraltilan++; }
+        });
+        degisti(); evdCiz();
+        showCustomAlert('Boşlukları Sıkıştır', (silinen || daraltilan) ? ((silinen ? silinen + ' fazla boş satır silindi. ' : '') + (daraltilan ? daraltilan + ' büyük aralık 2 mm\'ye indirildi. ' : '') + 'Beğenmezseniz ↶ ile geri alabilirsiniz.') : 'Sıkıştırılacak art arda boş satır veya büyük aralık bulunamadı.');
     };
     var imzaBlok = function () {
         var bl = bloklar();
         for (var i = bl.length - 1; i >= 0; i--) { var t = String(bl[i].innerText || ''); if (t.length < 700 && IMZA_RE.test(t)) return bl[i]; }
         return null;
     };
-    window.evdTekSayfa = function () {
+
+    /* ---------- 1 / 2 sayfaya sığdır: tüm evrak orantılı ölçeklenir (düzen bozulmaz) ---------- */
+    var olcekUygula = function (z) {
+        ED.zoom = z;
+        kokOlcuYaz(ED.ic, ED.S, z);
+        var b = ED.ov.querySelector('#evd-olcek-btn'); if (b) b.textContent = '%' + Math.round(z * 100);
+    };
+    window.evdSigdir = function (n) {
         if (!ED) return;
         gecmisEkle();
-        var S = ED.S, sayfaH = (S.h - 2 * S.my) * MM - 5 * MM; /* 5 mm güvenlik payı */
-        var yukseklik = function () { return ED.ic.scrollHeight; };
-        var yapilan = [];
-        if (yukseklik() <= sayfaH) { showCustomAlert('Tek Sayfa', 'Evrak zaten tek sayfaya sığıyor.'); return; }
-        /* 1) Ardışık boş blokları azalt, fazla kenar boşluklarını daralt */
-        var bl = bloklar(), silinen = 0;
-        /* önce art arda gelen boş satırları teke indir, sığmazsa hepsini sil */
-        bl.forEach(function (b, i) { if (bosBlokMu(b) && i > 0 && bosBlokMu(bl[i - 1])) { b.remove(); silinen++; } });
-        if (yukseklik() > sayfaH) bloklar().forEach(function (b) { if (bosBlokMu(b)) { b.remove(); silinen++; } });
-        bloklar().forEach(function (b) { if (mtPx(b) > 3 * MM) b.style.marginTop = (2 * MM) + 'px'; if (mbPx(b) > 3 * MM) b.style.marginBottom = (2 * MM) + 'px'; });
-        if (silinen) yapilan.push(silinen + ' boş satır silindi');
-        yapilan.push('fazla aralıklar daraltıldı');
-        /* 2) Satır aralığı */
-        if (yukseklik() > sayfaH) {
-            var cs = getComputedStyle(ED.ic), lh = cs.lineHeight === 'normal' ? 1.2 : parseFloat(cs.lineHeight) / parseFloat(cs.fontSize);
-            if (lh > 1.12) { ED.ic.style.lineHeight = '1.12'; yapilan.push('satır aralığı 1,12'); }
+        if (!n) { olcekUygula(1); degisti(); evdCiz(); return; }
+        var en = 1;
+        if (sayfaSay(1, GUVENLIK) <= n) en = 1;
+        else {
+            var lo = 0.4;
+            if (sayfaSay(lo, GUVENLIK) > n) {
+                var zs = (ED.sayfa && ED.sayfa.zorunlu) ? ED.sayfa.zorunlu.length : 0;
+                showCustomAlert('Sığdırılamadı', zs >= n ? ('Bu evrakta ' + zs + ' adet zorunlu sayfa sonu var (bölümler ayrı sayfalarda başlıyor); bu yüzden ' + n + ' sayfaya sığamaz. Kırmızı çizgideki “✕ Sayfa sonunu kaldır” düğmesiyle zorunlu sayfa sonlarını kaldırıp tekrar deneyin.') : ('Evrak en fazla %40 ölçekte bile ' + n + ' sayfaya sığmıyor. Satır silmeyi veya ' + (n + 1) + ' sayfayı deneyin.'));
+                evdCiz(); return;
+            }
+            var hi = 1;
+            for (var i = 0; i < 12; i++) { var mid = (lo + hi) / 2; if (sayfaSay(mid, GUVENLIK) <= n) lo = mid; else hi = mid; }
+            en = Math.floor(lo * 1000) / 1000;
         }
-        /* 3) Ölçek (en az %80 ≈ 9 punto) */
-        var z = 1;
-        while (yukseklik() * z > sayfaH && z > 0.8) { z = Math.round((z - 0.02) * 100) / 100; ED.ic.style.zoom = z; }
-        if (z < 1) yapilan.push('ölçek %' + Math.round(z * 100));
+        olcekUygula(en);
         degisti(); gecmisEkle(); evdCiz();
-        var sigdi = ED.ic.getBoundingClientRect().height / olcek() <= sayfaH + 1;
-        showCustomAlert('Tek Sayfaya Sığdır', (sigdi ? '✓ Evrak tek sayfaya sığdı. ' : '⚠ En fazla küçültmeyle de tek sayfaya sığmadı; metni kısaltmayı veya tablo satırlarını azaltmayı deneyin. ') + 'Yapılanlar: ' + yapilan.join(', ') + '. Beğenmezseniz ↶ ile geri alabilirsiniz.');
+        var s = ED.sayfa ? ED.sayfa.n : sayfaSay(null, 0);
+        var mesaj = (s <= n ? '✓ Evrak ' + s + ' sayfaya sığdı' : '⚠ ' + s + ' sayfa') + ' — ölçek %' + Math.round(en * 100) + '. Tablolar ve düzen olduğu gibi korunur, yalnızca tüm evrak orantılı küçültülür.' + (en < 0.7 ? ' Yazı oldukça küçüldü; okunabilirliği kontrol edin veya “🧹 Sıkıştır” ile boşlukları azaltıp tekrar deneyin.' : '');
+        if (typeof showToast === 'function') showToast(mesaj.split(' — ')[0] + ' (%' + Math.round(en * 100) + ')');
+        ED.sonMesaj = mesaj;
+        evdDurumYaz();
+    };
+    window.evdTekSayfa = function () { evdSigdir(1); };
+    window.evdSayfaSonuKaldir = function (i, tip) {
+        if (!ED || !ED.sayfa || !ED.sayfa.hedef) return;
+        var e = ED.sayfa.hedef[i]; if (!e || !ED.ic.contains(e)) return;
+        gecmisEkle();
+        if (tip === 'after') { stil(e, 'break-after', 'auto'); stil(e, 'page-break-after', 'auto'); }
+        else { stil(e, 'break-before', 'auto'); stil(e, 'page-break-before', 'auto'); }
+        degisti(); gecmisEkle(); evdCiz();
     };
 
-    /* ---------- Çizim: sayfa sınırları, imza uyarısı, tutamaklar ---------- */
+    /* ---------- Çizim: gerçek sayfa sonları, imza uyarısı, tutamaklar ---------- */
+    var evdDurumYaz = function () {
+        var d = ED && ED.ov.querySelector('#evd-durum'); if (!d || !ED.sayfa) return;
+        var s = ED.sayfa, t = ED.aktifTablo && ED.aktifTablo.isConnected;
+        d.innerHTML = (s.n === 1 ? '<span class="evd-ok">✓ 1 sayfa</span>' : '<span class="evd-uyari">' + s.n + ' sayfa</span>') +
+            (s.sinirda ? ' <span class="evd-uyari" title="Son satırlar sayfa sonuna çok yakın; bazı yazıcılarda taşabilir">⚠ sınırda</span>' : '') +
+            ((ED.zoom || 1) < 0.999 ? ' <span class="evd-oran">ölçek %' + Math.round((ED.zoom || 1) * 100) + '</span>' : '') +
+            (ED.imzaUyari ? ' <span class="evd-uyari">⚠ ' + ED.imzaUyari + '</span>' : '') +
+            (s.n > 1 || s.sinirda ? ' <button type="button" class="evd-b evd-sigdir" onclick="evdSigdir(1)">⤓ 1 sayfaya sığdır</button>' : '') +
+            (s.n > 2 ? ' <button type="button" class="evd-b evd-sigdir" onclick="evdSigdir(2)">⤓ 2 sayfaya sığdır</button>' : '') +
+            ' <span class="evd-ipucu">' + (t ? 'Tablo seçili: mavi çizgileri sürükleyerek sütun ve satırları boyutlandırın.' : 'Kırmızı çizgiler, yazıcıdaki gerçek sayfa sonlarıdır.') + '</span>';
+    };
     window.evdCiz = function () {
         if (!ED || !ED.ic.isConnected) return;
-        var S = ED.S, kat = ED.katman, sayfaH = (S.h - 2 * S.my) * MM, ustPay = S.my * MM;
-        var icH = ED.ic.getBoundingClientRect().height / olcek();
-        var sayfa = Math.max(1, Math.ceil((icH - 0.5) / sayfaH));
-        ED.kagit.style.minHeight = (sayfa * S.h) + 'mm';
+        var S = ED.S, kat = ED.katman, ust = S.mt * MM, sol = S.ml * MM, sag = S.mr * MM;
+        var s;
+        try { s = sayfala(); } catch (e) { console.warn('evd sayfala', e); s = { n: 1, y: [0] }; }
+        ED.sayfa = s;
+        var icR = ED.ic.getBoundingClientRect(), enAlt = icR.bottom;
+        Array.prototype.forEach.call(ED.ic.children, function (c) { var rb = c.getBoundingClientRect().bottom; if (rb > enAlt) enAlt = rb; });
+        var icYuk = (enAlt - icR.top) / olcek();
+        ED.kagit.style.minHeight = Math.max(S.h * MM, icYuk + (S.mt + S.mb) * MM) + 'px';
         var h = '';
-        /* Yazdırma alanı çerçevesi her sayfa için */
-        for (var p = 0; p < sayfa; p++) {
-            h += '<div class="evd-alan-cerceve" style="top:' + (ustPay + p * sayfaH) + 'px;height:' + sayfaH + 'px;left:' + (S.mx * MM) + 'px;right:' + (S.mx * MM) + 'px"></div>';
-            if (p > 0) h += '<div class="evd-sayfa-sonu" style="top:' + (ustPay + p * sayfaH) + 'px"><span>— ' + p + '. sayfa sonu · ' + (p + 1) + '. sayfa başlıyor —</span></div>';
+        var ys = s.y.map(function (y, i) { return y == null ? null : y; });
+        for (var p = 0; p < s.n; p++) {
+            var y0 = ys[p], y1 = p + 1 < s.n ? ys[p + 1] : icYuk;
+            if (y0 == null || y1 == null) continue;
+            h += '<div class="evd-alan-cerceve" style="top:' + (ust + y0) + 'px;height:' + Math.max(4, y1 - y0) + 'px;left:' + sol + 'px;right:' + sag + 'px"></div>';
+            if (p > 0) h += '<div class="evd-sayfa-sonu" style="top:' + (ust + y0) + 'px"><span>— ' + p + '. sayfa sonu · ' + (p + 1) + '. sayfa —</span></div>';
         }
-        /* İmza bloğu */
-        var ib = imzaBlok(), ibUyari = '';
-        if (ib) {
-            var r = yerel(ib.getBoundingClientRect());
-            var basS = Math.floor((r.top - ustPay) / sayfaH), sonS = Math.floor((r.bottom - ustPay - 1) / sayfaH);
-            var blx = bloklar(), ii = blx.indexOf(ib), oncekiSon = -1;
-            for (var q = ii - 1; q >= 0; q--) if (!bosBlokMu(blx[q])) { oncekiSon = Math.floor((yerel(blx[q].getBoundingClientRect()).bottom - ustPay - 1) / sayfaH); break; }
-            if (sonS > basS || (oncekiSon >= 0 && basS > oncekiSon)) {
-                ibUyari = sonS > basS ? 'imza bloğu sayfa sonuna denk geliyor (yazdırmada bütün olarak sonraki sayfaya geçer)' : 'imza bloğu metinden ayrılıp ' + (basS + 1) + '. sayfaya kalıyor';
-                h += '<div class="evd-imza-isaret" style="top:' + r.top + 'px;left:' + r.left + 'px;width:' + r.width + 'px;height:' + r.height + 'px"></div>';
+        /* Zorunlu sayfa sonları: kaldırılabilir */
+        (s.zorunlu || []).forEach(function (z) {
+            var e = s.hedef && s.hedef[z.i]; if (!e) return;
+            var r = yerel(e.getBoundingClientRect()), yy = z.tip === 'before' ? r.top : r.bottom;
+            h += '<div class="evd-zorunlu" style="top:' + (yy - 11) + 'px;left:' + (sol - 2) + 'px"><button type="button" onclick="evdSayfaSonuKaldir(' + z.i + ',\'' + z.tip + '\')" title="Bu noktada evrak her zaman yeni sayfadan başlıyor. Kaldırırsanız içerik önceki sayfaya devam eder.">✕ Sayfa sonunu kaldır</button></div>';
+        });
+        /* İmza bloğu: sayfa arasında bölünüyor mu / tek başına mı kaldı */
+        ED.imzaUyari = '';
+        var ib = imzaBlok();
+        if (ib && s.parcalar && s.n > 1) {
+            var i = s.hedef.indexOf(ib), pr = s.parcalar[i];
+            if (pr && pr.length) {
+                var kmin = Math.min.apply(null, pr.map(function (f) { return f.k; })), kmax = Math.max.apply(null, pr.map(function (f) { return f.k; }));
+                var bl = bloklar(), bi = bl.indexOf(ib), onceki = -1;
+                for (var q = bi - 1; q >= 0; q--) { if (bosBlokMu(bl[q])) continue; var pi = s.parcalar[s.hedef.indexOf(bl[q])]; if (pi && pi.length) { onceki = Math.max.apply(null, pi.map(function (f) { return f.k; })); break; } }
+                if (kmax > kmin) ED.imzaUyari = 'imza bloğu iki sayfaya bölünüyor';
+                else if (onceki >= 0 && kmin > onceki) ED.imzaUyari = 'imza bloğu metinden ayrılıp ' + (kmin + 1) + '. sayfaya kalıyor';
+                if (ED.imzaUyari) { var r = yerel(ib.getBoundingClientRect()); h += '<div class="evd-imza-isaret" style="top:' + r.top + 'px;left:' + r.left + 'px;width:' + r.width + 'px;height:' + r.height + 'px"></div>'; }
             }
         }
-        /* Boşluk tutamakları */
         if (ED.bosluk) {
-            var bl = bloklar();
-            for (var i = 0; i < bl.length - 1; i++) {
-                var a = yerel(bl[i].getBoundingClientRect()), b = yerel(bl[i + 1].getBoundingClientRect());
-                var bosluk = Math.max(0, b.top - a.bottom), bos = bosBlokMu(bl[i]);
-                var y = (a.bottom + b.top) / 2;
-                h += '<div class="evd-bosluk" style="top:' + (y - 11) + 'px;left:' + (S.mx * MM - 2) + 'px;right:' + (S.mx * MM - 2) + 'px"><span class="evd-bosluk-cizgi"></span>' +
-                    '<span class="evd-bosluk-tus"><button type="button" onclick="evdBosluk(' + i + ',-1)" title="Boşluğu azalt">−</button><em>' + (Math.round(bosluk / MM * 10) / 10) + ' mm' + (bos ? ' · boş satır' : '') + '</em><button type="button" onclick="evdBosluk(' + i + ',1)" title="Boşluk ekle">+</button><button type="button" onclick="evdBosluk(' + i + ',\'sil\')" title="Boşluğu tamamen kapat">✕</button></span></div>';
+            var bl2 = bloklar();
+            for (var b = 0; b < bl2.length - 1; b++) {
+                var a = yerel(bl2[b].getBoundingClientRect()), c = yerel(bl2[b + 1].getBoundingClientRect());
+                var bosluk = Math.max(0, c.top - a.bottom), bos = bosBlokMu(bl2[b]);
+                var yy = (a.bottom + c.top) / 2;
+                h += '<div class="evd-bosluk" style="top:' + (yy - 11) + 'px;left:' + (sol - 2) + 'px;right:' + (sag - 2) + 'px"><span class="evd-bosluk-cizgi"></span>' +
+                    '<span class="evd-bosluk-tus"><button type="button" onclick="evdBosluk(' + b + ',-1)" title="Boşluğu azalt">−</button><em>' + (Math.round(bosluk / MM * 10) / 10) + ' mm' + (bos ? ' · boş satır' : '') + '</em><button type="button" onclick="evdBosluk(' + b + ',1)" title="Boşluk ekle">+</button><button type="button" onclick="evdBosluk(' + b + ',\'sil\')" title="Boşluğu tamamen kapat">✕</button></span></div>';
             }
         }
-        /* Aktif tablonun sütun/satır tutamakları */
         var t = ED.aktifTablo && ED.aktifTablo.isConnected && ED.ic.contains(ED.aktifTablo) ? ED.aktifTablo : null;
         Array.prototype.forEach.call(ED.ic.querySelectorAll('.evd-secili-tablo'), function (x) { if (x !== t) x.classList.remove('evd-secili-tablo'); });
         if (t) {
@@ -44998,17 +45641,11 @@ function isgPrint(kind){
                 h += '<div class="evd-satir-tut" data-r="' + ri + '" style="top:' + (rr.bottom - 6) + 'px;left:' + tr.left + 'px;width:' + tr.width + 'px"></div>';
             });
             var kn = sutunKenarlari(t), kL = ED.kagit.getBoundingClientRect().left, z0 = olcek();
-            for (var c = 0; c < kn.length - 1; c++) {
-                h += '<div class="evd-sutun-tut" data-c="' + c + '" style="left:' + ((kn[c] - kL) / z0 - 7) + 'px;top:' + tr.top + 'px;height:' + tr.height + 'px"></div>';
-            }
+            for (var cc = 0; cc < kn.length - 1; cc++) h += '<div class="evd-sutun-tut" data-c="' + cc + '" style="left:' + ((kn[cc] - kL) / z0 - 7) + 'px;top:' + tr.top + 'px;height:' + tr.height + 'px"></div>';
         }
         kat.innerHTML = h;
         if (t) baglaTutamaklar(t);
-        var d = ED.ov.querySelector('#evd-durum');
-        if (d) d.innerHTML = (sayfa === 1 ? '<span class="evd-ok">✓ 1 sayfa — yazdırma alanına sığıyor</span>' : '<span class="evd-uyari">' + sayfa + ' sayfa</span>') +
-            (ibUyari ? ' <span class="evd-uyari">⚠ ' + ibUyari + '</span>' : '') +
-            (sayfa > 1 ? ' <button type="button" class="evd-b evd-sigdir" onclick="evdTekSayfa()">⤓ Tek sayfaya sığdır</button>' : '') +
-            ' <span class="evd-ipucu">' + (t ? 'Tablo seçili: mavi çizgileri sürükleyerek sütun ve satırları boyutlandırın.' : 'Bir tabloya dokununca sütun/satır tutamakları çıkar. “↕ Boşluklar” ile bloklar arası boşlukları ayarlayın.') + '</span>';
+        evdDurumYaz();
     };
     var baglaTutamaklar = function (t) {
         Array.prototype.forEach.call(ED.katman.querySelectorAll('.evd-sutun-tut'), function (hd) {
@@ -45018,11 +45655,11 @@ function isgPrint(kind){
                 var cg = colgroupHazirla(t); if (!cg) return;
                 var c = +hd.getAttribute('data-c'), cols = cg.children, tw = t.getBoundingClientRect().width / olcek();
                 var w1 = parseFloat(cols[c].style.width), w2 = parseFloat(cols[c + 1].style.width), x0 = e.clientX, z = olcek();
-                hd.setPointerCapture(e.pointerId);
+                try { hd.setPointerCapture(e.pointerId); } catch (er) {}
                 var hareket = function (ev) {
                     var dPct = (ev.clientX - x0) / z / tw * 100;
                     var a = Math.max(3, Math.min(w1 + w2 - 3, w1 + dPct));
-                    cols[c].style.width = a.toFixed(1) + '%'; cols[c + 1].style.width = (w1 + w2 - a).toFixed(1) + '%';
+                    cols[c].style.setProperty('width', a.toFixed(1) + '%', 'important'); cols[c + 1].style.setProperty('width', (w1 + w2 - a).toFixed(1) + '%', 'important');
                     hd.style.left = ((sutunKenarlari(t)[c] - ED.kagit.getBoundingClientRect().left) / z - 7) + 'px';
                 };
                 var bitis = function () { hd.removeEventListener('pointermove', hareket); hd.removeEventListener('pointerup', bitis); hd.removeEventListener('pointercancel', bitis); degisti(); gecmisEkle(); evdCiz(); };
@@ -45035,10 +45672,10 @@ function isgPrint(kind){
                 gecmisEkle();
                 var r = t.rows[+hd.getAttribute('data-r')]; if (!r) return;
                 var h0 = r.getBoundingClientRect().height / olcek(), y0 = e.clientY, z = olcek();
-                hd.setPointerCapture(e.pointerId);
+                try { hd.setPointerCapture(e.pointerId); } catch (er) {}
                 var hareket = function (ev) {
                     var yeni = Math.max(8, h0 + (ev.clientY - y0) / z);
-                    Array.prototype.forEach.call(r.cells, function (c) { c.style.height = yeni + 'px'; });
+                    Array.prototype.forEach.call(r.cells, function (c) { stil(c, 'height', yeni.toFixed(1) + 'px'); });
                     var rr = yerel(r.getBoundingClientRect()); hd.style.top = (rr.bottom - 6) + 'px';
                 };
                 var bitis = function () { hd.removeEventListener('pointermove', hareket); hd.removeEventListener('pointerup', bitis); hd.removeEventListener('pointercancel', bitis); degisti(); gecmisEkle(); evdCiz(); };
@@ -45053,6 +45690,8 @@ function isgPrint(kind){
         if ((e.ctrlKey || e.metaKey) && (e.key.toLowerCase() === 'y' || (e.key.toLowerCase() === 'z' && e.shiftKey))) { e.preventDefault(); evdIleri(); }
         if (e.key === 'Escape') evdKapat();
     });
+    /* Eski köprü işlevi (v7.3.3) artık gerekmiyor: dondurulmuş evrak dış kurallardan etkilenmez */
+    window.evdBaskiKopru = function () {};
 })();
 /* ==================== /v7.3.3 ==================== */
 
