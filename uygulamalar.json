@@ -60,19 +60,23 @@
     "ico": "🖥️",
     "renk": "#1d4e89",
     "dosya": "TahtaYonetim.zip",
-    "indirAdi": "TahtaYonetimAsistani-3.6.zip",
+    "indirAdi": "TahtaYonetimAsistani-4.0.zip",
     "kilavuz": "tahta-kilavuz.html",
-    "surum": "3.6",
-    "boyut": "2,6 MB",
-    "sha256": "842161d2c32126ec5ac421b90d29f716309788c8861cef2001b55133ea248a4f",
+    "surum": "4.0",
+    "boyut": "3,3 MB",
+    "sha256": "fe425fd4fd1da39f29252effa645b0fb7e4e3a0c620abf2a9fdeab77d18bc1f7",
     "platform": [
       "Windows 10/11 (yönetim)",
       "Pardus / ETAP tahtalar",
       "Windows tahtalar"
     ],
-    "aciklama": "Okuldaki akıllı tahtaları tek panelden yönetin: kilit, duyuru, zil programı, uygulama ve yazıcı kurulumu, USB virüs koruması, canlı ekran ve raporlar.",
+    "aciklama": "Okuldaki akıllı tahtaları tek panelden yönetin: ağdan toplu kurulum, kilit, duyuru, zil programı, nöbet çizelgesi, uygulama ve yazıcı kurulumu, USB virüs koruması ve raporlar.",
     "uzunAciklama": "İdareci bilgisayarına kurulan bir yönetim paneli ve her tahtaya (Pardus/ETAP veya Windows) bir kez kurulan küçük bir ajandan oluşur. Tahtaları okul ağı üzerinden kilitler, duyuru ve dosya gönderir, zil programını tahtalarda çalıştırır; telefondan da yönetilebilir. İnternete veri göndermez.",
     "ozellikler": [
+      {
+        "ad": "Ağdan toplu kurulum",
+        "acik": "Tahtalara gitmeden, ağdaki Pardus tahtalara programı tek seferde kurar"
+      },
       {
         "ad": "Kilit ekranı",
         "acik": "Şifre veya PIN ile açılır; saat, okul adı ve duyurular görünür"
@@ -88,6 +92,10 @@
       {
         "ad": "Zil programı",
         "acik": "Ders saatlerinden ziller kendiliğinden oluşur; ses kitaplığı, tatil günleri"
+      },
+      {
+        "ad": "Nöbet ve belirli günler",
+        "acik": "Nöbet çizelgesi ve belirli gün/haftalar tahta kenarında ya da masaüstünde"
       },
       {
         "ad": "Canlı tahta ekranı",
@@ -130,6 +138,18 @@
         "acik": "Oturumu kapatma, kullanıcıya geçiş, sınıfa özel arka plan"
       },
       {
+        "ad": "Toplu yönetici şifresi",
+        "acik": "Tahtaların yönetici şifresini hepsinde birden değiştirir"
+      },
+      {
+        "ad": "Yeni dönem temizliği",
+        "acik": "Dönem sonunda masaüstü ve dosyaları temizler; geri alınabilir"
+      },
+      {
+        "ad": "Tahta sağlığı",
+        "acik": "Disk, bellek, güncelleme durumu; Excel'e aktarım"
+      },
+      {
         "ad": "Uzaktan açma ve kapatma",
         "acik": "Sabah açma, akşam kapatma (Wake-on-LAN)"
       },
@@ -158,7 +178,7 @@
       "Zip dosyasını indirip yönetim bilgisayarında bir klasöre çıkarın.",
       "KUR.bat dosyasına çift tıklayın, “1” yazıp Enter'a basın; Windows izin sorusuna “Evet” deyin.",
       "Açılan panelde okul adını ve yönetici şifresini belirleyin.",
-      "Panelde “Tahta Ekle” sayfasında tahtanın adını yazın. Pardus/ETAP: oluşan komutu tahtanın Terminal'inde bir kez çalıştırın. Windows: “Windows” düğmesiyle gösterilen adresi tahtada açın, inen dosyayı çalıştırıp “Evet” deyin."
+      "Panelde “Tahta Ekle” sayfasında tahtanın adını yazın ve oluşan komutu tahtada bir kez çalıştırın; ya da “Ağdan toplu kurulum” ile ağdaki Pardus tahtaların hepsine tek seferde kurun. Windows tahtalar için paneldeki “Windows” düğmesini kullanın."
     ],
     "gereksinimler": [
       "Yönetim bilgisayarı: Windows 10 veya 11",
