@@ -60,11 +60,11 @@
     "ico": "🖥️",
     "renk": "#1d4e89",
     "dosya": "TahtaYonetim.zip",
-    "indirAdi": "TahtaYonetimAsistani-4.1.zip",
+    "indirAdi": "TahtaYonetimAsistani-4.2.zip",
     "kilavuz": "tahta-kilavuz.html",
-    "surum": "4.1",
-    "boyut": "3,3 MB",
-    "sha256": "7e4da2db2672e8c04b0c5266cb52056be8be948651386f8504a108b0fb75be94",
+    "surum": "4.2",
+    "boyut": "3,6 MB",
+    "sha256": "f71f44dad564c13c899814956a7b3d009563132095dbe90b44f6879e76776b0a",
     "platform": [
       "Windows 10/11 (yönetim)",
       "Pardus / ETAP tahtalar",
@@ -127,7 +127,7 @@
       },
       {
         "ad": "Yazıcı Merkezi",
-        "acik": "USB yazıcıyı algılar, uzaktan kurar, tahtalar arasında paylaştırır"
+        "acik": "USB yazıcıyı algılar, uzaktan kurar, paylaştırır; HP firmware ve Canon desteği"
       },
       {
         "ad": "Uygulama Merkezi",
@@ -148,6 +148,18 @@
       {
         "ad": "Tahta sağlığı",
         "acik": "Disk, bellek, güncelleme durumu; Excel'e aktarım"
+      },
+      {
+        "ad": "Tanıla ve onar",
+        "acik": "Ağ, internet, ses, dokunmatik, yazıcı sorunlarını bulur; tek tuşla onarır, geri alınabilir"
+      },
+      {
+        "ad": "Tahta Onarım Belleği",
+        "acik": "Programa bağlanmayan tahtayı USB bellekle yerinde tanılar ve onarır"
+      },
+      {
+        "ad": "Okul ağı sertifikası",
+        "acik": "MEB ağ sertifikasını bir kez yükleyin, tüm tahtalara kurulsun"
       },
       {
         "ad": "Uzaktan açma ve kapatma",
