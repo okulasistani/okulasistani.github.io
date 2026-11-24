@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İdare Asistanı 7.3.9 — MEB Yönetim Portalı & Resmi Evrak</title>
+    <title>İdare Asistanı 7.4.0 — MEB Yönetim Portalı & Resmi Evrak</title>
     <!-- Tailwind CSS -->
     
 <style id="critical-offline-css">
@@ -1105,7 +1105,7 @@ body.evd-acik{overflow:hidden!important}
             <p id="son-yedek-bilgi" class="text-[9px] text-center text-slate-500"></p>
         </div>
         <div class="px-2.5 py-2 border-t border-slate-800 text-center flex-shrink-0">
-            <p class="text-[9px] text-slate-500 truncate">Mehmet Can Öztürk-Cuma Çetinkaya <span class="text-slate-400 font-normal" style="cursor:pointer;text-decoration:underline dotted" title="Yenilikleri göster" onclick="portalSurumPopupGoster(true)">· v<span id="portal-surum-etiket">7.3.9</span></span></p>
+            <p class="text-[9px] text-slate-500 truncate">Mehmet Can Öztürk-Cuma Çetinkaya <span class="text-slate-400 font-normal" style="cursor:pointer;text-decoration:underline dotted" title="Yenilikleri göster" onclick="portalSurumPopupGoster(true)">· v<span id="portal-surum-etiket">7.4.0</span></span></p>
             <p class="text-[9px] text-slate-400 font-semibold mt-1 uppercase tracking-wide">İletişim</p>
             <div class="flex items-center justify-center gap-2 flex-wrap text-[9px] text-slate-500 mt-0.5">
                 <a href="mailto:cann201921@gmail.com" class="text-sky-400 hover:text-sky-300 underline" title="E-posta gönder"><i class="fa-solid fa-envelope mr-0.5"></i>cann201921@gmail.com</a>
@@ -22627,6 +22627,9 @@ window.okUpdateKulupAdi = function(idx, value) {
             if (yenile !== false) updateUI();
         };
         window.ogView = function(v, belgeId) { var g = ogEnsure(); g.view = v; if (belgeId) g.belgeId = belgeId; try { saveAllData(); } catch (e) {} updateUI(); try { var p = document.getElementById('tab-okulGuvenligi'); if (p) p.scrollIntoView({ block: 'start' }); } catch (e) {} };
+        /* v7.4.0: açılır başlıkların açık/kapalı durumu yeniden çizimde korunur */
+        window.ogBolAcik = function(k, vars) { var a = window.__ogBolAcik || (window.__ogBolAcik = {}); return (k in a) ? a[k] : vars; };
+        window.ogBolAc = function(k, acik) { (window.__ogBolAcik || (window.__ogBolAcik = {}))[k] = !!acik; };
         window.ogCevap = function(id, v) { var d = ogEnsure().denetim; d.cevap[id] = (d.cevap[id] === v) ? '' : v; try { saveAllData(); } catch (e) {} updateUI(); };
         window.ogDenetimSifirla = function() {
             showCustomConfirm('Denetim Formunu Temizle', 'Tüm cevaplar, sorumlu ve termin bilgileri silinsin mi?', function(ok) { if (!ok) return; var d = ogEnsure().denetim; d.cevap = {}; d.sorumlu = {}; d.termin = {}; d.not = {}; try { saveAllData(); } catch (e) {} updateUI(); });
@@ -23527,7 +23530,7 @@ window.okUpdateKulupAdi = function(idx, value) {
                 OG_D1FORM.forEach(function(s) { if (!bol[s[1]]) { bol[s[1]] = []; sira.push(s[1]); } bol[s[1]].push(s); });
                 h = sira.map(function(b, bi) {
                     var qs = bol[b], dol = qs.filter(function(s) { return M.f[s[0]]; }).length;
-                    return '<details class="bg-white border border-slate-200 rounded-xl mb-2"' + (bi === 0 ? ' open' : '') + '><summary class="cursor-pointer px-3 py-2 text-xs font-bold text-slate-700">' + esc(b) + ' <span class="font-normal text-slate-400">(' + dol + '/' + qs.length + ')</span></summary><div class="px-2 pb-2">' +
+                    return '<details data-og-bol="m' + bi + '" ontoggle="ogBolAc(\'m' + bi + '\',this.open)" class="bg-white border border-slate-200 rounded-xl mb-2"' + (ogBolAcik('m' + bi, bi === 0) ? ' open' : '') + '><summary class="cursor-pointer px-3 py-2 text-xs font-bold text-slate-700">' + esc(b) + ' <span class="font-normal text-slate-400">(' + dol + '/' + qs.length + ')</span></summary><div class="px-2 pb-2">' +
                         qs.map(function(s) {
                             var v = M.f[s[0]] || '', ol = ogD1Olumlu(s, v);
                             return '<div class="flex flex-wrap items-center gap-2 py-1.5 border-b border-slate-100 ' + (ol === false ? 'bg-rose-50/60' : '') + '"><span class="text-[11px] text-slate-400 w-6 text-right">' + s[0] + '</span><span class="text-xs text-slate-800 flex-1 min-w-[12rem]">' + esc(s[2]) + ' <span class="text-[9px] text-slate-400">' + esc(s[3]) + '</span>' +
@@ -23827,7 +23830,7 @@ window.okUpdateKulupAdi = function(idx, value) {
                     OG_DENETIM.map(function(bol, bi) {
                         var qs = sorular.filter(function(q) { return q.bi === bi; });
                         var doluSay = qs.filter(function(q) { return d.cevap[q.id]; }).length;
-                        return '<details class="bg-white border border-slate-200 rounded-xl mb-2"' + (bi === 0 ? ' open' : '') + '><summary class="cursor-pointer px-3 py-2 text-xs font-bold text-slate-700">' + (bi + 1) + '. ' + esc(bol.b) + ' <span class="font-normal text-slate-400">(' + doluSay + '/' + qs.length + ')</span></summary><div class="px-2 pb-2">' +
+                        return '<details data-og-bol="d' + bi + '" ontoggle="ogBolAc(\'d' + bi + '\',this.open)" class="bg-white border border-slate-200 rounded-xl mb-2"' + (ogBolAcik('d' + bi, bi === 0) ? ' open' : '') + '><summary class="cursor-pointer px-3 py-2 text-xs font-bold text-slate-700">' + (bi + 1) + '. ' + esc(bol.b) + ' <span class="font-normal text-slate-400">(' + doluSay + '/' + qs.length + ')</span></summary><div class="px-2 pb-2">' +
                             qs.map(function(q) {
                                 var v = d.cevap[q.id] || '';
                                 var b = function(k, t, renk) { return '<button type="button" onclick="ogCevap(\'' + q.id + '\',\'' + k + '\')" class="px-2 py-0.5 rounded text-[10px] font-bold border ' + (v === k ? renk : 'bg-white text-slate-400 border-slate-200') + '">' + t + '</button>'; };
@@ -39662,7 +39665,7 @@ function isgPrint(kind){
         /* TEK SÜRÜM KAYNAĞI — bu değeri değiştir, her yer (sekme başlığı + sol menü
            etiketi) otomatik güncellenir. Dosya adı da hep bu numarayla aynı olmalı:
            İDARE ASİSTANI v<PORTAL_SURUM>. Sıralama: v6.5.0, v6.5.1 … v6.5.9, v6.6.0 … */
-        window.PORTAL_SURUM = '7.3.9';
+        window.PORTAL_SURUM = '7.4.0';
 
         /* ==================== GENEL BELGE DÜZENLEME ====================
            Programdaki evrakların çoğu salt çıktıydı (yalnızca bazılarında
@@ -39942,6 +39945,7 @@ function isgPrint(kind){
             } catch(e){}
         })();
         window.PORTAL_SURUM_NOTLARI = [
+            'Okul Güvenliği → Denetim Formu ve Müfettiş Denetimi: Evet / Kısmen / Hayır’a basınca sayfa artık başa atmıyor; açtığınız başlıklar açık kalıyor. Tüm modüllerde bir düğmeye basınca sayfanın kaydırma konumu ve açık başlıklar korunur, basılan düğme parmağınızın altında kalır.',
             'Öğretmen Evrak/Görev Takibi → yeni “Ders İzleme” sekmesi: Öğretmen Ders İzleme ve Denetim Formu (kimlik ve görev bilgileri, izleme bilgileri, 5 başlıkta 25 ölçüt: planlama ve öğretim programı, öğretme-öğrenme, sınıf yönetimi, ölçme-değerlendirme, mesleki sorumluluk; Geliştirilmeli / İyi / Çok iyi), güçlü yönler ve öneriler, tebliğ imzası. Türkiye Yüzyılı Maarif Modeli beklentileri ölçütlere işlendi. “Geliştirilmeli” işaretlenen öğretmen için bir aylık geri bildirim takibi (son tarih, gecikme uyarısı, alındı işareti). Yıllık izleme ve denetim çizelgesi, tüm formları tek seferde yazdırma; Denetim Dosyası’ndaki ilgili maddeler (İlkokul/Ortaokul 4.7/2, Okul Öncesi 4.5/2) bu sekmeye köprü verir.',
             'Yeni Denetim Dosyası (İlkokul/Ortaokul Denetim Rehberi’nin yerine): Eğitim Müfettişleri Başkanlığının 8 kurum rehberi (okul öncesi, birleştirilmiş sınıflı ilkokul, ilkokul, ortaokul, lise ve dengi, İHO bünyeli ortaöğretim, özel eğitim, MEM) ve 7 konu rehberindeki (mali iş ve işlemler, kantin, okul-aile birliği, taşıma, resmî ve özel pansiyon, döner sermaye) 2.185 kontrol maddesi rehber sırasıyla. Rehber okul adınızdan seçilir (★), kademe seçiciyle diğerleri de incelenebilir. Her madde ✓ Evet / ✗ Hayır / Kapsam dışı işaretlenir; eksik maddeye açıklama yazılabilir. Maddelerin altında ilgili portal evrakına tek dokunuşla köprü, portalda bulunmayan veya kurum dışından temin edilen belge işaretleri ve § mevzuat dayanağı yer alır; okul profiline uymayan koşullu maddeler (özel okul, pansiyon vb.) ayrılır.',
             'Denetim Dosyası → Müfettiş Raporu: rehberin “Rehberlik ve Denetim Raporu” şablonu okul bilgileri ve cevaplarla doldurulur: kapak (il/ilçe, okul, öğretmen ve öğrenci sayıları), giriş, her başlıkta öz değerlendirme özeti ve tablosu, Tablo 1 işaretleri, “Hayır” cevaplarından denetim bulguları ve çözüm önerileri, izleme, yönetici bilgileri. Sarı alanlara dokunup yazılır; Düzenle, Yazdır, PDF ve Word çalışır. Gelişim Planı “Hayır” cevaplarından yatay A4 hazırlanır; Evrak Durumu rehberde istenip portalda bulunmayan evrakları ayrıca listeler; Mevzuat (EK-3) listesinde kaynak dosyalardaki tarih/sayı hataları düzeltildi.',
@@ -43515,6 +43519,9 @@ function isgPrint(kind){
     if (!IH || !IH.set) return;
     var yol = function (el, kok) { var y = []; while (el && el !== kok) { var p = el.parentElement; if (!p) return null; y.unshift(Array.prototype.indexOf.call(p.children, el)); el = p; } return el === kok ? y : null; };
     var bul = function (kok, y) { var el = kok; for (var i = 0; i < y.length && el; i++) el = el.children[y[i]]; return el; };
+    /* v7.4.0: son tıklanan öğe (yeniden çizimden sonra parmağın altında kalsın) */
+    var sonTik = null;
+    document.addEventListener('click', function (e) { var el = e.target && e.target.closest ? e.target.closest('[onclick]') : null; sonTik = el ? { el: el, z: Date.now() } : null; }, true);
     var kur = function () {
         var gercek = window.updateUI;
         if (typeof gercek !== 'function' || gercek.__sakin) return;
@@ -43529,6 +43536,15 @@ function isgPrint(kind){
                 Array.prototype.forEach.call(aktif.querySelectorAll('*'), function (el) {
                     if (el.scrollTop > 0 || el.scrollLeft > 0) { var y = yol(el, aktif); if (y) kutular.push({ y: y, id: el.id, cls: el.className, t: el.scrollTop, l: el.scrollLeft }); }
                 });
+            }
+            /* v7.4.0: ana kaydırma kutusu, açık başlıklar ve tıklanan öğenin ekrandaki yeri */
+            var wsT = wrap ? wrap.scrollTop : 0, detay = [], capa = null;
+            if (acikMi) {
+                Array.prototype.forEach.call(aktif.querySelectorAll('details'), function (dt) { detay.push(dt.open); });
+                if (sonTik && Date.now() - sonTik.z < 1500 && aktif.contains(sonTik.el)) {
+                    var oc = sonTik.el.getAttribute('onclick'), ayni = Array.prototype.filter.call(aktif.querySelectorAll('[onclick]'), function (x) { return x.getAttribute('onclick') === oc; });
+                    capa = { oc: oc, i: ayni.indexOf(sonTik.el), ust: sonTik.el.getBoundingClientRect().top };
+                }
             }
             var odak = document.activeElement, odakId = odak && odak.id && aktif && aktif.contains(odak) ? odak.id : null;
             var selBas = null, selSon = null;
@@ -43571,6 +43587,19 @@ function isgPrint(kind){
                     if (el && (k.id || el.className === k.cls)) { el.scrollTop = k.t; el.scrollLeft = k.l; }
                 });
                 if (window.scrollX !== sx || window.scrollY !== sy) window.scrollTo(sx, sy);
+                try {
+                    var yd = aktif.querySelectorAll('details');
+                    if (detay.length && yd.length === detay.length) Array.prototype.forEach.call(yd, function (dt, i) { if (dt.open !== detay[i]) dt.open = detay[i]; });
+                    if (wrap && wrap.scrollTop !== wsT) wrap.scrollTop = wsT;
+                    if (capa && capa.i >= 0) {
+                        var yAyni = Array.prototype.filter.call(aktif.querySelectorAll('[onclick]'), function (x) { return x.getAttribute('onclick') === capa.oc; });
+                        var ye = yAyni[capa.i];
+                        if (ye && ye.offsetParent) {
+                            var fark = ye.getBoundingClientRect().top - capa.ust;
+                            if (Math.abs(fark) > 1) { if (wrap && wrap.scrollHeight > wrap.clientHeight + 1) wrap.scrollTop += fark; else window.scrollBy(0, fark); }
+                        }
+                    }
+                } catch (e) {}
                 if (odakId) { var o = document.getElementById(odakId); if (o && o !== document.activeElement) { try { o.focus({ preventScroll: true }); if (selBas !== null && o.setSelectionRange) o.setSelectionRange(selBas, selSon); } catch (e) {} } }
             }
             return sonuc;
