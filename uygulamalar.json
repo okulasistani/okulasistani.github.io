@@ -60,15 +60,16 @@
     "ico": "🖥️",
     "renk": "#1d4e89",
     "dosya": "TahtaYonetim.zip",
-    "indirAdi": "TahtaYonetimAsistani-4.2.zip",
+    "indirAdi": "TahtaYonetimAsistani-4.3.zip",
     "kilavuz": "tahta-kilavuz.html",
-    "surum": "4.2",
-    "boyut": "3,6 MB",
-    "sha256": "f71f44dad564c13c899814956a7b3d009563132095dbe90b44f6879e76776b0a",
+    "surum": "4.3",
+    "boyut": "3,7 MB",
+    "sha256": "56995be231cd828e682780fa1edd9b5e8bf89fe88861168a10fa4ab4e6bec726",
     "platform": [
       "Windows 10/11 (yönetim)",
       "Pardus / ETAP tahtalar",
-      "Windows tahtalar"
+      "Windows tahtalar",
+      "Android telefon (Ekran Yansıtma)"
     ],
     "aciklama": "Okuldaki akıllı tahtaları tek panelden yönetin: ağdan toplu kurulum, kilit, duyuru, zil programı, nöbet çizelgesi, uygulama ve yazıcı kurulumu, USB virüs koruması ve raporlar.",
     "uzunAciklama": "İdareci bilgisayarına kurulan bir yönetim paneli ve her tahtaya (Pardus/ETAP veya Windows) bir kez kurulan küçük bir ajandan oluşur. Tahtaları okul ağı üzerinden kilitler, duyuru ve dosya gönderir, zil programını tahtalarda çalıştırır; telefondan da yönetilebilir. İnternete veri göndermez.",
@@ -100,6 +101,14 @@
       {
         "ad": "Canlı tahta ekranı",
         "acik": "Tahtanın ekranını panelde büyük ve yakınlaştırarak izleyin"
+      },
+      {
+        "ad": "Ekran Yansıtma",
+        "acik": "Telefon ekranı tahtada tam ekran; Android uygulaması ya da iPhone ile karekodla bağlanır"
+      },
+      {
+        "ad": "Tahtanın kendi Wi-Fi'si",
+        "acik": "Pardus tahtada etkin nokta; telefon tek karekodla hem bağlanır hem yansıtır"
       },
       {
         "ad": "Uzaktan güncelleme",
@@ -198,7 +207,24 @@
       "Tüm cihazlar aynı okul ağında olmalı",
       "İlk kurulumda internet (Python yoksa resmî kaynaktan kurulur)"
     ],
-    "not": "Resmî MEB yazılımı değildir. Kurulum ve kullanım okul idaresinin sorumluluğundadır. Kilit ekranı öğrencilerin izinsiz kullanımını önlemek içindir; teknik bilgisi olan birine karşı tam güvenlik sağlamaz."
+    "not": "Resmî MEB yazılımı değildir. Kurulum ve kullanım okul idaresinin sorumluluğundadır. Kilit ekranı öğrencilerin izinsiz kullanımını önlemek içindir; teknik bilgisi olan birine karşı tam güvenlik sağlamaz.",
+    "dugmeAdi": "Tahta Yönetim Asistanı",
+    "baglantilar": [
+      {
+        "ad": "Ekran Yansıtma (Android)",
+        "ico": "📱",
+        "kod": "apk",
+        "dosya": "EkranYansitma.apk",
+        "indirAdi": "EkranYansitma-1.1.apk",
+        "boyut": "325 KB"
+      }
+    ],
+    "uyarilar": [
+      "Chrome: indirilenler listesinde “Sakla” / “Yine de indir”.",
+      "Windows “bilgisayarınız korundu” ekranı: “Ek bilgi → Yine de çalıştır”.",
+      "Zip'i çalıştırmadan önce bir klasöre çıkarın; zip içinden çalıştırmayın.",
+      "Ekran Yansıtma (Android): telefonda “Bilinmeyen kaynaklardan yükleme” izni verin; Play Protect uyarırsa “Yine de yükle”. Uygulamayı yalnızca bu siteden ya da tahtadan indirin."
+    ]
   },
   {
     "id": "zil",

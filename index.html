@@ -550,12 +550,14 @@ function uygulamalariAyarla(liste) {
   const temiz = [], indir = [];
   (Array.isArray(liste) ? liste : []).forEach(u => {
     if (u && u.tur === 'indir') {
-      const baglantilar = (Array.isArray(u.baglantilar) ? u.baglantilar : []).filter(b => b && /^https:\/\/[^\s"'<>]+$/.test(String(b.url || '')))
-        .map(b => ({ ad: String(b.ad || 'İndir'), ico: String(b.ico || '⬇️'), url: String(b.url), kod: idGecerli(b.kod) ? b.kod : 'baglanti' }));
+      /* ek tuşlar: dış bağlantı (url, https) ya da sitedeki ikinci dosya (dosya + indirAdi) */
+      const baglantilar = (Array.isArray(u.baglantilar) ? u.baglantilar : []).filter(b => b && (/^https:\/\/[^\s"'<>]+$/.test(String(b.url || '')) || yolGecerli(b.dosya)))
+        .map(b => ({ ad: String(b.ad || 'İndir'), ico: String(b.ico || '⬇️'), url: yolGecerli(b.dosya) ? '' : String(b.url), dosya: yolGecerli(b.dosya) ? b.dosya : '',
+          indirAdi: String(b.indirAdi || (yolGecerli(b.dosya) ? b.dosya.split('/').pop() : '')), boyut: String(b.boyut || ''), kod: idGecerli(b.kod) ? b.kod : 'baglanti' }));
       if (!idGecerli(u.id) || (!yolGecerli(u.dosya) && !baglantilar.length) || indir.some(x => x.id === u.id)) return;
       indir.push({
         id: u.id, ad: String(u.ad || u.id), ico: u.ico || '⬇️', renk: u.renk || '#14213d', dosya: yolGecerli(u.dosya) ? u.dosya : '', baglantilar,
-        indirAdi: String(u.indirAdi || (yolGecerli(u.dosya) ? u.dosya.split('/').pop() : '')), kilavuz: yolGecerli(u.kilavuz) ? u.kilavuz : '',
+        dugmeAdi: String(u.dugmeAdi || ''), indirAdi: String(u.indirAdi || (yolGecerli(u.dosya) ? u.dosya.split('/').pop() : '')), kilavuz: yolGecerli(u.kilavuz) ? u.kilavuz : '',
         uyarilar: metinListesi(u.uyarilar).map(x => x.ad),
         surum: String(u.surum || ''), boyut: String(u.boyut || ''), sha256: /^[a-f0-9]{64}$/i.test(u.sha256 || '') ? u.sha256.toLowerCase() : '',
         aciklama: String(u.aciklama || ''), uzunAciklama: String(u.uzunAciklama || u.aciklama || ''),
@@ -1805,13 +1807,15 @@ async function boyutBul(u) {
 const boyutMetni = u => indirBoyut[u.id] || u.boyut;
 function indirSay(id, ne) { sayacGonder({ path: 'indir/' + id + '/' + ne, title: (INDIR[id] ? INDIR[id].ad : id) + (ne === 'kilavuz' ? ' kılavuzu açıldı' : ne === 'zip' ? ' indirildi' : ' indirildi (' + ne + ')'), event: true }); }
 function indirDugmeleri(u, buyuk) {
-  if (u.baglantilar.length) {   /* Drive gibi dış bağlantılar: yeni sekmede açılır */
-    return u.baglantilar.map((b, i) => `<a class="btn ${buyuk ? 'btn-beyaz' : 'btn-dolu'}" href="${kacis(b.url)}" target="_blank" rel="noopener" onclick="indirSay('${u.id}','${b.kod}')">${kacis(b.ico)} ${kacis(b.ad)}</a>`).join('') +
-      (u.kilavuz ? `<a class="btn ${buyuk ? 'btn-seffaf' : 'btn-hayalet'}" href="${kacis(u.kilavuz)}" target="_blank" rel="noopener" onclick="indirSay('${u.id}','kilavuz')">📖 Kurulum kılavuzu</a>` : '');
-  }
+  const kilavuz = u.kilavuz ? `<a class="btn ${buyuk ? 'btn-seffaf' : 'btn-hayalet'}" href="${kacis(u.kilavuz)}" target="_blank" rel="noopener" onclick="indirSay('${u.id}','kilavuz')">📖 Kurulum kılavuzu</a>` : '';
+  /* ek tuşlar: sitedeki dosya doğrudan iner; dış bağlantı (Drive gibi) yeni sekmede açılır */
+  const ekler = u.baglantilar.map(b => b.dosya
+    ? `<a class="btn ${buyuk ? 'btn-beyaz' : 'btn-dolu'}" href="${kacis(b.dosya)}" download="${kacis(b.indirAdi)}" onclick="indirSay('${u.id}','${b.kod}')">${kacis(b.ico)} ${kacis(b.ad)}${b.boyut ? ` <span style="font-weight:600;opacity:.75">${kacis(b.boyut)}</span>` : ''}</a>`
+    : `<a class="btn ${buyuk ? 'btn-beyaz' : 'btn-dolu'}" href="${kacis(b.url)}" target="_blank" rel="noopener" onclick="indirSay('${u.id}','${b.kod}')">${kacis(b.ico)} ${kacis(b.ad)}</a>`).join('');
+  if (!u.dosya) return ekler + kilavuz;
   const b = boyutMetni(u);
-  return `<a class="btn ${buyuk ? 'btn-beyaz' : 'btn-dolu'}" href="${kacis(u.dosya)}" download="${kacis(u.indirAdi)}" onclick="indirSay('${u.id}','zip');indirSonrasi('${u.id}')">⬇️ İndir${b || !buyuk ? ` <span style="font-weight:600;opacity:.75" data-boyut="${u.id}">${kacis(b)}</span>` : ''}</a>` +
-    (u.kilavuz ? `<a class="btn ${buyuk ? 'btn-seffaf' : 'btn-hayalet'}" href="${kacis(u.kilavuz)}" target="_blank" rel="noopener" onclick="indirSay('${u.id}','kilavuz')">📖 Kurulum kılavuzu</a>` : '');
+  return `<a class="btn ${buyuk ? 'btn-beyaz' : 'btn-dolu'}" href="${kacis(u.dosya)}" download="${kacis(u.indirAdi)}" onclick="indirSay('${u.id}','zip');indirSonrasi('${u.id}')">⬇️ ${u.dugmeAdi ? kacis(u.dugmeAdi) : 'İndir'}${b || !buyuk ? ` <span style="font-weight:600;opacity:.75" data-boyut="${u.id}">${kacis(b)}</span>` : ''}</a>` +
+    ekler + kilavuz;
 }
 function indirKartHtml(u) {
   return `<div class="indir-kart" style="${renkStili(u.renk)}">
