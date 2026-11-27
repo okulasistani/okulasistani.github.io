@@ -147,6 +147,19 @@ body.uygulama-modu{overflow:hidden}
 .yedek-btnler{display:flex;gap:8px;flex-wrap:wrap}
 .yedek-uyari{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:#fff6e0;border:1px solid #f0d48a;color:#6b4e00;border-radius:14px;padding:12px 14px;margin-top:20px;font-size:13.5px}
 .yedek-uyari .btn{--renk:#b07a00;margin-left:auto}
+/* Drive ile otomatik yedek */
+.drive-satir{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px;padding:12px 14px;border:1px solid var(--cizgi);border-radius:14px;background:var(--zemin);font-size:13.5px;line-height:1.4}
+.drive-satir[hidden]{display:none}
+.drive-satir>span:not(.drive-nokta):not(.drive-ico){flex:1;min-width:190px}
+.drive-satir small{display:block;color:var(--soluk);font-size:12px;margin-top:2px;word-break:break-all}
+.drive-satir .btn{text-decoration:none}
+.drive-msj{display:block;color:#9a5b00;font-size:12px;margin-top:2px}
+.drive-ico{font-size:20px}
+.drive-nokta{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.drive-nokta.yesil{background:#2e9e5b}.drive-nokta.turuncu{background:#e08a00}.drive-nokta.mavi{background:#2b6fd6}.drive-nokta.kirmizi{background:#c62f2f}
+.drive-koptu{background:#fff8ea;border-color:#f0d48a}.drive-hata{background:#fdeeee;border-color:#efc1c1}.drive-yeni{background:#eef3fd;border-color:#c9d8f5}
+.drive-baglanti{background:none;border:0;color:var(--soluk);text-decoration:underline;font-size:12.5px;padding:4px}
+.drive-bilgi{padding-left:18px;margin:0}.drive-bilgi li{margin:5px 0}
 .modal{position:fixed;inset:0;z-index:100;background:rgba(20,33,61,.55);display:none;align-items:center;justify-content:center;padding:16px}
 .modal.acik{display:flex}
 .modal-kutu{background:var(--panel);border-radius:18px;max-width:480px;width:100%;max-height:88vh;overflow:auto;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.3);--renk:var(--lacivert);--acik:#e9ecf3}
@@ -405,11 +418,12 @@ body.kurulu #kisayol-btn{display:none}
             <button class="btn btn-hayalet" onclick="document.getElementById('yedek-dosya').click()">⬆️ Yedekten Geri Yükle</button>
             <input type="file" id="yedek-dosya" accept=".json,application/json" hidden onchange="yedekDosyaSecildi(this)">
           </div>
+          <div id="drive-satir" class="drive-satir" hidden></div>
         </div>
       </div>
 
       <div class="alt-bilgi">
-        <span>🔒 Tüm veriler yalnızca bu cihazda, tarayıcınızda saklanır. Düzenli olarak uygulamaların içindeki <b>Yedekle</b> düğmesini kullanın. Site kullanımı, çerez kullanılmadan ve kişisel bilgi toplanmadan anonim olarak sayılır. Sohbete yazılan mesajlar ise herkese açıktır ve sunucuda saklanır.</span>
+        <span>🔒 Tüm veriler yalnızca bu cihazda, tarayıcınızda saklanır; Drive ile otomatik yedeklemeyi açarsanız kendi Google Drive'ınıza da kopyalanır. Düzenli olarak uygulamaların içindeki <b>Yedekle</b> düğmesini kullanın. Site kullanımı, çerez kullanılmadan ve kişisel bilgi toplanmadan anonim olarak sayılır. Sohbete yazılan mesajlar ise herkese açıktır ve sunucuda saklanır. <a href="gizlilik.html" target="_blank" rel="noopener">Gizlilik</a></span>
         <span>Mehmet Can Öztürk</span>
       </div>
     </div>
@@ -1079,7 +1093,7 @@ function anahtarSahibi(k) {
 }
 function yerelVeriler() {
   const v = {};
-  try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (!YEDEK_DISI.has(k)) v[k] = localStorage.getItem(k); } } catch (e) {}
+  try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (!YEDEK_DISI.has(k) && k.indexOf('okulAsistani_drive') !== 0) v[k] = localStorage.getItem(k); } } catch (e) {}
   return v;
 }
 function boyutYaz(n) { return n < 1024 ? n + ' B' : n < 1048576 ? (n / 1024).toFixed(0) + ' KB' : (n / 1048576).toFixed(1) + ' MB'; }
@@ -1159,7 +1173,9 @@ function yedekBolumCiz() {
   const veriVar = Object.keys(ozet).some(id => id !== '_site');
   $('yedek-son').textContent = son ? 'Son toplu yedek: ' + new Date(son).toLocaleDateString('tr-TR') + (gunFarki(son) ? ' (' + gunFarki(son) + ' gün önce)' : ' (bugün)') : 'Henüz toplu yedek alınmadı';
   $('yedek-ozet').innerHTML = ozetHtml(ozet);
-  const gecikti = veriVar && (!son || gunFarki(son) >= 7);
+  const dm = DEPO.oku(K_DRIVE, {}) || {};
+  if (dm.bagli && dm.sonYukleme) $('yedek-son').textContent = "☁️ Drive'a otomatik yedekleniyor";
+  const gecikti = veriVar && (!son || gunFarki(son) >= 7) && !(dm.bagli && dm.sonYukleme && gunFarki(dm.sonYukleme) < 7);
   $('yedek-uyari').innerHTML = gecikti ? `<div class="yedek-uyari">⚠️ <span>${son ? 'Son toplu yedeğin üzerinden ' + gunFarki(son) + ' gün geçti.' : 'Verileriniz için henüz toplu yedek alınmadı.'} Tarayıcı verisi silinirse kayıtlar kaybolabilir.</span><button class="btn btn-dolu" onclick="topluYedekAl()">Şimdi yedekle</button></div>` : '';
   if (!idbOzetOnbellek) idbDokum().then(r => { idbOzetOnbellek = r.liste; if (aktifGorunum === 'ana') { $('yedek-ozet').innerHTML = ozetHtml(ozetHesapla(yerelVeriler(), idbOzetOnbellek)); } }).catch(() => { idbOzetOnbellek = []; });
 }
@@ -1242,6 +1258,403 @@ async function topluGeriYukle(y) {
     setTimeout(() => { location.hash = '#/'; location.reload(); }, 1200);
   } catch (e) {
     modalAc('Geri yükleme tamamlanamadı', `<p>${kacis(e && e.message ? e.message : e)}</p><p>Sayfayı yenileyip tekrar deneyin. Sorun sürerse uygulamaların kendi yedeklerini kullanın.</p>`, [{ ad: 'Tamam', sinif: 'btn-dolu', tik: () => location.reload() }]);
+  }
+}
+
+/* =====================================================================
+   6b) DRIVE YEDEK — isteğe bağlı. Toplu yedeği kullanıcının kendi Google Drive'ına otomatik kaydeder.
+   Sunucu yok: Google girişi (GIS jeton istemcisi) ve Drive API doğrudan tarayıcıdan.
+   İzin: drive.file — site yalnızca kendi oluşturduğu dosyaları görür.
+   Giriş yaklaşık 1 saat geçerli; bitince durum satırı "Yeniden bağlan" der, değişiklikler cihazda bekler.
+   Drive'da: "Okul Asistanı Yedekleri" klasörü → güncel yedek + son 10 günün günlük kopyası (+ çakışma kopyaları).
+   ===================================================================== */
+const DRIVE_ISTEMCI = '434853684394-5kk42nhans9udet1qaetd7fkrknv6af8.apps.googleusercontent.com';   /* Google Cloud → OAuth istemci kimliği (…apps.googleusercontent.com). Boşsa Drive düğmesi görünmez. */
+const DRIVE_ADRESLER = ['okul-asistani.com.tr', 'www.okul-asistani.com.tr', 'localhost', '127.0.0.1'];
+const DRIVE_KAPSAM = 'https://www.googleapis.com/auth/drive.file';
+const DRIVE_API = 'https://www.googleapis.com/drive/v3/';
+const DRIVE_YUKLE = 'https://www.googleapis.com/upload/drive/v3/files';
+const K_DRIVE = 'okulAsistani_drive';             /* localStorage: bağlantı durumu (jeton tutulmaz) */
+const K_DRIVE_JETON = 'okulAsistani_driveJeton';  /* sessionStorage: yalnızca bu sekme, en çok ~1 saat */
+const DRIVE_GUNLUK = 10, DRIVE_CAKISMA = 5;
+/* Cihaza özgü kayıtlar Drive'a gitmez, başka cihaza taşınmaz */
+const driveCihazaOzgu = k => k.indexOf('okulAsistani_drive') === 0 || k === K_TOPLU || k === 'okulAsistani_sohbetCihaz' ||
+  k === 'okulAsistani_sohbetBildirilen' || k === 'okulAsistani_sohbetYonetici' || k === 'okulAsistani_adresPopup';
+const DRV = { jeton: '', bitis: 0, istemci: null, gis: null, durum: 'gizli', mesaj: '', bekleyen: false, calisiyor: false,
+  tekrar: null, zaman: 0, bitisZaman: 0, uzak: null, sonKontrol: 0 };
+
+const driveMeta = () => DEPO.oku(K_DRIVE, {}) || {};
+const driveMetaYaz = m => DEPO.yaz(K_DRIVE, m);
+const bekle = ms => new Promise(r => setTimeout(r, ms));
+function driveAdresUygun() { return DRIVE_ADRESLER.includes(location.hostname); }
+function cihazAdi() {
+  const u = navigator.userAgent || '';
+  const c = /Android/i.test(u) ? (/Mobile/i.test(u) ? 'Android telefon' : 'Android tablet') : /iPhone/i.test(u) ? 'iPhone' : /iPad/i.test(u) ? 'iPad' :
+    /Windows/i.test(u) ? 'Windows bilgisayar' : /Macintosh/i.test(u) ? 'Mac' : /Linux/i.test(u) ? 'Linux bilgisayar' : 'Cihaz';
+  const t = /Edg\//.test(u) ? 'Edge' : /OPR\//.test(u) ? 'Opera' : /Firefox\//.test(u) ? 'Firefox' : /Chrome\//.test(u) ? 'Chrome' : /Safari\//.test(u) ? 'Safari' : '';
+  return t ? c + ' · ' + t : c;
+}
+function driveSaat(t) { const d = new Date(t), b = new Date(); const s = d.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+  return d.toDateString() === b.toDateString() ? s : d.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' }) + ' ' + s; }
+function bugunAdi() { const d = new Date(), i = n => String(n).padStart(2, '0'); return d.getFullYear() + '-' + i(d.getMonth() + 1) + '-' + i(d.getDate()); }
+async function sha256Hex(metin) {
+  const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(metin));
+  return Array.from(new Uint8Array(b)).map(x => x.toString(16).padStart(2, '0')).join('');
+}
+
+/* ---------- jeton ---------- */
+function driveJetonGecerli() { return !!DRV.jeton && Date.now() < DRV.bitis; }
+function driveJetonSil() {
+  DRV.jeton = ''; DRV.bitis = 0; clearTimeout(DRV.bitisZaman);
+  try { sessionStorage.removeItem(K_DRIVE_JETON); } catch (e) {}
+}
+function driveJetonKur(t, saniye) {
+  DRV.jeton = t; DRV.bitis = Date.now() + Math.max(60, (saniye || 3600) - 90) * 1000;
+  try { sessionStorage.setItem(K_DRIVE_JETON, JSON.stringify({ t, bitis: DRV.bitis })); } catch (e) {}
+  clearTimeout(DRV.bitisZaman);
+  DRV.bitisZaman = setTimeout(() => { driveJetonSil(); driveDurum('koptu'); driveBekleyenKontrol(); }, DRV.bitis - Date.now());
+}
+function gisYukle() {
+  if (window.google && google.accounts && google.accounts.oauth2) return Promise.resolve();
+  if (DRV.gis) return DRV.gis;
+  DRV.gis = new Promise((ok, hata) => {
+    const s = document.createElement('script');
+    s.src = 'https://accounts.google.com/gsi/client'; s.async = true;
+    s.onload = () => ok();
+    s.onerror = () => { DRV.gis = null; s.remove(); hata(new Error('Google giriş hizmetine ulaşılamadı. İnternet bağlantınızı kontrol edin.')); };
+    document.head.appendChild(s);
+  });
+  return DRV.gis;
+}
+function gisHazir() { return !!(window.google && google.accounts && google.accounts.oauth2); }
+function jetonIstemcisi() {
+  if (!DRV.istemci) DRV.istemci = google.accounts.oauth2.initTokenClient({
+    client_id: DRIVE_ISTEMCI, scope: DRIVE_KAPSAM, callback: jetonGeldi, error_callback: jetonHatasi });
+  return DRV.istemci;
+}
+/* Tıklamanın içinde, beklemeden çağrılmalı: yoksa tarayıcı giriş penceresini engeller */
+function driveGirisAc(ilk) {
+  const m = driveMeta();
+  const ayar = { prompt: ilk ? 'consent' : '' };
+  if (m.email) ayar.login_hint = m.email;
+  jetonIstemcisi().requestAccessToken(ayar);
+}
+function driveBaglanTik(ilk) {
+  if (gisHazir()) return driveGirisAc(ilk);
+  driveDurum(DRV.durum, 'Google girişi hazırlanıyor…');
+  gisYukle().then(() => { driveDurum(DRV.durum, ''); driveGirisAc(ilk); })
+    .catch(e => driveDurum(DRV.durum, e.message));
+}
+function jetonGeldi(r) {
+  if (!r || r.error || !r.access_token) { driveDurum(driveMeta().bagli ? 'koptu' : 'kapali', 'Google girişi tamamlanamadı.'); return; }
+  if (!google.accounts.oauth2.hasGrantedAllScopes(r, DRIVE_KAPSAM)) {
+    driveDurum(driveMeta().bagli ? 'koptu' : 'kapali', 'Google ekranında Drive iznini işaretlemeniz gerekir. Tekrar deneyin.'); return;
+  }
+  driveJetonKur(r.access_token, Number(r.expires_in));
+  const m = driveMeta(); const ilk = !m.bagli; m.bagli = true; driveMetaYaz(m);
+  driveDurum('bagli', 'Bağlanıldı, eşitleniyor…');
+  driveHesapBilgisi().finally(() => driveEsitle(ilk ? 'ilk' : 'baglan'));
+}
+function jetonHatasi(e) {
+  const t = e && e.type;
+  const m = t === 'popup_failed_to_open' ? 'Giriş penceresi açılamadı (açılır pencere engellenmiş olabilir). Tekrar dokunun.' :
+            t === 'popup_closed' ? 'Giriş penceresi kapatıldı.' : 'Google girişi tamamlanamadı.';
+  driveDurum(driveMeta().bagli ? 'koptu' : 'kapali', m);
+}
+async function driveHesapBilgisi() {
+  try {
+    const r = await (await dApi('about?fields=user(emailAddress,displayName)')).json();
+    const m = driveMeta(); m.email = (r.user && r.user.emailAddress) || m.email || ''; driveMetaYaz(m);
+  } catch (e) {}
+}
+
+/* ---------- Drive API ---------- */
+function driveHatasi(tur, mesaj) { const e = new Error(mesaj || tur); e.tur = tur; return e; }
+async function dApi(yol, ayar) {
+  if (!driveJetonGecerli()) throw driveHatasi('jeton', 'Drive bağlantısı kesildi');
+  ayar = ayar || {};
+  let r;
+  try {
+    r = await fetch(yol.indexOf('https://') === 0 ? yol : DRIVE_API + yol,
+      Object.assign({}, ayar, { headers: Object.assign({}, ayar.headers || {}, { Authorization: 'Bearer ' + DRV.jeton }) }));
+  } catch (e) { throw driveHatasi('ag', 'İnternet bağlantısı yok'); }
+  if (r.status === 401) { driveJetonSil(); throw driveHatasi('jeton', 'Drive bağlantısı kesildi'); }
+  if (!r.ok) {
+    let neden = '', mesaj = '';
+    try { const j = await r.json(); neden = (j.error && j.error.errors && j.error.errors[0] && j.error.errors[0].reason) || ''; mesaj = (j.error && j.error.message) || ''; } catch (e) {}
+    if (neden === 'storageQuotaExceeded') throw driveHatasi('yer', "Google Drive'ınızda yer kalmadı");
+    if (r.status === 403 || r.status === 429 || r.status >= 500) throw driveHatasi('gecici', 'Drive şu an yanıt vermiyor (' + r.status + ')');
+    throw driveHatasi('api', 'Drive hatası ' + r.status + (mesaj ? ': ' + mesaj : ''));
+  }
+  return r;
+}
+const dSorgu = q => encodeURIComponent(q);
+async function dListe(tur, alanlar, sira) {
+  const q = `appProperties has { key='oa' and value='${tur}' } and trashed=false`;
+  const r = await (await dApi(`files?q=${dSorgu(q)}&spaces=drive&pageSize=100&orderBy=${sira || 'modifiedTime desc'}&fields=files(${alanlar || 'id'})`)).json();
+  return r.files || [];
+}
+async function dKlasor(m) {
+  if (m.klasorId) return m.klasorId;
+  const var_ = await dListe('klasor', 'id');
+  if (var_.length) return (m.klasorId = var_[0].id);
+  const r = await (await dApi('files?fields=id', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: 'Okul Asistanı Yedekleri', mimeType: 'application/vnd.google-apps.folder', appProperties: { oa: 'klasor' } }) })).json();
+  return (m.klasorId = r.id);
+}
+async function dYukle(meta, metin, id) {
+  const alan = 'fields=id,modifiedTime,appProperties,parents';
+  const bayt = new Blob([metin]).size;
+  if (bayt < 4.5 * 1048576) {
+    const sinir = 'oa' + Math.random().toString(36).slice(2);
+    const govde = `--${sinir}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(meta)}\r\n--${sinir}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${metin}\r\n--${sinir}--`;
+    return (await dApi(`${DRIVE_YUKLE}${id ? '/' + id : ''}?uploadType=multipart&${alan}`, {
+      method: id ? 'PATCH' : 'POST', headers: { 'Content-Type': 'multipart/related; boundary=' + sinir }, body: govde })).json();
+  }
+  /* büyük veri: kaldığı yerden devam edebilen yükleme */
+  const bas = await dApi(`${DRIVE_YUKLE}${id ? '/' + id : ''}?uploadType=resumable&${alan}`, {
+    method: id ? 'PATCH' : 'POST', headers: { 'Content-Type': 'application/json; charset=UTF-8', 'X-Upload-Content-Type': 'application/json' },
+    body: JSON.stringify(meta) });
+  const yer = bas.headers.get('Location');
+  if (!yer) throw driveHatasi('api', 'Drive büyük dosya yüklemesini başlatamadı');
+  return (await dApi(yer, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: metin })).json();
+}
+async function dIndir(id) { return (await dApi(`files/${id}?alt=media`)).json(); }
+async function dAnaDosya(m) {
+  const alan = 'id,modifiedTime,appProperties,parents';
+  if (m.dosyaId) {
+    try {
+      const f = await (await dApi(`files/${m.dosyaId}?fields=${alan},trashed`)).json();
+      if (!f.trashed) return f;
+    } catch (e) { if (e.tur === 'jeton' || e.tur === 'ag' || e.tur === 'gecici') throw e; }
+  }
+  const l = await dListe('toplu', alan);
+  return l[0] || null;
+}
+async function dTemizle(tur, birak) {
+  const l = await dListe(tur, 'id', 'createdTime desc');
+  for (const f of l.slice(birak)) { try { await dApi('files/' + f.id, { method: 'DELETE' }); } catch (e) {} }
+}
+
+/* ---------- yerel veri ---------- */
+async function driveYerel(kaydet) {
+  if (kaydet) { acikUygulamalariKaydet(); await bekle(400); }
+  const tum = yerelVeriler(), veriler = {};
+  Object.keys(tum).sort().forEach(k => { if (!driveCihazaOzgu(k)) veriler[k] = tum[k]; });
+  const idb = await idbDokum().catch(() => ({ liste: [] }));
+  const idbListe = idb.liste.map(({ bayt, ...x }) => x).sort((a, b) => a.ad < b.ad ? -1 : a.ad > b.ad ? 1 : 0);
+  const hash = await sha256Hex(JSON.stringify({ veriler, indexedDB: idbListe }));
+  const ozet = ozetHesapla(veriler, idb.liste);
+  return { hash, veriVar: Object.keys(ozet).some(id => id !== '_site'), ozet,
+    yedek: { tur: YEDEK_TUR, surum: 1, tarih: new Date().toISOString(), kaynak: location.host || 'yerel', cihaz: cihazAdi(),
+      ozet: Object.fromEntries(Object.entries(ozet).map(([id, o]) => [id, { ad: o.ad, ico: o.ico, bayt: o.bayt }])),
+      veriler, indexedDB: idbListe } };
+}
+
+/* ---------- eşitleme ---------- */
+async function driveGonder(yerel, dosya, m) {
+  driveDurum('bagli', 'Kaydediliyor…');
+  const metin = JSON.stringify(yerel.yedek);
+  const meta = { name: 'OkulAsistani_Yedek.json', mimeType: 'application/json', description: 'Okul Asistanı otomatik toplu yedek (okul-asistani.com.tr)',
+    appProperties: { oa: 'toplu', hash: yerel.hash, cihaz: cihazAdi().slice(0, 40) } };
+  if (!dosya) meta.parents = [await dKlasor(m)];
+  const r = await dYukle(meta, metin, dosya && dosya.id);
+  m.dosyaId = r.id; m.sonHash = yerel.hash; m.sonDriveZaman = r.modifiedTime; m.sonYukleme = Date.now();
+  if (r.parents && r.parents[0]) m.klasorId = m.klasorId || r.parents[0];
+  driveMetaYaz(m);
+  if (m.sonGunluk !== bugunAdi()) {   /* günde bir kopya, son 10 gün */
+    try {
+      await dApi(`files/${r.id}/copy?fields=id`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: 'OkulAsistani_Yedek_' + bugunAdi() + '.json', parents: [await dKlasor(m)], appProperties: { oa: 'gunluk' } }) });
+      m.sonGunluk = bugunAdi(); driveMetaYaz(m);
+      await dTemizle('gunluk', DRIVE_GUNLUK);
+    } catch (e) {}
+  }
+}
+async function driveCakismaKopyasi(m, metin, kimden) {
+  const d = new Date(), i = n => String(n).padStart(2, '0');
+  await dYukle({ name: `OkulAsistani_Cakisma_${bugunAdi()}_${i(d.getHours())}${i(d.getMinutes())}_${kimden}.json`, mimeType: 'application/json',
+    parents: [await dKlasor(m)], appProperties: { oa: 'cakisma' } }, metin);
+  await dTemizle('cakisma', DRIVE_CAKISMA).catch(() => {});
+}
+async function driveGeriYukle(dosya, m, baslik) {
+  const y = await dIndir(dosya.id);
+  if (!y || y.tur !== YEDEK_TUR || !y.veriler) throw driveHatasi('api', "Drive'daki yedek dosyası okunamadı");
+  m.dosyaId = dosya.id; m.sonDriveZaman = dosya.modifiedTime; m.sonHash = (dosya.appProperties && dosya.appProperties.hash) || '';
+  m.geriYuklendi = true; driveMetaYaz(m);
+  modalAc(baslik || "☁️ Drive'daki veriler yükleniyor", `<p>${kacis(y.cihaz || 'Başka bir cihaz')} üzerinde ${kacis(driveSaat(y.tarih))} tarihinde kaydedilen veriler bu cihaza getiriliyor…</p>`, []);
+  await topluGeriYukle(y);
+}
+/* neden: ilk | baglan | acilis | degisim | gizlendi | gorunur | elle */
+async function driveEsitle(neden) {
+  if (!driveJetonGecerli()) { if (driveMeta().bagli) { driveDurum('koptu'); driveBekleyenKontrol(); } return; }
+  if (DRV.calisiyor) { DRV.tekrar = neden; return; }
+  DRV.calisiyor = true; clearTimeout(DRV.zaman);
+  try {
+    const m = driveMeta();
+    const yerel = await driveYerel(neden === 'gizlendi' || neden === 'elle');
+    if (m.geriYuklendi) { m.geriYuklendi = false; m.sonHash = yerel.hash; driveMetaYaz(m); }
+    if (neden === 'degisim' && yerel.hash === m.sonHash && !DRV.bekleyen) return driveDurum('bagli', '');   /* değişiklik yok: Drive'a sorma */
+    DRV.bekleyen = false;
+    const dosya = await dAnaDosya(m);
+    DRV.uzak = null;
+    if (!dosya) {
+      if (yerel.veriVar || m.dosyaId) await driveGonder(yerel, null, m);
+      return driveDurum('bagli', '');
+    }
+    const dHash = (dosya.appProperties && dosya.appProperties.hash) || '';
+    if (dHash === yerel.hash) {
+      m.dosyaId = dosya.id; m.sonHash = yerel.hash; m.sonDriveZaman = dosya.modifiedTime; m.sonYukleme = m.sonYukleme || Date.parse(dosya.modifiedTime); driveMetaYaz(m);
+      return driveDurum('bagli', '');
+    }
+    const driveDegisti = dosya.modifiedTime !== m.sonDriveZaman;
+    const yerelDegisti = yerel.hash !== m.sonHash;
+    if (!yerel.veriVar) return await driveGeriYukle(dosya, m);                    /* cihaz boş: sormadan getir */
+    if (!driveDegisti) { await driveGonder(yerel, dosya, m); return driveDurum('bagli', ''); }
+    if (!yerelDegisti) {                                                           /* başka cihaz kaydetmiş, bu cihaz değişmemiş */
+      if (neden === 'ilk' || neden === 'baglan' || neden === 'acilis') return await driveGeriYukle(dosya, m);
+      DRV.uzak = dosya; return driveDurum('yeni', '');                             /* kullanım sırasında sayfa yenilenmesin: düğmeyle */
+    }
+    DRV.uzak = dosya; driveDurum('karar', '');
+    if (neden !== 'degisim' && neden !== 'gizlendi') driveCakismaSor();
+  } catch (e) {
+    if (e.tur === 'jeton') { driveDurum('koptu', ''); driveBekleyenKontrol(); }
+    else if (e.tur === 'ag' || e.tur === 'gecici') { DRV.bekleyen = true; driveDurum('bagli', e.message + ' · biraz sonra yeniden denenecek'); driveSonra(60000, 'degisim'); }
+    else driveDurum('hata', e.message || String(e));
+  } finally {
+    DRV.calisiyor = false;
+    if (DRV.tekrar) { const n = DRV.tekrar; DRV.tekrar = null; driveSonra(1500, n); }
+  }
+}
+function driveSonra(ms, neden) { clearTimeout(DRV.zaman); DRV.zaman = setTimeout(() => driveEsitle(neden), ms); }
+function driveDegisiklik() {
+  const m = driveMeta(); if (!m.bagli || DRV.durum === 'karar') return;
+  if (!driveJetonGecerli()) { driveBekleyenKontrol(); return; }
+  driveSonra(8000, 'degisim');
+}
+async function driveBekleyenKontrol() {
+  const m = driveMeta(); if (!m.bagli || driveJetonGecerli()) return;
+  try { const y = await driveYerel(false); DRV.bekleyen = y.hash !== m.sonHash; } catch (e) {}
+  if (DRV.durum === 'koptu') driveCiz();
+}
+function driveCakismaSor() {
+  const dosya = DRV.uzak; if (!dosya) return;
+  const cihaz = (dosya.appProperties && dosya.appProperties.cihaz) || 'başka bir cihaz';
+  modalAc("Drive'da ve bu cihazda farklı veriler var",
+    `<p>İki yerde de son eşitlemeden sonra değişiklik yapılmış. Hangisiyle devam edilsin?</p>
+     <ul style="padding-left:18px;margin:8px 0"><li><b>Drive'daki:</b> ${kacis(cihaz)} · ${kacis(driveSaat(dosya.modifiedTime))}</li><li><b>Bu cihazdaki:</b> ${kacis(cihazAdi())} · şu anki hâli</li></ul>
+     <p style="font-size:13px;color:var(--soluk)">Seçmediğiniz taraf silinmez; Drive'daki “Okul Asistanı Yedekleri” klasörüne çakışma kopyası olarak kaydedilir.</p>`,
+    [{ ad: 'Sonra', tik: () => { modalKapat(); driveCiz(); } },
+     { ad: 'Bu cihazdakini kullan', sinif: 'btn-hayalet', tik: () => driveCakismaSec('yerel') },
+     { ad: "Drive'dakini kullan", sinif: 'btn-dolu', tik: () => driveCakismaSec('drive') }]);
+}
+async function driveCakismaSec(secim) {
+  $('modal-btn').innerHTML = '<span style="font-size:13px;color:var(--soluk)">İşleniyor…</span>';
+  const m = driveMeta(), dosya = DRV.uzak;
+  try {
+    if (secim === 'yerel') {
+      const eski = await dApi(`files/${dosya.id}?alt=media`).then(r => r.text());
+      await driveCakismaKopyasi(m, eski, 'drive');
+      const yerel = await driveYerel(true);
+      await driveGonder(yerel, dosya, m);
+      DRV.uzak = null; modalKapat(); driveDurum('bagli', ''); bildir("☁️ Bu cihazdaki veriler Drive'a kaydedildi");
+    } else {
+      const yerel = await driveYerel(true);
+      await driveCakismaKopyasi(m, JSON.stringify(yerel.yedek), 'bu-cihaz');
+      await driveGeriYukle(dosya, m);
+    }
+  } catch (e) {
+    modalAc('İşlem tamamlanamadı', `<p>${kacis(e.message || e)}</p>`, [{ ad: 'Tamam', sinif: 'btn-dolu', tik: () => { modalKapat(); driveCiz(); } }]);
+    if (e.tur === 'jeton') driveDurum('koptu', '');
+  }
+}
+
+/* ---------- ekran ---------- */
+function driveDurum(d, mesaj) { DRV.durum = d; if (mesaj !== undefined) DRV.mesaj = mesaj; driveCiz(); }
+function driveCiz() {
+  const el = $('drive-satir'); if (!el) return;
+  const m = driveMeta(), d = DRV.durum, msj = DRV.mesaj ? `<span class="drive-msj">${kacis(DRV.mesaj)}</span>` : '';
+  el.className = 'drive-satir drive-' + d;
+  if (d === 'gizli') { el.innerHTML = ''; el.hidden = true; return; }
+  el.hidden = false;
+  if (d === 'adres') {
+    el.innerHTML = `<span class="drive-ico">☁️</span><span>Drive ile otomatik yedekleme <b>okul-asistani.com.tr</b> adresinde çalışır.</span><a class="btn btn-hayalet" href="https://okul-asistani.com.tr/">Oraya git</a>`;
+    return;
+  }
+  if (d === 'kapali') {
+    el.innerHTML = `<span class="drive-ico">☁️</span><span><b>Drive ile otomatik yedekle</b><small>İsteğe bağlı · Verileriniz kendi Google Drive'ınıza kendiliğinden kaydedilir</small>${msj}</span>
+      <button class="btn btn-dolu" onclick="driveBilgi()">Bağlan</button>`;
+    return;
+  }
+  const hesap = m.email ? ` <small>${kacis(m.email)}</small>` : '';
+  if (d === 'bagli') {
+    const son = m.sonYukleme ? 'Son yedek ' + driveSaat(m.sonYukleme) : 'Yedeklenecek veri bekleniyor';
+    el.innerHTML = `<span class="drive-nokta yesil"></span><span><b>Drive'a bağlı</b> · ${kacis(DRV.mesaj || son)}${hesap}</span>
+      <button class="drive-baglanti" onclick="driveKes()">Bağlantıyı kes</button>`;
+  } else if (d === 'koptu') {
+    el.innerHTML = `<span class="drive-nokta turuncu"></span><span><b>Drive bağlantısı kesildi</b>${DRV.bekleyen ? ' · <b>kaydedilmemiş değişiklik var</b>' : ''}${m.sonYukleme ? ' · son yedek ' + kacis(driveSaat(m.sonYukleme)) : ''}${hesap}${msj}</span>
+      <button class="btn btn-dolu" onclick="driveBaglanTik(false)">Yeniden bağlan</button><button class="drive-baglanti" onclick="driveKes()">Kes</button>`;
+  } else if (d === 'yeni') {
+    el.innerHTML = `<span class="drive-nokta mavi"></span><span><b>Başka cihazda daha yeni veriler var</b><small>Bu cihazda değişiklik yapılmadı; yüklemek güvenli.</small></span>
+      <button class="btn btn-dolu" onclick="driveYeniYukle()">Yükle</button>`;
+  } else if (d === 'karar') {
+    el.innerHTML = `<span class="drive-nokta turuncu"></span><span><b>Drive ile bu cihaz farklı</b><small>Eşitleme durdu; hangisinin kullanılacağını seçin.</small></span>
+      <button class="btn btn-dolu" onclick="driveCakismaSor()">Seç</button>`;
+  } else if (d === 'hata') {
+    el.innerHTML = `<span class="drive-nokta kirmizi"></span><span><b>Drive'a kaydedilemedi</b>${msj}</span>
+      <button class="btn btn-dolu" onclick="driveEsitle('elle')">Tekrar dene</button><button class="drive-baglanti" onclick="driveKes()">Kes</button>`;
+  }
+}
+async function driveYeniYukle() {
+  const m = driveMeta();
+  try { if (DRV.uzak) await driveGeriYukle(DRV.uzak, m); }
+  catch (e) { driveDurum(e.tur === 'jeton' ? 'koptu' : 'hata', e.message); }
+}
+function driveBilgi() {
+  gisYukle().catch(() => {});   /* pencere okunurken Google girişi hazırlanır */
+  modalAc('☁️ Drive ile otomatik yedekleme',
+    `<ul class="drive-bilgi">
+      <li>İsteğe bağlıdır; kullanmasanız da site eskisi gibi çalışır.</li>
+      <li>Tüm uygulamalardaki verileriniz kendi Google Drive'ınıza otomatik yedeklenir.</li>
+      <li>Başka cihazda giriş yapınca verileriniz oraya gelir.</li>
+      <li>Site yalnızca kendi oluşturduğu yedek dosyasını görür; Drive'ınızdaki diğer dosyalara erişemez.</li>
+      <li>İstediğiniz zaman bağlantıyı kesebilirsiniz.</li>
+    </ul>
+    <p style="font-size:12.5px;color:var(--soluk);margin:10px 0 0">Google girişi yaklaşık 1 saat geçerlidir; süre dolunca tek dokunuşla yeniden bağlanırsınız. <a href="gizlilik.html" target="_blank" rel="noopener">Gizlilik</a></p>`,
+    [{ ad: 'Vazgeç', tik: modalKapat }, { ad: 'Devam et → Google ile giriş', sinif: 'btn-dolu', tik: () => { modalKapat(); driveBaglanTik(true); } }]);
+}
+function driveKes() {
+  modalAc("Drive bağlantısı kesilsin mi?",
+    `<p>Otomatik yedekleme durur. Drive'daki yedekleriniz silinmez, bu cihazdaki verileriniz de yerinde kalır.</p>`,
+    [{ ad: 'Vazgeç', tik: modalKapat }, { ad: 'Bağlantıyı kes', sinif: 'btn-tehlike', tik: () => {
+      const t = DRV.jeton;
+      if (t && gisHazir()) { try { google.accounts.oauth2.revoke(t, () => {}); } catch (e) {} }
+      driveJetonSil(); try { localStorage.removeItem(K_DRIVE); } catch (e) {}
+      DRV.uzak = null; DRV.bekleyen = false; modalKapat(); driveDurum('kapali', ''); bildir('Drive bağlantısı kesildi');
+    } }]);
+}
+
+/* ---------- başlat ---------- */
+function driveBaslat() {
+  if (!DRIVE_ISTEMCI) return driveDurum('gizli', '');
+  if (!driveAdresUygun()) return driveDurum('adres', '');
+  const m = driveMeta();
+  window.addEventListener('storage', e => { if (!e.key || !driveCihazaOzgu(e.key)) driveDegisiklik(); });
+  document.addEventListener('visibilitychange', () => {
+    if (!driveMeta().bagli || !driveJetonGecerli()) return;
+    if (document.visibilityState === 'hidden') driveEsitle('gizlendi'); else driveEsitle('gorunur');
+  });
+  setInterval(() => {   /* IndexedDB değişikliklerinin olayı yok: açıkken arada bir bakılır */
+    if (document.visibilityState !== 'visible' || !driveMeta().bagli) return;
+    if (driveJetonGecerli()) { if (DRV.durum === 'bagli' && !DRV.calisiyor) driveEsitle('degisim'); } else driveBekleyenKontrol();
+  }, 45000);
+  if (!m.bagli) return driveDurum('kapali', '');
+  let j = null; try { j = JSON.parse(sessionStorage.getItem(K_DRIVE_JETON) || 'null'); } catch (e) {}
+  if (j && j.t && j.bitis > Date.now() + 30000) {
+    DRV.jeton = j.t; DRV.bitis = j.bitis;
+    DRV.bitisZaman = setTimeout(() => { driveJetonSil(); driveDurum('koptu'); driveBekleyenKontrol(); }, j.bitis - Date.now());
+    driveDurum('bagli', 'Eşitleniyor…'); driveEsitle('acilis');
+  } else {
+    driveDurum('koptu', ''); gisYukle().catch(() => {}); driveBekleyenKontrol();
   }
 }
 
@@ -1877,6 +2290,7 @@ dizinKur();
 menuleriCiz();
 window.addEventListener('hashchange', () => yonlendir());
 yonlendir();
+driveBaslat();
 /* Arka plan tazeleme: sayfa çizildikten sonra, kullanıcıyı bekletmeden */
 setTimeout(adresDuyurusu, 700);
 setTimeout(async () => {
